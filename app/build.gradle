@@ -15,6 +15,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+        }
     }
 }
 
@@ -29,6 +33,9 @@ dependencies {
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //Leak Canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 
     //Lombok
     compileOnly "org.projectlombok:lombok:1.16.20"
