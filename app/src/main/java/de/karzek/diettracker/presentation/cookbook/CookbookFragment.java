@@ -1,0 +1,27 @@
+package de.karzek.diettracker.presentation.cookbook;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import de.karzek.diettracker.R;
+
+/**
+ * Created by MarjanaKarzek on 12.05.2018.
+ *
+ * @author Marjana Karzek
+ * @version 1.0
+ * @date 12.05.2018
+ */
+public class CookbookFragment extends Fragment {
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_cookbook, container, false);
+    }
+}

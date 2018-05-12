@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DietTracker</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_diary">Tagebuch</string>
+    <string name="menu_cookbook">Kochbuch</string>
+    <string name="menu_Settings">Einstellungen</string>
 </resources>
