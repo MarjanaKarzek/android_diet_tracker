@@ -24,8 +24,6 @@ public interface MainContract {
 
         void getRandomQuote();
 
-        void setTestView(MainActivity view);
-
     }
 
 }

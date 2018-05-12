@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.main;
 
+import javax.inject.Inject;
+
 import de.karzek.diettracker.domain.useCase.GetRandomQuoteUseCaseImpl;
 import de.karzek.diettracker.domain.useCase.useCaseInterface.GetRandomQuoteUseCase;
 import de.karzek.diettracker.domain.mapper.RandomQuoteUIMapper;
@@ -19,8 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainPresenter implements MainContract.Presenter {
 
-    //private MainContract.View view;
-    private MainActivity view;
+    private MainContract.View view;
 
     private GetRandomQuoteUseCaseImpl getRandomQuoteUseCase;
 
@@ -41,14 +42,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void setView(MainContract.View view) {
-        //this.view = view;
-    }
-
-    @Override
-    public void setTestView(MainActivity view){
         this.view = view;
     }
-
 
     @Override
     public void finish() {
