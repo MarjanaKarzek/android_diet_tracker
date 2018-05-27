@@ -62,7 +62,6 @@ public class TrackerApplication extends Application {
     }
 
     //Create Components
-
     protected AppComponent createAppComponent() {
         return DaggerAppComponent.builder()
                 .androidModule(new AndroidModule(this))
