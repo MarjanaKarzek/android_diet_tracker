@@ -1,5 +1,6 @@
 package de.karzek.diettracker.domain.model;
 
+import lombok.Data;
 import lombok.Value;
 
 /**

@@ -12,8 +12,8 @@ import io.reactivex.functions.Function;
  * Created by MarjanaKarzek on 25.04.2018.
  *
  * @author Marjana Karzek
- * @version 1.0
- * @date 25.04.2018
+ * @version 1.1
+ * @date 27.05.2018
  */
 
 public class RandomQuoteRepositoryImpl implements RandomQuoteRepository {
@@ -30,7 +30,7 @@ public class RandomQuoteRepositoryImpl implements RandomQuoteRepository {
     public Observable<RandomQuoteData> getRandomQuote() {
         return provider.create().getRandomQuote().map(new Function<RandomQuoteResponse, RandomQuoteData>() {
             @Override
-            public RandomQuoteData apply(RandomQuoteResponse randomQuoteResponse) throws Exception {
+            public RandomQuoteData apply(RandomQuoteResponse randomQuoteResponse) {
                 return mapper.transform(randomQuoteResponse);
             }
         });

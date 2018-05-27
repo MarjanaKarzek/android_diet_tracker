@@ -1,4 +1,4 @@
-package de.karzek.diettracker.data.repository.datasource;
+package de.karzek.diettracker.data.repository.datasource.remote;
 
 import de.karzek.diettracker.data.cache.interfaces.RandomQuoteCache;
 import de.karzek.diettracker.data.network.apiServices.RandomQuoteAPIServiceImpl;

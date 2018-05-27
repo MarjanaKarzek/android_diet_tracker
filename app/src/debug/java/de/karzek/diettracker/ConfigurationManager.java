@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by MarjanaKarzek on 20.04.2018.
  *
@@ -16,6 +19,7 @@ public class ConfigurationManager {
 
     public ConfigurationManager(Application application) {
         initializeLeakCanary(application);
+        initializeRealmDatabase(application);
     }
 
     private static void initializeLeakCanary(Application application) {
@@ -23,5 +27,13 @@ public class ConfigurationManager {
             return;
         }
         LeakCanary.install(application);
+    }
+
+    private static void initializeRealmDatabase(Application application) {
+        Realm.init(application);
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .name("database.realm")
+                .build();
+        Realm.setDefaultConfiguration(configuration);
     }
 }

@@ -1,4 +1,4 @@
-package de.karzek.diettracker.domain.model;
+package de.karzek.diettracker.presentation.model;
 
 import lombok.Value;
 
@@ -10,7 +10,7 @@ import lombok.Value;
  * @date 27.05.2018
  */
 @Value
-public class ServingData {
+public class ServingDisplayModel {
     private int id;
     private String description;
     private int amount;

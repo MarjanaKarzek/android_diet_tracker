@@ -1,7 +1,7 @@
 package de.karzek.diettracker.data.provider;
 
 import de.karzek.diettracker.data.cache.interfaces.RandomQuoteCache;
-import de.karzek.diettracker.data.repository.datasource.RandomQuoteRemoteDataSourceImpl;
+import de.karzek.diettracker.data.repository.datasource.remote.RandomQuoteRemoteDataSourceImpl;
 import de.karzek.diettracker.data.repository.datasource.interfaces.RandomQuoteDataSource;
 
 /**
