@@ -10,13 +10,13 @@
     <item
         android:id="@+id/action_diary"
         android:enabled="true"
-        android:icon="@drawable/ic_book_white"
+        android:icon="@drawable/ic_book"
         android:title="@string/menu_diary"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_cookbook"
         android:enabled="true"
-        android:icon="@drawable/ic_book_white"
+        android:icon="@drawable/ic_cooking_hut"
         android:title="@string/menu_cookbook"
         app:showAsAction="ifRoom" />
     <item
