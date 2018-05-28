@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.diary.drink;
 
+import android.support.v4.app.Fragment;
+
 /**
  * Created by MarjanaKarzek on 28.05.2018.
  *
@@ -7,5 +9,5 @@ package de.karzek.diettracker.presentation.diary.drink;
  * @version 1.0
  * @date 28.05.2018
  */
-public class GenericDrinkFragment {
+public class GenericDrinkFragment extends Fragment {
 }
