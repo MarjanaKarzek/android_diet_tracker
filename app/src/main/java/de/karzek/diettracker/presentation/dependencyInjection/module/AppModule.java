@@ -2,13 +2,6 @@ package de.karzek.diettracker.presentation.dependencyInjection.module;
 
 import dagger.Module;
 import dagger.Provides;
-import de.karzek.diettracker.data.cache.RandomQuoteCacheImpl;
-import de.karzek.diettracker.data.cache.interfaces.RandomQuoteCache;
-import de.karzek.diettracker.data.mapper.RandomQuoteMapper;
-import de.karzek.diettracker.data.provider.RandomQuoteProvider;
-import de.karzek.diettracker.data.repository.RandomQuoteRepositoryImpl;
-import de.karzek.diettracker.domain.mapper.RandomQuoteUIMapper;
-import de.karzek.diettracker.domain.useCase.GetRandomQuoteUseCaseImpl;
 import de.karzek.diettracker.presentation.main.MainContract;
 import de.karzek.diettracker.presentation.main.MainPresenter;
 
@@ -23,9 +16,9 @@ import de.karzek.diettracker.presentation.main.MainPresenter;
 @Module
 public class AppModule {
 
-//data
+    //data
 
-    @Provides
+    /*@Provides
     RandomQuoteCache provideRandomQuoteCache(){
         return new RandomQuoteCacheImpl();
     }
@@ -55,13 +48,13 @@ public class AppModule {
     @Provides
     GetRandomQuoteUseCaseImpl provideGetRandomQuoteUseCaseImpl(RandomQuoteRepositoryImpl repository, RandomQuoteUIMapper mapper){
         return new GetRandomQuoteUseCaseImpl(repository, mapper);
-    }
+    }*/
 
     //presentation
 
     @Provides
-    MainContract.Presenter provideMainPresenter(GetRandomQuoteUseCaseImpl useCase) {
-        return new MainPresenter(useCase);
+    MainContract.Presenter provideMainPresenter() {
+        return new MainPresenter();
     }
 
 }

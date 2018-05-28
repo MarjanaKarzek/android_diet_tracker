@@ -89,9 +89,4 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         presenter.finish();
         super.onDestroy();
     }
-
-    @Override
-    public void updateRandomQuote(RandomQuoteDisplayModel randomQuote) {
-        randomQuoteView.setText(randomQuote.quoteText);
-    }
 }

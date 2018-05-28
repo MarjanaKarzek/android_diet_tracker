@@ -1,9 +1,8 @@
 package de.karzek.diettracker.data.repository.datasource.interfaces;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.karzek.diettracker.data.database.model.GroceryEntity;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import io.reactivex.Observable;
 
 /**

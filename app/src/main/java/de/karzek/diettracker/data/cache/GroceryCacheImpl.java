@@ -3,7 +3,7 @@ package de.karzek.diettracker.data.cache;
 import java.util.List;
 
 import de.karzek.diettracker.data.cache.interfaces.GroceryCache;
-import de.karzek.diettracker.data.database.model.GroceryEntity;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import io.reactivex.Observable;
 import io.realm.Realm;
 

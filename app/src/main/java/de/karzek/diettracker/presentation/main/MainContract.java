@@ -16,13 +16,9 @@ public interface MainContract {
 
     interface View extends BaseView<Presenter> {
 
-        void updateRandomQuote(RandomQuoteDisplayModel randomQuote);
-
     }
 
     interface Presenter extends BasePresenter<View> {
-
-        void getRandomQuote();
 
     }
 

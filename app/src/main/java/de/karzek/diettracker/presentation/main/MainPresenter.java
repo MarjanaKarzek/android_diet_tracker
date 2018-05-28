@@ -1,15 +1,6 @@
 package de.karzek.diettracker.presentation.main;
 
-import javax.inject.Inject;
-
-import de.karzek.diettracker.domain.useCase.GetRandomQuoteUseCaseImpl;
-import de.karzek.diettracker.domain.useCase.useCaseInterface.GetRandomQuoteUseCase;
-import de.karzek.diettracker.domain.mapper.RandomQuoteUIMapper;
-import de.karzek.diettracker.presentation.model.RandomQuoteDisplayModel;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by MarjanaKarzek on 25.04.2018.
@@ -23,21 +14,15 @@ public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
 
-    private GetRandomQuoteUseCaseImpl getRandomQuoteUseCase;
-
-    private RandomQuoteUIMapper mapper;
-
     private CompositeDisposable disposables;
 
-    public MainPresenter(GetRandomQuoteUseCaseImpl getRandomQuoteUseCase){
-        this.getRandomQuoteUseCase = getRandomQuoteUseCase;
-        mapper = new RandomQuoteUIMapper();
+    public MainPresenter(){
         disposables = new CompositeDisposable();
     }
 
     @Override
     public void start() {
-        getRandomQuote();
+
     }
 
     @Override
@@ -50,7 +35,7 @@ public class MainPresenter implements MainContract.Presenter {
         disposables.clear();
     }
 
-    @Override
+    /*@Override
     public void getRandomQuote() {
         Disposable disposable = getRandomQuoteUseCase.execute(new GetRandomQuoteUseCase.Input())
                 .subscribeOn(Schedulers.io())
@@ -60,5 +45,5 @@ public class MainPresenter implements MainContract.Presenter {
                     view.updateRandomQuote(randomQuote);
                 });
         disposables.add(disposable);
-    }
+    }*/
 }

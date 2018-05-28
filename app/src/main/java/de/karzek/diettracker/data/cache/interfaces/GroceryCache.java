@@ -2,7 +2,7 @@ package de.karzek.diettracker.data.cache.interfaces;
 
 import java.util.List;
 
-import de.karzek.diettracker.data.database.model.GroceryEntity;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import io.reactivex.Observable;
 
 /**

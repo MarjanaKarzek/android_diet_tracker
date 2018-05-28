@@ -2,7 +2,7 @@ package de.karzek.diettracker.data.repository.repositoryInterface;
 
 import java.util.List;
 
-import de.karzek.diettracker.domain.model.GroceryData;
+import de.karzek.diettracker.data.model.GroceryDataModel;
 import io.reactivex.Observable;
 
 /**
@@ -14,9 +14,9 @@ import io.reactivex.Observable;
  */
 public interface GroceryRepository {
 
-    Observable<List<GroceryData>> getAllGroceries();
-    Observable<GroceryData> getGroceryByID(int id);
-    Observable<GroceryData> getGroceryByBarcode(int barcode);
-    Observable<GroceryData> getGroceryByName(String name);
+    Observable<List<GroceryDataModel>> getAllGroceries();
+    Observable<GroceryDataModel> getGroceryByID(int id);
+    Observable<GroceryDataModel> getGroceryByBarcode(int barcode);
+    Observable<GroceryDataModel> getGroceryByName(String name);
 
 }
