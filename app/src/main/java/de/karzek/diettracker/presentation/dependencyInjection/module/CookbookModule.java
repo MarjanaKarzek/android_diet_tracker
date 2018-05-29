@@ -2,8 +2,8 @@ package de.karzek.diettracker.presentation.dependencyInjection.module;
 
 import dagger.Module;
 import dagger.Provides;
-import de.karzek.diettracker.presentation.cookbook.CookbookContract;
-import de.karzek.diettracker.presentation.cookbook.CookbookPresenter;
+import de.karzek.diettracker.presentation.main.cookbook.CookbookContract;
+import de.karzek.diettracker.presentation.main.cookbook.CookbookPresenter;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

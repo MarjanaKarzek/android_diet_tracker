@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.diary;
+package de.karzek.diettracker.presentation.main.diary;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

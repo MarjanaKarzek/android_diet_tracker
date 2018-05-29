@@ -1,17 +1,11 @@
-package de.karzek.diettracker.presentation.diary.meal;
+package de.karzek.diettracker.presentation.main.diary.drink;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import javax.inject.Inject;
 
@@ -28,22 +22,22 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
  * @version 1.0
  * @date 28.05.2018
  */
-public class GenericMealFragment extends BaseFragment implements GenericMealContract.View{
+public class GenericDrinkFragment extends BaseFragment implements GenericDrinkContract.View {
 
     @Override
     protected void setupFragmentComponent() {
-        TrackerApplication.get(getContext()).createGenericMealComponent().inject(this);
+        TrackerApplication.get(getContext()).createGenericDrinkComponent().inject(this);
     }
 
     @Inject
-    GenericMealContract.Presenter presenter;
+    GenericDrinkContract.Presenter presenter;
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_generic_meal, container, false);
+        View view = inflater.inflate(R.layout.fragment_generic_drink, container, false);
         ButterKnife.bind(this,view);
         return view;
     }
@@ -57,7 +51,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
-    public void setPresenter(GenericMealContract.Presenter presenter) {
+    public void setPresenter(GenericDrinkContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -65,6 +59,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     public void onDestroy() {
         super.onDestroy();
         presenter.finish();
-        TrackerApplication.get(getContext()).releaseGenericMealComponent();
+        TrackerApplication.get(getContext()).releaseGenericDrinkComponent();
     }
 }

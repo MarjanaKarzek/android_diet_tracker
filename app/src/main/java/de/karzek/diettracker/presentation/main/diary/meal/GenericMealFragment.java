@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.diary.drink;
+package de.karzek.diettracker.presentation.main.diary.meal;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,22 +22,22 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
  * @version 1.0
  * @date 28.05.2018
  */
-public class GenericDrinkFragment extends BaseFragment implements GenericDrinkContract.View {
+public class GenericMealFragment extends BaseFragment implements GenericMealContract.View{
 
     @Override
     protected void setupFragmentComponent() {
-        TrackerApplication.get(getContext()).createGenericDrinkComponent().inject(this);
+        TrackerApplication.get(getContext()).createGenericMealComponent().inject(this);
     }
 
     @Inject
-    GenericDrinkContract.Presenter presenter;
+    GenericMealContract.Presenter presenter;
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_generic_drink, container, false);
+        View view = inflater.inflate(R.layout.fragment_generic_meal, container, false);
         ButterKnife.bind(this,view);
         return view;
     }
@@ -51,7 +51,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     }
 
     @Override
-    public void setPresenter(GenericDrinkContract.Presenter presenter) {
+    public void setPresenter(GenericMealContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -59,6 +59,6 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     public void onDestroy() {
         super.onDestroy();
         presenter.finish();
-        TrackerApplication.get(getContext()).releaseGenericDrinkComponent();
+        TrackerApplication.get(getContext()).releaseGenericMealComponent();
     }
 }

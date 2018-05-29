@@ -1,16 +1,16 @@
-package de.karzek.diettracker.presentation.diary.meal;
+package de.karzek.diettracker.presentation.main.cookbook;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 
 /**
- * Created by MarjanaKarzek on 29.05.2018.
+ * Created by MarjanaKarzek on 12.05.2018.
  *
  * @author Marjana Karzek
  * @version 1.0
- * @date 29.05.2018
+ * @date 12.05.2018
  */
-public interface GenericMealContract {
+public interface CookbookContract {
 
     interface View extends BaseView<Presenter> {
 

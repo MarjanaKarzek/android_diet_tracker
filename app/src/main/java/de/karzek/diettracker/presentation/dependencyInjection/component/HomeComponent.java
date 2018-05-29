@@ -2,7 +2,7 @@ package de.karzek.diettracker.presentation.dependencyInjection.component;
 
 import dagger.Subcomponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
-import de.karzek.diettracker.presentation.home.HomeFragment;
+import de.karzek.diettracker.presentation.main.home.HomeFragment;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

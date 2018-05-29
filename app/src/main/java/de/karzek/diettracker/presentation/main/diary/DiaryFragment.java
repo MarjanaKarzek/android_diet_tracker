@@ -1,9 +1,8 @@
-package de.karzek.diettracker.presentation.diary;
+package de.karzek.diettracker.presentation.main.diary;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +19,9 @@ import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
-import de.karzek.diettracker.presentation.diary.adapter.DiaryViewPagerAdapter;
-import de.karzek.diettracker.presentation.diary.drink.GenericDrinkFragment;
-import de.karzek.diettracker.presentation.diary.meal.GenericMealFragment;
+import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapter;
+import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
+import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.diary.adapter;
+package de.karzek.diettracker.presentation.main.diary.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

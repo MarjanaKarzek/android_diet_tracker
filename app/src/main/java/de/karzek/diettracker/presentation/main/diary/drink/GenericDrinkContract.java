@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.diary.drink;
+package de.karzek.diettracker.presentation.main.diary.drink;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;

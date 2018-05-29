@@ -1,8 +1,7 @@
-package de.karzek.diettracker.presentation.settings;
+package de.karzek.diettracker.presentation.main.cookbook;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +19,15 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
  * @version 1.0
  * @date 12.05.2018
  */
-public class SettingsFragment extends BaseFragment implements SettingsContract.View {
+public class CookbookFragment extends BaseFragment implements CookbookContract.View{
 
-    @Inject SettingsContract.Presenter presenter;
+    @Inject CookbookContract.Presenter presenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_cookbook, container, false);
     }
 
     @Override
@@ -40,11 +39,11 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
 
     @Override
     protected void setupFragmentComponent() {
-        TrackerApplication.get(getContext()).createSettingsComponent().inject(this);
+        TrackerApplication.get(getContext()).createCookbookComponent().inject(this);
     }
 
     @Override
-    public void setPresenter(SettingsContract.Presenter presenter) {
+    public void setPresenter(CookbookContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -52,6 +51,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     public void onDestroy(){
         super.onDestroy();
         presenter.finish();
-        TrackerApplication.get(getContext()).releaseSettingsComponent();
+        TrackerApplication.get(getContext()).releaseCookbookComponent();
     }
 }

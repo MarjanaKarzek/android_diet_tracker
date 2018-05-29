@@ -2,8 +2,8 @@ package de.karzek.diettracker.presentation.dependencyInjection.module;
 
 import dagger.Module;
 import dagger.Provides;
-import de.karzek.diettracker.presentation.diary.DiaryContract;
-import de.karzek.diettracker.presentation.diary.DiaryPresenter;
+import de.karzek.diettracker.presentation.main.diary.DiaryContract;
+import de.karzek.diettracker.presentation.main.diary.DiaryPresenter;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

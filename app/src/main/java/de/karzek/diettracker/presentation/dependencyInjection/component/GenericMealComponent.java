@@ -2,7 +2,7 @@ package de.karzek.diettracker.presentation.dependencyInjection.component;
 
 import dagger.Subcomponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
-import de.karzek.diettracker.presentation.diary.meal.GenericMealFragment;
+import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.

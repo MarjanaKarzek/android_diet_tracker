@@ -1,7 +1,7 @@
 package de.karzek.diettracker.presentation.dependencyInjection.component;
 
 import dagger.Subcomponent;
-import de.karzek.diettracker.presentation.cookbook.CookbookFragment;
+import de.karzek.diettracker.presentation.main.cookbook.CookbookFragment;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 
 /**

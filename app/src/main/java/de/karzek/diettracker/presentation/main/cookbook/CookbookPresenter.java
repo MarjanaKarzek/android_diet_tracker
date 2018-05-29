@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.cookbook;
+package de.karzek.diettracker.presentation.main.cookbook;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

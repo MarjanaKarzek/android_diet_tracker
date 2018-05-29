@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.settings;
+package de.karzek.diettracker.presentation.main.home;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -7,15 +7,18 @@ package de.karzek.diettracker.presentation.settings;
  * @version 1.0
  * @date 12.05.2018
  */
-public class SettingsPresenter implements SettingsContract.Presenter {
+public class HomePresenter implements HomeContract.Presenter {
+
+    private HomeContract.View view;
+
     @Override
     public void start() {
 
     }
 
     @Override
-    public void setView(SettingsContract.View view) {
-
+    public void setView(HomeContract.View view) {
+        this.view = view;
     }
 
     @Override

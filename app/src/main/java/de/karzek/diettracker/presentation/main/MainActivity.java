@@ -1,11 +1,7 @@
 package de.karzek.diettracker.presentation.main;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -15,13 +11,12 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
-import de.karzek.diettracker.presentation.cookbook.CookbookFragment;
+import de.karzek.diettracker.presentation.main.cookbook.CookbookFragment;
 import de.karzek.diettracker.presentation.custom.CustomBottomNavigationView;
 import de.karzek.diettracker.presentation.custom.ViewUtils;
-import de.karzek.diettracker.presentation.diary.DiaryFragment;
-import de.karzek.diettracker.presentation.home.HomeFragment;
-import de.karzek.diettracker.presentation.model.RandomQuoteDisplayModel;
-import de.karzek.diettracker.presentation.settings.SettingsFragment;
+import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
+import de.karzek.diettracker.presentation.main.home.HomeFragment;
+import de.karzek.diettracker.presentation.main.settings.SettingsFragment;
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 

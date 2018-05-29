@@ -1,9 +1,8 @@
-package de.karzek.diettracker.presentation.home;
+package de.karzek.diettracker.presentation.main.home;
 
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
  * @version 1.0
  * @date 12.05.2018
  */
-public class HomeFragment extends BaseFragment implements HomeContract.View{
+public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Inject HomeContract.Presenter presenter;
 

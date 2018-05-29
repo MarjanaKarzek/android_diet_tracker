@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.home;
+package de.karzek.diettracker.presentation.main.diary;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
@@ -10,13 +10,21 @@ import de.karzek.diettracker.presentation.common.BaseView;
  * @version 1.0
  * @date 12.05.2018
  */
-public interface HomeContract {
+public interface DiaryContract {
 
     interface View extends BaseView<Presenter> {
+        void startFoodSearchActivity();
 
+        void startDrinkSearchActivity();
+
+        void startRecipeSearchActivity();
     }
 
     interface Presenter extends BasePresenter<View> {
+        void onAddFoodClicked();
 
+        void onAddDrinkClicked();
+
+        void onAddRecipeClicked();
     }
 }

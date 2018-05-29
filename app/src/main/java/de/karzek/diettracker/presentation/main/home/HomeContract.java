@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.cookbook;
+package de.karzek.diettracker.presentation.main.home;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
@@ -10,7 +10,7 @@ import de.karzek.diettracker.presentation.common.BaseView;
  * @version 1.0
  * @date 12.05.2018
  */
-public interface CookbookContract {
+public interface HomeContract {
 
     interface View extends BaseView<Presenter> {
 
