@@ -110,7 +110,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void startFoodSearchActivity() {
-        
+
     }
 
     @Override

@@ -12,12 +12,14 @@ import de.karzek.diettracker.presentation.dependencyInjection.component.AppCompo
 import de.karzek.diettracker.presentation.dependencyInjection.component.CookbookComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.DaggerAppComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.DiaryComponent;
+import de.karzek.diettracker.presentation.dependencyInjection.component.GenericDrinkComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.GenericMealComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.HomeComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.SettingsComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrinkModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
@@ -38,6 +40,7 @@ public class TrackerApplication extends Application {
     private CookbookComponent cookbookComponent;
     private SettingsComponent settingsComponent;
     private GenericMealComponent genericMealComponent;
+    private GenericDrinkComponent genericDrinkComponent;
 
     private RefWatcher refwatcher;
 
@@ -111,6 +114,14 @@ public class TrackerApplication extends Application {
         return genericMealComponent;
     }
 
+    public GenericDrinkComponent createGenericDrinkComponent() {
+        if (genericDrinkComponent != null) {
+            return genericDrinkComponent;
+        }
+        genericDrinkComponent = appComponent.plus(new GenericDrinkModule());
+        return genericDrinkComponent;
+    }
+
     //Release Components
     public void releaseHomeComponent() {
         homeComponent = null;
@@ -126,6 +137,14 @@ public class TrackerApplication extends Application {
 
     public void releaseSettingsComponent() {
         settingsComponent = null;
+    }
+
+    public void releaseGenericMealComponent() {
+        genericMealComponent = null;
+    }
+
+    public void releaseGenericDrinkComponent() {
+        genericDrinkComponent = null;
     }
 
 }

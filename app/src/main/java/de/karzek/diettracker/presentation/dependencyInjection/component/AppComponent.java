@@ -7,6 +7,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModu
 import de.karzek.diettracker.presentation.dependencyInjection.module.AppModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrinkModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
@@ -32,6 +33,8 @@ public interface AppComponent {
     SettingsComponent plus(SettingsModule module);
 
     GenericMealComponent plus(GenericMealModule module);
+
+    GenericDrinkComponent plus(GenericDrinkModule module);
 
     void inject(MainActivity activity);
 
