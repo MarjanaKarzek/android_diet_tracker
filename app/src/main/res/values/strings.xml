@@ -6,6 +6,7 @@
     <string name="menu_Settings">Einstellungen</string>
 
     <string name="grocery_list_title">Lebensmittel</string>
+    <string name="drink_list_title">Getränke</string>
 
     <string name="fab_add_food">Lebensmittel</string>
     <string name="fab_add_drink">Getränk</string>
