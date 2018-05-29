@@ -12,11 +12,13 @@ import de.karzek.diettracker.presentation.dependencyInjection.component.AppCompo
 import de.karzek.diettracker.presentation.dependencyInjection.component.CookbookComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.DaggerAppComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.DiaryComponent;
+import de.karzek.diettracker.presentation.dependencyInjection.component.GenericMealComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.HomeComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.SettingsComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 
@@ -35,6 +37,7 @@ public class TrackerApplication extends Application {
     private DiaryComponent diaryComponent;
     private CookbookComponent cookbookComponent;
     private SettingsComponent settingsComponent;
+    private GenericMealComponent genericMealComponent;
 
     private RefWatcher refwatcher;
 
@@ -98,6 +101,14 @@ public class TrackerApplication extends Application {
         }
         settingsComponent = appComponent.plus(new SettingsModule());
         return settingsComponent;
+    }
+
+    public GenericMealComponent createGenericMealComponent() {
+        if (genericMealComponent != null) {
+            return genericMealComponent;
+        }
+        genericMealComponent = appComponent.plus(new GenericMealModule());
+        return genericMealComponent;
     }
 
     //Release Components
