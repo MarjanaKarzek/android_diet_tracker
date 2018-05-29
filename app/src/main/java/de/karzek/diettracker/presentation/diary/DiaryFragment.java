@@ -8,11 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -24,8 +28,8 @@ import de.karzek.diettracker.presentation.diary.meal.GenericMealFragment;
  * Created by MarjanaKarzek on 12.05.2018.
  *
  * @author Marjana Karzek
- * @version 1.0
- * @date 12.05.2018
+ * @version 1.1
+ * @date 29.05.2018
  */
 public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
@@ -34,6 +38,8 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.floating_action_button_menu) FloatingActionsMenu floatingActionsMenu;
+    @BindView(R.id.fab_overlay) FrameLayout overlay;
 
     @Nullable
     @Override
@@ -49,6 +55,15 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
+        floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override public void onMenuExpanded() {
+                overlay.setVisibility(View.VISIBLE);
+            }
+
+            @Override public void onMenuCollapsed() {
+                overlay.setVisibility(View.GONE);
+            }
+        });
 
         presenter.setView(this);
         presenter.start();
@@ -71,6 +86,18 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         TrackerApplication.get(getContext()).releaseDiaryComponent();
     }
 
+    @OnClick(R.id.add_food) public void onAddFoodClicked() {
+        presenter.onAddFoodClicked();
+    }
+
+    @OnClick(R.id.add_drink) public void onAddDrinkClicked() {
+        presenter.onAddDrinkClicked();
+    }
+
+    @OnClick(R.id.add_recipe) public void onAddRecipeClicked() {
+        presenter.onAddRecipeClicked();
+    }
+
     private void setupViewPager() {
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
         adapter.addFragment(new GenericMealFragment(), "Frühstück");
@@ -79,5 +106,20 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         adapter.addFragment(new GenericMealFragment(), "Snacks");
         adapter.addFragment(new GenericDrinkFragment(), "Getränke");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void startFoodSearchActivity() {
+        
+    }
+
+    @Override
+    public void startDrinkSearchActivity() {
+
+    }
+
+    @Override
+    public void startRecipeSearchActivity() {
+
     }
 }

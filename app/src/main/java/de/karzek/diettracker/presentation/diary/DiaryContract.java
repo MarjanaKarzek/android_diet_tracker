@@ -13,10 +13,18 @@ import de.karzek.diettracker.presentation.common.BaseView;
 public interface DiaryContract {
 
     interface View extends BaseView<Presenter> {
+        void startFoodSearchActivity();
 
+        void startDrinkSearchActivity();
+
+        void startRecipeSearchActivity();
     }
 
     interface Presenter extends BasePresenter<View> {
+        void onAddFoodClicked();
 
+        void onAddDrinkClicked();
+
+        void onAddRecipeClicked();
     }
 }
