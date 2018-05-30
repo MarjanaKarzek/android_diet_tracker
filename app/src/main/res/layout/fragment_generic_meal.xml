@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/snippet_calory_detail"/>
+
     <TextView
         style="@style/Subtitle"
         android:layout_width="match_parent"

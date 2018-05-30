@@ -2,13 +2,10 @@ package de.karzek.diettracker.presentation.search.food.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.search.food.FoodSearchContract;
 import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.FoodSearchResultViewHolder;

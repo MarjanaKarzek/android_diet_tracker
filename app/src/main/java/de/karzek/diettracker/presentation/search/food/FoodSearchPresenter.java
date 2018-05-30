@@ -1,13 +1,10 @@
 package de.karzek.diettracker.presentation.search.food;
 
-import android.view.View;
-
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
-import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.FoodSearchResultViewHolder;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
