@@ -6,6 +6,8 @@
 
     <include layout="@layout/snippet_calory_detail"/>
 
+    <include layout="@layout/snippet_calory_and_makro_detail"/>
+
     <TextView
         style="@style/Subtitle"
         android:layout_width="match_parent"

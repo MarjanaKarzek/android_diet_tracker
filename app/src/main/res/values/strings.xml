@@ -20,5 +20,8 @@
     <string name="recipe_search_hint">Rezepte durchsuchen</string>
 
     <string name="calories">Kalorien</string>
+    <string name="proteins">Proteine</string>
+    <string name="carbs">Kohlenhydrate</string>
+    <string name="fats">Fette</string>
 
 </resources>
