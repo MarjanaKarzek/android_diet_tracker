@@ -12,4 +12,12 @@
     <string name="fab_add_drink">Getränk</string>
     <string name="fab_add_recipe">Rezept</string>
 
+    <string name="food_search_title">Lebensmittel</string>
+    <string name="food_search_hint">Lebensmittel durchsuchen</string>
+    <string name="drink_search_title">Getränke</string>
+    <string name="drink_search_hint">Getränke durchsuchen</string>
+    <string name="recipe_search_title">Rezepte</string>
+    <string name="recipe_search_hint">Rezepte durchsuchen</string>
+
+
 </resources>

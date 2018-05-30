@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="searchViewStyle">@style/searchViewStyle</item>
     </style>
 
     <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
@@ -86,6 +87,12 @@
     <style name="fabStyle" parent="Body1">
         <item name="android:background">@drawable/bg_fab_label</item>
         <item name="android:textColor">@color/textPrimary</item>
+    </style>
+
+    <!-- Search View -->
+    <style name="searchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="closeIcon">@drawable/ic_close_white</item>
+        <item name="android:textAppearance">@style/Body1</item>
     </style>
 
 </resources>

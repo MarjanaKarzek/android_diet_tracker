@@ -22,6 +22,7 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapter;
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
+import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -97,6 +98,10 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         presenter.onAddRecipeClicked();
     }
 
+    @OnClick(R.id.fab_overlay) public void onFabOverlayClicked() {
+        presenter.onFabOverlayClicked();
+    };
+
     private void setupViewPager() {
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
         adapter.addFragment(new GenericMealFragment(), "Frühstück");
@@ -109,7 +114,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void startFoodSearchActivity() {
-
+        startActivity(FoodSearchActivity.newIntent(getContext()));
     }
 
     @Override
@@ -120,5 +125,10 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public void startRecipeSearchActivity() {
 
+    }
+
+    @Override
+    public void closeFabMenu() {
+        floatingActionsMenu.collapse();
     }
 }

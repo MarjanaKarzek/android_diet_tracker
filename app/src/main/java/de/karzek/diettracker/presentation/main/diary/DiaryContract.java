@@ -18,6 +18,8 @@ public interface DiaryContract {
         void startDrinkSearchActivity();
 
         void startRecipeSearchActivity();
+
+        void closeFabMenu();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -26,5 +28,7 @@ public interface DiaryContract {
         void onAddDrinkClicked();
 
         void onAddRecipeClicked();
+
+        void onFabOverlayClicked();
     }
 }

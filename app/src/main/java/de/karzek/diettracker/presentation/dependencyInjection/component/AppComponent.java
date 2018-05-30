@@ -10,8 +10,11 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrinkModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodSearchModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.MainModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
+import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
 
 /**
  * Created by MarjanaKarzek on 28.04.2018.
@@ -21,7 +24,7 @@ import de.karzek.diettracker.presentation.main.MainActivity;
  * @date 28.04.2018
  */
 @Singleton
-@Component(modules = {AppModule.class, AndroidModule.class})
+@Component(modules = {AppModule.class, AndroidModule.class, MainModule.class, FoodSearchModule.class})
 public interface AppComponent {
 
     HomeComponent plus(HomeModule module);
@@ -37,5 +40,7 @@ public interface AppComponent {
     GenericDrinkComponent plus(GenericDrinkModule module);
 
     void inject(MainActivity activity);
+
+    void inject(FoodSearchActivity activity);
 
 }

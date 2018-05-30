@@ -41,5 +41,10 @@ public class DiaryPresenter implements DiaryContract.Presenter {
         view.startRecipeSearchActivity();
     }
 
+    @Override
+    public void onFabOverlayClicked() {
+        view.closeFabMenu();
+    }
+
 
 }
