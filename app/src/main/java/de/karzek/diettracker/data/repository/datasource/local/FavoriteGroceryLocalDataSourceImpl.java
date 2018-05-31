@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.cache.interfaces.FavoriteGroceryCache;
 import de.karzek.diettracker.data.cache.model.FavoriteGroceryEntity;
-import de.karzek.diettracker.data.repository.datasource.interfaces.FavoriteDataSource;
+import de.karzek.diettracker.data.repository.datasource.interfaces.FavoriteGroceryDataSource;
 import io.reactivex.Observable;
 
 /**
@@ -14,11 +14,11 @@ import io.reactivex.Observable;
  * @version 1.0
  * @date 27.05.2018
  */
-public class FavoriteLocalDataSourceImpl implements FavoriteDataSource {
+public class FavoriteGroceryLocalDataSourceImpl implements FavoriteGroceryDataSource {
 
     private final FavoriteGroceryCache favoriteGroceryCache;
 
-    public FavoriteLocalDataSourceImpl(FavoriteGroceryCache favoriteGroceryCache){
+    public FavoriteGroceryLocalDataSourceImpl(FavoriteGroceryCache favoriteGroceryCache){
         this.favoriteGroceryCache = favoriteGroceryCache;
     }
 

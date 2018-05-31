@@ -3,10 +3,8 @@ package de.karzek.diettracker.domain.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.karzek.diettracker.data.model.AllergenDataModel;
-import de.karzek.diettracker.data.model.FavoriteDataModel;
-import de.karzek.diettracker.domain.model.AllergenDomainModel;
-import de.karzek.diettracker.domain.model.FavoriteDomainModel;
+import de.karzek.diettracker.data.model.FavoriteGroceryDataModel;
+import de.karzek.diettracker.domain.model.FavoriteGroceryDomainModel;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -15,21 +13,20 @@ import de.karzek.diettracker.domain.model.FavoriteDomainModel;
  * @version 1.0
  * @date 27.05.2018
  */
-public class FavoriteDomainMapper {
-    public FavoriteDomainModel transform(FavoriteDataModel favoriteDataModel){
-        FavoriteDomainModel favoriteDomainModel = null;
-        if(favoriteDataModel != null){
-            favoriteDomainModel = new FavoriteDomainModel(favoriteDataModel.getId(),
-                    favoriteDataModel.getType(),
-                    favoriteDataModel.getFavoriteId()
+public class FavoriteGroceryDomainMapper {
+    public FavoriteGroceryDomainModel transform(FavoriteGroceryDataModel favoriteGroceryDataModel){
+        FavoriteGroceryDomainModel favoriteDomainModel = null;
+        if(favoriteGroceryDataModel != null){
+            favoriteDomainModel = new FavoriteGroceryDomainModel(favoriteGroceryDataModel.getId(),
+                    new GroceryDomainMapper().transform(favoriteGroceryDataModel.getGrocery())
             );
         }
         return favoriteDomainModel;
     }
 
-    public ArrayList<FavoriteDomainModel> transformAll(List<FavoriteDataModel> favoriteDataModels){
-        ArrayList<FavoriteDomainModel> favoriteDomainModels = new ArrayList<>();
-        for (FavoriteDataModel data: favoriteDataModels){
+    public ArrayList<FavoriteGroceryDomainModel> transformAll(List<FavoriteGroceryDataModel> favoriteGroceryDataModels){
+        ArrayList<FavoriteGroceryDomainModel> favoriteDomainModels = new ArrayList<>();
+        for (FavoriteGroceryDataModel data: favoriteGroceryDataModels){
             favoriteDomainModels.add(transform(data));
         }
         return favoriteDomainModels;

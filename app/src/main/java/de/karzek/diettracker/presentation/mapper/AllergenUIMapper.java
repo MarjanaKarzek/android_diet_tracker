@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.model.AllergenDataModel;
+import de.karzek.diettracker.domain.model.AllergenDomainModel;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 
 /**
@@ -14,19 +15,19 @@ import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
  * @date 27.05.2018
  */
 public class AllergenUIMapper {
-    public AllergenDisplayModel transform(AllergenDataModel allergenDataModel){
+    public AllergenDisplayModel transform(AllergenDomainModel allergenDomainModel){
         AllergenDisplayModel allergenDisplayModel = null;
-        if(allergenDataModel != null){
-            allergenDisplayModel = new AllergenDisplayModel(allergenDataModel.getId(),
-                    allergenDataModel.getName()
+        if(allergenDomainModel != null){
+            allergenDisplayModel = new AllergenDisplayModel(allergenDomainModel.getId(),
+                    allergenDomainModel.getName()
             );
         }
         return allergenDisplayModel;
     }
 
-    public ArrayList<AllergenDisplayModel> transformAll(List<AllergenDataModel> allergenDataModelList){
+    public ArrayList<AllergenDisplayModel> transformAll(List<AllergenDomainModel> allergenDomainModels){
         ArrayList<AllergenDisplayModel> allergenDisplayModels = new ArrayList<>();
-        for (AllergenDataModel data: allergenDataModelList){
+        for (AllergenDomainModel data: allergenDomainModels){
             allergenDisplayModels.add(transform(data));
         }
         return allergenDisplayModels;

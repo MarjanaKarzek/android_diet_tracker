@@ -10,7 +10,7 @@ import lombok.Value;
  * @date 27.05.2018
  */
 @Value
-public class AllergenDisplayModel {
+public class FavoriteGroceryDisplayModel {
     private int id;
-    private String name;
+    private GroceryDisplayModel grocery;
 }

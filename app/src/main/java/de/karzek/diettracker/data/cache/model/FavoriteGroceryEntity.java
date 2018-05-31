@@ -18,9 +18,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class FavoriteEntity extends RealmObject {
+public class FavoriteGroceryEntity extends RealmObject {
     @PrimaryKey
     private int id;
-    private int type;
-    private int favoriteId;
+    private GroceryEntity grocery;
 }

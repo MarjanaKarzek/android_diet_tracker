@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.model.ServingDataModel;
+import de.karzek.diettracker.domain.model.ServingDomainModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 
 /**
@@ -14,21 +15,21 @@ import de.karzek.diettracker.presentation.model.ServingDisplayModel;
  * @date 27.05.2018
  */
 public class ServingUIMapper {
-    public ServingDisplayModel transform(ServingDataModel servingDataModel){
+    public ServingDisplayModel transform(ServingDomainModel servingDomainModel){
         ServingDisplayModel servingDisplayModel = null;
-        if(servingDataModel != null){
-            servingDisplayModel = new ServingDisplayModel(servingDataModel.getId(),
-                    servingDataModel.getDescription(),
-                    servingDataModel.getAmount(),
-                    servingDataModel.getUnit()
+        if(servingDomainModel != null){
+            servingDisplayModel = new ServingDisplayModel(servingDomainModel.getId(),
+                    servingDomainModel.getDescription(),
+                    servingDomainModel.getAmount(),
+                    servingDomainModel.getUnit()
             );
         }
         return servingDisplayModel;
     }
 
-    public ArrayList<ServingDisplayModel> transformAll(List<ServingDataModel> servingDataModelList){
+    public ArrayList<ServingDisplayModel> transformAll(List<ServingDomainModel> servingDomainModels){
         ArrayList<ServingDisplayModel> servingDisplayModels = new ArrayList<>();
-        for (ServingDataModel data: servingDataModelList){
+        for (ServingDomainModel data: servingDomainModels){
             servingDisplayModels.add(transform(data));
         }
         return servingDisplayModels;

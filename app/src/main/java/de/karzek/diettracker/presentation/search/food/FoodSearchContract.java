@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
+import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.FoodSearchResultViewHolder;
 
@@ -21,6 +22,12 @@ public interface FoodSearchContract {
         void showFoodDetails(int id);
 
         void updateFoodSearchResultList(ArrayList<GroceryDisplayModel> foods);
+
+        void showPlaceholder();
+
+        void showLoading();
+
+        void hideLoading();
 
     }
 

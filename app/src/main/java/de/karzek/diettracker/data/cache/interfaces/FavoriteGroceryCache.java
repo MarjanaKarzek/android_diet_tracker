@@ -1,11 +1,8 @@
 package de.karzek.diettracker.data.cache.interfaces;
 
-import android.support.annotation.IntDef;
-
 import java.util.List;
 
-import de.karzek.diettracker.data.cache.model.FavoriteEntity;
-import de.karzek.diettracker.data.cache.model.GroceryEntity;
+import de.karzek.diettracker.data.cache.model.FavoriteGroceryEntity;
 import io.reactivex.Observable;
 
 /**
@@ -15,9 +12,9 @@ import io.reactivex.Observable;
  * @version 1.0
  * @date 27.05.2018
  */
-public interface FavoriteCache {
+public interface FavoriteGroceryCache {
     boolean isExpired();
     boolean isCached();
-    Observable<List<FavoriteEntity>> getAllFavoritesByType(int type);
-    void put(FavoriteEntity favoriteEntity);
+    Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type);
+    void put(FavoriteGroceryEntity favoriteGroceryEntity);
 }

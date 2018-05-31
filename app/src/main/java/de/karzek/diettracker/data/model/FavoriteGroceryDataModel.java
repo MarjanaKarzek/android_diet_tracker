@@ -11,7 +11,7 @@ import lombok.Value;
  * @date 27.05.2018
  */
 @Value
-public class FavoriteDataModel {
+public class FavoriteGroceryDataModel {
     private int id;
     private GroceryDataModel grocery;
 }

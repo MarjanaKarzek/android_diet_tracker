@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.main;
 
+import android.support.annotation.IntDef;
+
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.model.RandomQuoteDisplayModel;

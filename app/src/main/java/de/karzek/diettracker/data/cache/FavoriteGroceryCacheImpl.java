@@ -1,5 +1,6 @@
 package de.karzek.diettracker.data.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.cache.interfaces.FavoriteGroceryCache;
@@ -15,7 +16,7 @@ import io.realm.Realm;
  * @version 1.0
  * @date 27.05.2018
  */
-public class FavoriteGroceryGroceryCacheImpl implements FavoriteGroceryCache {
+public class FavoriteGroceryCacheImpl implements FavoriteGroceryCache {
 
     @Override
     public boolean isExpired() {
@@ -52,7 +53,7 @@ public class FavoriteGroceryGroceryCacheImpl implements FavoriteGroceryCache {
 
     @Override
     public Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type) {
-        List<FavoriteGroceryEntity> favorites = Realm.getDefaultInstance().where(FavoriteGroceryEntity.class). .equalTo("grocery", type).findAll();
+        List<FavoriteGroceryEntity> favorites = Realm.getDefaultInstance().where(FavoriteGroceryEntity.class).equalTo("grocery.type", type).findAll();
         return Observable.just(favorites);
     }
 

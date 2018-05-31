@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,7 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
+import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.search.food.adapter.FoodSearchResultListAdapter;
 
@@ -39,6 +43,8 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.food_search_placeholder) TextView placeholder;
+    @BindView(R.id.loading_view) FrameLayout loadingView;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, FoodSearchActivity.class);
@@ -117,6 +123,21 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
     @Override
     public void updateFoodSearchResultList(ArrayList<GroceryDisplayModel> foods) {
         ((FoodSearchResultListAdapter) recyclerView.getAdapter()).setList(foods);
+    }
+
+    @Override
+    public void showPlaceholder() {
+        placeholder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
     }
 
     private void setupSupportActionBar() {

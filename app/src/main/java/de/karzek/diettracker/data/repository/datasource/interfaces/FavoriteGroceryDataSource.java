@@ -12,7 +12,7 @@ import io.reactivex.Observable;
  * @version 1.0
  * @date 27.05.2018
  */
-public interface FavoriteDataSource {
+public interface FavoriteGroceryDataSource {
 
     Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type);
 

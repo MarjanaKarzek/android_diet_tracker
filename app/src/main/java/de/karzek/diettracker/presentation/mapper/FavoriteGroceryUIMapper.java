@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.model.AllergenDataModel;
+import de.karzek.diettracker.domain.model.FavoriteGroceryDomainModel;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
+import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -13,22 +15,22 @@ import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
  * @version 1.0
  * @date 27.05.2018
  */
-public class AllergenUIMapper {
-    public AllergenDisplayModel transform(AllergenDataModel allergenDataModel){
-        AllergenDisplayModel allergenDisplayModel = null;
-        if(allergenDataModel != null){
-            allergenDisplayModel = new AllergenDisplayModel(allergenDataModel.getId(),
-                    allergenDataModel.getName()
+public class FavoriteGroceryUIMapper {
+    public FavoriteGroceryDisplayModel transform(FavoriteGroceryDomainModel favoriteGroceryDomainModel){
+        FavoriteGroceryDisplayModel favoriteGroceryDisplayModel = null;
+        if(favoriteGroceryDomainModel != null){
+            favoriteGroceryDisplayModel = new FavoriteGroceryDisplayModel(favoriteGroceryDomainModel.getId(),
+                    new GroceryUIMapper().transform(favoriteGroceryDomainModel.getGrocery())
             );
         }
-        return allergenDisplayModel;
+        return favoriteGroceryDisplayModel;
     }
 
-    public ArrayList<AllergenDisplayModel> transformAll(List<AllergenDataModel> allergenDataModelList){
-        ArrayList<AllergenDisplayModel> allergenDisplayModels = new ArrayList<>();
-        for (AllergenDataModel data: allergenDataModelList){
-            allergenDisplayModels.add(transform(data));
+    public ArrayList<FavoriteGroceryDisplayModel> transformAll(List<FavoriteGroceryDomainModel> favoriteGroceryDomainModels){
+        ArrayList<FavoriteGroceryDisplayModel> favoriteGroceryDisplayModels = new ArrayList<>();
+        for (FavoriteGroceryDomainModel data: favoriteGroceryDomainModels){
+            favoriteGroceryDisplayModels.add(transform(data));
         }
-        return allergenDisplayModels;
+        return favoriteGroceryDisplayModels;
     }
 }

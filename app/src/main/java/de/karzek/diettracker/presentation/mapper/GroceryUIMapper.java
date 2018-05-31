@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.model.GroceryDataModel;
+import de.karzek.diettracker.domain.model.GroceryDomainModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 
 /**
@@ -14,27 +15,27 @@ import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
  * @date 27.05.2018
  */
 public class GroceryUIMapper {
-    public GroceryDisplayModel transform(GroceryDataModel groceryDataModel){
+    public GroceryDisplayModel transform(GroceryDomainModel groceryDomainModel){
         GroceryDisplayModel groceryDisplayModel = null;
-        if(groceryDataModel != null){
-            groceryDisplayModel = new GroceryDisplayModel(groceryDataModel.getId(),
-                    groceryDataModel.getBarcode(),
-                    groceryDataModel.getName(),
-                    groceryDataModel.getCalories_per_1U(),
-                    groceryDataModel.getProteins_per_1U(),
-                    groceryDataModel.getCarbohydrates_per_1U(),
-                    groceryDataModel.getFats_per_1U(),
-                    groceryDataModel.getType(),
-                    new AllergenUIMapper().transformAll(groceryDataModel.getAllergens()),
-                    new ServingUIMapper().transformAll(groceryDataModel.getServings())
+        if(groceryDomainModel != null){
+            groceryDisplayModel = new GroceryDisplayModel(groceryDomainModel.getId(),
+                    groceryDomainModel.getBarcode(),
+                    groceryDomainModel.getName(),
+                    groceryDomainModel.getCalories_per_1U(),
+                    groceryDomainModel.getProteins_per_1U(),
+                    groceryDomainModel.getCarbohydrates_per_1U(),
+                    groceryDomainModel.getFats_per_1U(),
+                    groceryDomainModel.getType(),
+                    new AllergenUIMapper().transformAll(groceryDomainModel.getAllergens()),
+                    new ServingUIMapper().transformAll(groceryDomainModel.getServings())
             );
         }
         return groceryDisplayModel;
     }
 
-    public ArrayList<GroceryDisplayModel> transformAll(List<GroceryDataModel> groceryDataModelList){
+    public ArrayList<GroceryDisplayModel> transformAll(List<GroceryDomainModel> groceryDataModelList){
         ArrayList<GroceryDisplayModel> groceryDisplayModels = new ArrayList<>();
-        for (GroceryDataModel data: groceryDataModelList){
+        for (GroceryDomainModel data: groceryDataModelList){
             groceryDisplayModels.add(transform(data));
         }
         return groceryDisplayModels;

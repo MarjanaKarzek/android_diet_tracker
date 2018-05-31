@@ -10,8 +10,7 @@ import lombok.Value;
  * @date 27.05.2018
  */
 @Value
-public class FavoriteDomainModel {
+public class FavoriteGroceryDomainModel {
     private int id;
-    private int type;
-    private int favoriteId;
+    private GroceryDomainModel grocery;
 }
