@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.main.diary;
 
+import android.app.DatePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -7,9 +9,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -40,6 +48,11 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.floating_action_button_menu) FloatingActionsMenu floatingActionsMenu;
     @BindView(R.id.fab_overlay) FrameLayout overlay;
+    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.date_label) TextView selectedDate;
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
+    private DatePickerDialog.OnDateSetListener datePicker;
 
     @Nullable
     @Override
@@ -53,8 +66,13 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        showLoading();
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
+        hideLoading();
+
+        selectedDate.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
+
         floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override public void onMenuExpanded() {
                 overlay.setVisibility(View.VISIBLE);
@@ -102,6 +120,10 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         presenter.onFabOverlayClicked();
     };
 
+    @OnClick(R.id.date_label) public void onDateLabelClicked() {
+        presenter.onDateLabelClicked();
+    }
+
     private void setupViewPager() {
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
         adapter.addFragment(new GenericMealFragment(), "Frühstück");
@@ -130,5 +152,32 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public void closeFabMenu() {
         floatingActionsMenu.collapse();
+    }
+
+    @Override
+    public void openDatePicker(){
+        if(datePicker == null) {
+            datePicker = (view, year, monthOfYear, dayOfMonth) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate.setText(simpleDateFormat.format(calendar.getTime()));
+                presenter.onDateSelected();
+            };
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(getActivity(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    @Override
+    public void showLoading(){
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading(){
+        loadingView.setVisibility(View.GONE);
     }
 }

@@ -20,6 +20,12 @@ public interface DiaryContract {
         void startRecipeSearchActivity();
 
         void closeFabMenu();
+
+        void openDatePicker();
+
+        void showLoading();
+
+        void hideLoading();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -30,5 +36,9 @@ public interface DiaryContract {
         void onAddRecipeClicked();
 
         void onFabOverlayClicked();
+
+        void onDateLabelClicked();
+
+        void onDateSelected();
     }
 }
