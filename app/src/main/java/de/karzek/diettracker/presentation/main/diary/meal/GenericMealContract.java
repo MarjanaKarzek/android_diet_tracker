@@ -14,6 +14,9 @@ public interface GenericMealContract {
 
     interface View extends BaseView<Presenter> {
 
+        void hideRecyclerView();
+
+        void showGroceryListPlaceholder();
     }
 
     interface Presenter extends BasePresenter<View> {

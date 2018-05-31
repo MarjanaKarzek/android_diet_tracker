@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -38,6 +39,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
     @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
+    @BindView(R.id.grocery_list_placeholder) TextView placeholder;
 
     private CaloryDetailsView detailsView;
 
@@ -74,5 +76,15 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         super.onDestroy();
         presenter.finish();
         TrackerApplication.get(getContext()).releaseGenericMealComponent();
+    }
+
+    @Override
+    public void showGroceryListPlaceholder(){
+        placeholder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRecyclerView(){
+        recyclerView.setVisibility(View.GONE);
     }
 }

@@ -13,7 +13,8 @@ public class GenericMealPresenter implements  GenericMealContract.Presenter {
 
     @Override
     public void start() {
-
+        view.hideRecyclerView();
+        view.showGroceryListPlaceholder();
     }
 
     @Override

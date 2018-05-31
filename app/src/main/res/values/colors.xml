@@ -9,6 +9,7 @@
     <color name="colorAccentDark">#0093c1</color>
 
     <color name="textPrimary">#777777</color>
+    <color name="textSecondary">#aaaaaa</color>
     <color name="textOnPrimary">#fbfbfb</color>
     <color name="textOnSecondary">#fbfbfb</color>
 

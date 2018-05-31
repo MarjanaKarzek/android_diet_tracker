@@ -8,6 +8,9 @@
     <string name="grocery_list_title">Lebensmittel</string>
     <string name="drink_list_title">Getränke</string>
 
+    <string name="generic_meal_grocery_list_placeholder">Füge über das "+" Lebensmittel zu dieser Mahlzeit hinzu.\n\n
+        Rezepte, welche Du für diese Mahlzeit als Favoriten markierst, werden Dir hier vorgeschlagen.</string>
+
     <string name="fab_add_food">Lebensmittel</string>
     <string name="fab_add_drink">Getränk</string>
     <string name="fab_add_recipe">Rezept</string>
