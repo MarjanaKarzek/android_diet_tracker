@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 
 import javax.inject.Inject;
 
@@ -14,6 +15,8 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
+import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
+import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 
 /**
  * Created by MarjanaKarzek on 28.05.2018.
@@ -33,12 +36,23 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     GenericMealContract.Presenter presenter;
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
+    @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
+
+    private CaloryDetailsView detailsView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_generic_meal, container, false);
         ButterKnife.bind(this,view);
+
+        if(false) {
+            detailsView = new CaloryDetailsView(caloryDetails.inflate());
+        } else {
+            detailsView = new CaloryMacroDetailsView(caloryMacroDetails.inflate());
+        }
+
         return view;
     }
 

@@ -4,23 +4,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/snippet_calory_detail"/>
-
-    <include layout="@layout/snippet_calory_and_makro_detail"/>
-
-    <TextView
-        style="@style/Subtitle"
+    <ViewStub
+        android:id="@+id/viewstub_calory_details"
+        android:inflatedId="@+id/snippet_calory_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/grocery_list_title" />
+        android:layout="@layout/snippet_calory_detail"/>
+
+    <ViewStub
+        android:id="@+id/viewstub_calory_makro_details"
+        android:inflatedId="@+id/snippet_calory_and_makro_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/snippet_calory_and_macro_detail"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_title"
+        android:elevation="3dp">
+
+        <TextView
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="@color/textPrimary"
+            android:text="@string/grocery_list_title" />
+
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>

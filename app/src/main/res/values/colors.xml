@@ -20,5 +20,6 @@
 
     <!--Backgrounds-->
     <color name="bg_fab_transparent">#88ffffff</color>
+    <color name="bg_title">#f5f5f5</color>
 
 </resources>
