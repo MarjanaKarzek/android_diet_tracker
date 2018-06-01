@@ -63,6 +63,9 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.16.20"
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
 
+    //Swipe Layout
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'

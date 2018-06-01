@@ -50,12 +50,17 @@ public class GroceryDataMapper {
     }
 
     private GroceryEntity transformToEntity(GroceryDataModel groceryDataModel) {
+        Realm realm = Realm.getDefaultInstance();
         GroceryEntity groceryEntity = null;
         if(groceryDataModel != null){
             if(!writeTransactionRunning) {
                 startWriteTransaction();
             }
-            groceryEntity = Realm.getDefaultInstance().createObject(GroceryEntity.class, groceryDataModel.getId());
+            if(realm.where(GroceryEntity.class).equalTo("id",groceryDataModel.getId()).findFirst() != null)
+                groceryEntity = realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("id",groceryDataModel.getId()).findFirst());
+            else
+                groceryEntity = realm.createObject(GroceryEntity.class, groceryDataModel.getId());
+
             groceryEntity.setBarcode(groceryDataModel.getBarcode());
             groceryEntity.setName(groceryDataModel.getName());
             groceryEntity.setCalories_per_1U(groceryDataModel.getCalories_per_1U());
