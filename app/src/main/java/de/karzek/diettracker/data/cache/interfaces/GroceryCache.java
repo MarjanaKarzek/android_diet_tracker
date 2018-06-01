@@ -20,4 +20,5 @@ public interface GroceryCache {
     Observable<GroceryEntity> getGroceryByBarcode(int barcode);
     Observable<GroceryEntity> getGroceryByName(String name);
     void put(GroceryEntity groceryEntity);
+    Observable<Boolean> putAllGroceries(List<GroceryEntity> groceryEntities);
 }

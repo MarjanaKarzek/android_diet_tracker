@@ -33,6 +33,7 @@ public class ConfigurationManager {
         Realm.init(application);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
                 .name("database.realm")
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
     }

@@ -53,7 +53,8 @@ public class FavoriteGroceryCacheImpl implements FavoriteGroceryCache {
 
     @Override
     public Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type) {
-        List<FavoriteGroceryEntity> favorites = Realm.getDefaultInstance().where(FavoriteGroceryEntity.class).equalTo("grocery.type", type).findAll();
+        Realm realm = Realm.getDefaultInstance();
+        List<FavoriteGroceryEntity> favorites = realm.copyFromRealm(realm.where(FavoriteGroceryEntity.class).equalTo("grocery.type", type).findAll());
         return Observable.just(favorites);
     }
 

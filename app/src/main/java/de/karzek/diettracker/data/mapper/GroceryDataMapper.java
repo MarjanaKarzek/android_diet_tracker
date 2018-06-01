@@ -1,10 +1,15 @@
 package de.karzek.diettracker.data.mapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import de.karzek.diettracker.data.cache.model.AllergenEntity;
 import de.karzek.diettracker.data.cache.model.GroceryEntity;
+import de.karzek.diettracker.data.cache.model.ServingEntity;
 import de.karzek.diettracker.data.model.GroceryDataModel;
+import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -14,6 +19,8 @@ import de.karzek.diettracker.data.model.GroceryDataModel;
  * @date 27.05.2018
  */
 public class GroceryDataMapper {
+
+    private boolean writeTransactionRunning = false;
 
     public GroceryDataModel transform(GroceryEntity groceryEntity){
         GroceryDataModel groceryDataModel = null;
@@ -26,6 +33,7 @@ public class GroceryDataMapper {
                     groceryEntity.getCarbohydrates_per_1U(),
                     groceryEntity.getFats_per_1U(),
                     groceryEntity.getType(),
+                    groceryEntity.getUnit_type(),
                     new AllergenDataMapper().transformAll(groceryEntity.getAllergens()),
                     new ServingDataMapper().transformAll(groceryEntity.getServings())
                     );
@@ -39,5 +47,40 @@ public class GroceryDataMapper {
             groceryDataModelList.add(transform(entity));
         }
         return groceryDataModelList;
+    }
+
+    private GroceryEntity transformToEntity(GroceryDataModel groceryDataModel) {
+        GroceryEntity groceryEntity = null;
+        if(groceryDataModel != null){
+            if(!writeTransactionRunning) {
+                startWriteTransaction();
+            }
+            groceryEntity = Realm.getDefaultInstance().createObject(GroceryEntity.class, groceryDataModel.getId());
+            groceryEntity.setBarcode(groceryDataModel.getBarcode());
+            groceryEntity.setName(groceryDataModel.getName());
+            groceryEntity.setCalories_per_1U(groceryDataModel.getCalories_per_1U());
+            groceryEntity.setProteins_per_1U(groceryDataModel.getProteins_per_1U());
+            groceryEntity.setCarbohydrates_per_1U(groceryDataModel.getCarbohydrates_per_1U());
+            groceryEntity.setFats_per_1U(groceryDataModel.getFats_per_1U());
+            groceryEntity.setType(groceryDataModel.getType());
+            groceryEntity.setUnit_type(groceryDataModel.getUnit_type());
+            groceryEntity.setAllergens(new AllergenDataMapper().transformAllToEntity(groceryDataModel.getAllergens()));
+            groceryEntity.setServings(new ServingDataMapper().transformAllToEntity(groceryDataModel.getServings()));
+        }
+        return groceryEntity;
+    }
+
+    public List<GroceryEntity> transformAllToEntity(List<GroceryDataModel> groceryDataModels) {
+        ArrayList<GroceryEntity> groceryEntities = new ArrayList<>();
+        startWriteTransaction();
+        for (GroceryDataModel data: groceryDataModels){
+            groceryEntities.add(transformToEntity(data));
+        }
+        return groceryEntities;
+    }
+
+    private void startWriteTransaction(){
+        Realm.getDefaultInstance().beginTransaction();
+        writeTransactionRunning = true;
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import de.karzek.diettracker.data.cache.model.AllergenEntity;
 import de.karzek.diettracker.data.model.AllergenDataModel;
+import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -31,5 +33,22 @@ public class AllergenDataMapper {
             allergenDataModelList.add(transform(entity));
         }
         return allergenDataModelList;
+    }
+
+    private AllergenEntity transformToEntity(AllergenDataModel allergenDataModel) {
+        AllergenEntity allergenEntity = null;
+        if(allergenDataModel != null){
+            allergenEntity = Realm.getDefaultInstance().createObject(AllergenEntity.class,allergenDataModel.getId());
+            allergenEntity.setName(allergenDataModel.getName());
+        }
+        return allergenEntity;
+    }
+
+    public RealmList<AllergenEntity> transformAllToEntity(List<AllergenDataModel> allergenDataModels) {
+        RealmList<AllergenEntity> allergenEntities = new RealmList<>();
+        for (AllergenDataModel data: allergenDataModels){
+            allergenEntities.add(transformToEntity(data));
+        }
+        return allergenEntities;
     }
 }

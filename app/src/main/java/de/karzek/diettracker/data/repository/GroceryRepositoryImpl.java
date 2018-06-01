@@ -84,4 +84,8 @@ public class GroceryRepositoryImpl implements GroceryRepository {
             return null;//new GroceryLocalDataSourceImpl(groceryCache);
         }
     }
+
+    public Observable<Boolean> putAllGroceries(List<GroceryDataModel> groceryDataModels) {
+        return new GroceryLocalDataSourceImpl(groceryCache).putAllGroceries(mapper.transformAllToEntity(groceryDataModels));
+    }
 }

@@ -26,6 +26,7 @@ public class GroceryUIMapper {
                     groceryDomainModel.getCarbohydrates_per_1U(),
                     groceryDomainModel.getFats_per_1U(),
                     groceryDomainModel.getType(),
+                    groceryDomainModel.getUnit_type(),
                     new AllergenUIMapper().transformAll(groceryDomainModel.getAllergens()),
                     new ServingUIMapper().transformAll(groceryDomainModel.getServings())
             );
@@ -39,5 +40,32 @@ public class GroceryUIMapper {
             groceryDisplayModels.add(transform(data));
         }
         return groceryDisplayModels;
+    }
+
+    public GroceryDomainModel transformToDomain(GroceryDisplayModel groceryDisplayModel){
+        GroceryDomainModel groceryDomainModel = null;
+        if(groceryDisplayModel != null){
+            groceryDomainModel = new GroceryDomainModel(groceryDisplayModel.getId(),
+                    groceryDisplayModel.getBarcode(),
+                    groceryDisplayModel.getName(),
+                    groceryDisplayModel.getCalories_per_1U(),
+                    groceryDisplayModel.getProteins_per_1U(),
+                    groceryDisplayModel.getCarbohydrates_per_1U(),
+                    groceryDisplayModel.getFats_per_1U(),
+                    groceryDisplayModel.getType(),
+                    groceryDisplayModel.getUnit_type(),
+                    new AllergenUIMapper().transformAllToDomain(groceryDisplayModel.getAllergens()),
+                    new ServingUIMapper().transformAllToDomain(groceryDisplayModel.getServings())
+            );
+        }
+        return groceryDomainModel;
+    }
+
+    public ArrayList<GroceryDomainModel> transformAllToDomain(ArrayList<GroceryDisplayModel> groceryDisplayModels) {
+        ArrayList<GroceryDomainModel> groceryDomainModels = new ArrayList<>();
+        for (GroceryDisplayModel data: groceryDisplayModels){
+            groceryDomainModels.add(transformToDomain(data));
+        }
+        return groceryDomainModels;
     }
 }

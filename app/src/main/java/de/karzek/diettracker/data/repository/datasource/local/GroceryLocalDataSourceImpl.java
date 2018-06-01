@@ -41,4 +41,9 @@ public class GroceryLocalDataSourceImpl implements GroceryDataSource {
     public Observable<GroceryEntity> getGroceryByName(String name) {
         return groceryCache.getGroceryByName(name);
     }
+
+    @Override
+    public Observable<Boolean> putAllGroceries(List<GroceryEntity> groceryEntities) {
+        return groceryCache.putAllGroceries(groceryEntities);
+    }
 }

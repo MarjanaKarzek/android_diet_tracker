@@ -32,4 +32,22 @@ public class AllergenDomainMapper {
         }
         return allergenDomainModels;
     }
+
+    private AllergenDataModel transformToData(AllergenDomainModel allergenDomainModel) {
+        AllergenDataModel allergenDataModel = null;
+        if(allergenDomainModel != null){
+            allergenDataModel = new AllergenDataModel(allergenDomainModel.getId(),
+                    allergenDomainModel.getName()
+            );
+        }
+        return allergenDataModel;
+    }
+
+    public ArrayList<AllergenDataModel> transformAllToData(ArrayList<AllergenDomainModel> allergenDomainModels) {
+        ArrayList<AllergenDataModel> allergenDataModels = new ArrayList<>();
+        for (AllergenDomainModel data: allergenDomainModels){
+            allergenDataModels.add(transformToData(data));
+        }
+        return allergenDataModels;
+    }
 }

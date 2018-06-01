@@ -34,4 +34,24 @@ public class ServingDomainMapper {
         }
         return servingDomainModels;
     }
+
+    public ServingDataModel transformToData(ServingDomainModel servingDomainModel){
+        ServingDataModel servingDataModel = null;
+        if(servingDomainModel != null){
+            servingDataModel = new ServingDataModel(servingDomainModel.getId(),
+                    servingDomainModel.getDescription(),
+                    servingDomainModel.getAmount(),
+                    servingDomainModel.getUnit()
+            );
+        }
+        return servingDataModel;
+    }
+
+    public ArrayList<ServingDataModel> transformAllToData(ArrayList<ServingDomainModel> servingDomainModels) {
+        ArrayList<ServingDataModel> servingDataModels = new ArrayList<>();
+        for (ServingDomainModel data: servingDomainModels){
+            servingDataModels.add(transformToData(data));
+        }
+        return servingDataModels;
+    }
 }

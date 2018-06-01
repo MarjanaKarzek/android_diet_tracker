@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
@@ -25,6 +27,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Inject
     MainContract.Presenter presenter;
+
+    public static Intent newIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void setupActivityComponents() {

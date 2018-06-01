@@ -14,13 +14,14 @@ import lombok.Value;
 @Value
 public class GroceryDataModel {
     private int id;
-    private int barcode;
+    private long barcode;
     private String name;
-    private int calories_per_1U;
-    private int proteins_per_1U;
-    private int carbohydrates_per_1U;
-    private int fats_per_1U;
+    private float calories_per_1U;
+    private float proteins_per_1U;
+    private float carbohydrates_per_1U;
+    private float fats_per_1U;
     private int type;
+    private int unit_type;
     private ArrayList<AllergenDataModel> allergens;
     private ArrayList<ServingDataModel> servings;
 }

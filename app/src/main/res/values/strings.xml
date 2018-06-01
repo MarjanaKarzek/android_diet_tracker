@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">DietTracker</string>
+
+    <string name="welcome">Willkommen</string>
+    <string name="welcome_text">Lass uns Deine Ernährung gemeinsam gestalten. \n\nDafür bereite ich noch schnell einige Dinge vor...</string>
+
     <string name="menu_home">Home</string>
     <string name="menu_diary">Tagebuch</string>
     <string name="menu_cookbook">Kochbuch</string>
@@ -8,8 +12,7 @@
     <string name="grocery_list_title">Lebensmittel</string>
     <string name="drink_list_title">Getränke</string>
 
-    <string name="generic_meal_grocery_list_placeholder">Füge über das "+" Lebensmittel zu dieser Mahlzeit hinzu.\n\n
-        Rezepte, welche Du für diese Mahlzeit als Favoriten markierst, werden Dir hier vorgeschlagen.</string>
+    <string name="generic_meal_grocery_list_placeholder">Füge über das "+" Lebensmittel zu dieser Mahlzeit hinzu.\n\nRezepte, welche Du für diese Mahlzeit als Favoriten markierst, werden Dir hier vorgeschlagen.</string>
 
     <string name="fab_add_food">Lebensmittel</string>
     <string name="fab_add_drink">Getränk</string>

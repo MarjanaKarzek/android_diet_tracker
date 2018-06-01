@@ -1,5 +1,8 @@
 package de.karzek.diettracker.presentation.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -35,15 +38,4 @@ public class MainPresenter implements MainContract.Presenter {
         disposables.clear();
     }
 
-    /*@Override
-    public void getRandomQuote() {
-        Disposable disposable = getRandomQuoteUseCase.execute(new GetRandomQuoteUseCase.Input())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(output -> {
-                    RandomQuoteDisplayModel randomQuote = mapper.transform(output.getRandomQuoteData());
-                    view.updateRandomQuote(randomQuote);
-                });
-        disposables.add(disposable);
-    }*/
 }

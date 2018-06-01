@@ -1,5 +1,7 @@
 package de.karzek.diettracker.data.cache.model;
 
+import android.support.annotation.IntDef;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -18,13 +20,30 @@ import lombok.EqualsAndHashCode;
 public class GroceryEntity extends RealmObject {
     @PrimaryKey
     private int id;
-    private int barcode;
+    private long barcode;
     private String name;
-    private int calories_per_1U;
-    private int proteins_per_1U;
-    private int carbohydrates_per_1U;
-    private int fats_per_1U;
+    private float calories_per_1U;
+    private float proteins_per_1U;
+    private float carbohydrates_per_1U;
+    private float fats_per_1U;
     private int type;
+    private int unit_type;
     private RealmList<AllergenEntity> allergens;
     private RealmList<ServingEntity> servings;
+
+    @GroceryEntityType
+    public static final int TYPE_FOOD = 0;
+    public static final int TYPE_DRINK = 1;
+
+    @IntDef({TYPE_FOOD, TYPE_DRINK})
+
+    private @interface GroceryEntityType { }
+
+    @GroceryEntityUnitType
+    public static final int TYPE_SOLID = 0;
+    public static final int TYPE_LIQUID = 1;
+
+    @IntDef({TYPE_FOOD, TYPE_DRINK})
+
+    private @interface GroceryEntityUnitType { }
 }

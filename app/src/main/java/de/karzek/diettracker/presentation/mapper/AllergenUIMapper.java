@@ -32,4 +32,22 @@ public class AllergenUIMapper {
         }
         return allergenDisplayModels;
     }
+
+    public AllergenDomainModel transformToDomain(AllergenDisplayModel allergenDisplayModel){
+        AllergenDomainModel allergenDomainModel1 = null;
+        if(allergenDisplayModel != null){
+            allergenDomainModel1 = new AllergenDomainModel(allergenDisplayModel.getId(),
+                    allergenDisplayModel.getName()
+            );
+        }
+        return allergenDomainModel1;
+    }
+
+    public ArrayList<AllergenDomainModel> transformAllToDomain(ArrayList<AllergenDisplayModel> allergenDisplayModels) {
+        ArrayList<AllergenDomainModel> allergenDomainModels = new ArrayList<>();
+        for (AllergenDisplayModel data: allergenDisplayModels){
+            allergenDomainModels.add(transformToDomain(data));
+        }
+        return allergenDomainModels;
+    }
 }

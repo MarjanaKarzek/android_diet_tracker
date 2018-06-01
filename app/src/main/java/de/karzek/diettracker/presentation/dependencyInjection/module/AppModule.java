@@ -1,9 +1,14 @@
 package de.karzek.diettracker.presentation.dependencyInjection.module;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.presentation.main.MainContract;
 import de.karzek.diettracker.presentation.main.MainPresenter;
+import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
  * Created by MarjanaKarzek on 28.04.2018.
@@ -16,11 +21,13 @@ import de.karzek.diettracker.presentation.main.MainPresenter;
 @Module
 public class AppModule {
 
-    //presentation
+    @Provides
+    SharedPreferences providesSharedPreference(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
 
-    //@Provides
-    //MainContract.Presenter provideMainPresenter() {
-     //   return new MainPresenter();
-    //}
-
+    @Provides
+    SharedPreferencesUtil provideSharedPreferenceUtil(SharedPreferences sharedPreferences) {
+        return new SharedPreferencesUtil(sharedPreferences);
+    }
 }

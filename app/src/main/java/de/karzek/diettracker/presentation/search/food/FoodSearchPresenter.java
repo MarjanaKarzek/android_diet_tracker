@@ -76,10 +76,10 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
 
     @Override
     public void getFoodsMatchingName(String query) {
-        GroceryDisplayModel model1 = new GroceryDisplayModel(0, 1, "Paprika", 1, 1, 1, 1, 1, new ArrayList<AllergenDisplayModel>(), new ArrayList<ServingDisplayModel>());
-        GroceryDisplayModel model2 = new GroceryDisplayModel(1, 1, "Fleisch", 1, 1, 1, 1, 1, new ArrayList<AllergenDisplayModel>(), new ArrayList<ServingDisplayModel>());
-        GroceryDisplayModel model3 = new GroceryDisplayModel(2, 1, "Milch", 1, 1, 1, 1, 1, new ArrayList<AllergenDisplayModel>(), new ArrayList<ServingDisplayModel>());
-        GroceryDisplayModel model4 = new GroceryDisplayModel(3, 1, "Ei", 1, 1, 1, 1, 1, new ArrayList<AllergenDisplayModel>(), new ArrayList<ServingDisplayModel>());
+        GroceryDisplayModel model1 = new GroceryDisplayModel(0, 1, "Paprika", 1, 1, 1, 1, 1, 1, new ArrayList<>(), new ArrayList<>());
+        GroceryDisplayModel model2 = new GroceryDisplayModel(1, 1, "Fleisch", 1, 1, 1, 1, 1, 1, new ArrayList<>(), new ArrayList<>());
+        GroceryDisplayModel model3 = new GroceryDisplayModel(2, 1, "Milch", 1, 1, 1, 1, 1, 1, new ArrayList<>(), new ArrayList<>());
+        GroceryDisplayModel model4 = new GroceryDisplayModel(3, 1, "Ei", 1, 1, 1, 1, 1, 1,new ArrayList<>(), new ArrayList<>());
 
         ArrayList<GroceryDisplayModel> foods = new ArrayList<>();
         foods.add(model1);
