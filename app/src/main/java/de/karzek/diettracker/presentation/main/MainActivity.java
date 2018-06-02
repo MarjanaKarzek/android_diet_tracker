@@ -15,7 +15,7 @@ import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookFragment;
 import de.karzek.diettracker.presentation.custom.CustomBottomNavigationView;
-import de.karzek.diettracker.presentation.custom.ViewUtils;
+import de.karzek.diettracker.presentation.util.ViewUtils;
 import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.home.HomeFragment;
 import de.karzek.diettracker.presentation.main.settings.SettingsFragment;

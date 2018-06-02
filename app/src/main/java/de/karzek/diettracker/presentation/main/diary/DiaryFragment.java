@@ -31,6 +31,7 @@ import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapt
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
+import de.karzek.diettracker.presentation.util.ViewUtils;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -82,6 +83,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
                 overlay.setVisibility(View.GONE);
             }
         });
+        ViewUtils.addElevationToFABMenuLabels(getContext(), floatingActionsMenu);
 
         presenter.setView(this);
         presenter.start();
