@@ -25,15 +25,21 @@ public interface FoodSearchContract {
 
         void showPlaceholder();
 
+        void hidePlaceholder();
+
         void showLoading();
 
         void hideLoading();
+
+        void showQueryWithoutResultPlaceholder();
+
+        void hideQueryWithoutResultPlaceholder();
 
     }
 
     interface Presenter extends BasePresenter<View>, FoodSearchResultViewHolder.OnFoodSearchResultItemClickedListener {
 
-        void getFoodsMatchingName(String query);
+        void getFoodsMatchingQuery(String query);
 
     }
 }

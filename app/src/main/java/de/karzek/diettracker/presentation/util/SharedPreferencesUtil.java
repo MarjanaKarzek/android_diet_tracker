@@ -19,7 +19,7 @@ public class SharedPreferencesUtil {
     }
 
     public boolean initialiseStandardValues(){
-        /*try {
+        try {
             sharedPreferences
                     .edit()
                     .putBoolean(KEY_APP_INITIALIZED, false)
@@ -27,8 +27,7 @@ public class SharedPreferencesUtil {
             return true;
         } catch (Exception e){
             return false;
-        }*/
-        return true;
+        }
     }
 
     public String getString(String key, String defaultValue){

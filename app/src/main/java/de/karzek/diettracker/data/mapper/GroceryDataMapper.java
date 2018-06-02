@@ -43,8 +43,10 @@ public class GroceryDataMapper {
 
     public ArrayList<GroceryDataModel> transformAll(List<GroceryEntity> groceryEntities){
         ArrayList<GroceryDataModel> groceryDataModelList = new ArrayList<>();
-        for (GroceryEntity entity: groceryEntities){
-            groceryDataModelList.add(transform(entity));
+        if(groceryEntities != null) {
+            for (GroceryEntity entity : groceryEntities) {
+                groceryDataModelList.add(transform(entity));
+            }
         }
         return groceryDataModelList;
     }

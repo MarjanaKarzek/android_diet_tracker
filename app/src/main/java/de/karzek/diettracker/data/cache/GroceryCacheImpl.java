@@ -5,6 +5,7 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.interfaces.GroceryCache;
 import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import io.reactivex.Observable;
+import io.realm.Case;
 import io.realm.Realm;
 
 /**
@@ -52,6 +53,13 @@ public class GroceryCacheImpl implements GroceryCache {
     @Override
     public Observable<List<GroceryEntity>> getAllGroceries() {
         List<GroceryEntity> groceries = Realm.getDefaultInstance().where(GroceryEntity.class).findAll();
+        return Observable.just(groceries);
+    }
+
+    @Override
+    public Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query) {
+        Realm realm = Realm.getDefaultInstance();
+        List<GroceryEntity> groceries = realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("type", type).contains("name",query, Case.INSENSITIVE).findAll().sort("name"));
         return Observable.just(groceries);
     }
 

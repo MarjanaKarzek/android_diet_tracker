@@ -2,7 +2,7 @@
     <string name="app_name">DietTracker</string>
 
     <string name="welcome">Willkommen</string>
-    <string name="welcome_text">Lass uns Deine Ernährung gemeinsam gestalten. \n\nDafür bereite ich noch schnell einige Dinge vor...</string>
+    <string name="welcome_text">Datenbank wird vorbereitet...</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_diary">Tagebuch</string>
@@ -21,14 +21,17 @@
     <string name="food_search_title">Lebensmittel</string>
     <string name="food_search_hint">Lebensmittel durchsuchen</string>
     <string name="food_search_placeholder">Markiere Lebensmittel als Favoriten, um sie hier schnell auszuwählen.</string>
+    <string name="food_search_query_without_result_placeholder">Es wurden keine Lebensmittel gefunden.</string>
 
     <string name="drink_search_title">Getränke</string>
     <string name="drink_search_hint">Getränke durchsuchen</string>
     <string name="drink_search_placeholder">Markiere Getränke als Favoriten, um sie hier schnell auszuwählen.</string>
+    <string name="drink_search_query_without_result_placeholder">Es wurden keine Getränke gefunden.</string>
 
     <string name="recipe_search_title">Rezepte</string>
     <string name="recipe_search_hint">Rezepte durchsuchen</string>
     <string name="recipe_search_placeholder">Markiere Rezepte als Favoriten, um sie hier schnell auszuwählen.</string>
+    <string name="recipe_search_query_without_result_placeholder">Es wurden keine Rezepte gefunden.</string>
 
     <string name="calories">Kalorien</string>
     <string name="proteins">Proteine</string>

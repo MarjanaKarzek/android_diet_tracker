@@ -69,7 +69,7 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                presenter.getFoodsMatchingName(query);
+                presenter.getFoodsMatchingQuery(query);
                 return false;
             }
 
@@ -127,7 +127,13 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
 
     @Override
     public void showPlaceholder() {
+        placeholder.setText(getString(R.string.food_search_placeholder));
         placeholder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hidePlaceholder() {
+        placeholder.setVisibility(View.GONE);
     }
 
     @Override
@@ -138,6 +144,17 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
     @Override
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showQueryWithoutResultPlaceholder() {
+        placeholder.setText(R.string.food_search_query_without_result_placeholder);
+        placeholder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideQueryWithoutResultPlaceholder() {
+        loadingView.setVisibility(View.VISIBLE);
     }
 
     private void setupSupportActionBar() {

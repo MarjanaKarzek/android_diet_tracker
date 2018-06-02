@@ -28,6 +28,11 @@ public class GroceryLocalDataSourceImpl implements GroceryDataSource {
     }
 
     @Override
+    public Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query) {
+        return groceryCache.getAllGroceriesMatching(type, query);
+    }
+
+    @Override
     public Observable<GroceryEntity> getGroceryByID(int id) {
         return groceryCache.getGroceryByID(id);
     }

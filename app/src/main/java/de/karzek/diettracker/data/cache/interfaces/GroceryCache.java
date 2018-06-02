@@ -15,10 +15,15 @@ import io.reactivex.Observable;
 public interface GroceryCache {
     boolean isExpired();
     boolean isCached();
+
     Observable<List<GroceryEntity>> getAllGroceries();
+    Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query);
+
     Observable<GroceryEntity> getGroceryByID(int id);
     Observable<GroceryEntity> getGroceryByBarcode(int barcode);
     Observable<GroceryEntity> getGroceryByName(String name);
+
     void put(GroceryEntity groceryEntity);
     Observable<Boolean> putAllGroceries(List<GroceryEntity> groceryEntities);
+
 }

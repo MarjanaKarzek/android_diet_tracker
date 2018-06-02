@@ -50,6 +50,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     public void init(){
         groceries.add(new GroceryDisplayModel(0,0,"Brokkoli", 0.34f,0.038f,0.027f,0.002f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(1,0,"Rote Paprika", 0.43f,0.013f,0.064f,0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(2,0,"Gelbe Paprika", 0.30f,0.01f,0.05f,0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),new ArrayList<>()));
     }
 
     @Override

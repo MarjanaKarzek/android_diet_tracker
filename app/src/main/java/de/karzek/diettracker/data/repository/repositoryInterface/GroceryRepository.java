@@ -15,6 +15,8 @@ import io.reactivex.Observable;
 public interface GroceryRepository {
 
     Observable<List<GroceryDataModel>> getAllGroceries();
+    Observable<List<GroceryDataModel>> getAllGroceriesMatching(int type, String query);
+
     Observable<GroceryDataModel> getGroceryByID(int id);
     Observable<GroceryDataModel> getGroceryByBarcode(int barcode);
     Observable<GroceryDataModel> getGroceryByName(String name);

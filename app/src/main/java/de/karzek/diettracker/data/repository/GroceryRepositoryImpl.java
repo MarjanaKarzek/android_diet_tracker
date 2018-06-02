@@ -44,6 +44,16 @@ public class GroceryRepositoryImpl implements GroceryRepository {
     }
 
     @Override
+    public Observable<List<GroceryDataModel>> getAllGroceriesMatching(int type, String query) {
+        return new GroceryLocalDataSourceImpl(groceryCache).getAllGroceriesMatching(type, query).map(new Function<List<GroceryEntity>, List<GroceryDataModel>>() {
+            @Override
+            public List<GroceryDataModel> apply(List<GroceryEntity> groceryEntities) {
+                return mapper.transformAll(groceryEntities);
+            }
+        });
+    }
+
+    @Override
     public Observable<GroceryDataModel> getGroceryByID(int id) {
         if(!groceryCache.isExpired() && groceryCache.isCached()){
             return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByID(id).map(new Function<GroceryEntity, GroceryDataModel>() {

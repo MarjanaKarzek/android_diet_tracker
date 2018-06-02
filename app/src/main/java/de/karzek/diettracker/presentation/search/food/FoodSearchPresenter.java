@@ -2,9 +2,13 @@ package de.karzek.diettracker.presentation.search.food;
 
 import java.util.ArrayList;
 
+import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.GetFavoriteFoodsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.GetMatchingGroceriesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetFavoriteFoodsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetMatchingGroceriesUseCase;
 import de.karzek.diettracker.presentation.mapper.FavoriteGroceryUIMapper;
+import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
@@ -14,6 +18,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetFavoriteFoodsUseCase.Input.FAVORITE_TYPE_FOOD;
 
 /**
@@ -27,15 +32,22 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
 
     private FoodSearchContract.View view;
 
-    private FavoriteGroceryUIMapper mapper;
+    private FavoriteGroceryUIMapper favoriteGroceryMapper;
+    private GroceryUIMapper groceryMapper;
 
     private GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase;
+    private GetMatchingGroceriesUseCaseImpl getMatchingGroceriesUseCase;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public FoodSearchPresenter(GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase, FavoriteGroceryUIMapper mapper) {
+    public FoodSearchPresenter(GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase,
+                               GetMatchingGroceriesUseCaseImpl getMatchingGroceriesUseCase,
+                               FavoriteGroceryUIMapper favoriteGroceryMapper,
+                               GroceryUIMapper groceryMapper) {
         this.getFavoriteFoodsUseCase = getFavoriteFoodsUseCase;
-        this.mapper = mapper;
+        this.getMatchingGroceriesUseCase = getMatchingGroceriesUseCase;
+        this.favoriteGroceryMapper = favoriteGroceryMapper;
+        this.groceryMapper = groceryMapper;
     }
 
     @Override
@@ -46,7 +58,7 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     if (output.getFavoriteFoodsList().size() > 0) {
-                        ArrayList<GroceryDisplayModel> groceries = extractGroceriesFromFavorites(mapper.transformAll(output.getFavoriteFoodsList()));
+                        ArrayList<GroceryDisplayModel> groceries = extractGroceriesFromFavorites(favoriteGroceryMapper.transformAll(output.getFavoriteFoodsList()));
                         view.updateFoodSearchResultList(groceries);
                     } else
                         view.showPlaceholder();
@@ -75,19 +87,20 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
 
 
     @Override
-    public void getFoodsMatchingName(String query) {
-        GroceryDisplayModel model1 = new GroceryDisplayModel(0, 1, "Paprika", 1, 1, 1, 1, 1, 1, new ArrayList<>(), new ArrayList<>());
-        GroceryDisplayModel model2 = new GroceryDisplayModel(1, 1, "Fleisch", 1, 1, 1, 1, 1, 1, new ArrayList<>(), new ArrayList<>());
-        GroceryDisplayModel model3 = new GroceryDisplayModel(2, 1, "Milch", 1, 1, 1, 1, 1, 1, new ArrayList<>(), new ArrayList<>());
-        GroceryDisplayModel model4 = new GroceryDisplayModel(3, 1, "Ei", 1, 1, 1, 1, 1, 1,new ArrayList<>(), new ArrayList<>());
-
-        ArrayList<GroceryDisplayModel> foods = new ArrayList<>();
-        foods.add(model1);
-        foods.add(model2);
-        foods.add(model3);
-        foods.add(model4);
-
-        view.updateFoodSearchResultList(foods);
+    public void getFoodsMatchingQuery(String query) {
+        view.showLoading();
+        Disposable subs = getMatchingGroceriesUseCase.execute(new GetMatchingGroceriesUseCase.Input(TYPE_FOOD, query))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if (output.getGroceryList().size() > 0) {
+                        view.hidePlaceholder();
+                        view.updateFoodSearchResultList(groceryMapper.transformAll(output.getGroceryList()));
+                    } else
+                        view.showQueryWithoutResultPlaceholder();
+                    view.hideLoading();
+                });
+        compositeDisposable.add(subs);
     }
 
     @Override
