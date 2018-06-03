@@ -21,7 +21,7 @@ public class ServingDomainMapper {
             servingDomainModel = new ServingDomainModel(servingDataModel.getId(),
                     servingDataModel.getDescription(),
                     servingDataModel.getAmount(),
-                    servingDataModel.getUnit()
+                    new UnitDomainMapper().transform(servingDataModel.getUnit())
             );
         }
         return servingDomainModel;
@@ -41,13 +41,13 @@ public class ServingDomainMapper {
             servingDataModel = new ServingDataModel(servingDomainModel.getId(),
                     servingDomainModel.getDescription(),
                     servingDomainModel.getAmount(),
-                    servingDomainModel.getUnit()
+                    new UnitDomainMapper().transformToData(servingDomainModel.getUnit())
             );
         }
         return servingDataModel;
     }
 
-    public ArrayList<ServingDataModel> transformAllToData(ArrayList<ServingDomainModel> servingDomainModels) {
+    public ArrayList<ServingDataModel> transformAllToData(List<ServingDomainModel> servingDomainModels) {
         ArrayList<ServingDataModel> servingDataModels = new ArrayList<>();
         for (ServingDomainModel data: servingDomainModels){
             servingDataModels.add(transformToData(data));

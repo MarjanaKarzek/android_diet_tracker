@@ -18,6 +18,8 @@
     <color name="iconOnPrimary">@color/colorPrimary</color>
     <color name="iconOnPrimaryInactive">#aaaaaa</color>
 
+    <color name="divider">#cccccc</color>
+
     <!--Colour palette-->
     <color name="white">#ffffff</color>
 

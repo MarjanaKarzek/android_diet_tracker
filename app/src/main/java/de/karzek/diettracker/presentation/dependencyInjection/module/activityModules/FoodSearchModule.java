@@ -1,16 +1,14 @@
 package de.karzek.diettracker.presentation.dependencyInjection.module.activityModules;
 
+import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.cache.FavoriteGroceryCacheImpl;
-import de.karzek.diettracker.data.cache.GroceryCacheImpl;
 import de.karzek.diettracker.data.mapper.FavoriteGroceryDataMapper;
-import de.karzek.diettracker.data.mapper.GroceryDataMapper;
 import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
-import de.karzek.diettracker.data.repository.repositoryInterface.FavoriteGroceryRepository;
-import de.karzek.diettracker.domain.interactor.useCase.GetFavoriteFoodsUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.GetMatchingGroceriesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteFoodsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.grocery.GetMatchingGroceriesUseCaseImpl;
 import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import de.karzek.diettracker.presentation.mapper.FavoriteGroceryUIMapper;
@@ -71,7 +69,7 @@ public class FoodSearchModule {
 
     @Provides
     FoodSearchContract.Presenter provideFoodSearchPresenter(GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase,
-                                                            GetMatchingGroceriesUseCaseImpl getMatchingGroceriesUseCase,
+                                                            Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase,
                                                             FavoriteGroceryUIMapper favoriteGroceryMapper,
                                                             GroceryUIMapper groceryMapper) {
         return new FoodSearchPresenter(getFavoriteFoodsUseCase, getMatchingGroceriesUseCase, favoriteGroceryMapper, groceryMapper);

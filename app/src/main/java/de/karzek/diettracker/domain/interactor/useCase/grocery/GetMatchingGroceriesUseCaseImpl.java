@@ -1,13 +1,10 @@
-package de.karzek.diettracker.domain.interactor.useCase;
+package de.karzek.diettracker.domain.interactor.useCase.grocery;
 
 import java.util.List;
 
-import de.karzek.diettracker.data.model.FavoriteGroceryDataModel;
 import de.karzek.diettracker.data.model.GroceryDataModel;
-import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetMatchingGroceriesUseCase;
-import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetMatchingGroceriesUseCase;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;

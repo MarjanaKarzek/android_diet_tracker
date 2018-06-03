@@ -14,6 +14,10 @@ public class SharedPreferencesUtil {
 
     public static final String KEY_APP_INITIALIZED = "KEY_APP_INITIALIZED";
 
+    public static final String KEY_SETTING_NUTRITION_DETAILS = "KEY_SETTING_NUTRITION_DETAILS";
+    public static final String VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY = "CALORIES_ONLY";
+    public static final String VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS = "CALORIES_AND_MACROS";
+
     public SharedPreferencesUtil(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }
@@ -23,6 +27,7 @@ public class SharedPreferencesUtil {
             sharedPreferences
                     .edit()
                     .putBoolean(KEY_APP_INITIALIZED, false)
+                    .putString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS)
                     .apply();
             return true;
         } catch (Exception e){

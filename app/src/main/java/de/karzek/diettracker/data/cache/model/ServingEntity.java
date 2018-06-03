@@ -19,6 +19,6 @@ public class ServingEntity extends RealmObject {
     private int id;
     private String description;
     private int amount;
-    private String unit;
+    private UnitEntity unit;
 }
 

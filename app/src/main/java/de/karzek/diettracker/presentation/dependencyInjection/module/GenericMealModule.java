@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealContract;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealPresenter;
+import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -18,7 +19,7 @@ public class GenericMealModule {
     //presentation
 
     @Provides
-    GenericMealContract.Presenter provideGenericMealPresenter() {
-        return new GenericMealPresenter();
+    GenericMealContract.Presenter provideGenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil) {
+        return new GenericMealPresenter(sharedPreferencesUtil);
     }
 }

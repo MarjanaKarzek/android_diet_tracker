@@ -99,6 +99,7 @@
     <style name="searchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="closeIcon">@drawable/ic_close_white</item>
         <item name="android:textAppearance">@style/Body1</item>
+        <item name="searchHintIcon">@null</item>
     </style>
 
     <!--Progress Bar Horizontal White-->

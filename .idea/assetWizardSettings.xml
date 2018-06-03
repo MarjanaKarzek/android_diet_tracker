@@ -14,9 +14,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_book_closed_white" />
+                            <entry key="outputName" value="ic_star_white" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\marja\Downloads\book-closed-with-black-cover.svg" />
+                            <entry key="sourceFile" value="C:\Users\marja\Downloads\star (2).svg" />
                           </map>
                         </option>
                       </PersistentState>

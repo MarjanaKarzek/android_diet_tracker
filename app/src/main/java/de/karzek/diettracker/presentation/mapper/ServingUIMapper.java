@@ -21,7 +21,7 @@ public class ServingUIMapper {
             servingDisplayModel = new ServingDisplayModel(servingDomainModel.getId(),
                     servingDomainModel.getDescription(),
                     servingDomainModel.getAmount(),
-                    servingDomainModel.getUnit()
+                    new UnitUIMapper().transform(servingDomainModel.getUnit())
             );
         }
         return servingDisplayModel;
@@ -41,7 +41,7 @@ public class ServingUIMapper {
             servingDomainModel = new ServingDomainModel(servingDisplayModel.getId(),
                     servingDisplayModel.getDescription(),
                     servingDisplayModel.getAmount(),
-                    servingDisplayModel.getUnit()
+                    new UnitUIMapper().transformToDomain(servingDisplayModel.getUnit())
             );
         }
         return servingDomainModel;

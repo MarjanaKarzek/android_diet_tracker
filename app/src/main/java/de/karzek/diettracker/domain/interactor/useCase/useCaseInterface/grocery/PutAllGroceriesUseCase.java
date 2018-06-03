@@ -1,4 +1,4 @@
-package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface;
+package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery;
 
 import android.support.annotation.IntDef;
 
@@ -17,13 +17,14 @@ import lombok.Data;
  * @version 1.0
  * @date 27.05.2018
  */
-public interface GetMatchingGroceriesUseCase extends BaseObservableUseCase<GetMatchingGroceriesUseCase.Input, GetMatchingGroceriesUseCase.Output> {
+public interface PutAllGroceriesUseCase extends BaseObservableUseCase<PutAllGroceriesUseCase.Input, PutAllGroceriesUseCase.Output> {
 
     @AllArgsConstructor
     @Data
     class Input implements BaseUseCase.Input {
-        int type;
-        String query;
+
+        List<GroceryDomainModel> groceryDomainModelList;
+
     }
 
     @AllArgsConstructor
@@ -32,14 +33,13 @@ public interface GetMatchingGroceriesUseCase extends BaseObservableUseCase<GetMa
 
         @GroceryDataListStatus
         int status;
-        public static final int ERROR_NO_DATA = 0;
-        public static final int ERROR_NETWORK_PROBLEM = 1;
-        public static final int ERROR_UNKNOWN_PROBLEM = 2;
-        public static final int SUCCESS = 3;
+        public static final int SUCCESS = 0;
+        public static final int ERROR_NO_DATA = 1;
+        public static final int ERROR_NETWORK_PROBLEM = 2;
+        public static final int ERROR_UNKNOWN_PROBLEM = 3;
 
-        List<GroceryDomainModel> groceryList;
 
-        @IntDef({ERROR_NO_DATA, ERROR_NETWORK_PROBLEM, ERROR_UNKNOWN_PROBLEM, SUCCESS})
+        @IntDef({SUCCESS, ERROR_NO_DATA, ERROR_NETWORK_PROBLEM, ERROR_UNKNOWN_PROBLEM})
 
         private @interface GroceryDataListStatus {
 

@@ -2,11 +2,20 @@ package de.karzek.diettracker.presentation.splash;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.domain.interactor.useCase.PutAllGroceriesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.manager.InitializeSharedPreferencesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.grocery.PutAllGroceriesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.InitializeSharedPreferencesUseCase;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.PutAllGroceriesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.serving.PutAllServingsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.unit.PutAllUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.PutAllGroceriesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.serving.PutAllServingsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.PutAllUnitsUseCase;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
+import de.karzek.diettracker.presentation.mapper.ServingUIMapper;
+import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
+import de.karzek.diettracker.presentation.model.ServingDisplayModel;
+import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,6 +25,8 @@ import io.reactivex.schedulers.Schedulers;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_SOLID;
+import static de.karzek.diettracker.data.cache.model.UnitEntity.UNIT_TYPE_LIQUID;
+import static de.karzek.diettracker.data.cache.model.UnitEntity.UNIT_TYPE_SOLID;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_APP_INITIALIZED;
 
 /**
@@ -30,27 +41,71 @@ public class SplashPresenter implements SplashContract.Presenter {
     private SplashContract.View view;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
-    private PutAllGroceriesUseCaseImpl putAllGroceriesUseCase;
-    private InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase;
 
-    private GroceryUIMapper mapper;
+    private PutAllUnitsUseCaseImpl putAllUnitsUseCase;
+    private PutAllServingsUseCaseImpl putAllServingsUseCase;
+    private PutAllGroceriesUseCaseImpl putAllGroceriesUseCase;
+    private InitializeSharedPreferencesUseCaseImpl initializeSharedPreferencesUseCase;
+
+    private UnitUIMapper unitMapper;
+    private ServingUIMapper servingMapper;
+    private GroceryUIMapper groceryMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ArrayList<GroceryDisplayModel> groceries = new ArrayList<>();
+    private ArrayList<UnitDisplayModel> units = new ArrayList<>();
+    private ArrayList<ServingDisplayModel> servings = new ArrayList<>();
 
 
-    public SplashPresenter(SharedPreferencesUtil sharedPreferencesUtil, PutAllGroceriesUseCaseImpl putAllGroceriesUseCase, InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase, GroceryUIMapper mapper) {
+    public SplashPresenter(SharedPreferencesUtil sharedPreferencesUtil,
+                           PutAllUnitsUseCaseImpl putAllUnitsUseCase,
+                           PutAllServingsUseCaseImpl putAllServingsUseCase,
+                           PutAllGroceriesUseCaseImpl putAllGroceriesUseCase,
+                           InitializeSharedPreferencesUseCaseImpl initializeSharedPreferencesUseCase,
+                           UnitUIMapper unitMapper,
+                           ServingUIMapper servingMapper,
+                           GroceryUIMapper groceryMapper) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
+
+        this.putAllUnitsUseCase = putAllUnitsUseCase;
+        this.putAllServingsUseCase = putAllServingsUseCase;
         this.putAllGroceriesUseCase = putAllGroceriesUseCase;
         this.initializeSharedPreferencesUseCase = initializeSharedPreferencesUseCase;
 
-        this.mapper = mapper;
+        this.unitMapper = unitMapper;
+        this.servingMapper = servingMapper;
+        this.groceryMapper = groceryMapper;
     }
 
     public void init(){
-        groceries.add(new GroceryDisplayModel(0,0,"Brokkoli", 0.34f,0.038f,0.027f,0.002f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),new ArrayList<>()));
-        groceries.add(new GroceryDisplayModel(1,0,"Rote Paprika", 0.43f,0.013f,0.064f,0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),new ArrayList<>()));
-        groceries.add(new GroceryDisplayModel(2,0,"Gelbe Paprika", 0.30f,0.01f,0.05f,0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),new ArrayList<>()));
+
+        // units
+        UnitDisplayModel unit_g = new UnitDisplayModel(0, "g", 1, UNIT_TYPE_SOLID);
+        UnitDisplayModel unit_kg = new UnitDisplayModel(1, "kg", 1000, UNIT_TYPE_SOLID);
+
+        UnitDisplayModel unit_ml = new UnitDisplayModel(2, "ml", 1, UNIT_TYPE_LIQUID);
+        UnitDisplayModel unit_l = new UnitDisplayModel(3, "l", 1000, UNIT_TYPE_LIQUID);
+
+        units.add(unit_g);
+        units.add(unit_kg);
+        units.add(unit_ml);
+        units.add(unit_l);
+
+        ServingDisplayModel brokkoli_0 = new ServingDisplayModel(0, "kleiner Kopf", 150, unit_g);
+        ServingDisplayModel paprika_0 = new ServingDisplayModel(1, "kleine Paprika", 100, unit_g);
+
+        servings.add(brokkoli_0);
+        servings.add(paprika_0);
+
+        ArrayList<ServingDisplayModel> brokkoliServings = new ArrayList<>();
+        brokkoliServings.add(brokkoli_0);
+
+        ArrayList<ServingDisplayModel> paprikaServings = new ArrayList<>();
+        brokkoliServings.add(paprika_0);
+
+        groceries.add(new GroceryDisplayModel(0,0,"Brokkoli", 0.34f,0.038f,0.027f,0.002f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), brokkoliServings));
+        groceries.add(new GroceryDisplayModel(1,0,"Rote Paprika", 0.43f,0.013f,0.064f,0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),paprikaServings));
+        groceries.add(new GroceryDisplayModel(2,0,"Gelbe Paprika", 0.30f,0.01f,0.05f,0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(),paprikaServings));
     }
 
     @Override
@@ -58,8 +113,10 @@ public class SplashPresenter implements SplashContract.Presenter {
         if(!sharedPreferencesUtil.getBoolean(KEY_APP_INITIALIZED, false)){
             Disposable subs = Observable.zip(
                     initializeSharedPreferencesUseCase.execute(new InitializeSharedPreferencesUseCase.Input()),
-                    putAllGroceriesUseCase.execute(new PutAllGroceriesUseCase.Input(mapper.transformAllToDomain(groceries))),
-                    (output1,output2) -> (output1.getStatus() + output2.getStatus()))
+                    putAllUnitsUseCase.execute(new PutAllUnitsUseCase.Input(unitMapper.transformAllToDomain(units))),
+                    putAllServingsUseCase.execute(new PutAllServingsUseCase.Input(servingMapper.transformAllToDomain(servings))),
+                    putAllGroceriesUseCase.execute(new PutAllGroceriesUseCase.Input(groceryMapper.transformAllToDomain(groceries))),
+                    (output1, output2, output3, output4) -> (output1.getStatus() + output2.getStatus() + output3.getStatus() + output4.getStatus()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output -> {

@@ -1,11 +1,9 @@
-package de.karzek.diettracker.domain.interactor.useCase;
-
-import java.util.List;
+package de.karzek.diettracker.domain.interactor.useCase.grocery;
 
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import de.karzek.diettracker.data.model.GroceryDataModel;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetAllGroceriesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -16,22 +14,22 @@ import io.reactivex.functions.Function;
  * @version 1.0
  * @date 27.05.2018
  */
-public class GetAllGroceriesUseCaseImpl implements GetAllGroceriesUseCase {
+public class GetGroceryByIdUseCaseImpl implements GetGroceryByIdUseCase {
 
     private final GroceryRepositoryImpl repository;
     private final GroceryDomainMapper mapper;
 
-    public GetAllGroceriesUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper) {
+    public GetGroceryByIdUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
     @Override
     public Observable<Output> execute(Input input) {
-        return repository.getAllGroceries().map(new Function<List<GroceryDataModel>, Output>() {
+        return repository.getGroceryByID(input.id).map(new Function<GroceryDataModel, Output>() {
             @Override
-            public Output apply(List<GroceryDataModel> groceryDataModelList) {
-                return new Output(Output.SUCCESS, mapper.transformAll(groceryDataModelList));
+            public Output apply(GroceryDataModel grocery){
+                return new Output(Output.SUCCESS, mapper.transform(grocery));
             }
         });
     }

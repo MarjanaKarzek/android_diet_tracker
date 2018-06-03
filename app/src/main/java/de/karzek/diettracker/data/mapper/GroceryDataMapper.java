@@ -20,8 +20,6 @@ import io.realm.RealmList;
  */
 public class GroceryDataMapper {
 
-    private boolean writeTransactionRunning = false;
-
     public GroceryDataModel transform(GroceryEntity groceryEntity){
         GroceryDataModel groceryDataModel = null;
         if(groceryEntity != null){
@@ -55,13 +53,10 @@ public class GroceryDataMapper {
         Realm realm = Realm.getDefaultInstance();
         GroceryEntity groceryEntity = null;
         if(groceryDataModel != null){
-            if(!writeTransactionRunning) {
-                startWriteTransaction();
-            }
-            if(realm.where(GroceryEntity.class).equalTo("id",groceryDataModel.getId()).findFirst() != null)
-                groceryEntity = realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("id",groceryDataModel.getId()).findFirst());
-            else
-                groceryEntity = realm.createObject(GroceryEntity.class, groceryDataModel.getId());
+            startWriteTransaction();
+            if(realm.where(GroceryEntity.class).equalTo("id",groceryDataModel.getId()).findFirst() == null)
+                realm.createObject(GroceryEntity.class, groceryDataModel.getId());
+            groceryEntity = realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("id",groceryDataModel.getId()).findFirst());
 
             groceryEntity.setBarcode(groceryDataModel.getBarcode());
             groceryEntity.setName(groceryDataModel.getName());
@@ -87,7 +82,9 @@ public class GroceryDataMapper {
     }
 
     private void startWriteTransaction(){
-        Realm.getDefaultInstance().beginTransaction();
-        writeTransactionRunning = true;
+        Realm realm = Realm.getDefaultInstance();
+        if(!realm.isInTransaction()){
+            realm.beginTransaction();
+        }
     }
 }

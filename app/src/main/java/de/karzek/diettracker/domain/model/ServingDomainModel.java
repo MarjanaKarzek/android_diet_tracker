@@ -14,5 +14,5 @@ public class ServingDomainModel {
     private int id;
     private String description;
     private int amount;
-    private String unit;
+    private UnitDomainModel unit;
 }

@@ -21,4 +21,5 @@ public interface GroceryRepository {
     Observable<GroceryDataModel> getGroceryByBarcode(int barcode);
     Observable<GroceryDataModel> getGroceryByName(String name);
 
+    Observable<Boolean> putAllGroceries(List<GroceryDataModel> groceryDataModels);
 }

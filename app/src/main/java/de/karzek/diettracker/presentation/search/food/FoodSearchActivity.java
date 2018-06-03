@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,9 +24,9 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
-import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.search.food.adapter.FoodSearchResultListAdapter;
+import de.karzek.diettracker.presentation.search.food.foodDetail.FoodDetailsActivity;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -75,6 +74,7 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
 
             @Override
             public boolean onQueryTextChange(String query) {
+                presenter.getFoodsMatchingQuery(query);
                 return false;
             }
         });
@@ -117,7 +117,7 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
 
     @Override
     public void showFoodDetails(int id){
-
+        startActivity(FoodDetailsActivity.newIntent(this,id));
     }
 
     @Override

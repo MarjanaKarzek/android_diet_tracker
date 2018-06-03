@@ -1,11 +1,10 @@
-package de.karzek.diettracker.domain.interactor.useCase;
+package de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.model.FavoriteGroceryDataModel;
-import de.karzek.diettracker.data.model.GroceryDataModel;
 import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteFoodsUseCase;
 import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -17,7 +16,7 @@ import io.reactivex.functions.Function;
  * @version 1.0
  * @date 31.05.2018
  */
-public class GetFavoriteFoodsUseCaseImpl implements de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetFavoriteFoodsUseCase {
+public class GetFavoriteFoodsUseCaseImpl implements GetFavoriteFoodsUseCase {
 
     private final FavoriteGroceryRepositoryImpl repository;
     private final FavoriteGroceryDomainMapper mapper;

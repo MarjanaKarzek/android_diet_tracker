@@ -14,5 +14,5 @@ public class ServingDisplayModel {
     private int id;
     private String description;
     private int amount;
-    private String unit;
+    private UnitDisplayModel unit;
 }

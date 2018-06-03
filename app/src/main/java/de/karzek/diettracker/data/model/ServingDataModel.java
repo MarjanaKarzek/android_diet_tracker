@@ -14,5 +14,5 @@ public class ServingDataModel {
     private int id;
     private String description;
     private int amount;
-    private String unit;
+    private UnitDataModel unit;
 }

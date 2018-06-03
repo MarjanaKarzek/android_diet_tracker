@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,7 @@ public class GroceryEntity extends RealmObject {
     @PrimaryKey
     private int id;
     private long barcode;
-    private String name;
+    @Index private String name;
     private float calories_per_1U;
     private float proteins_per_1U;
     private float carbohydrates_per_1U;

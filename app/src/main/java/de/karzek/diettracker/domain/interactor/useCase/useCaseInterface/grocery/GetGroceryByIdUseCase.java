@@ -1,4 +1,4 @@
-package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface;
+package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery;
 
 import android.support.annotation.IntDef;
 
@@ -17,6 +17,8 @@ import lombok.Data;
  */
 public interface GetGroceryByIdUseCase extends BaseObservableUseCase<GetGroceryByIdUseCase.Input, GetGroceryByIdUseCase.Output> {
 
+    @AllArgsConstructor
+    @Data
     class Input implements BaseUseCase.Input {
         public int id;
     }

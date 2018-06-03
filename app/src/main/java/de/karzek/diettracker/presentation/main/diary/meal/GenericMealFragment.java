@@ -18,6 +18,10 @@ import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
+import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
+
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
  * Created by MarjanaKarzek on 28.05.2018.
@@ -49,12 +53,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         View view = inflater.inflate(R.layout.fragment_generic_meal, container, false);
         ButterKnife.bind(this,view);
 
-        if(false) {
-            detailsView = new CaloryDetailsView(caloryDetails.inflate());
-        } else {
-            detailsView = new CaloryMacroDetailsView(caloryMacroDetails.inflate());
-        }
-
         return view;
     }
 
@@ -81,6 +79,15 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void showGroceryListPlaceholder(){
         placeholder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showNutritionDetails(String value) {
+        if(value.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+            detailsView = new CaloryDetailsView(caloryDetails.inflate());
+        } else {
+            detailsView = new CaloryMacroDetailsView(caloryMacroDetails.inflate());
+        }
     }
 
     @Override

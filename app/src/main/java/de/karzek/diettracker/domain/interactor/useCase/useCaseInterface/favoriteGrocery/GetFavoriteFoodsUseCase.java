@@ -1,4 +1,4 @@
-package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface;
+package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery;
 
 import android.support.annotation.IntDef;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.karzek.diettracker.domain.common.BaseObservableUseCase;
 import de.karzek.diettracker.domain.common.BaseUseCase;
-import de.karzek.diettracker.domain.model.GroceryDomainModel;
+import de.karzek.diettracker.domain.model.FavoriteGroceryDomainModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,10 +17,23 @@ import lombok.Data;
  * @version 1.0
  * @date 27.05.2018
  */
-public interface GetAllGroceriesUseCase extends BaseObservableUseCase<GetAllGroceriesUseCase.Input, GetAllGroceriesUseCase.Output> {
+public interface GetFavoriteFoodsUseCase extends BaseObservableUseCase<GetFavoriteFoodsUseCase.Input, GetFavoriteFoodsUseCase.Output> {
 
+    @AllArgsConstructor
+    @Data
     class Input implements BaseUseCase.Input {
+        int type;
 
+        @FavoriteType
+        public static final int FAVORITE_TYPE_FOOD = 0;
+        public static final int FAVORITE_TYPE_DRINKS = 1;
+        public static final int FAVORITE_TYPE_RECIPE = 2;
+
+        @IntDef({FAVORITE_TYPE_FOOD, FAVORITE_TYPE_DRINKS, FAVORITE_TYPE_RECIPE})
+
+        private @interface FavoriteType {
+
+        }
     }
 
     @AllArgsConstructor
@@ -34,11 +47,11 @@ public interface GetAllGroceriesUseCase extends BaseObservableUseCase<GetAllGroc
         public static final int ERROR_UNKNOWN_PROBLEM = 2;
         public static final int SUCCESS = 3;
 
-        List<GroceryDomainModel> groceryDomainModelList;
+        List<FavoriteGroceryDomainModel> favoriteFoodsList;
 
         @IntDef({ERROR_NO_DATA, ERROR_NETWORK_PROBLEM, ERROR_UNKNOWN_PROBLEM, SUCCESS})
 
-        public @interface GroceryDataListStatus {
+        private @interface GroceryDataListStatus {
 
         }
     }

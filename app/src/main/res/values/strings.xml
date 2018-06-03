@@ -38,4 +38,8 @@
     <string name="carbs">Kohlenhydrate</string>
     <string name="fats">Fette</string>
 
+    <string name="placeholder_amount_solid_grocery">100</string>
+
+    <string name="button_add">Hinzufügen</string>
+
 </resources>

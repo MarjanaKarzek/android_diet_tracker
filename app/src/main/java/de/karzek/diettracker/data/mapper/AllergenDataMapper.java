@@ -36,9 +36,14 @@ public class AllergenDataMapper {
     }
 
     private AllergenEntity transformToEntity(AllergenDataModel allergenDataModel) {
+        Realm realm = Realm.getDefaultInstance();
         AllergenEntity allergenEntity = null;
         if(allergenDataModel != null){
-            allergenEntity = Realm.getDefaultInstance().createObject(AllergenEntity.class,allergenDataModel.getId());
+            startWriteTransaction();
+            if(realm.where(AllergenEntity.class).equalTo("id", allergenDataModel.getId()).findFirst() != null)
+                allergenEntity = realm.copyFromRealm(realm.where(AllergenEntity.class).equalTo("id", allergenDataModel.getId()).findFirst());
+            else
+                allergenEntity = realm.createObject(AllergenEntity.class, allergenDataModel.getId());
             allergenEntity.setName(allergenDataModel.getName());
         }
         return allergenEntity;
@@ -46,9 +51,17 @@ public class AllergenDataMapper {
 
     public RealmList<AllergenEntity> transformAllToEntity(List<AllergenDataModel> allergenDataModels) {
         RealmList<AllergenEntity> allergenEntities = new RealmList<>();
+        startWriteTransaction();
         for (AllergenDataModel data: allergenDataModels){
             allergenEntities.add(transformToEntity(data));
         }
         return allergenEntities;
+    }
+
+    private void startWriteTransaction(){
+        Realm realm = Realm.getDefaultInstance();
+        if(!realm.isInTransaction()){
+            realm.beginTransaction();
+        }
     }
 }

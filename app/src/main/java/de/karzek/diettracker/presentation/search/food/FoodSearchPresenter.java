@@ -3,23 +3,21 @@ package de.karzek.diettracker.presentation.search.food;
 import java.util.ArrayList;
 
 import dagger.Lazy;
-import de.karzek.diettracker.domain.interactor.useCase.GetFavoriteFoodsUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.GetMatchingGroceriesUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetFavoriteFoodsUseCase;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetMatchingGroceriesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteFoodsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.grocery.GetMatchingGroceriesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteFoodsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetMatchingGroceriesUseCase;
 import de.karzek.diettracker.presentation.mapper.FavoriteGroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
-import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
-import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
-import static de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.GetFavoriteFoodsUseCase.Input.FAVORITE_TYPE_FOOD;
+import static de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteFoodsUseCase.Input.FAVORITE_TYPE_FOOD;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -36,12 +34,12 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
     private GroceryUIMapper groceryMapper;
 
     private GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase;
-    private GetMatchingGroceriesUseCaseImpl getMatchingGroceriesUseCase;
+    private Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public FoodSearchPresenter(GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase,
-                               GetMatchingGroceriesUseCaseImpl getMatchingGroceriesUseCase,
+                               Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase,
                                FavoriteGroceryUIMapper favoriteGroceryMapper,
                                GroceryUIMapper groceryMapper) {
         this.getFavoriteFoodsUseCase = getFavoriteFoodsUseCase;
@@ -89,7 +87,7 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
     @Override
     public void getFoodsMatchingQuery(String query) {
         view.showLoading();
-        Disposable subs = getMatchingGroceriesUseCase.execute(new GetMatchingGroceriesUseCase.Input(TYPE_FOOD, query))
+        Disposable subs = getMatchingGroceriesUseCase.get().execute(new GetMatchingGroceriesUseCase.Input(TYPE_FOOD, query))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
