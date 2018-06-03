@@ -54,7 +54,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
 
             <EditText
                 android:id="@+id/edittext_amount"
@@ -81,7 +82,9 @@
         <Spinner
             android:id="@+id/spinner_meal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textAlignment="center"/>
 
         <TextView
             android:id="@+id/date_label"

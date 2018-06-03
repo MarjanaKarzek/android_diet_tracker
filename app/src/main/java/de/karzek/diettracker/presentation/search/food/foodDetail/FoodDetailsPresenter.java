@@ -1,10 +1,13 @@
 package de.karzek.diettracker.presentation.search.food.foodDetail;
 
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
+import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -32,21 +35,29 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
     private SharedPreferencesUtil sharedPreferencesUtil;
     private GetGroceryByIdUseCaseImpl getGroceryByIdUseCase;
     private GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase;
+    private GetAllMealsUseCaseImpl getAllMealsUseCase;
+
     private GroceryUIMapper groceryMapper;
     private UnitUIMapper unitMapper;
+    private MealUIMapper mealMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public FoodDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                 GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
                                 GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase,
+                                GetAllMealsUseCaseImpl getAllMealsUseCase,
                                 GroceryUIMapper groceryMapper,
-                                UnitUIMapper unitMapper){
+                                UnitUIMapper unitMapper,
+                                MealUIMapper mealMapper){
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getDefaultUnitsUseCase = getDefaultUnitsUseCase;
+        this.getAllMealsUseCase = getAllMealsUseCase;
+
         this.groceryMapper = groceryMapper;
         this.unitMapper = unitMapper;
+        this.mealMapper = mealMapper;
     }
 
     @Override
@@ -69,6 +80,13 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(output2 -> {
                                 view.initializeServingsSpinner(unitMapper.transformAll(output2.getUnitList()), grocery.getServings());
+                            });
+
+                    getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(output3 -> {
+                                view.initializeMealSpinner(mealMapper.transformAll(output3.getMealList()));
                             });
                 });
         compositeDisposable.add(subs);

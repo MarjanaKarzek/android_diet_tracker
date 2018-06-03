@@ -19,8 +19,6 @@ import io.realm.RealmList;
  */
 public class UnitDataMapper {
 
-    private boolean writeTransactionRunning = false;
-
     public UnitDataModel transform(UnitEntity unitEntity){
         UnitDataModel unitDataModel = null;
         if(unitEntity != null){

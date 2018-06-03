@@ -26,6 +26,7 @@ import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import io.reactivex.disposables.CompositeDisposable;
@@ -41,19 +42,15 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  */
 public class FoodDetailsActivity extends BaseActivity implements FoodDetailsContract.View {
 
-    @Inject
-    FoodDetailsContract.Presenter presenter;
+    @Inject FoodDetailsContract.Presenter presenter;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    @BindView(R.id.viewstub_calory_details)
-    ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details)
-    ViewStub caloryMacroDetails;
+    @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
+    @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
 
-    @BindView(R.id.spinner_serving)
-    Spinner spinnerServing;
+    @BindView(R.id.spinner_serving) Spinner spinnerServing;
+    @BindView(R.id.spinner_meal) Spinner mealServing;
 
     private int groceryId;
     private CaloryDetailsView detailsView;
@@ -125,6 +122,18 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         servingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerServing.setAdapter(servingAdapter);
+    }
+
+    @Override
+    public void initializeMealSpinner(ArrayList<MealDisplayModel> mealDisplayModels) {
+        ArrayList<String> mealNames = new ArrayList<>();
+        for (MealDisplayModel meal : mealDisplayModels)
+            mealNames.add(meal.getName());
+
+        ArrayAdapter<String> mealAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mealNames);
+        mealAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        mealServing.setAdapter(mealAdapter);
     }
 
     private String formatServing(ServingDisplayModel serving) {
