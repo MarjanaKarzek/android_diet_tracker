@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -30,6 +31,7 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapter;
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 
@@ -68,7 +70,6 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         super.onViewCreated(view, savedInstanceState);
 
         showLoading();
-        setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
         hideLoading();
 
@@ -126,12 +127,13 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         presenter.onDateLabelClicked();
     }
 
-    private void setupViewPager() {
+    @Override
+    public void setupViewPager(ArrayList<MealDisplayModel> meals) {
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new GenericMealFragment(), "Frühstück");
-        adapter.addFragment(new GenericMealFragment(), "Mittagessen");
-        adapter.addFragment(new GenericMealFragment(), "Abendessen");
-        adapter.addFragment(new GenericMealFragment(), "Snacks");
+
+        for(MealDisplayModel meal: meals)
+            adapter.addFragment(new GenericMealFragment(), meal.getName());
+
         adapter.addFragment(new GenericDrinkFragment(), "Getränke");
         viewPager.setAdapter(adapter);
     }

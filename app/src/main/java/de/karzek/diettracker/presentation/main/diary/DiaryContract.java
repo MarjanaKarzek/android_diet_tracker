@@ -1,7 +1,10 @@
 package de.karzek.diettracker.presentation.main.diary;
 
+import java.util.ArrayList;
+
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -26,6 +29,8 @@ public interface DiaryContract {
         void showLoading();
 
         void hideLoading();
+
+        void setupViewPager(ArrayList<MealDisplayModel> meals);
     }
 
     interface Presenter extends BasePresenter<View> {
