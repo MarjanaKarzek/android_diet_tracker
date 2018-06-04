@@ -35,6 +35,8 @@ public interface FoodDetailsContract {
 
         void navigateToDiaryFragment();
 
+        void openDatePicker();
+
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -42,5 +44,7 @@ public interface FoodDetailsContract {
         void setGroceryId(int groceryId);
 
         void addFood(DiaryEntryDisplayModel diaryEntry);
+
+        void onDateLabelClicked();
     }
 }

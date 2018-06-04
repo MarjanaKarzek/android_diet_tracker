@@ -32,6 +32,7 @@ import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 
 /**
@@ -198,7 +199,9 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
             };
         }
 
-        new DatePickerDialog(getActivity(), dateSetListener, datePickerCalendar.get(Calendar.YEAR), datePickerCalendar.get(Calendar.MONTH), datePickerCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), dateSetListener, datePickerCalendar.get(Calendar.YEAR), datePickerCalendar.get(Calendar.MONTH), datePickerCalendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime() + Constants.weekInMilliS);
+        dialog.show();
     }
 
     @Override

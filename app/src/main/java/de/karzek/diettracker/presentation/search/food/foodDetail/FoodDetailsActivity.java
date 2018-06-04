@@ -1,8 +1,10 @@
 package de.karzek.diettracker.presentation.search.food.foodDetail;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
+import de.karzek.diettracker.presentation.util.Constants;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
@@ -58,6 +62,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     @BindView(R.id.spinner_serving) Spinner spinnerServing;
     @BindView(R.id.spinner_meal) Spinner spinnerMeal;
     @BindView(R.id.edittext_amount) EditText editTextAmount;
+    @BindView(R.id.date_label) TextView selectedDateLabel;
 
     @BindView(R.id.loading_view) FrameLayout loadingView;
 
@@ -65,7 +70,9 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
 
     private int groceryId;
     private Calendar selectedDate = Calendar.getInstance();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     private GroceryDisplayModel groceryDisplayModel;
     private ArrayList<UnitDisplayModel> defaultUnits;
@@ -95,6 +102,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         groceryId = getIntent().getExtras().getInt("id");
 
         setupSupportActionBar();
+        selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
 
         presenter.setView(this);
         presenter.setGroceryId(groceryId);
@@ -192,6 +200,26 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.date_label) public void onDateLabelClicked(){
+        presenter.onDateLabelClicked();
+    }
+
+    @Override
+    public void openDatePicker(){
+        if(dateSetListener == null) {
+            dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+                selectedDate.set(Calendar.YEAR, year);
+                selectedDate.set(Calendar.MONTH, monthOfYear);
+                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDateLabel.setText(simpleDateFormat.format(selectedDate.getTime()));
+            };
+        }
+
+        DatePickerDialog dialog = new DatePickerDialog(this, dateSetListener, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime() + Constants.weekInMilliS);
+        dialog.show();
     }
 
     @OnClick(R.id.add_food) public void onAddFoodClicked(){

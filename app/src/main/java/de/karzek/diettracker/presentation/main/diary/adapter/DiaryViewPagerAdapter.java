@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.main.diary.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @date 28.05.2018
  */
-public class DiaryViewPagerAdapter extends FragmentPagerAdapter {
+public class DiaryViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final List<Fragment> list = new ArrayList<>();
     private final List<String> titleList = new ArrayList<>();

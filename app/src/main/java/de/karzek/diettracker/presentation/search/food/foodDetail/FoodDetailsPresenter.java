@@ -132,4 +132,9 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
         compositeDisposable.add(subs);
     }
 
+    @Override
+    public void onDateLabelClicked(){
+        view.openDatePicker();
+    }
+
 }

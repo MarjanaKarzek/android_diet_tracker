@@ -95,7 +95,7 @@
             tools:text="16. Mai 2018"
             android:textAlignment="center"
             style="@style/Body1"
-            android:textColor="@color/textPrimary"/>
+            android:textColor="@color/colorAccentDark"/>
 
     </LinearLayout>
 
