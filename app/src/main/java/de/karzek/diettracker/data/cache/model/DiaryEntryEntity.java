@@ -19,9 +19,9 @@ import lombok.EqualsAndHashCode;
 public class DiaryEntryEntity extends RealmObject {
     @PrimaryKey
     private int id;
-    private String meal;
-    private int amount;
-    private String unit;
-    private int grocery_id;
-    private Date date;
+    private MealEntity meal;
+    private float amount;
+    private UnitEntity unit;
+    private GroceryEntity grocery;
+    private String date;
 }

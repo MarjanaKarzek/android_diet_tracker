@@ -66,7 +66,6 @@
                 android:layout_toStartOf="@id/spinner_serving"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
-                android:minWidth="70dp"
                 style="@style/Body1"
                 android:inputType="numberDecimal"
                 android:textColor="@color/textPrimary"/>
@@ -85,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:textAlignment="center"/>
+            android:textAlignment="viewEnd"/>
 
         <TextView
             android:id="@+id/date_label"
@@ -94,7 +93,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             tools:text="16. Mai 2018"
-            android:textAlignment="viewEnd"
+            android:textAlignment="center"
             style="@style/Body1"
             android:textColor="@color/textPrimary"/>
 
@@ -109,5 +108,7 @@
         android:text="@string/button_add"
         android:textColor="@color/textOnPrimary"
         android:layout_gravity="bottom"/>
+
+    <include layout="@layout/snippet_loading_view" />
 
 </android.support.design.widget.CoordinatorLayout>

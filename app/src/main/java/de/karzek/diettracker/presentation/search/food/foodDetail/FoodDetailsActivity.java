@@ -8,28 +8,33 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
 import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
+import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
+import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
-import io.reactivex.disposables.CompositeDisposable;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
@@ -50,10 +55,21 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
 
     @BindView(R.id.spinner_serving) Spinner spinnerServing;
-    @BindView(R.id.spinner_meal) Spinner mealServing;
+    @BindView(R.id.spinner_meal) Spinner spinnerMeal;
+    @BindView(R.id.edittext_amount) EditText editTextAmount;
+
+    @BindView(R.id.loading_view) FrameLayout loadingView;
+
+    private CaloryDetailsView detailsView;
 
     private int groceryId;
-    private CaloryDetailsView detailsView;
+    private Calendar selectedDate = Calendar.getInstance();
+    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    private GroceryDisplayModel groceryDisplayModel;
+    private ArrayList<UnitDisplayModel> defaultUnits;
+    private ArrayList<ServingDisplayModel> servings;
+    private ArrayList<MealDisplayModel> meals;
 
     public static Intent newIntent(Context context, int id) {
         Intent intent = new Intent(context, FoodDetailsActivity.class);
@@ -95,6 +111,16 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     }
 
     @Override
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+    }
+
+    @Override
     public void showNutritionDetails(String value) {
         if (value.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
             detailsView = new CaloryDetailsView(caloryDetails.inflate());
@@ -105,16 +131,18 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
 
     @Override
     public void fillGroceryDetails(GroceryDisplayModel grocery) {
+        groceryDisplayModel = grocery;
         getSupportActionBar().setTitle(grocery.getName());
     }
 
     @Override
     public void initializeServingsSpinner(ArrayList<UnitDisplayModel> defaultUnits, ArrayList<ServingDisplayModel> servings) {
-
+        this.defaultUnits = defaultUnits;
         ArrayList<String> servingLabels = new ArrayList<>();
         for (UnitDisplayModel unit : defaultUnits)
             servingLabels.add(unit.getName());
 
+        this.servings = servings;
         for (ServingDisplayModel serving : servings)
             servingLabels.add(formatServing(serving));
 
@@ -126,6 +154,8 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
 
     @Override
     public void initializeMealSpinner(ArrayList<MealDisplayModel> mealDisplayModels) {
+        this.meals = mealDisplayModels;
+
         ArrayList<String> mealNames = new ArrayList<>();
         for (MealDisplayModel meal : mealDisplayModels)
             mealNames.add(meal.getName());
@@ -133,7 +163,15 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         ArrayAdapter<String> mealAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mealNames);
         mealAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        mealServing.setAdapter(mealAdapter);
+        spinnerMeal.setAdapter(mealAdapter);
+    }
+
+    @Override
+    public void navigateToDiaryFragment() {
+        final Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private String formatServing(ServingDisplayModel serving) {
@@ -153,5 +191,29 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.add_food) public void onAddFoodClicked(){
+        float amount = 0;
+        int servingPosition = spinnerServing.getSelectedItemPosition();
+        int multiplier = 0;
+        if(servingPosition >= defaultUnits.size()){
+            multiplier = servings.get(servingPosition-defaultUnits.size()).getUnit().getMultiplier();
+        } else {
+            multiplier = defaultUnits.get(servingPosition).getMultiplier();
+        }
+        float editTextValue = 0.0f;
+        if(!editTextAmount.getText().toString().equals(""))
+            editTextValue = Float.valueOf(editTextAmount.getText().toString());
+        else
+            editTextValue = Float.valueOf(editTextAmount.getHint().toString());
+        amount = multiplier * editTextValue;
+
+        presenter.addFood(new DiaryEntryDisplayModel(-1,
+                meals.get(spinnerMeal.getSelectedItemPosition()),
+                amount,
+                defaultUnits.get(0),
+                groceryDisplayModel,
+                databaseDateFormat.format(selectedDate.getTime())));
     }
 }

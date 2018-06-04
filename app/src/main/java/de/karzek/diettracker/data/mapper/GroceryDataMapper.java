@@ -49,7 +49,7 @@ public class GroceryDataMapper {
         return groceryDataModelList;
     }
 
-    private GroceryEntity transformToEntity(GroceryDataModel groceryDataModel) {
+    public GroceryEntity transformToEntity(GroceryDataModel groceryDataModel) {
         Realm realm = Realm.getDefaultInstance();
         GroceryEntity groceryEntity = null;
         if(groceryDataModel != null){

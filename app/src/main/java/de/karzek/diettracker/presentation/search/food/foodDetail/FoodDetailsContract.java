@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
+import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
@@ -20,6 +21,10 @@ public interface FoodDetailsContract {
 
     interface View extends BaseView<Presenter> {
 
+        void showLoading();
+
+        void hideLoading();
+
         void showNutritionDetails(String value);
 
         void fillGroceryDetails(GroceryDisplayModel grocery);
@@ -28,11 +33,14 @@ public interface FoodDetailsContract {
 
         void initializeMealSpinner(ArrayList<MealDisplayModel> mealDisplayModels);
 
+        void navigateToDiaryFragment();
+
     }
 
     interface Presenter extends BasePresenter<View> {
 
         void setGroceryId(int groceryId);
 
+        void addFood(DiaryEntryDisplayModel diaryEntry);
     }
 }

@@ -1,14 +1,19 @@
 package de.karzek.diettracker.presentation.search.food.foodDetail;
 
+import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.PutDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
+import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
+import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -36,10 +41,12 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
     private GetGroceryByIdUseCaseImpl getGroceryByIdUseCase;
     private GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase;
     private GetAllMealsUseCaseImpl getAllMealsUseCase;
+    private Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase;
 
     private GroceryUIMapper groceryMapper;
     private UnitUIMapper unitMapper;
     private MealUIMapper mealMapper;
+    private DiaryEntryUIMapper diaryEntryMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -47,17 +54,21 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
                                 GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
                                 GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase,
                                 GetAllMealsUseCaseImpl getAllMealsUseCase,
+                                Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
                                 GroceryUIMapper groceryMapper,
                                 UnitUIMapper unitMapper,
-                                MealUIMapper mealMapper){
+                                MealUIMapper mealMapper,
+                                DiaryEntryUIMapper diaryEntryMapper){
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getDefaultUnitsUseCase = getDefaultUnitsUseCase;
         this.getAllMealsUseCase = getAllMealsUseCase;
+        this.putDiaryEntryUseCase = putDiaryEntryUseCase;
 
         this.groceryMapper = groceryMapper;
         this.unitMapper = unitMapper;
         this.mealMapper = mealMapper;
+        this.diaryEntryMapper = diaryEntryMapper;
     }
 
     @Override
@@ -105,6 +116,21 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
     @Override
     public void setGroceryId(int groceryId) {
         this.groceryId = groceryId;
+    }
+
+    @Override
+    public void addFood(DiaryEntryDisplayModel diaryEntry) {
+        view.showLoading();
+        Disposable subs = putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(diaryEntry)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if(output.getStatus() == 0) {
+                        view.hideLoading();
+                        view.navigateToDiaryFragment();
+                    }
+                });
+        compositeDisposable.add(subs);
     }
 
 }
