@@ -1,7 +1,7 @@
 package de.karzek.diettracker.presentation.main.diary;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -55,7 +54,27 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @BindView(R.id.date_label) TextView selectedDate;
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
-    private DatePickerDialog.OnDateSetListener datePicker;
+    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+    private Calendar datePickerCalendar = Calendar.getInstance();
+
+    OnDateSelectedListener callback;
+
+    public interface OnDateSelectedListener{
+        public void onDateSelected(String databaseDateFormat);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (OnDateSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -131,11 +150,20 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     public void setupViewPager(ArrayList<MealDisplayModel> meals) {
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
 
-        for(MealDisplayModel meal: meals)
-            adapter.addFragment(new GenericMealFragment(), meal.getName());
-
+        for(MealDisplayModel meal: meals) {
+            Bundle bundle = new Bundle();
+            bundle.putString("meal", meal.getName());
+            GenericMealFragment fragment = new GenericMealFragment();
+            fragment.setArguments(bundle);
+            adapter.addFragment(fragment, meal.getName());
+        }
         adapter.addFragment(new GenericDrinkFragment(), "Getränke");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDateSelected(String selectedDate) {
+        callback.onDateSelected(selectedDate);
     }
 
     @Override
@@ -160,19 +188,17 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void openDatePicker(){
-        if(datePicker == null) {
-            datePicker = (view, year, monthOfYear, dayOfMonth) -> {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                selectedDate.setText(simpleDateFormat.format(calendar.getTime()));
-                presenter.onDateSelected();
+        if(dateSetListener == null) {
+            dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+                datePickerCalendar.set(Calendar.YEAR, year);
+                datePickerCalendar.set(Calendar.MONTH, monthOfYear);
+                datePickerCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate.setText(simpleDateFormat.format(datePickerCalendar.getTime()));
+                presenter.onDateSelected(databaseDateFormat.format(datePickerCalendar.getTime()));
             };
         }
 
-        Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(getActivity(), datePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(getActivity(), dateSetListener, datePickerCalendar.get(Calendar.YEAR), datePickerCalendar.get(Calendar.MONTH), datePickerCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     @Override

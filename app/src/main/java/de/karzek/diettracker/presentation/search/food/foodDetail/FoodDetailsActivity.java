@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -64,7 +65,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
 
     private int groceryId;
     private Calendar selectedDate = Calendar.getInstance();
-    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
 
     private GroceryDisplayModel groceryDisplayModel;
     private ArrayList<UnitDisplayModel> defaultUnits;

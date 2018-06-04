@@ -59,6 +59,7 @@ public class DiaryEntryDataMapper {
             entity.setAmount(dataModel.getAmount());
             entity.setUnit(new UnitDataMapper().transformToEntity(dataModel.getUnit()));
             entity.setGrocery(new GroceryDataMapper().transformToEntity(dataModel.getGrocery()));
+            entity.setDate(dataModel.getDate());
         }
         return entity;
     }

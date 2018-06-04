@@ -79,10 +79,8 @@ public class DiaryPresenter implements DiaryContract.Presenter {
     }
 
     @Override
-    public void onDateSelected() {
-        view.showLoading();
-
-        view.hideLoading();
+    public void onDateSelected(String selectedDate) {
+        view.onDateSelected(selectedDate);
     }
 
 

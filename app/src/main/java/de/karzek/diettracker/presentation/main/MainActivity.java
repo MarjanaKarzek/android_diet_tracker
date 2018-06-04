@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -15,18 +18,22 @@ import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookFragment;
 import de.karzek.diettracker.presentation.custom.CustomBottomNavigationView;
+import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.home.HomeFragment;
 import de.karzek.diettracker.presentation.main.settings.SettingsFragment;
 
-public class MainActivity extends BaseActivity implements MainContract.View {
+public class MainActivity extends BaseActivity implements MainContract.View, DiaryFragment.OnDateSelectedListener{
 
     @BindView(R.id.random_quote_view) TextView randomQuoteView;
     @BindView(R.id.bottom_navigation_view) CustomBottomNavigationView navigationView;
 
     @Inject
     MainContract.Presenter presenter;
+
+    private ArrayList<MealDisplayModel> meals;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -89,5 +96,20 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void onDestroy() {
         presenter.finish();
         super.onDestroy();
+    }
+
+    @Override
+    public void onDateSelected(String databaseDateFormat) {
+        for(int i=0; i < meals.size(); i++) {
+            GenericMealFragment fragment = (GenericMealFragment)
+                    getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
+            if (fragment != null)
+                fragment.setSelectedDate(databaseDateFormat);
+        }
+    }
+
+    @Override
+    public void setMeals(ArrayList<MealDisplayModel> meals) {
+        this.meals = meals;
     }
 }

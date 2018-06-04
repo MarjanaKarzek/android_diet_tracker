@@ -1,61 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ViewStub
-        android:id="@+id/viewstub_calory_details"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:inflatedId="@+id/snippet_calory_detail"
-        android:layout="@layout/snippet_calory_detail" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ViewStub
-        android:id="@+id/viewstub_calory_makro_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:inflatedId="@+id/snippet_calory_and_makro_detail"
-        android:layout="@layout/snippet_calory_and_macro_detail" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_title"
-        android:elevation="3dp">
-
-        <TextView
-            style="@style/Subtitle"
+        <ViewStub
+            android:id="@+id/viewstub_calory_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/grocery_list_title"
-            android:textColor="@color/textPrimary" />
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:inflatedId="@+id/snippet_calory_detail"
+            android:layout="@layout/snippet_calory_detail" />
 
-    </FrameLayout>
+        <ViewStub
+            android:id="@+id/viewstub_calory_makro_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:inflatedId="@+id/snippet_calory_and_makro_detail"
+            android:layout="@layout/snippet_calory_and_macro_detail" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp">
 
-    <TextView
-        android:id="@+id/grocery_list_placeholder"
-        style="@style/Body1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:gravity="center"
-        android:text="@string/generic_meal_grocery_list_placeholder"
-        android:textAlignment="center"
-        android:textColor="@color/textSecondary"
-        android:visibility="gone" />
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/grocery_list_title"
+                android:textColor="@color/textPrimary" />
 
-</LinearLayout>
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/grocery_list_placeholder"
+            style="@style/Body1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:text="@string/generic_meal_grocery_list_placeholder"
+            android:textAlignment="center"
+            android:textColor="@color/textSecondary"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <include layout="@layout/snippet_loading_view" />
+
+</FrameLayout>

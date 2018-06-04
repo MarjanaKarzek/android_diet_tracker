@@ -126,7 +126,6 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     if(output.getStatus() == 0) {
-                        view.hideLoading();
                         view.navigateToDiaryFragment();
                     }
                 });
