@@ -83,5 +83,15 @@ public class DiaryPresenter implements DiaryContract.Presenter {
         view.onDateSelected(selectedDate);
     }
 
+    @Override
+    public void onPreviousDateClicked() {
+        view.showPreviousDate();
+    }
+
+    @Override
+    public void onNextDateClicked() {
+        view.showNextDate();
+    }
+
 
 }

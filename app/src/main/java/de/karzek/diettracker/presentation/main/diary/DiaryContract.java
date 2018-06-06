@@ -33,6 +33,10 @@ public interface DiaryContract {
         void setupViewPager(ArrayList<MealDisplayModel> meals);
 
         void onDateSelected(String selectedDate);
+
+        void showPreviousDate();
+
+        void showNextDate();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -47,5 +51,9 @@ public interface DiaryContract {
         void onDateLabelClicked();
 
         void onDateSelected(String selectedDate);
+
+        void onPreviousDateClicked();
+
+        void onNextDateClicked();
     }
 }

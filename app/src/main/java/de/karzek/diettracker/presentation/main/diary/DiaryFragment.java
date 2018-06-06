@@ -17,6 +17,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -61,7 +62,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     OnDateSelectedListener callback;
 
-    public interface OnDateSelectedListener{
+    public interface OnDateSelectedListener {
         public void onDateSelected(String databaseDateFormat);
     }
 
@@ -81,7 +82,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_diary, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -96,11 +97,13 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         selectedDate.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
 
         floatingActionsMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
-            @Override public void onMenuExpanded() {
+            @Override
+            public void onMenuExpanded() {
                 overlay.setVisibility(View.VISIBLE);
             }
 
-            @Override public void onMenuCollapsed() {
+            @Override
+            public void onMenuCollapsed() {
                 overlay.setVisibility(View.GONE);
             }
         });
@@ -141,17 +144,25 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @OnClick(R.id.fab_overlay) public void onFabOverlayClicked() {
         presenter.onFabOverlayClicked();
-    };
+    }
 
     @OnClick(R.id.date_label) public void onDateLabelClicked() {
         presenter.onDateLabelClicked();
+    }
+
+    @OnClick(R.id.previous_date) public void onPreviousDateClicked() {
+        presenter.onPreviousDateClicked();
+    }
+
+    @OnClick(R.id.next_date) public void onNextDateClicked() {
+        presenter.onNextDateClicked();
     }
 
     @Override
     public void setupViewPager(ArrayList<MealDisplayModel> meals) {
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
 
-        for(MealDisplayModel meal: meals) {
+        for (MealDisplayModel meal : meals) {
             Bundle bundle = new Bundle();
             bundle.putString("meal", meal.getName());
             GenericMealFragment fragment = new GenericMealFragment();
@@ -188,14 +199,13 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
-    public void openDatePicker(){
-        if(dateSetListener == null) {
+    public void openDatePicker() {
+        if (dateSetListener == null) {
             dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
                 datePickerCalendar.set(Calendar.YEAR, year);
                 datePickerCalendar.set(Calendar.MONTH, monthOfYear);
                 datePickerCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                selectedDate.setText(simpleDateFormat.format(datePickerCalendar.getTime()));
-                presenter.onDateSelected(databaseDateFormat.format(datePickerCalendar.getTime()));
+                updateSelectedDate(datePickerCalendar.getTime());
             };
         }
 
@@ -205,12 +215,29 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
-    public void showLoading(){
+    public void showPreviousDate() {
+        datePickerCalendar.set(Calendar.DAY_OF_MONTH, datePickerCalendar.get(Calendar.DAY_OF_MONTH) - 1);
+        updateSelectedDate(datePickerCalendar.getTime());
+    }
+
+    @Override
+    public void showNextDate() {
+        datePickerCalendar.set(Calendar.DAY_OF_MONTH, datePickerCalendar.get(Calendar.DAY_OF_MONTH) + 1);
+        updateSelectedDate(datePickerCalendar.getTime());
+    }
+
+    private void updateSelectedDate(Date date) {
+        selectedDate.setText(simpleDateFormat.format(date));
+        presenter.onDateSelected(databaseDateFormat.format(date));
+    }
+
+    @Override
+    public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideLoading(){
+    public void hideLoading() {
         loadingView.setVisibility(View.GONE);
     }
 }
