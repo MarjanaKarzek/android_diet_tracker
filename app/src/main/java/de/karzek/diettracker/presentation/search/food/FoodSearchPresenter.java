@@ -93,9 +93,13 @@ public class FoodSearchPresenter implements FoodSearchContract.Presenter {
                 .subscribe(output -> {
                     if (output.getGroceryList().size() > 0) {
                         view.hidePlaceholder();
+                        view.hideQueryWithoutResultPlaceholder();
+                        view.showRecyclerView();
                         view.updateFoodSearchResultList(groceryMapper.transformAll(output.getGroceryList()));
-                    } else
+                    } else {
+                        view.hideRecyclerView();
                         view.showQueryWithoutResultPlaceholder();
+                    }
                     view.hideLoading();
                 });
         compositeDisposable.add(subs);

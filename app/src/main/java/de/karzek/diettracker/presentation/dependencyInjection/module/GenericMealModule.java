@@ -29,16 +29,6 @@ public class GenericMealModule {
     //domain
 
     @Provides
-    GetMealCountUseCaseImpl provideGetMealCountUseCaseImpl(MealRepositoryImpl repository){
-        return new GetMealCountUseCaseImpl(repository);
-    }
-
-    @Provides
-    NutritionManagerImpl provideNutritionManagerImpl(SharedPreferencesUtil sharedPreferencesUtil){
-        return new NutritionManagerImpl(sharedPreferencesUtil);
-    }
-
-    @Provides
     GetAllDiaryEntriesMatchingUseCaseImpl provideGetAllDiaryEntriesMatchingUseCaseImpl(DiaryEntryRepositoryImpl repository, DiaryEntryDomainMapper mapper){
         return new GetAllDiaryEntriesMatchingUseCaseImpl(repository, mapper);
     }

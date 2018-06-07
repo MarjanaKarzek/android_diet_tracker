@@ -10,9 +10,11 @@ import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
+import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.PutDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
@@ -81,8 +83,12 @@ public class FoodDetailsModule {
         return new PutDiaryEntryUseCaseImpl(repository, mapper);
     }
 
-    //presentation
+    @Provides
+    GetMealCountUseCaseImpl provideGetMealCountUseCaseImpl(MealRepositoryImpl repository){
+        return new GetMealCountUseCaseImpl(repository);
+    }
 
+    //presentation
 
     @Provides
     DiaryEntryUIMapper provideDiaryEntryUIMapper(){
@@ -94,19 +100,23 @@ public class FoodDetailsModule {
                                                               GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
                                                               GetAllDefaultUnitsUseCaseImpl getAllDefaultUnitsUseCase,
                                                               GetAllMealsUseCaseImpl getAllMealsUseCase,
+                                                              GetMealCountUseCaseImpl getMealCountUseCase,
                                                               Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
                                                               GroceryUIMapper groceryMapper,
                                                               UnitUIMapper unitMapper,
                                                               MealUIMapper mealMapper,
-                                                              DiaryEntryUIMapper diaryEntryMapper) {
+                                                              DiaryEntryUIMapper diaryEntryMapper,
+                                                              NutritionManagerImpl nutritionManager) {
         return new FoodDetailsPresenter(sharedPreferencesUtil,
                 getGroceryByIdUseCase,
                 getAllDefaultUnitsUseCase,
                 getAllMealsUseCase,
+                getMealCountUseCase,
                 putDiaryEntryUseCase,
                 groceryMapper,
                 unitMapper,
                 mealMapper,
-                diaryEntryMapper);
+                diaryEntryMapper,
+                nutritionManager);
     }
 }

@@ -21,6 +21,6 @@ public class StringUtils {
         if(value % 10 == 0){
             return "" + (int)value;
         } else
-            return "" + value;
+            return String.format("%.1f", value);
     }
 }

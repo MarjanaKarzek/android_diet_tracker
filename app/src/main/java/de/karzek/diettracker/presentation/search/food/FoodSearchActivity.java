@@ -154,7 +154,17 @@ public class FoodSearchActivity extends BaseActivity implements FoodSearchContra
 
     @Override
     public void hideQueryWithoutResultPlaceholder() {
-        loadingView.setVisibility(View.VISIBLE);
+        placeholder.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideRecyclerView() {
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRecyclerView() {
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void setupSupportActionBar() {

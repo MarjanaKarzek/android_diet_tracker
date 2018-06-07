@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -21,6 +24,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -40,6 +44,7 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
+import de.karzek.diettracker.presentation.util.StringUtils;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
@@ -78,6 +83,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     private ArrayList<UnitDisplayModel> defaultUnits;
     private ArrayList<ServingDisplayModel> servings;
     private ArrayList<MealDisplayModel> meals;
+    private HashMap<String, Long> maxValues;
 
     public static Intent newIntent(Context context, int id) {
         Intent intent = new Intent(context, FoodDetailsActivity.class);
@@ -104,9 +110,47 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         setupSupportActionBar();
         selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
 
+        editTextAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                refreshNutritionDetails();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                refreshNutritionDetails();
+            }
+        });
+
         presenter.setView(this);
         presenter.setGroceryId(groceryId);
         presenter.start();
+    }
+
+    @Override
+    public void refreshNutritionDetails() {
+        float amount = 1;
+        int servingPosition = spinnerServing.getSelectedItemPosition();
+        int multiplier = 0;
+        if(servingPosition >= defaultUnits.size()){
+            amount = servings.get(servingPosition-defaultUnits.size()).getAmount();
+            multiplier = servings.get(servingPosition-defaultUnits.size()).getUnit().getMultiplier();
+        } else {
+            multiplier = defaultUnits.get(servingPosition).getMultiplier();
+        }
+        float editTextValue = 0.0f;
+        if(!editTextAmount.getText().toString().equals(""))
+            editTextValue = Float.valueOf(editTextAmount.getText().toString());
+        else
+            editTextValue = Float.valueOf(editTextAmount.getHint().toString());
+        amount *= multiplier * editTextValue;
+
+        presenter.updateNutritionDetails(groceryDisplayModel,amount);
     }
 
     @Override
@@ -139,6 +183,35 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     }
 
     @Override
+    public void setNutritionMaxValues(HashMap<String, Long> values) {
+        maxValues = values;
+        detailsView.getCaloryProgressBarMaxValue().setText("" + values.get(Constants.calories));
+
+        if (detailsView instanceof CaloryMacroDetailsView){
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + values.get(Constants.proteins) + "g");
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + values.get(Constants.carbs) + "g");
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + values.get(Constants.fats) + "g");
+        }
+    }
+
+    @Override
+    public void updateNutritionDetails(HashMap<String, Float> values) {
+        detailsView.getCaloryProgressBar().setProgress(100.0f / maxValues.get(Constants.calories) * values.get(Constants.calories));
+        detailsView.getCaloryProgressBarValue().setText("" + (int)values.get(Constants.calories).floatValue());
+
+        if (detailsView instanceof CaloryMacroDetailsView){
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100.0f / maxValues.get(Constants.proteins) * values.get(Constants.proteins));
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.proteins)));
+
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBar().setProgress(100.0f / maxValues.get(Constants.carbs) * values.get(Constants.carbs));
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.carbs)));
+
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBar().setProgress(100.0f / maxValues.get(Constants.fats) * values.get(Constants.fats));
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.fats)));
+        }
+    }
+
+    @Override
     public void fillGroceryDetails(GroceryDisplayModel grocery) {
         groceryDisplayModel = grocery;
         getSupportActionBar().setTitle(grocery.getName());
@@ -159,6 +232,22 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         servingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerServing.setAdapter(servingAdapter);
+        spinnerServing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i >= defaultUnits.size())
+                    editTextAmount.setHint("1");
+                else
+                    editTextAmount.setHint("100");
+
+                refreshNutritionDetails();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
     }
 
     @Override
@@ -223,10 +312,11 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     }
 
     @OnClick(R.id.add_food) public void onAddFoodClicked(){
-        float amount = 0;
+        float amount = 1;
         int servingPosition = spinnerServing.getSelectedItemPosition();
         int multiplier = 0;
         if(servingPosition >= defaultUnits.size()){
+            amount = servings.get(servingPosition-defaultUnits.size()).getAmount();
             multiplier = servings.get(servingPosition-defaultUnits.size()).getUnit().getMultiplier();
         } else {
             multiplier = defaultUnits.get(servingPosition).getMultiplier();
@@ -236,7 +326,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
             editTextValue = Float.valueOf(editTextAmount.getText().toString());
         else
             editTextValue = Float.valueOf(editTextAmount.getHint().toString());
-        amount = multiplier * editTextValue;
+        amount *= multiplier * editTextValue;
 
         presenter.addFood(new DiaryEntryDisplayModel(-1,
                 meals.get(spinnerMeal.getSelectedItemPosition()),

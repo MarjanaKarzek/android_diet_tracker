@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.search.food.foodDetail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
@@ -21,11 +22,17 @@ public interface FoodDetailsContract {
 
     interface View extends BaseView<Presenter> {
 
+        void refreshNutritionDetails();
+
         void showLoading();
 
         void hideLoading();
 
         void showNutritionDetails(String value);
+
+        void setNutritionMaxValues(HashMap<String, Long> values);
+
+        void updateNutritionDetails(HashMap<String, Float> values);
 
         void fillGroceryDetails(GroceryDisplayModel grocery);
 
@@ -40,6 +47,8 @@ public interface FoodDetailsContract {
     }
 
     interface Presenter extends BasePresenter<View> {
+
+        void updateNutritionDetails(GroceryDisplayModel grocery, float amount);
 
         void setGroceryId(int groceryId);
 

@@ -35,6 +35,9 @@ public interface FoodSearchContract {
 
         void hideQueryWithoutResultPlaceholder();
 
+        void hideRecyclerView();
+
+        void showRecyclerView();
     }
 
     interface Presenter extends BasePresenter<View>, FoodSearchResultViewHolder.OnFoodSearchResultItemClickedListener {

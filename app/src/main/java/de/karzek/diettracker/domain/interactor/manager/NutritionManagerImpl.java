@@ -5,6 +5,8 @@ import java.util.List;
 
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
+import de.karzek.diettracker.domain.model.GroceryDomainModel;
+import de.karzek.diettracker.domain.model.UnitDomainModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
@@ -57,6 +59,18 @@ public class NutritionManagerImpl implements NutritionManager {
     }
 
     @Override
+    public HashMap<String, Float> calculateTotalNutritionForGrocery(GroceryDomainModel grocery, float amount) {
+        HashMap<String, Float> values = new HashMap<>();
+
+        values.put(Constants.calories, grocery.getCalories_per_1U() * amount);
+        values.put(Constants.proteins, grocery.getProteins_per_1U() * amount);
+        values.put(Constants.carbs, grocery.getCarbohydrates_per_1U() * amount);
+        values.put(Constants.fats, grocery.getFats_per_1U() * amount);
+
+        return values;
+    }
+
+    @Override
     public HashMap<String, Float> calculateTotalCalories(List<DiaryEntryDomainModel> diaryEntries) {
         HashMap<String, Float> values = new HashMap<>();
 
@@ -67,6 +81,15 @@ public class NutritionManagerImpl implements NutritionManager {
         }
 
         values.put(Constants.calories, calories);
+
+        return values;
+    }
+
+    @Override
+    public HashMap<String, Float> calculateTotalCaloriesForGrocery(GroceryDomainModel grocery, float amount) {
+        HashMap<String, Float> values = new HashMap<>();
+
+        values.put(Constants.calories, grocery.getCalories_per_1U() * amount);
 
         return values;
     }
@@ -98,6 +121,7 @@ public class NutritionManagerImpl implements NutritionManager {
         return maxValues;
     }
 
+    @Override
     public HashMap<String,Float> getDefaultValuesForTotalCalories() {
         HashMap<String, Float> defaultNutritionValues = new HashMap<>();
 
@@ -106,6 +130,7 @@ public class NutritionManagerImpl implements NutritionManager {
         return defaultNutritionValues;
     }
 
+    @Override
     public HashMap<String,Float> getDefaultValuesForTotalNutrition() {
         HashMap<String, Float> defaultNutritionValues = new HashMap<>();
 

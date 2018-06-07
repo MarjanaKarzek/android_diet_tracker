@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 /**
@@ -19,6 +20,7 @@ import lombok.Value;
  * @date 31.05.2018
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class CaloryMacroDetailsView extends CaloryDetailsView {
     @BindView(R.id.circle_progress_bar_protein) CircularProgressBar proteinProgressBar;
     @BindView(R.id.circle_progress_bar_protein_value) TextView proteinProgressBarValue;
