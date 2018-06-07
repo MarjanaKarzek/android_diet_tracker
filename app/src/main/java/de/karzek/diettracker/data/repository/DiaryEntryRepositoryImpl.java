@@ -48,4 +48,9 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepository {
             }
         });
     }
+
+    @Override
+    public Observable<Boolean> deleteDiaryEntry(int id) {
+        return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).deleteDiaryEntry(id);
+    }
 }

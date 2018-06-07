@@ -1,5 +1,6 @@
 package de.karzek.diettracker.presentation.dependencyInjection.module;
 
+import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.cache.DiaryEntryCacheImpl;
@@ -8,6 +9,7 @@ import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
@@ -33,17 +35,24 @@ public class GenericMealModule {
         return new GetAllDiaryEntriesMatchingUseCaseImpl(repository, mapper);
     }
 
+    @Provides
+    DeleteDiaryEntryUseCaseImpl provideDeleteDiaryEntryUseCaseImpl(DiaryEntryRepositoryImpl repository){
+        return new DeleteDiaryEntryUseCaseImpl(repository);
+    }
+
     //presentation
 
     @Provides
     GenericMealContract.Presenter provideGenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                                               GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
                                                               GetMealCountUseCaseImpl getMealCountUseCase,
+                                                              Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
                                                               NutritionManagerImpl nutritionManager,
                                                               DiaryEntryUIMapper mapper) {
         return new GenericMealPresenter(sharedPreferencesUtil,
                 getAllDiaryEntriesMatchingUseCase,
                 getMealCountUseCase,
+                deleteDiaryEntryUseCase,
                 nutritionManager,
                 mapper);
     }

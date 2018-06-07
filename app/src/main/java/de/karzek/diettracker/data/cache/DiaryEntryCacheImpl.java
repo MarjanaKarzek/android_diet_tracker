@@ -8,6 +8,7 @@ import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -64,5 +65,18 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
     public Observable<List<DiaryEntryEntity>> getAllDiaryEntriesMatching(String meal, String date) {
         Realm realm = Realm.getDefaultInstance();
         return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("meal.name", meal).equalTo("date", date).sort("id").findAll()));
+    }
+
+    @Override
+    public Observable<Boolean> deleteDiaryEntry(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<DiaryEntryEntity> result = realm.where(DiaryEntryEntity.class).equalTo("id",id).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
+        return Observable.just(true);
     }
 }

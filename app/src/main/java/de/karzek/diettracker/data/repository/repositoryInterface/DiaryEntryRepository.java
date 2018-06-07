@@ -20,4 +20,5 @@ public interface DiaryEntryRepository {
 
     Observable<List<DiaryEntryDataModel>> getAllDiaryEntriesMatching(String meal, String date);
 
+    Observable<Boolean> deleteDiaryEntry(int id);
 }

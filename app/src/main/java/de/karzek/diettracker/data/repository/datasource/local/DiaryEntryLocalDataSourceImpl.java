@@ -34,4 +34,9 @@ public class DiaryEntryLocalDataSourceImpl implements DiaryEntryDataSource {
     public Observable<List<DiaryEntryEntity>> getAllDiaryEntriesMatching(String meal, String date) {
         return diaryEntryCache.getAllDiaryEntriesMatching(meal, date);
     }
+
+    @Override
+    public Observable<Boolean> deleteDiaryEntry(int id) {
+        return diaryEntryCache.deleteDiaryEntry(id);
+    }
 }

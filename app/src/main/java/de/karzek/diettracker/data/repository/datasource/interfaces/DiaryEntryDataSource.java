@@ -18,4 +18,6 @@ public interface DiaryEntryDataSource {
     Observable<Boolean> putDiaryEntry(DiaryEntryEntity diaryEntryEntity);
 
     Observable<List<DiaryEntryEntity>> getAllDiaryEntriesMatching(String meal, String date);
+
+    Observable<Boolean> deleteDiaryEntry(int id);
 }

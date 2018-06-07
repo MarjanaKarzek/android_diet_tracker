@@ -43,9 +43,15 @@ public interface GenericMealContract {
         void showLoading();
 
         void hideLoading();
+
+        void refreshRecyclerView();
     }
 
-    interface Presenter extends BasePresenter<View>, DiaryEntryViewHolder.OnDiaryEntryItemClickedListener {
+    interface Presenter extends BasePresenter<View>, 
+            DiaryEntryViewHolder.OnDiaryEntryItemClickedListener,
+            DiaryEntryViewHolder.OnDeleteDiaryEntryItemListener,
+            DiaryEntryViewHolder.OnMoveDiaryEntryItemListener,
+            DiaryEntryViewHolder.OnEditDiaryEntryItemListener {
 
         void setMeal(String meal);
 

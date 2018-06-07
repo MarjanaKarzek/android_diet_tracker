@@ -2,9 +2,12 @@ package de.karzek.diettracker.presentation.main.diary.meal;
 
 import java.util.List;
 
+import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
@@ -33,7 +36,10 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
     private SharedPreferencesUtil sharedPreferencesUtil;
     private GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase;
     private GetMealCountUseCaseImpl getMealCountUseCase;
+    private Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase;
+
     private NutritionManagerImpl nutritionManager;
+
     private DiaryEntryUIMapper diaryEntryMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -42,11 +48,13 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
     public GenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                 GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
                                 GetMealCountUseCaseImpl getMealCountUseCase,
+                                Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
                                 NutritionManagerImpl nutritionManager,
                                 DiaryEntryUIMapper diaryEntryMapper) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getAllDiaryEntriesMatchingUseCase = getAllDiaryEntriesMatchingUseCase;
         this.getMealCountUseCase = getMealCountUseCase;
+        this.deleteDiaryEntryUseCase = deleteDiaryEntryUseCase;
         this.nutritionManager = nutritionManager;
         this.diaryEntryMapper = diaryEntryMapper;
     }
@@ -167,5 +175,31 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
     @Override
     public void onItemClicked(int id) {
         //start edit
+    }
+
+    @Override
+    public void onItemDelete(int id) {
+        view.showLoading();
+        compositeDisposable.add(deleteDiaryEntryUseCase.get().execute(new DeleteDiaryEntryUseCase.Input(id))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if(output.getStatus() == 0){
+                        view.refreshRecyclerView();
+                        view.hideLoading();
+                    } else {
+                        view.hideLoading();
+                    }
+                }));
+    }
+
+    @Override
+    public void onItemMove(int id) {
+
+    }
+
+    @Override
+    public void onItemEdit(int id) {
+
     }
 }

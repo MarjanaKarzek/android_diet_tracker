@@ -24,18 +24,27 @@ import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.FoodSea
 public class DiaryEntryListAdapter extends RecyclerView.Adapter<DiaryEntryViewHolder> {
 
     private GenericMealContract.Presenter itemOnClickListener;
+    private GenericMealContract.Presenter onItemDeleteListener;
+    private GenericMealContract.Presenter onItemEditListener;
+    private GenericMealContract.Presenter onItemMoveListener;
 
     private ArrayList<DiaryEntryDisplayModel> list;
 
-    public DiaryEntryListAdapter(GenericMealContract.Presenter itemOnClickListener){
+    public DiaryEntryListAdapter(GenericMealContract.Presenter itemOnClickListener,
+                                 GenericMealContract.Presenter onItemDeleteListener,
+                                 GenericMealContract.Presenter onItemEditListener,
+                                 GenericMealContract.Presenter onItemMoveListener){
         list = new ArrayList<>();
         this.itemOnClickListener = itemOnClickListener;
+        this.onItemDeleteListener = onItemDeleteListener;
+        this.onItemEditListener = onItemEditListener;
+        this.onItemMoveListener = onItemMoveListener;
     }
 
     @NonNull
     @Override
     public DiaryEntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DiaryEntryViewHolder(parent, itemOnClickListener);
+        return new DiaryEntryViewHolder(parent, itemOnClickListener, onItemDeleteListener, onItemEditListener, onItemMoveListener);
     }
 
     @Override

@@ -99,7 +99,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new DiaryEntryListAdapter(presenter));
+        recyclerView.setAdapter(new DiaryEntryListAdapter(presenter,presenter,presenter,presenter));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
                 ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation()));
     }
@@ -188,6 +188,11 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void refreshRecyclerView() {
+        presenter.updateDiaryEntries(selectedDate);
     }
 
     @Override

@@ -19,6 +19,7 @@
     <color name="iconOnPrimaryInactive">#aaaaaa</color>
 
     <color name="divider">#cccccc</color>
+    <color name="delete">#ff0000</color>
 
     <!--Colour palette-->
     <color name="white">#ffffff</color>
