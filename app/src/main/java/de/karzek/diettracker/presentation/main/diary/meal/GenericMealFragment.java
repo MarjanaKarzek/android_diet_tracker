@@ -1,8 +1,10 @@
 package de.karzek.diettracker.presentation.main.diary.meal;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
@@ -31,9 +35,11 @@ import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryListAdapter;
+import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import de.karzek.diettracker.presentation.util.StringUtils;
@@ -193,6 +199,29 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void refreshRecyclerView() {
         presenter.updateDiaryEntries(selectedDate);
+    }
+
+    @Override
+    public void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> meals) {
+        new MoveDiaryEntryDialog().showDialog();
+
+        /*builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+
+        builder.setPositiveButton("Verschieben", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                presenter.moveDiaryItemToMeal(id, meals.get(mealSpinner.getSelectedItemPosition()));
+            }
+        });
+        builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                builder.create().dismiss();
+            }
+        });
+        dialog.show();*/
     }
 
     @Override

@@ -6,11 +6,15 @@ import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
+import de.karzek.diettracker.presentation.mapper.MealUIMapper;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,11 +39,14 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
 
     private SharedPreferencesUtil sharedPreferencesUtil;
     private GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase;
+    private Lazy<GetAllMealsUseCaseImpl> getAllMealsUseCase;
     private GetMealCountUseCaseImpl getMealCountUseCase;
     private Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase;
+    //private Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase;
 
     private NutritionManagerImpl nutritionManager;
 
+    private MealUIMapper mealMapper;
     private DiaryEntryUIMapper diaryEntryMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -47,15 +54,21 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
 
     public GenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                 GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
+                                Lazy<GetAllMealsUseCaseImpl> getAllMealsUseCase,
                                 GetMealCountUseCaseImpl getMealCountUseCase,
                                 Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
+                                //Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase,
                                 NutritionManagerImpl nutritionManager,
+                                MealUIMapper mealMapper,
                                 DiaryEntryUIMapper diaryEntryMapper) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getAllDiaryEntriesMatchingUseCase = getAllDiaryEntriesMatchingUseCase;
+        this.getAllMealsUseCase = getAllMealsUseCase;
         this.getMealCountUseCase = getMealCountUseCase;
         this.deleteDiaryEntryUseCase = deleteDiaryEntryUseCase;
+        //this.updateMealOfDiaryEntryUseCase = updateMealOfDiaryEntryUseCase;
         this.nutritionManager = nutritionManager;
+        this.mealMapper = mealMapper;
         this.diaryEntryMapper = diaryEntryMapper;
     }
 
@@ -181,7 +194,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
     public void onItemDelete(int id) {
         view.showLoading();
         compositeDisposable.add(deleteDiaryEntryUseCase.get().execute(new DeleteDiaryEntryUseCase.Input(id))
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     if(output.getStatus() == 0){
@@ -195,7 +208,28 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
 
     @Override
     public void onItemMove(int id) {
+        compositeDisposable.add(getAllMealsUseCase.get().execute(new GetAllMealsUseCase.Input())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    view.showMoveDiaryEntryDialog(id, mealMapper.transformAll(output.getMealList()));
+                }));
+    }
 
+    @Override
+    public void moveDiaryItemToMeal(int id, MealDisplayModel meal) {
+        view.showLoading();
+        /*compositeDisposable.add(updateMealOfDiaryEntryUseCase.get().execute(new UpdateMealOfDiaryEntryUseCase.Input(id, meal))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if(output.getStatus() == 0){
+                        view.refreshRecyclerView();
+                        view.hideLoading();
+                    } else {
+                        view.hideLoading();
+                    }
+                }));*/
     }
 
     @Override

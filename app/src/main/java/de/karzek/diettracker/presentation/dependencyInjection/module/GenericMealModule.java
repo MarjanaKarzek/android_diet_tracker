@@ -11,11 +11,13 @@ import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepos
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealContract;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealPresenter;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
+import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
@@ -45,15 +47,19 @@ public class GenericMealModule {
     @Provides
     GenericMealContract.Presenter provideGenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                                               GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
+                                                              Lazy<GetAllMealsUseCaseImpl> getAllMealsUseCase,
                                                               GetMealCountUseCaseImpl getMealCountUseCase,
                                                               Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
                                                               NutritionManagerImpl nutritionManager,
-                                                              DiaryEntryUIMapper mapper) {
+                                                              MealUIMapper mealMapper,
+                                                              DiaryEntryUIMapper diaryEntryMapper) {
         return new GenericMealPresenter(sharedPreferencesUtil,
                 getAllDiaryEntriesMatchingUseCase,
+                getAllMealsUseCase,
                 getMealCountUseCase,
                 deleteDiaryEntryUseCase,
                 nutritionManager,
-                mapper);
+                mealMapper,
+                diaryEntryMapper);
     }
 }

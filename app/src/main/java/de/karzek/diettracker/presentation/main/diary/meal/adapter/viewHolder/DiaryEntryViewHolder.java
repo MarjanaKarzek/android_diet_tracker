@@ -71,6 +71,7 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
     }
 
     @OnClick(R.id.swipe_option_move) public void onItemMoveClicked(){
+        swipeLayout.close();
         onMoveDiaryEntryItemListener.onItemMove((int) itemView.getTag());
     }
 

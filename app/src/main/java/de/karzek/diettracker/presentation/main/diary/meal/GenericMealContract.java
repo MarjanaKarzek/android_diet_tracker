@@ -8,6 +8,7 @@ import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -45,6 +46,8 @@ public interface GenericMealContract {
         void hideLoading();
 
         void refreshRecyclerView();
+
+        void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> meals);
     }
 
     interface Presenter extends BasePresenter<View>, 
@@ -57,5 +60,6 @@ public interface GenericMealContract {
 
         void updateDiaryEntries(String date);
 
+        void moveDiaryItemToMeal(int id, MealDisplayModel meal);
     }
 }
