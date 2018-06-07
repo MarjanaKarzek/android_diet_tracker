@@ -1,10 +1,15 @@
 package de.karzek.diettracker.presentation.main.diary.meal;
 
+import java.util.List;
+
+import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
+import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
-import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -27,6 +32,8 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
 
     private SharedPreferencesUtil sharedPreferencesUtil;
     private GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase;
+    private GetMealCountUseCaseImpl getMealCountUseCase;
+    private NutritionManagerImpl nutritionManager;
     private DiaryEntryUIMapper diaryEntryMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -34,9 +41,13 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
 
     public GenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                 GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
-                                DiaryEntryUIMapper diaryEntryMapper){
+                                GetMealCountUseCaseImpl getMealCountUseCase,
+                                NutritionManagerImpl nutritionManager,
+                                DiaryEntryUIMapper diaryEntryMapper) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getAllDiaryEntriesMatchingUseCase = getAllDiaryEntriesMatchingUseCase;
+        this.getMealCountUseCase = getMealCountUseCase;
+        this.nutritionManager = nutritionManager;
         this.diaryEntryMapper = diaryEntryMapper;
     }
 
@@ -44,14 +55,13 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
     public void start() {
         view.showLoading();
 
-        if(sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+        if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
             view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
         } else {
             view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS);
         }
 
         updateDiaryEntries(view.getSelectedDate());
-
     }
 
     @Override
@@ -70,14 +80,16 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    if(output.getStatus() == 0) {
-                        if(output.getDiaryEntries().size() > 0) {
+                    if (output.getStatus() == 0) {
+                        if (output.getDiaryEntries().size() > 0) {
                             view.updateGroceryList(diaryEntryMapper.transformAll(output.getDiaryEntries()));
                             view.showRecyclerView();
                             view.hideGroceryListPlaceholder();
+                            getNutritionValuesForDiaryEntries(output.getDiaryEntries());
                         } else {
                             view.hideRecyclerView();
                             view.showGroceryListPlaceholder();
+                            getDefaultNutritionValues();
                         }
                         view.hideLoading();
                     }
@@ -85,9 +97,71 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
         compositeDisposable.add(subs);
     }
 
+    private void getNutritionValuesForDiaryEntries(List<DiaryEntryDomainModel> diaryEntryDomainModels) {
+        compositeDisposable.add(getMealCountUseCase.execute(new GetMealCountUseCase.Input())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mealOutput -> {
+                    if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+                        compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForMeal(mealOutput.getCount()))
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(output1 -> {
+                                    view.setNutritionMaxValues(output1);
+                                    Observable.just(nutritionManager.calculateTotalCalories(diaryEntryDomainModels))
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> view.updateNutritionDetails(output2));
+                                }));
+                    } else {
+                        compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForMeal(mealOutput.getCount()))
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(output1 -> {
+                                    view.setNutritionMaxValues(output1);
+                                    Observable.just(nutritionManager.calculateTotalNutrition(diaryEntryDomainModels))
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> view.updateNutritionDetails(output2));
+                                }));
+                    }
+                }));
+    }
+
+    private void getDefaultNutritionValues() {
+        compositeDisposable.add(getMealCountUseCase.execute(new GetMealCountUseCase.Input())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mealOutput -> {
+                    if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+                        compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForMeal(mealOutput.getCount()))
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(output1 -> {
+                                    view.setNutritionMaxValues(output1);
+                                    Observable.just(nutritionManager.getDefaultValuesForTotalCalories())
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> view.updateNutritionDetails(output2));
+                                }));
+                    } else {
+                        compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForMeal(mealOutput.getCount()))
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(output1 -> {
+                                    view.setNutritionMaxValues(output1);
+                                    Observable.just(nutritionManager.getDefaultValuesForTotalNutrition())
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> view.updateNutritionDetails(output2));
+                                }));
+                    }
+                }));
+    }
+
     @Override
     public void finish() {
-
+        compositeDisposable.clear();
     }
 
     @Override

@@ -34,4 +34,9 @@ public class MealLocalDataSourceImpl implements MealDataSource {
     public Observable<List<MealEntity>> getAllMeals() {
         return mealCache.getAllMeals();
     }
+
+    @Override
+    public Observable<Long> getMealCount() {
+        return mealCache.getMealCount();
+    }
 }

@@ -18,4 +18,6 @@ public interface MealRepository {
     Observable<Boolean> putAllMeals(List<MealDataModel> mealDataModels);
 
     Observable<List<MealDataModel>> getAllMeals();
+
+    Observable<Long> getMealCount();
 }

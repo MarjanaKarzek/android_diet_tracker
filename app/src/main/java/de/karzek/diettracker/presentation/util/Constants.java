@@ -9,4 +9,9 @@ package de.karzek.diettracker.presentation.util;
  */
 public class Constants {
     public static final long weekInMilliS = 1000 * 60 * 60 * 24 * 7;
+
+    public static final String calories = "calories";
+    public static final String proteins = "proteins";
+    public static final String carbs = "carbs";
+    public static final String fats = "fats";
 }

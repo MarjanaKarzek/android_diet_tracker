@@ -20,4 +20,6 @@ public interface MealCache {
     Observable<Boolean> putAllMeals(List<MealEntity> mealEntities);
 
     Observable<List<MealEntity>> getAllMeals();
+
+    Observable<Long> getMealCount();
 }

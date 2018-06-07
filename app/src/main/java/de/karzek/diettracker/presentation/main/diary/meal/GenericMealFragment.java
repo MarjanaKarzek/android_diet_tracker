@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,7 +34,9 @@ import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryList
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
+import de.karzek.diettracker.presentation.util.StringUtils;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
@@ -66,6 +69,8 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     private String meal;
     private String selectedDate;
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+
+    private HashMap<String, Long> maxValues;
 
     @Nullable
     @Override
@@ -127,6 +132,35 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
             detailsView = new CaloryDetailsView(caloryDetails.inflate());
         } else {
             detailsView = new CaloryMacroDetailsView(caloryMacroDetails.inflate());
+        }
+    }
+
+    @Override
+    public void setNutritionMaxValues(HashMap<String, Long> values) {
+        maxValues = values;
+        detailsView.getCaloryProgressBarMaxValue().setText("" + values.get(Constants.calories));
+
+        if (detailsView instanceof CaloryMacroDetailsView){
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + values.get(Constants.proteins) + "g");
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + values.get(Constants.carbs) + "g");
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + values.get(Constants.fats) + "g");
+        }
+    }
+
+    @Override
+    public void updateNutritionDetails(HashMap<String, Float> values) {
+        detailsView.getCaloryProgressBar().setProgress(100 / maxValues.get(Constants.calories) * values.get(Constants.calories));
+        detailsView.getCaloryProgressBarValue().setText("" + (int)values.get(Constants.calories).floatValue());
+
+        if (detailsView instanceof CaloryMacroDetailsView){
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100 / maxValues.get(Constants.proteins) * values.get(Constants.proteins));
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.proteins)));
+
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBar().setProgress(100 / maxValues.get(Constants.carbs) * values.get(Constants.carbs));
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.carbs)));
+
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBar().setProgress(100 / maxValues.get(Constants.fats) * values.get(Constants.fats));
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.fats)));
         }
     }
 

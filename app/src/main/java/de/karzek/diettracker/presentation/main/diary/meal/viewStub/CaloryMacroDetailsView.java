@@ -8,6 +8,8 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
+import lombok.Data;
+import lombok.Value;
 
 /**
  * Created by MarjanaKarzek on 31.05.2018.
@@ -16,6 +18,7 @@ import de.karzek.diettracker.R;
  * @version 1.0
  * @date 31.05.2018
  */
+@Data
 public class CaloryMacroDetailsView extends CaloryDetailsView {
     @BindView(R.id.circle_progress_bar_protein) CircularProgressBar proteinProgressBar;
     @BindView(R.id.circle_progress_bar_protein_value) TextView proteinProgressBarValue;
@@ -31,6 +34,6 @@ public class CaloryMacroDetailsView extends CaloryDetailsView {
 
     public CaloryMacroDetailsView(View view){
         super(view);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
     }
 }

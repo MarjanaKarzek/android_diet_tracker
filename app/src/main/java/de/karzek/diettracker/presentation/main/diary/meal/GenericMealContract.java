@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.main.diary.meal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
@@ -28,6 +29,10 @@ public interface GenericMealContract {
         void hideGroceryListPlaceholder();
 
         void showNutritionDetails(String value);
+
+        void setNutritionMaxValues(HashMap<String, Long> values);
+
+        void updateNutritionDetails(HashMap<String, Float> values);
 
         void updateGroceryList(ArrayList<DiaryEntryDisplayModel> diaryEntries);
 

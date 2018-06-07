@@ -8,6 +8,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
+import lombok.Data;
 
 /**
  * Created by MarjanaKarzek on 31.05.2018.
@@ -16,12 +17,13 @@ import de.karzek.diettracker.R;
  * @version 1.0
  * @date 31.05.2018
  */
+@Data
 public class CaloryDetailsView {
     @BindView(R.id.circle_progress_bar_calories) CircularProgressBar caloryProgressBar;
     @BindView(R.id.circle_progress_bar_calories_value) TextView caloryProgressBarValue;
     @BindView(R.id.circle_progress_bar_calories_max_value) TextView caloryProgressBarMaxValue;
 
     public CaloryDetailsView(View view){
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
     }
 }

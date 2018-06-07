@@ -48,4 +48,9 @@ public class MealRepositoryImpl implements MealRepository {
             }
         });
     }
+
+    @Override
+    public Observable<Long> getMealCount() {
+        return new MealLocalDataSourceImpl(mealCache).getMealCount();
+    }
 }

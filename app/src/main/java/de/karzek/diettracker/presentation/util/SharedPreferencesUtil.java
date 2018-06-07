@@ -18,6 +18,15 @@ public class SharedPreferencesUtil {
     public static final String VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY = "CALORIES_ONLY";
     public static final String VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS = "CALORIES_AND_MACROS";
 
+    public static final String KEY_REQUIREMENT_CALORIES_DAILY = "KEY_REQUIREMENT_CALORIES_DAILY";
+    public static final String KEY_REQUIREMENT_PROTEINS_DAILY = "KEY_REQUIREMENT_PROTEINS_DAILY";
+    public static final String KEY_REQUIREMENT_CARBS_DAILY = "KEY_REQUIREMENT_CARBS_DAILY";
+    public static final String KEY_REQUIREMENT_FATS_DAILY = "KEY_REQUIREMENT_FATS_DAILY";
+    public static final int VALUE_REQUIREMENT_CALORIES_DAILY = 2000;
+    public static final int VALUE_REQUIREMENT_PROTEINS_DAILY = 60;
+    public static final int VALUE_REQUIREMENT_CARBS_DAILY = 230;
+    public static final int VALUE_REQUIREMENT_FATS_DAILY = 65;
+
     public SharedPreferencesUtil(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }
@@ -28,6 +37,10 @@ public class SharedPreferencesUtil {
                     .edit()
                     .putBoolean(KEY_APP_INITIALIZED, false)
                     .putString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS)
+                    .putInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY)
+                    .putInt(KEY_REQUIREMENT_PROTEINS_DAILY, VALUE_REQUIREMENT_PROTEINS_DAILY)
+                    .putInt(KEY_REQUIREMENT_CARBS_DAILY, VALUE_REQUIREMENT_CARBS_DAILY)
+                    .putInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY)
                     .apply();
             return true;
         } catch (Exception e){
