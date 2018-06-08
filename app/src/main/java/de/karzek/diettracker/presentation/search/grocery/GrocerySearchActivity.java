@@ -1,9 +1,14 @@
 package de.karzek.diettracker.presentation.search.grocery;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -14,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,9 +33,12 @@ import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.adapter.GrocerySearchResultListAdapter;
 import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
+import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
+import de.karzek.diettracker.presentation.util.Constants;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
+import static de.karzek.diettracker.presentation.util.Constants.ZXING_CAMERA_PERMISSION;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -43,10 +52,14 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     @Inject
     GrocerySearchContract.Presenter presenter;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.food_search_placeholder) TextView placeholder;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.food_search_placeholder)
+    TextView placeholder;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
     private int groceryType;
     private String noResultsPlaceholer;
@@ -88,14 +101,14 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(!query.equals(""))
+                if (!query.equals(""))
                     presenter.getGroceriesMatchingQuery(query, groceryType);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                if(!query.equals(""))
+                if (!query.equals(""))
                     presenter.getGroceriesMatchingQuery(query, groceryType);
                 return false;
             }
@@ -105,9 +118,11 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == android.R.id.home){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
+        } else if (item.getItemId() == R.id.grocery_search_barcode) {
+            presenter.onBarcodeScannerClicked();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -122,7 +137,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         selectedDate = getIntent().getExtras().getString("selectedDate", "");
         selectedMeal = getIntent().getExtras().getInt("selectedMeal", 0);
 
-        if(groceryType == TYPE_FOOD){
+        if (groceryType == TYPE_FOOD) {
             noResultsPlaceholer = getString(R.string.food_search_query_without_result_placeholder);
             noFavoritesPlaceholder = getString(R.string.food_search_placeholder);
         } else {
@@ -151,7 +166,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     }
 
     @Override
-    public void showGroceryDetails(int id){
+    public void showGroceryDetails(int id) {
         startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal));
     }
 
@@ -159,8 +174,8 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     public void updateFoodSearchResultList(ArrayList<GroceryDisplayModel> foods) {
         ArrayList<GrocerySearchResultItemWrapper> wrappedFoods = new ArrayList<>();
 
-        for(GroceryDisplayModel food: foods){
-            wrappedFoods.add(new GrocerySearchResultItemWrapper(food.getType(),food));
+        for (GroceryDisplayModel food : foods) {
+            wrappedFoods.add(new GrocerySearchResultItemWrapper(food.getType(), food));
         }
 
         ((GrocerySearchResultListAdapter) recyclerView.getAdapter()).setList(wrappedFoods);
@@ -218,12 +233,23 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         return selectedDate;
     }
 
+    @Override
+    public void startBarcodeScannerActivity() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
+        } else {
+            startActivity(BarcodeScannerActivity.newIntent(this,selectedDate,selectedMeal));
+        }
+    }
+
     private void setupSupportActionBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_back_arrow_white,null));
-        if(groceryType == TYPE_FOOD){
+        getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_back_arrow_white, null));
+        if (groceryType == TYPE_FOOD) {
             getSupportActionBar().setTitle(getString(R.string.food_search_title));
         } else {
             getSupportActionBar().setTitle(getString(R.string.drink_search_title));
@@ -233,6 +259,18 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new GrocerySearchResultListAdapter(presenter,presenter,presenter));
+        recyclerView.setAdapter(new GrocerySearchResultListAdapter(presenter, presenter, presenter));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case ZXING_CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    startActivity(BarcodeScannerActivity.newIntent(this,selectedDate,selectedMeal));
+                else
+                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

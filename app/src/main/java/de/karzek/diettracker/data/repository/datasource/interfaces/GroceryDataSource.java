@@ -18,7 +18,7 @@ public interface GroceryDataSource {
     Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query);
 
     Observable<GroceryEntity> getGroceryByID(int id);
-    Observable<GroceryEntity> getGroceryByBarcode(int barcode);
+    Observable<GroceryEntity> getGroceryByBarcode(String barcode);
     Observable<GroceryEntity> getGroceryByName(String name);
 
     Observable<Boolean> putAllGroceries(List<GroceryEntity> groceryEntities);

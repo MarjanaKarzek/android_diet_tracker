@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 public class GroceryEntity extends RealmObject {
     @PrimaryKey
     private int id;
-    private long barcode;
+    private String barcode;
     @Index private String name;
     private float calories_per_1U;
     private float proteins_per_1U;

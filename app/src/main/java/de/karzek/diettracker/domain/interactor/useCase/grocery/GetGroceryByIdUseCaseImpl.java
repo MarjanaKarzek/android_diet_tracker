@@ -26,7 +26,7 @@ public class GetGroceryByIdUseCaseImpl implements GetGroceryByIdUseCase {
 
     @Override
     public Observable<Output> execute(Input input) {
-        return repository.getGroceryByID(input.id).map(new Function<GroceryDataModel, Output>() {
+        return repository.getGroceryByID(input.getId()).map(new Function<GroceryDataModel, Output>() {
             @Override
             public Output apply(GroceryDataModel grocery){
                 return new Output(Output.SUCCESS, mapper.transform(grocery));

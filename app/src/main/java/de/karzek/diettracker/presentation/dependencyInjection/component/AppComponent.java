@@ -10,6 +10,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrinkModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.BarcodeScannerModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodDetailsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodSearchModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.MainModule;
@@ -17,6 +18,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
+import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.splash.SplashActivity;
 
@@ -28,7 +30,7 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
  * @date 28.04.2018
  */
 @Singleton
-@Component(modules = {AppModule.class, AndroidModule.class, SplashModule.class, MainModule.class, FoodSearchModule.class, FoodDetailsModule.class})
+@Component(modules = {AppModule.class, AndroidModule.class, SplashModule.class, MainModule.class, FoodSearchModule.class, FoodDetailsModule.class, BarcodeScannerModule.class})
 public interface AppComponent {
 
     HomeComponent plus(HomeModule module);
@@ -49,6 +51,8 @@ public interface AppComponent {
 
     void inject(GrocerySearchActivity activity);
 
-    void inject(GroceryDetailsActivity groceryDetailsActivity);
+    void inject(GroceryDetailsActivity activity);
+
+    void inject(BarcodeScannerActivity activity);
 
 }

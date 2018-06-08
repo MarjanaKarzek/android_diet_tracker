@@ -28,6 +28,9 @@
     <string name="drink_search_placeholder">Markiere Getränke als Favoriten, um sie hier schnell auszuwählen.</string>
     <string name="drink_search_query_without_result_placeholder">Es wurden keine Getränke gefunden.</string>
 
+    <string name="barcode_search_no_result">Dieses Produkt wurde in der Datenbank nicht gefunden.</string>
+    <string name="barcode_search_no_result_accept">OK</string>
+
     <string name="recipe_search_title">Rezepte</string>
     <string name="recipe_search_hint">Rezepte durchsuchen</string>
     <string name="recipe_search_placeholder">Markiere Rezepte als Favoriten, um sie hier schnell auszuwählen.</string>

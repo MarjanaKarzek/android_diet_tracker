@@ -133,6 +133,11 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
     }
 
     @Override
+    public void onBarcodeScannerClicked() {
+        view.startBarcodeScannerActivity();
+    }
+
+    @Override
     public void onItemClicked(int id) {
         view.showGroceryDetails(id);
     }

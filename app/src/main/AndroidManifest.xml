@@ -3,6 +3,7 @@
     package="de.karzek.diettracker">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".presentation.TrackerApplication"
@@ -37,6 +38,10 @@
         </activity>
 
         <activity android:name=".presentation.search.grocery.groceryDetail.GroceryDetailsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".presentation.search.grocery.barcodeScanner.BarcodeScannerActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 

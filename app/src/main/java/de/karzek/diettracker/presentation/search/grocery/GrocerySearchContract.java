@@ -42,6 +42,8 @@ public interface GrocerySearchContract {
         void finishActivity();
 
         String getSelectedDate();
+
+        void startBarcodeScannerActivity();
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -54,5 +56,6 @@ public interface GrocerySearchContract {
 
         void getGroceriesMatchingQuery(String query, int type);
 
+        void onBarcodeScannerClicked();
     }
 }

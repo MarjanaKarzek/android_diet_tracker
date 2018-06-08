@@ -38,7 +38,7 @@ public class GroceryLocalDataSourceImpl implements GroceryDataSource {
     }
 
     @Override
-    public Observable<GroceryEntity> getGroceryByBarcode(int barcode) {
+    public Observable<GroceryEntity> getGroceryByBarcode(String barcode) {
         return groceryCache.getGroceryByBarcode(barcode);
     }
 

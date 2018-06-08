@@ -68,7 +68,7 @@ public class GroceryRepositoryImpl implements GroceryRepository {
     }
 
     @Override
-    public Observable<GroceryDataModel> getGroceryByBarcode(int barcode) {
+    public Observable<GroceryDataModel> getGroceryByBarcode(String barcode) {
         if(!groceryCache.isExpired() && groceryCache.isCached()){
             return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByBarcode(barcode).map(new Function<GroceryEntity, GroceryDataModel>() {
                 @Override

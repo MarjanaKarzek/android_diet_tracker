@@ -14,7 +14,7 @@ import lombok.Value;
 @Value
 public class GroceryDisplayModel {
     private int id;
-    private long barcode;
+    private String barcode;
     private String name;
     private float calories_per_1U;
     private float proteins_per_1U;

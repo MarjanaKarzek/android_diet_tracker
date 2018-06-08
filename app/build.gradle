@@ -36,6 +36,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:27.1.1'
 
+    //Barcode Scanner
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

@@ -14,4 +14,6 @@ public class Constants {
     public static final String proteins = "proteins";
     public static final String carbs = "carbs";
     public static final String fats = "fats";
+
+    public static final int ZXING_CAMERA_PERMISSION = 1;
 }

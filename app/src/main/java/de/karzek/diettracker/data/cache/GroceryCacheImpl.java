@@ -7,6 +7,8 @@ import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import io.reactivex.Observable;
 import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -69,9 +71,14 @@ public class GroceryCacheImpl implements GroceryCache {
     }
 
     @Override
-    public Observable<GroceryEntity> getGroceryByBarcode(int barcode) {
+    public Observable<GroceryEntity> getGroceryByBarcode(String barcode) {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("barcode", barcode).findFirst()));
+        GroceryEntity result = realm.where(GroceryEntity.class).equalTo("barcode", barcode).findFirst();
+        if (result == null) {
+            return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("id", -1).findFirst()));
+        }
+        else
+            return Observable.just(realm.copyFromRealm(result));
     }
 
     @Override
