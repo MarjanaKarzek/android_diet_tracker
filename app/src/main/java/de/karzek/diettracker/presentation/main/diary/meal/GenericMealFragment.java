@@ -1,10 +1,10 @@
 package de.karzek.diettracker.presentation.main.diary.meal;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,18 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -33,7 +28,6 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
-import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryListAdapter;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
@@ -41,10 +35,8 @@ import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDe
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
-import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
@@ -77,6 +69,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
 
     private HashMap<String, Long> maxValues;
+    private ArrayList<MealDisplayModel> meals;
 
     @Nullable
     @Override
@@ -202,26 +195,22 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
-    public void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> meals) {
-        new MoveDiaryEntryDialog().showDialog();
+    public void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> allMeals, ArrayList<String> meals) {
+        this.meals = allMeals;
 
-        /*builder.setView(view);
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        Fragment previous = getFragmentManager().findFragmentByTag("dialog");
+        if (previous != null){
+            fragmentTransaction.remove(previous);
+        }
+        fragmentTransaction.addToBackStack(null);
 
-        AlertDialog dialog = builder.create();
-
-        builder.setPositiveButton("Verschieben", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                presenter.moveDiaryItemToMeal(id, meals.get(mealSpinner.getSelectedItemPosition()));
-            }
-        });
-        builder.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                builder.create().dismiss();
-            }
-        });
-        dialog.show();*/
+        AppCompatDialogFragment dialogFragment = new MoveDiaryEntryDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("diaryEntry", id);
+        bundle.putStringArrayList("meals", meals);
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(fragmentTransaction,"dialog");
     }
 
     @Override
@@ -232,5 +221,10 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void hideRecyclerView() {
         recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void mealToMoveDiaryEntryToSelected(int diaryEntryId, int mealId) {
+        presenter.moveDiaryItemToMeal(diaryEntryId, meals.get(mealId));
     }
 }

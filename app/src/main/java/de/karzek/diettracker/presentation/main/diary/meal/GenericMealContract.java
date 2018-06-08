@@ -7,6 +7,7 @@ import java.util.List;
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
+import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
@@ -19,7 +20,7 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
  */
 public interface GenericMealContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter>, MoveDiaryEntryDialog.MealSelectedInDialogListener {
 
         void showRecyclerView();
 
@@ -47,7 +48,7 @@ public interface GenericMealContract {
 
         void refreshRecyclerView();
 
-        void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> meals);
+        void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> allMeals, ArrayList<String> meals);
     }
 
     interface Presenter extends BasePresenter<View>, 

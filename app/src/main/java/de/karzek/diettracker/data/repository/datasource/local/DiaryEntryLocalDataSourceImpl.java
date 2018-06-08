@@ -5,7 +5,9 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.interfaces.DiaryEntryCache;
 import de.karzek.diettracker.data.cache.interfaces.UnitCache;
 import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
+import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.repository.datasource.interfaces.DiaryEntryDataSource;
 import de.karzek.diettracker.data.repository.datasource.interfaces.UnitDataSource;
 import io.reactivex.Observable;
@@ -38,5 +40,10 @@ public class DiaryEntryLocalDataSourceImpl implements DiaryEntryDataSource {
     @Override
     public Observable<Boolean> deleteDiaryEntry(int id) {
         return diaryEntryCache.deleteDiaryEntry(id);
+    }
+
+    @Override
+    public Observable<Boolean> updateMealOfDiaryEntry(int id, MealEntity meal) {
+        return diaryEntryCache.updateMealOfDiaryEntry(id, meal);
     }
 }

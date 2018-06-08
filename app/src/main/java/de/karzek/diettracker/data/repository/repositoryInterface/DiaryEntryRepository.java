@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.model.DiaryEntryDataModel;
+import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.model.UnitDataModel;
 import io.reactivex.Observable;
 
@@ -21,4 +22,6 @@ public interface DiaryEntryRepository {
     Observable<List<DiaryEntryDataModel>> getAllDiaryEntriesMatching(String meal, String date);
 
     Observable<Boolean> deleteDiaryEntry(int id);
+
+    Observable<Boolean> updateMealOfDiaryEntry(int id, MealDataModel mealDataModel);
 }

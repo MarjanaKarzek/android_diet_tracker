@@ -5,7 +5,9 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.interfaces.DiaryEntryCache;
 import de.karzek.diettracker.data.cache.interfaces.UnitCache;
 import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
+import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.MealDataModel;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -77,6 +79,21 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
                 result.deleteAllFromRealm();
             }
         });
+        return Observable.just(true);
+    }
+
+    @Override
+    public Observable<Boolean> updateMealOfDiaryEntry(int id, MealEntity meal) {
+        Realm realm = Realm.getDefaultInstance();
+        DiaryEntryEntity entity = realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("id",id).findFirst());
+
+        if (entity == null)
+            return Observable.just(false);
+
+        entity.setMeal(meal);
+        realm.copyToRealmOrUpdate(entity);
+        realm.commitTransaction();
+        realm.close();
         return Observable.just(true);
     }
 }

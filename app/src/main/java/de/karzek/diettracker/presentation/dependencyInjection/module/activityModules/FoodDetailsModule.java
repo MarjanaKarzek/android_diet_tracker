@@ -5,6 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.cache.DiaryEntryCacheImpl;
 import de.karzek.diettracker.data.mapper.DiaryEntryDataMapper;
+import de.karzek.diettracker.data.mapper.MealDataMapper;
 import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
@@ -51,8 +52,8 @@ public class FoodDetailsModule {
     }
 
     @Provides
-    DiaryEntryRepositoryImpl provideDiaryEntryRepositoryImpl(DiaryEntryCacheImpl cache, DiaryEntryDataMapper mapper){
-        return new DiaryEntryRepositoryImpl(cache, mapper);
+    DiaryEntryRepositoryImpl provideDiaryEntryRepositoryImpl(DiaryEntryCacheImpl cache, DiaryEntryDataMapper diaryEntryMapper, MealDataMapper mealMapper){
+        return new DiaryEntryRepositoryImpl(cache, diaryEntryMapper, mealMapper);
     }
 
     //domain

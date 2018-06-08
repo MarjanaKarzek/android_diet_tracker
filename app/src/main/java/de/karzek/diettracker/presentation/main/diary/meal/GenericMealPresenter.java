@@ -1,14 +1,17 @@
 package de.karzek.diettracker.presentation.main.diary.meal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.UpdateMealOfDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateMealOfDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
@@ -42,7 +45,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
     private Lazy<GetAllMealsUseCaseImpl> getAllMealsUseCase;
     private GetMealCountUseCaseImpl getMealCountUseCase;
     private Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase;
-    //private Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase;
+    private Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase;
 
     private NutritionManagerImpl nutritionManager;
 
@@ -57,7 +60,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                                 Lazy<GetAllMealsUseCaseImpl> getAllMealsUseCase,
                                 GetMealCountUseCaseImpl getMealCountUseCase,
                                 Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
-                                //Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase,
+                                Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase,
                                 NutritionManagerImpl nutritionManager,
                                 MealUIMapper mealMapper,
                                 DiaryEntryUIMapper diaryEntryMapper) {
@@ -66,7 +69,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.getMealCountUseCase = getMealCountUseCase;
         this.deleteDiaryEntryUseCase = deleteDiaryEntryUseCase;
-        //this.updateMealOfDiaryEntryUseCase = updateMealOfDiaryEntryUseCase;
+        this.updateMealOfDiaryEntryUseCase = updateMealOfDiaryEntryUseCase;
         this.nutritionManager = nutritionManager;
         this.mealMapper = mealMapper;
         this.diaryEntryMapper = diaryEntryMapper;
@@ -212,14 +215,21 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    view.showMoveDiaryEntryDialog(id, mealMapper.transformAll(output.getMealList()));
+                    ArrayList<MealDisplayModel> meals = mealMapper.transformAll(output.getMealList());
+                    ArrayList<String> mealTitles = new ArrayList<>();
+
+
+                    for (MealDisplayModel meal: meals)
+                        mealTitles.add(meal.getName());
+
+                    view.showMoveDiaryEntryDialog(id, meals, mealTitles);
                 }));
     }
 
     @Override
     public void moveDiaryItemToMeal(int id, MealDisplayModel meal) {
         view.showLoading();
-        /*compositeDisposable.add(updateMealOfDiaryEntryUseCase.get().execute(new UpdateMealOfDiaryEntryUseCase.Input(id, meal))
+        compositeDisposable.add(updateMealOfDiaryEntryUseCase.get().execute(new UpdateMealOfDiaryEntryUseCase.Input(id, mealMapper.transformToDomain(meal)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
@@ -229,7 +239,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                     } else {
                         view.hideLoading();
                     }
-                }));*/
+                }));
     }
 
     @Override

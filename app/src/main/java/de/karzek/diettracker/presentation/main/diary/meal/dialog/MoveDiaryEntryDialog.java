@@ -1,22 +1,21 @@
 package de.karzek.diettracker.presentation.main.diary.meal.dialog;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
-import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 07.06.2018.
@@ -28,21 +27,46 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 public class MoveDiaryEntryDialog extends AppCompatDialogFragment {
 
     @BindView(R.id.spinner_meal) Spinner spinner;
+    @BindView(R.id.dialog_action_dismiss) Button dismiss;
+    @BindView(R.id.dialog_action_move) Button move;
 
     private View view;
+    private int diaryEntryId;
     private ArrayList<String> meals;
 
-    public MoveDiaryEntryDialog(){
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        view = inflater.inflate(R.layout.dialog_move_diary_entry,null);
+    private MealSelectedInDialogListener listener;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.dialog_move_diary_entry, container, false);
 
         ButterKnife.bind(this, view);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
+            diaryEntryId = bundle.getInt("diaryEntry");
             meals = bundle.getStringArrayList("meals");
             initializeSpinner();
         }
+
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        move.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int selectedMealId = spinner.getSelectedItemPosition();
+                listener.mealToMoveDiaryEntryToSelected(diaryEntryId, selectedMealId);
+                dismiss();
+            }
+        });
+
+        return view;
     }
 
     private void initializeSpinner() {
@@ -52,28 +76,17 @@ public class MoveDiaryEntryDialog extends AppCompatDialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        builder.setView(view)
-                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .setPositiveButton("Verschieben", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-        return builder.create();
+        try {
+            listener = (MealSelectedInDialogListener) getParentFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("fragment must implement MealSelectedInDialogListener");
+        }
     }
 
-    public void showDialog(){
-        MoveDiaryEntryDialog dialog = new MoveDiaryEntryDialog();
-        dialog.show(getFragmentManager(), "move_dialog");
+    public interface MealSelectedInDialogListener {
+        void mealToMoveDiaryEntryToSelected(int diaryEntryId, int mealId);
     }
 }
