@@ -25,7 +25,11 @@ public interface NutritionManager {
 
     HashMap<String, Long> getNutritionMaxValuesForMeal(long mealsTotal);
 
+    HashMap<String, Long> getNutritionMaxValuesForDay();
+
     HashMap<String, Long> getCaloryMaxValueForMeal(long mealsTotal);
+
+    HashMap<String, Long> getCaloryMaxValueForDay();
 
     HashMap<String,Float> getDefaultValuesForTotalCalories();
 

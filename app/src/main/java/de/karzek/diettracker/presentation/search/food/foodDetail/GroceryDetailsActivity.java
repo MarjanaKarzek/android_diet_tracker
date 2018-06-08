@@ -20,9 +20,11 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -56,9 +58,9 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  * @version 1.0
  * @date 02.06.2018
  */
-public class FoodDetailsActivity extends BaseActivity implements FoodDetailsContract.View {
+public class GroceryDetailsActivity extends BaseActivity implements GroceryDetailsContract.View {
 
-    @Inject FoodDetailsContract.Presenter presenter;
+    @Inject GroceryDetailsContract.Presenter presenter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -75,7 +77,10 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     private CaloryDetailsView detailsView;
 
     private int groceryId;
-    private Calendar selectedDate = Calendar.getInstance();
+    private String selectedDate;
+    private int selectedMeal;
+
+    private Calendar selectedDateCalendar = Calendar.getInstance();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -86,9 +91,11 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     private ArrayList<MealDisplayModel> meals;
     private HashMap<String, Long> maxValues;
 
-    public static Intent newIntent(Context context, int id) {
-        Intent intent = new Intent(context, FoodDetailsActivity.class);
+    public static Intent newIntent(Context context, int id, String selectedDate, int selectedMeal) {
+        Intent intent = new Intent(context, GroceryDetailsActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("selectedDate", selectedDate);
+        intent.putExtra("selectedMeal", selectedMeal);
 
         return intent;
     }
@@ -107,9 +114,18 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         ButterKnife.bind(this);
 
         groceryId = getIntent().getExtras().getInt("id");
+        selectedDate = getIntent().getExtras().getString("selectedDate");
+        selectedMeal = getIntent().getExtras().getInt("selectedMeal");
 
         setupSupportActionBar();
-        selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
+        try {
+            Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
+            selectedDateLabel.setText(simpleDateFormat.format(currentSelectedDate));
+            selectedDateCalendar.setTime(currentSelectedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
+        }
 
         editTextAmount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -160,7 +176,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     }
 
     @Override
-    public void setPresenter(FoodDetailsContract.Presenter presenter) {
+    public void setPresenter(GroceryDetailsContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -253,6 +269,10 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
 
     @Override
     public void initializeMealSpinner(ArrayList<MealDisplayModel> mealDisplayModels) {
+        if(groceryDisplayModel.getType() == TYPE_DRINK) {
+            spinnerMeal.setVisibility(View.GONE);
+            return;
+        }
         this.meals = mealDisplayModels;
 
         ArrayList<String> mealNames = new ArrayList<>();
@@ -263,6 +283,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         mealAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerMeal.setAdapter(mealAdapter);
+        spinnerMeal.setSelection(selectedMeal);
     }
 
     @Override
@@ -300,40 +321,47 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     public void openDatePicker(){
         if(dateSetListener == null) {
             dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
-                selectedDate.set(Calendar.YEAR, year);
-                selectedDate.set(Calendar.MONTH, monthOfYear);
-                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                selectedDateLabel.setText(simpleDateFormat.format(selectedDate.getTime()));
+                selectedDateCalendar.set(Calendar.YEAR, year);
+                selectedDateCalendar.set(Calendar.MONTH, monthOfYear);
+                selectedDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDateLabel.setText(simpleDateFormat.format(selectedDateCalendar.getTime()));
             };
         }
 
-        DatePickerDialog dialog = new DatePickerDialog(this, dateSetListener, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DAY_OF_MONTH));
+        DatePickerDialog dialog = new DatePickerDialog(this, dateSetListener, selectedDateCalendar.get(Calendar.YEAR), selectedDateCalendar.get(Calendar.MONTH), selectedDateCalendar.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime() + Constants.weekInMilliS);
         dialog.show();
     }
 
-    @OnClick(R.id.add_grocery) public void onAddFoodClicked(){
+    @OnClick(R.id.add_grocery) public void onAddGroceryClicked(){
         float amount = 1;
         int servingPosition = spinnerServing.getSelectedItemPosition();
         int multiplier = 0;
-        if(servingPosition >= defaultUnits.size()){
-            amount = servings.get(servingPosition-defaultUnits.size()).getAmount();
-            multiplier = servings.get(servingPosition-defaultUnits.size()).getUnit().getMultiplier();
+        if (servingPosition >= defaultUnits.size()) {
+            amount = servings.get(servingPosition - defaultUnits.size()).getAmount();
+            multiplier = servings.get(servingPosition - defaultUnits.size()).getUnit().getMultiplier();
         } else {
             multiplier = defaultUnits.get(servingPosition).getMultiplier();
         }
         float editTextValue = 0.0f;
-        if(!editTextAmount.getText().toString().equals(""))
+        if (!editTextAmount.getText().toString().equals(""))
             editTextValue = Float.valueOf(editTextAmount.getText().toString());
         else
             editTextValue = Float.valueOf(editTextAmount.getHint().toString());
         amount *= multiplier * editTextValue;
-
-        presenter.addFood(new DiaryEntryDisplayModel(-1,
-                meals.get(spinnerMeal.getSelectedItemPosition()),
-                amount,
-                defaultUnits.get(0),
-                groceryDisplayModel,
-                databaseDateFormat.format(selectedDate.getTime())));
+        if (groceryDisplayModel.getType() == TYPE_FOOD) {
+            presenter.addFood(new DiaryEntryDisplayModel(-1,
+                    meals.get(spinnerMeal.getSelectedItemPosition()),
+                    amount,
+                    defaultUnits.get(0),
+                    groceryDisplayModel,
+                    databaseDateFormat.format(selectedDateCalendar.getTime())));
+        } else {
+            presenter.addDrink(new DiaryEntryDisplayModel(-1,
+                    amount,
+                    defaultUnits.get(0),
+                    groceryDisplayModel,
+                    databaseDateFormat.format(selectedDateCalendar.getTime())));
+        }
     }
 }

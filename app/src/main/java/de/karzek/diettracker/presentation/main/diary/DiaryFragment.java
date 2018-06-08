@@ -133,7 +133,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         TrackerApplication.get(getContext()).releaseDiaryComponent();
     }
 
-    @OnClick(R.id.add_grocery) public void onAddFoodClicked() {
+    @OnClick(R.id.add_food) public void onAddFoodClicked() {
         presenter.onAddFoodClicked();
     }
 

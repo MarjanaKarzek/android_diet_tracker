@@ -18,7 +18,7 @@ import de.karzek.diettracker.presentation.model.UnitDisplayModel;
  * @version 1.0
  * @date 12.05.2018
  */
-public interface FoodDetailsContract {
+public interface GroceryDetailsContract {
 
     interface View extends BaseView<Presenter> {
 
@@ -55,5 +55,7 @@ public interface FoodDetailsContract {
         void addFood(DiaryEntryDisplayModel diaryEntry);
 
         void onDateLabelClicked();
+
+        void addDrink(DiaryEntryDisplayModel diaryEntryDisplayModel);
     }
 }

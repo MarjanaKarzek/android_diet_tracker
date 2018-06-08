@@ -12,14 +12,12 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
-import de.karzek.diettracker.domain.model.GroceryDomainModel;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
-import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,6 +25,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
@@ -38,9 +37,9 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  * @version 1.0
  * @date 02.06.2018
  */
-public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
+public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter {
 
-    FoodDetailsContract.View view;
+    GroceryDetailsContract.View view;
     private int groceryId;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
@@ -59,17 +58,17 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public FoodDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
-                                GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase,
-                                GetAllMealsUseCaseImpl getAllMealsUseCase,
-                                GetMealCountUseCaseImpl getMealCountUseCase,
-                                Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
-                                GroceryUIMapper groceryMapper,
-                                UnitUIMapper unitMapper,
-                                MealUIMapper mealMapper,
-                                DiaryEntryUIMapper diaryEntryMapper,
-                                NutritionManagerImpl nutritionManager) {
+    public GroceryDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
+                                   GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
+                                   GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase,
+                                   GetAllMealsUseCaseImpl getAllMealsUseCase,
+                                   GetMealCountUseCaseImpl getMealCountUseCase,
+                                   Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
+                                   GroceryUIMapper groceryMapper,
+                                   UnitUIMapper unitMapper,
+                                   MealUIMapper mealMapper,
+                                   DiaryEntryUIMapper diaryEntryMapper,
+                                   NutritionManagerImpl nutritionManager) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getDefaultUnitsUseCase = getDefaultUnitsUseCase;
@@ -124,33 +123,65 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                             if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
-                                compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForMeal(output.getCount()))
-                                        .subscribeOn(Schedulers.computation())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(output2 -> {
-                                                    view.setNutritionMaxValues(output2);
-                                                    Observable.just(nutritionManager.calculateTotalCaloriesForGrocery(groceryMapper.transformToDomain(grocery), amount))
-                                                            .subscribeOn(Schedulers.computation())
-                                                            .observeOn(AndroidSchedulers.mainThread())
-                                                            .subscribe(output3 -> {
-                                                                view.updateNutritionDetails(output3);
-                                                            });
-                                                }
-                                        ));
+                                if(grocery.getType() == TYPE_FOOD) {
+                                    compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForMeal(output.getCount()))
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> {
+                                                        view.setNutritionMaxValues(output2);
+                                                        Observable.just(nutritionManager.calculateTotalCaloriesForGrocery(groceryMapper.transformToDomain(grocery), amount))
+                                                                .subscribeOn(Schedulers.computation())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(output3 -> {
+                                                                    view.updateNutritionDetails(output3);
+                                                                });
+                                                    }
+                                            ));
+                                } else {
+                                    compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForDay())
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> {
+                                                        view.setNutritionMaxValues(output2);
+                                                        Observable.just(nutritionManager.calculateTotalCaloriesForGrocery(groceryMapper.transformToDomain(grocery), amount))
+                                                                .subscribeOn(Schedulers.computation())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(output3 -> {
+                                                                    view.updateNutritionDetails(output3);
+                                                                });
+                                                    }
+                                            ));
+                                }
                             } else {
-                                compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForMeal(output.getCount()))
-                                        .subscribeOn(Schedulers.computation())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(output2 -> {
-                                                    view.setNutritionMaxValues(output2);
-                                                    Observable.just(nutritionManager.calculateTotalNutritionForGrocery(groceryMapper.transformToDomain(grocery), amount))
-                                                            .subscribeOn(Schedulers.computation())
-                                                            .observeOn(AndroidSchedulers.mainThread())
-                                                            .subscribe(output3 -> {
-                                                                view.updateNutritionDetails(output3);
-                                                            });
-                                                }
-                                        ));
+                                if(grocery.getType() == TYPE_FOOD) {
+                                    compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForMeal(output.getCount()))
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> {
+                                                        view.setNutritionMaxValues(output2);
+                                                        Observable.just(nutritionManager.calculateTotalNutritionForGrocery(groceryMapper.transformToDomain(grocery), amount))
+                                                                .subscribeOn(Schedulers.computation())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(output3 -> {
+                                                                    view.updateNutritionDetails(output3);
+                                                                });
+                                                    }
+                                            ));
+                                } else {
+                                    compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForDay())
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(output2 -> {
+                                                        view.setNutritionMaxValues(output2);
+                                                        Observable.just(nutritionManager.calculateTotalNutritionForGrocery(groceryMapper.transformToDomain(grocery), amount))
+                                                                .subscribeOn(Schedulers.computation())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(output3 -> {
+                                                                    view.updateNutritionDetails(output3);
+                                                                });
+                                                    }
+                                            ));
+                                }
                             }
                         }
 
@@ -158,7 +189,7 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
     }
 
     @Override
-    public void setView(FoodDetailsContract.View view) {
+    public void setView(GroceryDetailsContract.View view) {
         this.view = view;
     }
 
@@ -174,6 +205,20 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
 
     @Override
     public void addFood(DiaryEntryDisplayModel diaryEntry) {
+        putDiaryEntry(diaryEntry);
+    }
+
+    @Override
+    public void onDateLabelClicked() {
+        view.openDatePicker();
+    }
+
+    @Override
+    public void addDrink(DiaryEntryDisplayModel diaryEntryDisplayModel) {
+        putDiaryEntry(diaryEntryDisplayModel);
+    }
+
+    private void putDiaryEntry(DiaryEntryDisplayModel diaryEntry){
         view.showLoading();
         Disposable subs = putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(diaryEntry)))
                 .subscribeOn(Schedulers.io())
@@ -184,11 +229,6 @@ public class FoodDetailsPresenter implements FoodDetailsContract.Presenter {
                     }
                 });
         compositeDisposable.add(subs);
-    }
-
-    @Override
-    public void onDateLabelClicked() {
-        view.openDatePicker();
     }
 
 }

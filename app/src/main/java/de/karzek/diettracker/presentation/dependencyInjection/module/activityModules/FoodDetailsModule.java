@@ -96,18 +96,18 @@ public class FoodDetailsModule {
     }
 
     @Provides
-    FoodDetailsContract.Presenter provideFoodDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                                              GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
-                                                              GetAllDefaultUnitsUseCaseImpl getAllDefaultUnitsUseCase,
-                                                              GetAllMealsUseCaseImpl getAllMealsUseCase,
-                                                              GetMealCountUseCaseImpl getMealCountUseCase,
-                                                              Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
-                                                              GroceryUIMapper groceryMapper,
-                                                              UnitUIMapper unitMapper,
-                                                              MealUIMapper mealMapper,
-                                                              DiaryEntryUIMapper diaryEntryMapper,
-                                                              NutritionManagerImpl nutritionManager) {
-        return new FoodDetailsPresenter(sharedPreferencesUtil,
+    GroceryDetailsContract.Presenter provideFoodDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
+                                                                 GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
+                                                                 GetAllDefaultUnitsUseCaseImpl getAllDefaultUnitsUseCase,
+                                                                 GetAllMealsUseCaseImpl getAllMealsUseCase,
+                                                                 GetMealCountUseCaseImpl getMealCountUseCase,
+                                                                 Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
+                                                                 GroceryUIMapper groceryMapper,
+                                                                 UnitUIMapper unitMapper,
+                                                                 MealUIMapper mealMapper,
+                                                                 DiaryEntryUIMapper diaryEntryMapper,
+                                                                 NutritionManagerImpl nutritionManager) {
+        return new GroceryDetailsPresenter(sharedPreferencesUtil,
                 getGroceryByIdUseCase,
                 getAllDefaultUnitsUseCase,
                 getAllMealsUseCase,

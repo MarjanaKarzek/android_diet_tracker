@@ -112,11 +112,32 @@ public class NutritionManagerImpl implements NutritionManager {
     }
 
     @Override
+    public HashMap<String, Long> getNutritionMaxValuesForDay() {
+        HashMap<String, Long> maxValues = new HashMap<>();
+
+        maxValues.put(Constants.calories, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY));
+        maxValues.put(Constants.proteins, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_PROTEINS_DAILY, VALUE_REQUIREMENT_PROTEINS_DAILY));
+        maxValues.put(Constants.carbs, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CARBS_DAILY, VALUE_REQUIREMENT_CARBS_DAILY));
+        maxValues.put(Constants.fats, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY));
+
+        return maxValues;
+    }
+
+    @Override
     public HashMap<String, Long> getCaloryMaxValueForMeal(long mealsTotal) {
         HashMap<String, Long> maxValues = new HashMap<>();
 
         long caloriesMax = sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY) / mealsTotal;
         maxValues.put(Constants.calories, caloriesMax);
+
+        return maxValues;
+    }
+
+    @Override
+    public HashMap<String, Long> getCaloryMaxValueForDay() {
+        HashMap<String, Long> maxValues = new HashMap<>();
+
+        maxValues.put(Constants.calories, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY));
 
         return maxValues;
     }
