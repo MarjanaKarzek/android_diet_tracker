@@ -47,5 +47,7 @@
     <string name="swipe_action_delete">löschen</string>
 
     <string name="dialog_move_to">Verschieben nach </string>
+    <string name="dialog_action_dismiss">Abbrechen</string>
+    <string name="dialog_action_move">Verschieben</string>
 
 </resources>

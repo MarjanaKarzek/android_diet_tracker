@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@null"
-            android:text="Abbrechen"
+            android:text="@string/dialog_action_dismiss"
             android:textColor="@color/colorAccentDark" />
 
         <Button
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:background="@null"
-            android:text="Verschieben"
+            android:text="@string/dialog_action_move"
             android:textColor="@color/colorAccentDark"/>
 
     </LinearLayout>

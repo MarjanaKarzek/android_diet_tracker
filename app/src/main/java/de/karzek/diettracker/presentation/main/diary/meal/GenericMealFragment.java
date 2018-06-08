@@ -1,5 +1,6 @@
 package de.karzek.diettracker.presentation.main.diary.meal;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
+import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryListAdapter;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
@@ -62,6 +64,12 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @BindView(R.id.grocery_list_placeholder) TextView placeholder;
     @BindView(R.id.loading_view) FrameLayout loadingView;
 
+    OnRefreshViewPagerNeededListener callback;
+
+    public interface OnRefreshViewPagerNeededListener {
+        public void onRefreshViewPagerNeeded();
+    }
+
     private CaloryDetailsView detailsView;
 
     private String meal;
@@ -71,6 +79,18 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     private HashMap<String, Long> maxValues;
     private ArrayList<MealDisplayModel> meals;
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            callback = (OnRefreshViewPagerNeededListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnRefreshViewPagerNeededListener");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +98,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         ButterKnife.bind(this, view);
 
         meal = getArguments().getString("meal");
+        selectedDate = ((DiaryFragment) getActivity().getSupportFragmentManager().findFragmentByTag("DiaryFragment")).getSelectedDate();
 
         return view;
     }
@@ -86,7 +107,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        selectedDate = databaseDateFormat.format(Calendar.getInstance().getTime());
         setupRecyclerView();
 
         presenter.setView(this);
@@ -226,5 +246,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void mealToMoveDiaryEntryToSelected(int diaryEntryId, int mealId) {
         presenter.moveDiaryItemToMeal(diaryEntryId, meals.get(mealId));
+        callback.onRefreshViewPagerNeeded();
     }
 }

@@ -179,6 +179,11 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
+    public String getSelectedDate(){
+        return databaseDateFormat.format(datePickerCalendar.getTime());
+    }
+
+    @Override
     public void startFoodSearchActivity() {
         startActivity(FoodSearchActivity.newIntent(getContext()));
     }
@@ -239,5 +244,10 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public void hideLoading() {
         loadingView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void refreshViewPager(){
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 }

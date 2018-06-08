@@ -61,8 +61,8 @@ public class MoveDiaryEntryDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 int selectedMealId = spinner.getSelectedItemPosition();
-                listener.mealToMoveDiaryEntryToSelected(diaryEntryId, selectedMealId);
                 dismiss();
+                listener.mealToMoveDiaryEntryToSelected(diaryEntryId, selectedMealId);
             }
         });
 

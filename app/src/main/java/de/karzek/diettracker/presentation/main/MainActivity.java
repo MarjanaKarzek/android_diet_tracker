@@ -25,7 +25,7 @@ import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.home.HomeFragment;
 import de.karzek.diettracker.presentation.main.settings.SettingsFragment;
 
-public class MainActivity extends BaseActivity implements MainContract.View, DiaryFragment.OnDateSelectedListener{
+public class MainActivity extends BaseActivity implements MainContract.View, DiaryFragment.OnDateSelectedListener, GenericMealFragment.OnRefreshViewPagerNeededListener {
 
     @BindView(R.id.random_quote_view) TextView randomQuoteView;
     @BindView(R.id.bottom_navigation_view) CustomBottomNavigationView navigationView;
@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
         ViewUtils.customizeBottomNavigation(navigationView);
 
         setupNavigationListener();
-        navigateToFragment(new HomeFragment());
+        navigateToFragment(new HomeFragment(), "HomeFragment");
 
         presenter.setView(this);
         setPresenter(presenter);
@@ -64,26 +64,26 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
         navigationView.setOnNavigationItemSelectedListener(item -> {
             switch(item.getItemId()) {
                 case R.id.action_home:
-                    navigateToFragment(new HomeFragment());
+                    navigateToFragment(new HomeFragment(), "HomeFragment");
                     break;
                 case R.id.action_diary:
-                    navigateToFragment(new DiaryFragment());
+                    navigateToFragment(new DiaryFragment(), "DiaryFragment");
                     break;
                 case R.id.action_cookbook:
-                    navigateToFragment(new CookbookFragment());
+                    navigateToFragment(new CookbookFragment(), "CookbookFragment");
                     break;
                 case R.id.action_settings:
-                    navigateToFragment(new SettingsFragment());
+                    navigateToFragment(new SettingsFragment(), "SettingsFragment");
                     break;
             }
             return true;
         });
     }
 
-    private void navigateToFragment(Fragment fragment) {
+    private void navigateToFragment(Fragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.container, fragment, tag)
                 .commit();
     }
 
@@ -100,16 +100,26 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
 
     @Override
     public void onDateSelected(String databaseDateFormat) {
-        for(int i=0; i < meals.size(); i++) {
+        /*for(int i=0; i < meals.size(); i++) {
             GenericMealFragment fragment = (GenericMealFragment)
                     getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
             if (fragment != null)
                 fragment.setSelectedDate(databaseDateFormat);
-        }
+        }*/
+        DiaryFragment fragment = (DiaryFragment)
+                getSupportFragmentManager().findFragmentByTag("DiaryFragment");
+        fragment.refreshViewPager();
     }
 
     @Override
     public void setMeals(ArrayList<MealDisplayModel> meals) {
         this.meals = meals;
+    }
+
+    @Override
+    public void onRefreshViewPagerNeeded() {
+        DiaryFragment fragment = (DiaryFragment)
+                getSupportFragmentManager().findFragmentByTag("DiaryFragment");
+        fragment.refreshViewPager();
     }
 }

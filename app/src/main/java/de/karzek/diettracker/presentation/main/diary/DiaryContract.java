@@ -16,6 +16,8 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 public interface DiaryContract {
 
     interface View extends BaseView<Presenter> {
+        String getSelectedDate();
+
         void startFoodSearchActivity();
 
         void startDrinkSearchActivity();
@@ -37,6 +39,8 @@ public interface DiaryContract {
         void showPreviousDate();
 
         void showNextDate();
+
+        void refreshViewPager();
     }
 
     interface Presenter extends BasePresenter<View> {

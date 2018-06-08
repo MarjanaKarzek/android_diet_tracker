@@ -234,7 +234,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     if(output.getStatus() == 0){
-                        view.refreshRecyclerView();
+                        //view.refreshRecyclerView();
                         view.hideLoading();
                     } else {
                         view.hideLoading();
