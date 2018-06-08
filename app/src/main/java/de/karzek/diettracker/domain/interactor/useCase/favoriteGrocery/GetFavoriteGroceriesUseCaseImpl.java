@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.model.FavoriteGroceryDataModel;
 import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteFoodsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteGroceriesUseCase;
 import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -16,12 +16,12 @@ import io.reactivex.functions.Function;
  * @version 1.0
  * @date 31.05.2018
  */
-public class GetFavoriteFoodsUseCaseImpl implements GetFavoriteFoodsUseCase {
+public class GetFavoriteGroceriesUseCaseImpl implements GetFavoriteGroceriesUseCase {
 
     private final FavoriteGroceryRepositoryImpl repository;
     private final FavoriteGroceryDomainMapper mapper;
 
-    public GetFavoriteFoodsUseCaseImpl(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper) {
+    public GetFavoriteGroceriesUseCaseImpl(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

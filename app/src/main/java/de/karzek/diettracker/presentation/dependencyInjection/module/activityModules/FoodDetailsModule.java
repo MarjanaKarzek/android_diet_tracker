@@ -10,7 +10,6 @@ import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
-import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.PutDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
@@ -25,8 +24,8 @@ import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
-import de.karzek.diettracker.presentation.search.food.foodDetail.FoodDetailsContract;
-import de.karzek.diettracker.presentation.search.food.foodDetail.FoodDetailsPresenter;
+import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsContract;
+import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsPresenter;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**

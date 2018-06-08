@@ -25,10 +25,6 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment {
 
     protected abstract void setupFragmentComponent();
 
-    @Override public void onStart() {
-        super.onStart();
-    }
-
     @Override public void onDestroy() {
         super.onDestroy();
         if (compositeDisposable != null) {

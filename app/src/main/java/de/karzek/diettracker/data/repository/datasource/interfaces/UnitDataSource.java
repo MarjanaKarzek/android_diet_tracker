@@ -19,4 +19,6 @@ public interface UnitDataSource {
     Observable<Boolean> putAllUnits(List<UnitEntity> unitEntities);
 
     Observable<List<UnitEntity>> getAllDefaultUnits(int type);
+
+    Observable<UnitEntity> getUnitByName(String name);
 }

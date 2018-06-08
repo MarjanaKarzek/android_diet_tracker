@@ -17,23 +17,12 @@ import lombok.Data;
  * @version 1.0
  * @date 27.05.2018
  */
-public interface GetFavoriteFoodsUseCase extends BaseObservableUseCase<GetFavoriteFoodsUseCase.Input, GetFavoriteFoodsUseCase.Output> {
+public interface GetFavoriteGroceriesUseCase extends BaseObservableUseCase<GetFavoriteGroceriesUseCase.Input, GetFavoriteGroceriesUseCase.Output> {
 
     @AllArgsConstructor
     @Data
     class Input implements BaseUseCase.Input {
         int type;
-
-        @FavoriteType
-        public static final int FAVORITE_TYPE_FOOD = 0;
-        public static final int FAVORITE_TYPE_DRINKS = 1;
-        public static final int FAVORITE_TYPE_RECIPE = 2;
-
-        @IntDef({FAVORITE_TYPE_FOOD, FAVORITE_TYPE_DRINKS, FAVORITE_TYPE_RECIPE})
-
-        private @interface FavoriteType {
-
-        }
     }
 
     @AllArgsConstructor

@@ -18,4 +18,6 @@ public interface UnitRepository {
     Observable<Boolean> putAllUnits(List<UnitDataModel> unitDataModels);
 
     Observable<List<UnitDataModel>> getAllDefaultUnits(int type);
+
+    Observable<UnitDataModel> getUnitByName(String name);
 }

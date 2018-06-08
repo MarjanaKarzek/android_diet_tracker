@@ -27,7 +27,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_LIQUID;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_SOLID;
 import static de.karzek.diettracker.data.cache.model.UnitEntity.UNIT_TYPE_LIQUID;
 import static de.karzek.diettracker.data.cache.model.UnitEntity.UNIT_TYPE_SOLID;
@@ -102,7 +104,6 @@ public class SplashPresenter implements SplashContract.Presenter {
         units.add(unit_l);
 
         //servings
-
         ServingDisplayModel brokkoli_0 = new ServingDisplayModel(0, "kleiner Kopf", 150, unit_g);
         ServingDisplayModel paprika_0 = new ServingDisplayModel(1, "kleine Paprika", 100, unit_g);
 
@@ -116,10 +117,10 @@ public class SplashPresenter implements SplashContract.Presenter {
         brokkoliServings.add(paprika_0);
 
         //groceries
-
         groceries.add(new GroceryDisplayModel(0, 0, "Brokkoli", 0.34f, 0.038f, 0.027f, 0.002f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), brokkoliServings));
         groceries.add(new GroceryDisplayModel(1, 0, "Rote Paprika", 0.43f, 0.013f, 0.064f, 0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), paprikaServings));
         groceries.add(new GroceryDisplayModel(2, 0, "Gelbe Paprika", 0.30f, 0.01f, 0.05f, 0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), paprikaServings));
+        groceries.add(new GroceryDisplayModel(3, 0, "Coca Cola", 0.42f, 0.0f, 0.106f, 0.0f, TYPE_DRINK, TYPE_LIQUID, new ArrayList<>(), new ArrayList<>()));
 
         // meals
         meals.add(new MealDisplayModel(0, "Frühstück", "", ""));

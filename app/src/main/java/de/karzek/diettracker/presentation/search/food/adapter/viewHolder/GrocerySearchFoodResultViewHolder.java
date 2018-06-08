@@ -2,7 +2,6 @@ package de.karzek.diettracker.presentation.search.food.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -19,15 +18,15 @@ import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
  * @version 1.0
  * @date 30.05.2018
  */
-public class FoodSearchResultViewHolder extends RecyclerView.ViewHolder {
+public class GrocerySearchFoodResultViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.grocery_name) TextView groceryName;
 
     private final OnFoodSearchResultItemClickedListener onItemClickedListener;
 
-    public FoodSearchResultViewHolder(ViewGroup viewGroup, OnFoodSearchResultItemClickedListener onItemClickedListener) {
+    public GrocerySearchFoodResultViewHolder(ViewGroup viewGroup, OnFoodSearchResultItemClickedListener onItemClickedListener) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_food_search_grocery, viewGroup, false));
+                .inflate(R.layout.item_grocery_search_food, viewGroup, false));
         ButterKnife.bind(this, itemView);
         this.onItemClickedListener = onItemClickedListener;
     }
@@ -37,7 +36,7 @@ public class FoodSearchResultViewHolder extends RecyclerView.ViewHolder {
         itemView.setTag(foodSearchResultItem.getId());
     }
 
-    @OnClick(R.id.food_search_item) public void onItemClicked() {
+    @OnClick(R.id.grocery_search_food_item) public void onItemClicked() {
         onItemClickedListener.onItemClicked((int) itemView.getTag());
     }
 

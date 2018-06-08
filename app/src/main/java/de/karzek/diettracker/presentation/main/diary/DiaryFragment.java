@@ -32,9 +32,12 @@ import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapt
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
-import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
+import de.karzek.diettracker.presentation.search.food.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.ViewUtils;
+
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -130,7 +133,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         TrackerApplication.get(getContext()).releaseDiaryComponent();
     }
 
-    @OnClick(R.id.add_food) public void onAddFoodClicked() {
+    @OnClick(R.id.add_grocery) public void onAddFoodClicked() {
         presenter.onAddFoodClicked();
     }
 
@@ -185,12 +188,12 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void startFoodSearchActivity() {
-        startActivity(FoodSearchActivity.newIntent(getContext()));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem()));
     }
 
     @Override
     public void startDrinkSearchActivity() {
-
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem()));
     }
 
     @Override

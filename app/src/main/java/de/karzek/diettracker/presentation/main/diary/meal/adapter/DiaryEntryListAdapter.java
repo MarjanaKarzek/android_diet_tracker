@@ -6,13 +6,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.presentation.dependencyInjection.component.GenericMealComponent;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealContract;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
-import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
-import de.karzek.diettracker.presentation.search.food.FoodSearchContract;
-import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.FoodSearchResultViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.

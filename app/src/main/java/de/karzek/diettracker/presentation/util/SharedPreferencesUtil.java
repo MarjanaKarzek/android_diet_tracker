@@ -27,6 +27,11 @@ public class SharedPreferencesUtil {
     public static final int VALUE_REQUIREMENT_CARBS_DAILY = 230;
     public static final int VALUE_REQUIREMENT_FATS_DAILY = 65;
 
+    public static final String KEY_BOTTLE_VOLUME = "KEY_BOTTLE_VOLUME";
+    public static final String KEY_GLASS_VOLUME = "KEY_GLASS_VOLUME";
+    public static final float VALUE_BOTTLE_VOLUME = 500.0f;
+    public static final float VALUE_GLASS_VOLUME = 200.0f;
+
     public SharedPreferencesUtil(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }
@@ -41,6 +46,8 @@ public class SharedPreferencesUtil {
                     .putInt(KEY_REQUIREMENT_PROTEINS_DAILY, VALUE_REQUIREMENT_PROTEINS_DAILY)
                     .putInt(KEY_REQUIREMENT_CARBS_DAILY, VALUE_REQUIREMENT_CARBS_DAILY)
                     .putInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY)
+                    .putFloat(KEY_BOTTLE_VOLUME, VALUE_BOTTLE_VOLUME)
+                    .putFloat(KEY_GLASS_VOLUME, VALUE_GLASS_VOLUME)
                     .apply();
             return true;
         } catch (Exception e){

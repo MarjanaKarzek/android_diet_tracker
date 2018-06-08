@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -46,6 +45,8 @@ import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
@@ -95,14 +96,14 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.food_details, menu);
+        inflater.inflate(R.menu.grocery_details, menu);
         return true;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_details);
+        setContentView(R.layout.activity_grocery_details);
         ButterKnife.bind(this);
 
         groceryId = getIntent().getExtras().getInt("id");
@@ -311,7 +312,7 @@ public class FoodDetailsActivity extends BaseActivity implements FoodDetailsCont
         dialog.show();
     }
 
-    @OnClick(R.id.add_food) public void onAddFoodClicked(){
+    @OnClick(R.id.add_grocery) public void onAddFoodClicked(){
         float amount = 1;
         int servingPosition = spinnerServing.getSelectedItemPosition();
         int multiplier = 0;

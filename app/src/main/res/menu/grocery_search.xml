@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.androidhive.recyclerviewsearch.MainActivity">
     <item
-        android:id="@+id/food_search"
+        android:id="@+id/grocery_search"
         android:icon="@drawable/ic_search_white"
         android:title="@string/food_search_title"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/food_search_barcode"
+        android:id="@+id/grocery_search_barcode"
         android:icon="@drawable/ic_barcode_white"
         android:title="Barcode_Scanner"
         app:showAsAction="always" />

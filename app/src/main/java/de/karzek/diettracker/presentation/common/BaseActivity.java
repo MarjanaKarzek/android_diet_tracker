@@ -20,12 +20,4 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void setupActivityComponents();
 
-    @Override protected void onResume() {
-        super.onResume();
-    }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
-    }
-
 }

@@ -35,4 +35,9 @@ public class UnitLocalDataSourceImpl implements UnitDataSource {
     public Observable<List<UnitEntity>> getAllDefaultUnits(int type) {
         return unitCache.getAllDefaultUnits(type);
     }
+
+    @Override
+    public Observable<UnitEntity> getUnitByName(String name) {
+        return unitCache.getUnitByName(name);
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/food_search_item"
+    android:id="@+id/grocery_search_food_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:textColor="@color/textPrimary"
         tools:text="Putenfleisch" />
 
 </FrameLayout>

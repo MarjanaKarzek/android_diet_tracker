@@ -16,8 +16,8 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
-import de.karzek.diettracker.presentation.search.food.FoodSearchActivity;
-import de.karzek.diettracker.presentation.search.food.foodDetail.FoodDetailsActivity;
+import de.karzek.diettracker.presentation.search.food.GrocerySearchActivity;
+import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.splash.SplashActivity;
 
 /**
@@ -47,8 +47,8 @@ public interface AppComponent {
 
     void inject(MainActivity activity);
 
-    void inject(FoodSearchActivity activity);
+    void inject(GrocerySearchActivity activity);
 
-    void inject(FoodDetailsActivity foodDetailsActivity);
+    void inject(GroceryDetailsActivity groceryDetailsActivity);
 
 }

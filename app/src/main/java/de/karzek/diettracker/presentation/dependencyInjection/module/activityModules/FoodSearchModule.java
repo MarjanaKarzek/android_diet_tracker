@@ -7,14 +7,20 @@ import de.karzek.diettracker.data.cache.FavoriteGroceryCacheImpl;
 import de.karzek.diettracker.data.mapper.FavoriteGroceryDataMapper;
 import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
-import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteFoodsUseCaseImpl;
+import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteGroceriesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetMatchingGroceriesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.unit.GetUnitByNameUseCaseImpl;
 import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
+import de.karzek.diettracker.domain.mapper.UnitDomainMapper;
 import de.karzek.diettracker.presentation.mapper.FavoriteGroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
-import de.karzek.diettracker.presentation.search.food.FoodSearchContract;
-import de.karzek.diettracker.presentation.search.food.FoodSearchPresenter;
+import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
+import de.karzek.diettracker.presentation.search.food.GrocerySearchContract;
+import de.karzek.diettracker.presentation.search.food.GrocerySearchPresenter;
+import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -51,13 +57,18 @@ public class FoodSearchModule {
     }
 
     @Provides
-    GetFavoriteFoodsUseCaseImpl provideGetFavoriteFoodsUseCase(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper){
-        return new GetFavoriteFoodsUseCaseImpl(repository, mapper);
+    GetFavoriteGroceriesUseCaseImpl provideGetFavoriteFoodsUseCase(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper){
+        return new GetFavoriteGroceriesUseCaseImpl(repository, mapper);
     }
 
     @Provides
     GetMatchingGroceriesUseCaseImpl provideGetMatchingGroceriesUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper){
         return new GetMatchingGroceriesUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    GetUnitByNameUseCaseImpl provideGetUnitByNameUseCaseImpl(UnitRepositoryImpl repository, UnitDomainMapper mapper){
+        return new GetUnitByNameUseCaseImpl(repository, mapper);
     }
 
     //presentation
@@ -68,10 +79,21 @@ public class FoodSearchModule {
     }
 
     @Provides
-    FoodSearchContract.Presenter provideFoodSearchPresenter(GetFavoriteFoodsUseCaseImpl getFavoriteFoodsUseCase,
-                                                            Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase,
-                                                            FavoriteGroceryUIMapper favoriteGroceryMapper,
-                                                            GroceryUIMapper groceryMapper) {
-        return new FoodSearchPresenter(getFavoriteFoodsUseCase, getMatchingGroceriesUseCase, favoriteGroceryMapper, groceryMapper);
+    GrocerySearchContract.Presenter provideFoodSearchPresenter(GetFavoriteGroceriesUseCaseImpl getFavoriteFoodsUseCase,
+                                                               Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase,
+                                                               Lazy<GetGroceryByIdUseCaseImpl> getGroceryByIdUseCase,
+                                                               Lazy<GetUnitByNameUseCaseImpl> getUnitByNameUseCase,
+                                                               FavoriteGroceryUIMapper favoriteGroceryMapper,
+                                                               GroceryUIMapper groceryMapper,
+                                                               UnitUIMapper unitMapper,
+                                                               SharedPreferencesUtil sharedPreferencesUtil) {
+        return new GrocerySearchPresenter(getFavoriteFoodsUseCase,
+                getMatchingGroceriesUseCase,
+                getGroceryByIdUseCase,
+                getUnitByNameUseCase,
+                favoriteGroceryMapper,
+                groceryMapper,
+                unitMapper,
+                sharedPreferencesUtil);
     }
 }
