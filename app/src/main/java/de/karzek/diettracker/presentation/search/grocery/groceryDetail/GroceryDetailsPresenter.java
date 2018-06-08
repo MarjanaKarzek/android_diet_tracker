@@ -1,17 +1,24 @@
-package de.karzek.diettracker.presentation.search.food.foodDetail;
+package de.karzek.diettracker.presentation.search.grocery.groceryDetail;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.PutDiaryEntryUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteStateForGroceryIdUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.PutFavoriteGroceryUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.RemoveFavoriteGroceryByNameUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteStateForGroceryIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.PutFavoriteGroceryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.RemoveFavoriteGroceryByNameUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
+import de.karzek.diettracker.domain.model.FavoriteGroceryDomainModel;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
@@ -47,7 +54,10 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     private GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase;
     private GetAllMealsUseCaseImpl getAllMealsUseCase;
     private GetMealCountUseCaseImpl getMealCountUseCase;
+    private GetFavoriteStateForGroceryIdUseCaseImpl getFavoriteStateForGroceryId;
     private Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase;
+    private Lazy<PutFavoriteGroceryUseCaseImpl> putFavoriteGroceryUseCase;
+    private Lazy<RemoveFavoriteGroceryByNameUseCaseImpl> removeFavoriteGroceryByNameUseCase;
 
     private GroceryUIMapper groceryMapper;
     private UnitUIMapper unitMapper;
@@ -63,7 +73,10 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                                    GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase,
                                    GetAllMealsUseCaseImpl getAllMealsUseCase,
                                    GetMealCountUseCaseImpl getMealCountUseCase,
+                                   GetFavoriteStateForGroceryIdUseCaseImpl getFavoriteStateForGroceryId,
                                    Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
+                                   Lazy<PutFavoriteGroceryUseCaseImpl> putFavoriteGroceryUseCase,
+                                   Lazy<RemoveFavoriteGroceryByNameUseCaseImpl> removeFavoriteGroceryByNameUseCase,
                                    GroceryUIMapper groceryMapper,
                                    UnitUIMapper unitMapper,
                                    MealUIMapper mealMapper,
@@ -74,7 +87,10 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
         this.getDefaultUnitsUseCase = getDefaultUnitsUseCase;
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.getMealCountUseCase = getMealCountUseCase;
+        this.getFavoriteStateForGroceryId = getFavoriteStateForGroceryId;
         this.putDiaryEntryUseCase = putDiaryEntryUseCase;
+        this.putFavoriteGroceryUseCase = putFavoriteGroceryUseCase;
+        this.removeFavoriteGroceryByNameUseCase = removeFavoriteGroceryByNameUseCase;
 
         this.groceryMapper = groceryMapper;
         this.unitMapper = unitMapper;
@@ -216,6 +232,37 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     @Override
     public void addDrink(DiaryEntryDisplayModel diaryEntryDisplayModel) {
         putDiaryEntry(diaryEntryDisplayModel);
+    }
+
+    @Override
+    public void onFavoriteGroceryClicked(boolean checked, GroceryDisplayModel grocery) {
+        if(checked){
+            Disposable subs = putFavoriteGroceryUseCase.get().execute(new PutFavoriteGroceryUseCase.Input(new FavoriteGroceryDomainModel(-1, groceryMapper.transformToDomain(grocery))))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(output -> {
+                            //todo error handling
+                    });
+            compositeDisposable.add(subs);
+        } else {
+            Disposable subs = removeFavoriteGroceryByNameUseCase.get().execute(new RemoveFavoriteGroceryByNameUseCase.Input(grocery.getName()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(output -> {
+                        //todo error handling
+                    });
+            compositeDisposable.add(subs);
+        }
+    }
+
+    @Override
+    public void checkFavoriteState(int groceryId) {
+        getFavoriteStateForGroceryId.execute(new GetFavoriteStateForGroceryIdUseCase.Input(groceryId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output2 -> {
+                    view.setFavoriteIconCheckedState(output2.isState());
+                });
     }
 
     private void putDiaryEntry(DiaryEntryDisplayModel diaryEntry){

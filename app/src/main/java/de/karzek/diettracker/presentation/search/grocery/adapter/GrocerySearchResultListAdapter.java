@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.search.food.adapter;
+package de.karzek.diettracker.presentation.search.grocery.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
-import de.karzek.diettracker.presentation.search.food.GrocerySearchContract;
-import de.karzek.diettracker.presentation.search.food.adapter.itemWrapper.GrocerySearchResultItemWrapper;
-import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.GrocerySearchDrinkResultViewHolder;
-import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.GrocerySearchFoodResultViewHolder;
+import de.karzek.diettracker.presentation.search.grocery.GrocerySearchContract;
+import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
+import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchDrinkResultViewHolder;
+import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchFoodResultViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.

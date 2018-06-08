@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.search.food.foodDetail;
+package de.karzek.diettracker.presentation.search.grocery.groceryDetail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +44,7 @@ public interface GroceryDetailsContract {
 
         void openDatePicker();
 
+        void setFavoriteIconCheckedState(boolean checked);
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -57,5 +58,9 @@ public interface GroceryDetailsContract {
         void onDateLabelClicked();
 
         void addDrink(DiaryEntryDisplayModel diaryEntryDisplayModel);
+
+        void onFavoriteGroceryClicked(boolean checked, GroceryDisplayModel grocery);
+
+        void checkFavoriteState(int groceryId);
     }
 }

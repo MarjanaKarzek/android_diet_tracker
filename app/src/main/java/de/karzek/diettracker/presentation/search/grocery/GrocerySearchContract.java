@@ -1,12 +1,12 @@
-package de.karzek.diettracker.presentation.search.food;
+package de.karzek.diettracker.presentation.search.grocery;
 
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
-import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.GrocerySearchDrinkResultViewHolder;
-import de.karzek.diettracker.presentation.search.food.adapter.viewHolder.GrocerySearchFoodResultViewHolder;
+import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchDrinkResultViewHolder;
+import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchFoodResultViewHolder;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.

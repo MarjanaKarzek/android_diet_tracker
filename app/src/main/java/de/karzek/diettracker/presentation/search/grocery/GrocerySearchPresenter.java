@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.search.food;
+package de.karzek.diettracker.presentation.search.grocery;
 
 import java.util.ArrayList;
 
@@ -74,6 +74,7 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
 
     @Override
     public void getFavoriteGroceries(int type){
+        view.showLoading();
         Disposable subs = getFavoriteGroceriesUseCase.execute(new GetFavoriteGroceriesUseCase.Input(type))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -81,8 +82,12 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
                     if (output.getFavoriteFoodsList().size() > 0) {
                         ArrayList<GroceryDisplayModel> groceries = extractGroceriesFromFavorites(favoriteGroceryMapper.transformAll(output.getFavoriteFoodsList()));
                         view.updateFoodSearchResultList(groceries);
-                    } else
+                        view.showRecyclerView();
+                        view.hidePlaceholder();
+                    } else {
+                        view.hideRecyclerView();
                         view.showPlaceholder();
+                    }
                     view.hideLoading();
                 });
         compositeDisposable.add(subs);

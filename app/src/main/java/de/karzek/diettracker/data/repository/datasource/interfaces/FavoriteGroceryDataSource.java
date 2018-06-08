@@ -16,4 +16,9 @@ public interface FavoriteGroceryDataSource {
 
     Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type);
 
+    Observable<Boolean> putFavoriteGrocery(FavoriteGroceryEntity favoriteGroceryEntity);
+
+    Observable<Boolean> removeFavoriteGroceryByName(String name);
+
+    Observable<Boolean> getFavoriteStateForGroceryById(int id);
 }

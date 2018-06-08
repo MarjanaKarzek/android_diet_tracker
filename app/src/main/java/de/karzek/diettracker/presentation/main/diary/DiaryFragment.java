@@ -32,7 +32,7 @@ import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapt
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
-import de.karzek.diettracker.presentation.search.food.GrocerySearchActivity;
+import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 

@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.search.food;
+package de.karzek.diettracker.presentation.search.grocery;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -25,9 +25,9 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
-import de.karzek.diettracker.presentation.search.food.adapter.GrocerySearchResultListAdapter;
-import de.karzek.diettracker.presentation.search.food.adapter.itemWrapper.GrocerySearchResultItemWrapper;
-import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsActivity;
+import de.karzek.diettracker.presentation.search.grocery.adapter.GrocerySearchResultListAdapter;
+import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 
@@ -64,6 +64,12 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getFavoriteGroceries(groceryType);
+    }
+
+    @Override
     protected void setupActivityComponents() {
         TrackerApplication.get(this).getAppComponent().inject(this);
     }
@@ -82,13 +88,15 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                presenter.getGroceriesMatchingQuery(query, groceryType);
+                if(!query.equals(""))
+                    presenter.getGroceriesMatchingQuery(query, groceryType);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                presenter.getGroceriesMatchingQuery(query, groceryType);
+                if(!query.equals(""))
+                    presenter.getGroceriesMatchingQuery(query, groceryType);
                 return false;
             }
         });

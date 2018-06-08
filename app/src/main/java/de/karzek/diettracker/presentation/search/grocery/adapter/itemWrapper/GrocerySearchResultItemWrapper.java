@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.search.food.adapter.itemWrapper;
+package de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper;
 
 import android.support.annotation.IntDef;
 

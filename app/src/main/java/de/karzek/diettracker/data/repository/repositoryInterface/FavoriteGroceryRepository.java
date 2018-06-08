@@ -15,4 +15,10 @@ import io.reactivex.Observable;
 public interface FavoriteGroceryRepository {
 
     Observable<List<FavoriteGroceryDataModel>> getAllFavoritesByType(int type);
+
+    Observable<Boolean> putFavoriteGrocery(FavoriteGroceryDataModel favoriteGroceryDataModel);
+
+    Observable<Boolean> removeFavoriteGroceryByName(String name);
+
+    Observable<Boolean> getFavoriteStateForGroceryById(int id);
 }

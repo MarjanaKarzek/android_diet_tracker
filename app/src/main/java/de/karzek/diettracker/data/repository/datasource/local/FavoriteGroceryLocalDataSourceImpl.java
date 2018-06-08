@@ -26,4 +26,19 @@ public class FavoriteGroceryLocalDataSourceImpl implements FavoriteGroceryDataSo
     public Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type) {
         return favoriteGroceryCache.getAllFavoritesByType(type);
     }
+
+    @Override
+    public Observable<Boolean> putFavoriteGrocery(FavoriteGroceryEntity favoriteGroceryEntity) {
+        return favoriteGroceryCache.putFavoriteGrocery(favoriteGroceryEntity);
+    }
+
+    @Override
+    public Observable<Boolean> removeFavoriteGroceryByName(String name) {
+        return favoriteGroceryCache.removeFavoriteGroceryByName(name);
+    }
+
+    @Override
+    public Observable<Boolean> getFavoriteStateForGroceryById(int id) {
+        return favoriteGroceryCache.getFavoriteStateForGroceryById(id);
+    }
 }

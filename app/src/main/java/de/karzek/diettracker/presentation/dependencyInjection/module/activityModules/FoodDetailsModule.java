@@ -7,16 +7,21 @@ import de.karzek.diettracker.data.cache.DiaryEntryCacheImpl;
 import de.karzek.diettracker.data.mapper.DiaryEntryDataMapper;
 import de.karzek.diettracker.data.mapper.MealDataMapper;
 import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
+import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.PutDiaryEntryUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteStateForGroceryIdUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.PutFavoriteGroceryUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.RemoveFavoriteGroceryByNameUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
+import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
 import de.karzek.diettracker.domain.mapper.UnitDomainMapper;
@@ -24,8 +29,8 @@ import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
-import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsContract;
-import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsPresenter;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsPresenter;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
@@ -88,6 +93,21 @@ public class FoodDetailsModule {
         return new GetMealCountUseCaseImpl(repository);
     }
 
+    @Provides
+    PutFavoriteGroceryUseCaseImpl providePutFavoriteGroceryUseCaseImpl(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper){
+        return new PutFavoriteGroceryUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    RemoveFavoriteGroceryByNameUseCaseImpl provideRemoveFavoriteGroceryByNameUseCaseImpl(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper){
+        return new RemoveFavoriteGroceryByNameUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    GetFavoriteStateForGroceryIdUseCaseImpl provideGetFavoriteStateForGroceryIdUseCaseImpl(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper){
+        return new GetFavoriteStateForGroceryIdUseCaseImpl(repository, mapper);
+    }
+
     //presentation
 
     @Provides
@@ -101,7 +121,10 @@ public class FoodDetailsModule {
                                                                  GetAllDefaultUnitsUseCaseImpl getAllDefaultUnitsUseCase,
                                                                  GetAllMealsUseCaseImpl getAllMealsUseCase,
                                                                  GetMealCountUseCaseImpl getMealCountUseCase,
+                                                                 GetFavoriteStateForGroceryIdUseCaseImpl getFavoriteStateForGroceryIdUseCase,
                                                                  Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
+                                                                 Lazy<PutFavoriteGroceryUseCaseImpl> putFavoriteGroceryUseCase,
+                                                                 Lazy<RemoveFavoriteGroceryByNameUseCaseImpl> removeFavoriteGroceryByNameUseCase,
                                                                  GroceryUIMapper groceryMapper,
                                                                  UnitUIMapper unitMapper,
                                                                  MealUIMapper mealMapper,
@@ -112,7 +135,10 @@ public class FoodDetailsModule {
                 getAllDefaultUnitsUseCase,
                 getAllMealsUseCase,
                 getMealCountUseCase,
+                getFavoriteStateForGroceryIdUseCase,
                 putDiaryEntryUseCase,
+                putFavoriteGroceryUseCase,
+                removeFavoriteGroceryByNameUseCase,
                 groceryMapper,
                 unitMapper,
                 mealMapper,

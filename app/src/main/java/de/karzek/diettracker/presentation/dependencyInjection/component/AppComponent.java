@@ -16,8 +16,8 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
-import de.karzek.diettracker.presentation.search.food.GrocerySearchActivity;
-import de.karzek.diettracker.presentation.search.food.foodDetail.GroceryDetailsActivity;
+import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.splash.SplashActivity;
 
 /**

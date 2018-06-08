@@ -8,5 +8,8 @@
         android:id="@+id/food_detail_favorite"
         android:icon="@drawable/ic_star_white"
         android:title="Favorite"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:checkable="true"
+        android:checked="false"
+        />
 </menu>

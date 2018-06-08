@@ -31,4 +31,22 @@ public class FavoriteGroceryDomainMapper {
         }
         return favoriteDomainModels;
     }
+
+    public FavoriteGroceryDataModel transformToData(FavoriteGroceryDomainModel domainModel){
+        FavoriteGroceryDataModel dataModel = null;
+        if(domainModel != null){
+            dataModel = new FavoriteGroceryDataModel(domainModel.getId(),
+                    new GroceryDomainMapper().transformToData(domainModel.getGrocery())
+            );
+        }
+        return dataModel;
+    }
+
+    public ArrayList<FavoriteGroceryDataModel> transformAllToData(List<FavoriteGroceryDomainModel> domainModels) {
+        ArrayList<FavoriteGroceryDataModel> dataModels = new ArrayList<>();
+        for (FavoriteGroceryDomainModel data: domainModels){
+            dataModels.add(transformToData(data));
+        }
+        return dataModels;
+    }
 }

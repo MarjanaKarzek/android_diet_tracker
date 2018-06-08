@@ -1,10 +1,11 @@
-package de.karzek.diettracker.presentation.search.food.foodDetail;
+package de.karzek.diettracker.presentation.search.grocery.groceryDetail;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -80,6 +81,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     private String selectedDate;
     private int selectedMeal;
 
+    private Menu menu;
+
     private Calendar selectedDateCalendar = Calendar.getInstance();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
@@ -104,6 +107,11 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.grocery_details, menu);
+
+        this.menu = menu;
+
+        presenter.checkFavoriteState(groceryId);
+
         return true;
     }
 
@@ -306,9 +314,17 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(MenuItem item){
+        if (item.getItemId() == android.R.id.home)
             finish();
+        else if (item.getItemId() == R.id.food_detail_favorite) {
+            item.setChecked(!item.isChecked());
+            if(item.isChecked()){
+                item.setIcon(getDrawable(R.drawable.ic_star_filled_white));
+            } else {
+                item.setIcon(getDrawable(R.drawable.ic_star_white));
+            }
+            presenter.onFavoriteGroceryClicked(item.isChecked(), groceryDisplayModel);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -331,6 +347,16 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         DatePickerDialog dialog = new DatePickerDialog(this, dateSetListener, selectedDateCalendar.get(Calendar.YEAR), selectedDateCalendar.get(Calendar.MONTH), selectedDateCalendar.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime() + Constants.weekInMilliS);
         dialog.show();
+    }
+
+    @Override
+    public void setFavoriteIconCheckedState(boolean checked) {
+        MenuItem item = menu.findItem(R.id.food_detail_favorite).setChecked(checked);
+        if(item.isChecked()){
+            item.setIcon(getDrawable(R.drawable.ic_star_filled_white));
+        } else {
+            item.setIcon(getDrawable(R.drawable.ic_star_white));
+        }
     }
 
     @OnClick(R.id.add_grocery) public void onAddGroceryClicked(){

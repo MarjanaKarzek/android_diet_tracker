@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.search.food.adapter.viewHolder;
+package de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

@@ -16,5 +16,7 @@ public interface FavoriteGroceryCache {
     boolean isExpired();
     boolean isCached();
     Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type);
-    void put(FavoriteGroceryEntity favoriteGroceryEntity);
+    Observable<Boolean> putFavoriteGrocery(FavoriteGroceryEntity favoriteGroceryEntity);
+    Observable<Boolean> removeFavoriteGroceryByName(String name);
+    Observable<Boolean> getFavoriteStateForGroceryById(int id);
 }

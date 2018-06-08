@@ -38,4 +38,19 @@ public class FavoriteGroceryRepositoryImpl implements FavoriteGroceryRepository 
             }
         });
     }
+
+    @Override
+    public Observable<Boolean> putFavoriteGrocery(FavoriteGroceryDataModel favoriteGroceryDataModel) {
+        return new FavoriteGroceryLocalDataSourceImpl(favoriteGroceryCache).putFavoriteGrocery(mapper.transformToEntity(favoriteGroceryDataModel));
+    }
+
+    @Override
+    public Observable<Boolean> removeFavoriteGroceryByName(String name) {
+        return new FavoriteGroceryLocalDataSourceImpl(favoriteGroceryCache).removeFavoriteGroceryByName(name);
+    }
+
+    @Override
+    public Observable<Boolean> getFavoriteStateForGroceryById(int id) {
+        return new FavoriteGroceryLocalDataSourceImpl(favoriteGroceryCache).getFavoriteStateForGroceryById(id);
+    }
 }

@@ -29,14 +29,14 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".presentation.search.food.GrocerySearchActivity"
+            android:name=".presentation.search.grocery.GrocerySearchActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/grocery_search_behaviour" />
         </activity>
 
-        <activity android:name=".presentation.search.food.foodDetail.GroceryDetailsActivity"
+        <activity android:name=".presentation.search.grocery.groceryDetail.GroceryDetailsActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 

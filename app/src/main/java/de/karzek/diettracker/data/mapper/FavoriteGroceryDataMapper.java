@@ -6,6 +6,7 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.model.FavoriteGroceryEntity;
 import de.karzek.diettracker.data.model.FavoriteGroceryDataModel;
 import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by MarjanaKarzek on 31.05.2018.
@@ -34,6 +35,33 @@ public class FavoriteGroceryDataMapper {
         return favoriteGroceryDataModels;
     }
 
+    public FavoriteGroceryEntity transformToEntity(FavoriteGroceryDataModel dataModel){
+        Realm realm = Realm.getDefaultInstance();
+        FavoriteGroceryEntity entity = null;
+        if(dataModel != null){
+            startWriteTransaction();
+            int id = dataModel.getId();
+            if(realm.where(FavoriteGroceryEntity.class).equalTo("id", dataModel.getId()).findFirst() == null) {
+                if(dataModel.getId() == -1)
+                    id = getNextId();
+                realm.createObject(FavoriteGroceryEntity.class, id);
+            }
+
+            entity = realm.copyFromRealm(realm.where(FavoriteGroceryEntity.class).equalTo("id", id).findFirst());
+            entity.setGrocery(new GroceryDataMapper().transformToEntity(dataModel.getGrocery()));
+        }
+        return entity;
+    }
+
+    public RealmList<FavoriteGroceryEntity> transformAllToEntity(List<FavoriteGroceryDataModel> dataModels) {
+        RealmList<FavoriteGroceryEntity> entities = new RealmList<>();
+        startWriteTransaction();
+        for (FavoriteGroceryDataModel data: dataModels){
+            entities.add(transformToEntity(data));
+        }
+        return entities;
+    }
+
     private void startWriteTransaction(){
         Realm realm = Realm.getDefaultInstance();
         if(!realm.isInTransaction()){
@@ -41,4 +69,14 @@ public class FavoriteGroceryDataMapper {
         }
     }
 
+    private int getNextId(){
+        Number currentIdNum = Realm.getDefaultInstance().where(FavoriteGroceryEntity.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
+        return nextId;
+    }
 }

@@ -18,8 +18,8 @@ import de.karzek.diettracker.domain.mapper.UnitDomainMapper;
 import de.karzek.diettracker.presentation.mapper.FavoriteGroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
-import de.karzek.diettracker.presentation.search.food.GrocerySearchContract;
-import de.karzek.diettracker.presentation.search.food.GrocerySearchPresenter;
+import de.karzek.diettracker.presentation.search.grocery.GrocerySearchContract;
+import de.karzek.diettracker.presentation.search.grocery.GrocerySearchPresenter;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
