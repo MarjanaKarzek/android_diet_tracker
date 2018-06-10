@@ -2,6 +2,7 @@ package de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
+
 /**
  * Created by MarjanaKarzek on 30.05.2018.
  *
@@ -26,6 +29,7 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.grocery_summary) TextView grocerySummary;
     @BindView(R.id.swipe_layout) SwipeLayout swipeLayout;
+    @BindView(R.id.swipe_option_move) ImageButton moveOption;
 
     private final OnDiaryEntryItemClickedListener onItemClickedListener;
     private final OnDeleteDiaryEntryItemListener onDeleteDiaryEntryItemListener;
@@ -49,6 +53,9 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
     public void bind(DiaryEntryDisplayModel diaryEntry) {
         grocerySummary.setText(formatGrocerySummary(diaryEntry));
         itemView.setTag(diaryEntry.getId());
+
+        if(diaryEntry.getGrocery().getType() == TYPE_DRINK)
+            moveOption.setVisibility(View.GONE);
     }
 
     private String formatGrocerySummary(DiaryEntryDisplayModel diaryEntry){

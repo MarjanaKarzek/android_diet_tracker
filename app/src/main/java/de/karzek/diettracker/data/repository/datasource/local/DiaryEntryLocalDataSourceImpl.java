@@ -46,4 +46,19 @@ public class DiaryEntryLocalDataSourceImpl implements DiaryEntryDataSource {
     public Observable<Boolean> updateMealOfDiaryEntry(int id, MealEntity meal) {
         return diaryEntryCache.updateMealOfDiaryEntry(id, meal);
     }
+
+    @Override
+    public Observable<DiaryEntryEntity> getWaterStatus(String date) {
+        return diaryEntryCache.getWaterStatus(date);
+    }
+
+    @Override
+    public Observable<Boolean> updateAmountOfWater(float amount, String date) {
+        return diaryEntryCache.updateAmountOfWater(amount, date);
+    }
+
+    @Override
+    public Observable<Boolean> addAmountOfWater(float amount, String date) {
+        return diaryEntryCache.addAmountOfWater(amount, date);
+    }
 }

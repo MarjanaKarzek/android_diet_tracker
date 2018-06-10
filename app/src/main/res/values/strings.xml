@@ -53,5 +53,6 @@
     <string name="dialog_action_dismiss">Abbrechen</string>
     <string name="dialog_action_move">Verschieben</string>
     <string name="permission_grand_camera">Erlaube den Zugriff auf die Kamera, um den Barcode Scanner zu verwendet.</string>
+    <string name="drink_placeholder">Hattes Du heute etwas anderes außer Wasser? Nutze das + um Getränke hinzuzufügen.</string>
 
 </resources>

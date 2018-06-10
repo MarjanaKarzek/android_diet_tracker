@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -28,21 +26,15 @@
             android:inflatedId="@+id/snippet_calory_and_makro_detail"
             android:layout="@layout/snippet_calory_and_macro_detail" />
 
-        <FrameLayout
+        <TextView
+            style="@style/Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_title"
-            android:elevation="3dp">
-
-            <TextView
-                style="@style/Subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/grocery_list_title"
-                android:textColor="@color/textPrimary" />
-
-        </FrameLayout>
+            android:elevation="3dp"
+            android:padding="10dp"
+            android:text="@string/grocery_list_title"
+            android:textColor="@color/textPrimary" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

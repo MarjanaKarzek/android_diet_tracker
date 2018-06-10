@@ -168,11 +168,18 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         for (MealDisplayModel meal : meals) {
             Bundle bundle = new Bundle();
             bundle.putString("meal", meal.getName());
+            bundle.putString("selectedDate", getSelectedDate());
             GenericMealFragment fragment = new GenericMealFragment();
             fragment.setArguments(bundle);
             adapter.addFragment(fragment, meal.getName());
         }
-        adapter.addFragment(new GenericDrinkFragment(), "Getränke");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedDate", getSelectedDate());
+        GenericDrinkFragment fragment = new GenericDrinkFragment();
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, "Getränke");
+
         viewPager.setAdapter(adapter);
     }
 

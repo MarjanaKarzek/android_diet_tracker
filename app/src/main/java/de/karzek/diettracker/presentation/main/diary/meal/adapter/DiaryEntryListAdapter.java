@@ -19,17 +19,17 @@ import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
  */
 public class DiaryEntryListAdapter extends RecyclerView.Adapter<DiaryEntryViewHolder> {
 
-    private GenericMealContract.Presenter itemOnClickListener;
-    private GenericMealContract.Presenter onItemDeleteListener;
-    private GenericMealContract.Presenter onItemEditListener;
-    private GenericMealContract.Presenter onItemMoveListener;
+    private DiaryEntryViewHolder.OnDiaryEntryItemClickedListener itemOnClickListener;
+    private DiaryEntryViewHolder.OnDeleteDiaryEntryItemListener onItemDeleteListener;
+    private DiaryEntryViewHolder.OnEditDiaryEntryItemListener onItemEditListener;
+    private DiaryEntryViewHolder.OnMoveDiaryEntryItemListener onItemMoveListener;
 
     private ArrayList<DiaryEntryDisplayModel> list;
 
-    public DiaryEntryListAdapter(GenericMealContract.Presenter itemOnClickListener,
-                                 GenericMealContract.Presenter onItemDeleteListener,
-                                 GenericMealContract.Presenter onItemEditListener,
-                                 GenericMealContract.Presenter onItemMoveListener){
+    public DiaryEntryListAdapter(DiaryEntryViewHolder.OnDiaryEntryItemClickedListener itemOnClickListener,
+                                 DiaryEntryViewHolder.OnDeleteDiaryEntryItemListener onItemDeleteListener,
+                                 DiaryEntryViewHolder.OnEditDiaryEntryItemListener onItemEditListener,
+                                 DiaryEntryViewHolder.OnMoveDiaryEntryItemListener onItemMoveListener) {
         list = new ArrayList<>();
         this.itemOnClickListener = itemOnClickListener;
         this.onItemDeleteListener = onItemDeleteListener;
@@ -40,7 +40,7 @@ public class DiaryEntryListAdapter extends RecyclerView.Adapter<DiaryEntryViewHo
     @NonNull
     @Override
     public DiaryEntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DiaryEntryViewHolder(parent, itemOnClickListener, onItemDeleteListener, onItemEditListener, onItemMoveListener);
+        return new DiaryEntryViewHolder(parent, itemOnClickListener, onItemDeleteListener, onItemMoveListener,onItemEditListener );
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DiaryEntryListAdapter extends RecyclerView.Adapter<DiaryEntryViewHo
         return list.size();
     }
 
-    public void setList(ArrayList<DiaryEntryDisplayModel> list){
+    public void setList(ArrayList<DiaryEntryDisplayModel> list) {
         this.list = list;
         notifyDataSetChanged();
     }

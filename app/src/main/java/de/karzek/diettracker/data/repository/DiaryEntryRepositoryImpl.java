@@ -56,4 +56,24 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepository {
     public Observable<Boolean> updateMealOfDiaryEntry(int id, MealDataModel meal) {
         return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).updateMealOfDiaryEntry(id, mealMapper.transformToEntity(meal));
     }
+
+    @Override
+    public Observable<DiaryEntryDataModel> getWaterStatus(String date) {
+        return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).getWaterStatus(date).map(new Function<DiaryEntryEntity, DiaryEntryDataModel>() {
+            @Override
+            public DiaryEntryDataModel apply(DiaryEntryEntity diaryEntryEntities) {
+                return diaryEntryMapper.transform(diaryEntryEntities);
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> updateAmountOfWater(float amount, String date) {
+        return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).updateAmountOfWater(amount, date);
+    }
+
+    @Override
+    public Observable<Boolean> addAmountOfWater(float amount, String date) {
+        return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).addAmountOfWater(amount, date);
+    }
 }

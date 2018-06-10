@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="25dp"
+    android:layout_marginTop="25dp">
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/circle_progress_bar_dinks_progress"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        app:cpb_background_progressbar_color="@color/colorAccent"
+        app:cpb_background_progressbar_width="3dp"
+        app:cpb_progress="50"
+        app:cpb_progressbar_color="@color/colorAccentDark"
+        app:cpb_progressbar_width="6dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/circle_progress_bar_drinks_value"
+            style="@style/Headline1"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:isScrollContainer="false"
+            android:gravity="center"
+            android:textColor="@color/textPrimary"
+            android:imeOptions="actionDone"
+            android:focusable="true"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            tools:text="50" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="von 2000 ml"
+            android:textColor="@color/textSecondary"
+            style="@style/Caption"/>
+
+    </LinearLayout>
+
+</FrameLayout>

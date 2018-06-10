@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:orientation="horizontal"
-    android:weightSum="5"
-    android:baselineAligned="false">
+    android:weightSum="5">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -53,10 +52,10 @@
             style="@style/Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            tools:text="von 100"
             android:layout_marginTop="5dp"
-            />
+            android:textAlignment="center"
+            android:textColor="@color/textSecondary"
+            tools:text="von 100" />
 
     </LinearLayout>
 
@@ -64,8 +63,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             style="@style/Caption"
@@ -75,9 +74,9 @@
             android:textAlignment="center" />
 
         <FrameLayout
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
                 android:id="@+id/circle_progress_bar_protein"
@@ -107,8 +106,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            tools:text="von 100"
-            />
+            android:textColor="@color/textSecondary"
+            tools:text="von 100" />
 
     </LinearLayout>
 
@@ -116,8 +115,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             style="@style/Caption"
@@ -127,9 +126,9 @@
             android:textAlignment="center" />
 
         <FrameLayout
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
                 android:id="@+id/circle_progress_bar_carbs"
@@ -159,8 +158,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            tools:text="von 100"
-            />
+            android:textColor="@color/textSecondary"
+            tools:text="von 100" />
 
     </LinearLayout>
 
@@ -168,8 +167,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             style="@style/Caption"
@@ -179,9 +178,9 @@
             android:textAlignment="center" />
 
         <FrameLayout
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
                 android:id="@+id/circle_progress_bar_fats"
@@ -211,8 +210,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            tools:text="von 100"
-            />
+            android:textColor="@color/textSecondary"
+            tools:text="von 100" />
 
     </LinearLayout>
 
