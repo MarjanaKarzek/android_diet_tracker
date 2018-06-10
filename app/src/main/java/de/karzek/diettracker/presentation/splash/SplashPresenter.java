@@ -122,6 +122,8 @@ public class SplashPresenter implements SplashContract.Presenter {
         groceries.add(new GroceryDisplayModel(1, "0", "Rote Paprika", 0.43f, 0.013f, 0.064f, 0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), paprikaServings));
         groceries.add(new GroceryDisplayModel(2, "0", "Gelbe Paprika", 0.30f, 0.01f, 0.05f, 0.005f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), paprikaServings));
         groceries.add(new GroceryDisplayModel(3, "0", "Coca Cola", 0.42f, 0.0f, 0.106f, 0.0f, TYPE_DRINK, TYPE_LIQUID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(4, "29065806", "Tilsiter (Hofburger)", 3.52f, 0.25f, 0.001f, 0.28f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(5, "20462321", "Tex Mex (EL TEQUITO)", 1.31f, 0.04f, 0.15f, 0.05f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
 
         // meals
         meals.add(new MealDisplayModel(0, "Frühstück", "", ""));

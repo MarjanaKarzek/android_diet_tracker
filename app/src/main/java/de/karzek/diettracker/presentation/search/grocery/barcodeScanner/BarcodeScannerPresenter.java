@@ -50,7 +50,7 @@ public class BarcodeScannerPresenter implements BarcodeScannerContract.Presenter
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     if (output.getStatus() == GetGroceryByBarcodeUseCase.Output.SUCCESS) {
-                        view.startDetailsActivity(0);
+                        view.startDetailsActivity(output.getGrocery().getId());
                         view.hideLoading();
                     } else {
                         view.showNoResultsDialog();

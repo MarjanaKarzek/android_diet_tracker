@@ -269,7 +269,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     startActivity(BarcodeScannerActivity.newIntent(this,selectedDate,selectedMeal));
                 else
-                    Toast.makeText(this, "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.permission_grand_camera), Toast.LENGTH_SHORT).show();
 
         }
     }
