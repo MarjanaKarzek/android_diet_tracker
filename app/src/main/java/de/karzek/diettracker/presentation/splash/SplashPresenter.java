@@ -114,7 +114,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         brokkoliServings.add(brokkoli_0);
 
         ArrayList<ServingDisplayModel> paprikaServings = new ArrayList<>();
-        brokkoliServings.add(paprika_0);
+        paprikaServings.add(paprika_0);
 
         //groceries
         groceries.add(new GroceryDisplayModel(-1, "0", "Placeholder", 0.0f, 0.0f, 0.0f, 0.0f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));

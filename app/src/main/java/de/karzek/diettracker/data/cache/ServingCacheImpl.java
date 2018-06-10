@@ -48,14 +48,13 @@ public class ServingCacheImpl implements ServingCache {
     @Override
     public boolean isCached() {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(UnitEntity.class).findAll() != null && realm.where(UnitEntity.class).findAll().size() > 0;
+        return realm.where(ServingEntity.class).findAll() != null && realm.where(ServingEntity.class).findAll().size() > 0;
     }
 
     @Override
     public Observable<Boolean> putAllServings(List<ServingEntity> servingEntities) {
         Realm realm = Realm.getDefaultInstance();
-        for (ServingEntity entity : servingEntities)
-            realm.copyToRealmOrUpdate(entity);
+        realm.copyToRealmOrUpdate(servingEntities);
         realm.commitTransaction();
         realm.close();
         return Observable.just(true);

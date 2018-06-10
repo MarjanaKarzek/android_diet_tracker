@@ -47,7 +47,7 @@ public class MealCacheImpl implements MealCache {
     @Override
     public boolean isCached() {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(UnitEntity.class).findAll() != null && realm.where(UnitEntity.class).findAll().size() > 0;
+        return realm.where(MealEntity.class).findAll() != null && realm.where(MealEntity.class).findAll().size() > 0;
     }
 
     @Override
