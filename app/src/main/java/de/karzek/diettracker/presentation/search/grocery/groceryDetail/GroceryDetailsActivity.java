@@ -40,11 +40,13 @@ import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
+import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.viewStub.AllergenView;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
@@ -65,6 +67,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
+    @BindView(R.id.viewstub_allergen_info) ViewStub allergenViewStub;
     @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
     @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
 
@@ -75,6 +78,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     @BindView(R.id.loading_view) FrameLayout loadingView;
 
+    private AllergenView allergenView;
     private CaloryDetailsView detailsView;
 
     private int groceryId;
@@ -205,6 +209,21 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         } else {
             detailsView = new CaloryMacroDetailsView(caloryMacroDetails.inflate());
         }
+    }
+
+    @Override
+    public void setupAllergenWarning(ArrayList<AllergenDisplayModel> allergenDisplayModels){
+        allergenView = new AllergenView(allergenViewStub.inflate());
+
+        String warning = getString(R.string.allergen_warning) + " ";
+
+        for(int i = 0; i < allergenDisplayModels.size(); i++) {
+            warning += allergenDisplayModels.get(i).getName();
+            if (i < allergenDisplayModels.size()-1)
+                warning += ", ";
+        }
+
+        allergenView.getAllergenWarning().setText(warning);
     }
 
     @Override

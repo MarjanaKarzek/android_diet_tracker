@@ -43,7 +43,7 @@ public class AllergenDomainMapper {
         return allergenDataModel;
     }
 
-    public ArrayList<AllergenDataModel> transformAllToData(ArrayList<AllergenDomainModel> allergenDomainModels) {
+    public ArrayList<AllergenDataModel> transformAllToData(List<AllergenDomainModel> allergenDomainModels) {
         ArrayList<AllergenDataModel> allergenDataModels = new ArrayList<>();
         for (AllergenDomainModel data: allergenDomainModels){
             allergenDataModels.add(transformToData(data));

@@ -43,6 +43,7 @@
 
     <string name="placeholder_amount_solid_grocery">100</string>
 
+    <string name="allergen_warning">Dieses Produkt enthält: </string>
     <string name="button_add">Hinzufügen</string>
 
     <string name="swipe_action_move">verschieben</string>

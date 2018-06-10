@@ -115,6 +115,9 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                     GroceryDisplayModel grocery = groceryMapper.transform(output.getGrocery());
                     view.fillGroceryDetails(grocery);
 
+                    if(grocery.getAllergens().size() > 0)
+                        view.setupAllergenWarning(grocery.getAllergens());
+
                     getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

@@ -55,19 +55,20 @@ public class GroceryCacheImpl implements GroceryCache {
     @Override
     public Observable<List<GroceryEntity>> getAllGroceries() {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).findAll()));
+        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).notEqualTo("id", -1).notEqualTo("id",0).findAll()));
     }
 
     @Override
     public Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query) {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("type", type).contains("name",query, Case.INSENSITIVE).sort("name").findAll()));
+        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("type", type).notEqualTo("id", -1).notEqualTo("id",0).contains("name",query, Case.INSENSITIVE).sort("name").findAll()));
     }
 
     @Override
     public Observable<GroceryEntity> getGroceryByID(int id) {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("id", id).findFirst()));
+        GroceryEntity entity = realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("id", id).findFirst());
+        return Observable.just(entity);
     }
 
     @Override

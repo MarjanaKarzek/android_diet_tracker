@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
+import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
@@ -29,6 +30,8 @@ public interface GroceryDetailsContract {
         void hideLoading();
 
         void showNutritionDetails(String value);
+
+        void setupAllergenWarning(ArrayList<AllergenDisplayModel> allergenDisplayModels);
 
         void setNutritionMaxValues(HashMap<String, Long> values);
 

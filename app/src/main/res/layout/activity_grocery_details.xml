@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
     <android.support.design.widget.AppBarLayout
@@ -23,35 +22,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginBottom="80dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ViewStub
-        android:id="@+id/viewstub_calory_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:inflatedId="@+id/snippet_calory_detail"
-        android:layout="@layout/snippet_calory_detail" />
+        <ViewStub
+            android:id="@+id/viewstub_allergen_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/snippet_allergen_warning"
+            android:layout="@layout/snippet_allergen_warning" />
 
-    <ViewStub
-        android:id="@+id/viewstub_calory_makro_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:inflatedId="@+id/snippet_calory_and_makro_detail"
-        android:layout="@layout/snippet_calory_and_macro_detail" />
+        <ViewStub
+            android:id="@+id/viewstub_calory_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:inflatedId="@+id/snippet_calory_detail"
+            android:layout="@layout/snippet_calory_detail" />
+
+        <ViewStub
+            android:id="@+id/viewstub_calory_makro_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:inflatedId="@+id/snippet_calory_and_makro_detail"
+            android:layout="@layout/snippet_calory_and_macro_detail" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/divider"
-            />
+            android:layout_marginStart="16dp"
+            android:background="@color/divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -60,16 +65,16 @@
 
             <EditText
                 android:id="@+id/edittext_amount"
+                style="@style/Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/placeholder_amount_solid_grocery"
-                android:textAlignment="viewEnd"
-                android:layout_toStartOf="@id/spinner_serving"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
-                style="@style/Body1"
+                android:layout_toStartOf="@id/spinner_serving"
+                android:hint="@string/placeholder_amount_solid_grocery"
                 android:inputType="numberDecimal"
-                android:textColor="@color/textPrimary"/>
+                android:textAlignment="viewEnd"
+                android:textColor="@color/textPrimary" />
 
             <Spinner
                 android:id="@+id/spinner_serving"
@@ -85,18 +90,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:textAlignment="viewEnd"/>
+            android:textAlignment="viewEnd" />
 
         <TextView
             android:id="@+id/date_label"
+            style="@style/Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            tools:text="16. Mai 2018"
+            android:layout_marginStart="16dp"
             android:textAlignment="center"
-            style="@style/Body1"
-            android:textColor="@color/colorAccentDark"/>
+            android:textColor="@color/colorAccentDark"
+            tools:text="16. Mai 2018" />
 
     </LinearLayout>
 
@@ -104,11 +109,11 @@
         android:id="@+id/add_grocery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_margin="16dp"
         android:background="@color/colorPrimary"
         android:text="@string/button_add"
-        android:textColor="@color/textOnPrimary"
-        android:layout_gravity="bottom"/>
+        android:textColor="@color/textOnPrimary" />
 
     <include layout="@layout/snippet_loading_view" />
 
