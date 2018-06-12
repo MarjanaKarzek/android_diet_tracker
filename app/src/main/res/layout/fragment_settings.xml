@@ -1,12 +1,565 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/menu_Settings"
-        android:gravity="center"/>
+        android:layout_height="wrap_content">
 
-</android.support.constraint.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/settings_nutritions_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp">
+
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/settings_nutrition_title"
+                android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/expandable_nutritions_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_primary_text" />
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_diet_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false"
+            app:layout_constraintTop_toBottomOf="@id/settings_nutritions_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_daily_required_amount"
+                    android:textColor="@color/textPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3">
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_calories_subtitle"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_amount_calories"
+                        style="@style/Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="2"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="2000" />
+
+                </LinearLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:columnCount="3">
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="4"
+                        android:text="@string/settings_proteins_subtitle"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_amount_proteins"
+                        style="@style/Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="5"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="120" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_unit_gramm"
+                        android:textColor="@color/textPrimary" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/settings_carbs_subtitle"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_amount_carbs"
+                        style="@style/Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="2"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="200" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_unit_gramm"
+                        android:textColor="@color/textPrimary" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/settings_fats_subtitle"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_amount_fats"
+                        style="@style/Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="2"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="80" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_unit_gramm"
+                        android:textColor="@color/textPrimary" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <FrameLayout
+            android:id="@+id/settings_liquids_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/expandable_diet_details">
+
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/settings_liquids_title"
+                android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/expandable_liquids_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_primary_text" />
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_liquid_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false"
+            app:layout_constraintTop_toBottomOf="@id/settings_liquids_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_liquids_subtitle"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_amount_liquids"
+                        style="@style/Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="2000" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_unit_milliliters"
+                        android:textColor="@color/textPrimary" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_volume_subtitle"
+                    android:textColor="@color/textPrimary" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:columnCount="3">
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/settings_volume_bottle_title"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_volume_bottle"
+                        style="@style/Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="2"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="2000" />
+
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_unit_milliliters"
+                        android:textColor="@color/textPrimary" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:text="@string/settings_volume_glasses_title"
+                        android:textColor="@color/textPrimary" />
+
+                    <EditText
+                        android:id="@+id/edit_text_volume_glasses"
+                        style="@style/Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="2"
+                        android:inputType="number"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/textPrimary"
+                        tools:hint="120" />
+
+                    <TextView
+                        style="@style/Body2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_unit_milliliters"
+                        android:textColor="@color/textPrimary" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <FrameLayout
+            android:id="@+id/settings_meals_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/expandable_liquid_details">
+
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/settings_meals_title"
+                android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/expandable_meals_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_primary_text" />
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_meal_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false"
+            app:layout_constraintTop_toBottomOf="@id/settings_meals_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/settings_meal_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/add_meal"
+                    style="@style/TransparentButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_meals_add" />
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <FrameLayout
+            android:id="@+id/settings_allergies_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/expandable_meal_details">
+
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/settings_allergies_title"
+                android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/expandable_allergies_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_primary_text" />
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_allergies_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false"
+            app:layout_constraintTop_toBottomOf="@id/settings_allergies_title">
+
+            <TextView
+                android:id="@+id/text_allergies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawableEnd="@drawable/ic_edit_accent_dark"
+                tools:text="Fructose, Gluten" />
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <FrameLayout
+            android:id="@+id/settings_data_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/expandable_allergies_details">
+
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/settings_data_title"
+                android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/expandable_data_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_primary_text" />
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_data_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false"
+            app:layout_constraintTop_toBottomOf="@id/settings_data_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    style="@style/Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:enabled="false"
+                    android:text="@string/settings_data_calories"
+                    android:textColor="@color/textPrimary" />
+
+                <CheckBox
+                    style="@style/Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/settings_data_macro_details"
+                    android:textColor="@color/textPrimary" />
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <FrameLayout
+            android:id="@+id/settings_start_screen_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_title"
+            android:elevation="3dp"
+            app:layout_constraintTop_toBottomOf="@+id/expandable_data_details">
+
+            <TextView
+                style="@style/Subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/settings_start_screen_title"
+                android:textColor="@color/textPrimary" />
+
+            <ImageButton
+                android:id="@+id/expandable_start_screen_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:src="@drawable/ic_expand_more_primary_text" />
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_start_screen_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_expanded="false"
+            app:layout_constraintTop_toBottomOf="@id/settings_start_screen_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    style="@style/Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/settings_start_screen_favorite_recipes_area"
+                    android:textColor="@color/textPrimary" />
+
+                <CheckBox
+                    style="@style/Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/settings_start_screen_liquid_area"
+                    android:textColor="@color/textPrimary" />
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

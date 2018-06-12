@@ -78,9 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            app:fab_addButtonColorPressed="@color/colorAccentDark"
-            fab:fab_addButtonColorNormal="@color/colorAccentDark"
-            fab:fab_colorNormal="@color/colorAccentDark"
+            app:fab_addButtonColorPressed="@color/colorAccent"
+            fab:fab_addButtonColorNormal="@color/colorAccent"
+            fab:fab_colorNormal="@color/colorAccent"
             fab:fab_icon="@drawable/ic_add_white"
             fab:fab_labelStyle="@style/fabStyle">
 
@@ -88,8 +88,8 @@
                 android:id="@+id/add_food"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/colorAccentDark"
-                fab:fab_colorPressed="@color/colorAccentDark"
+                fab:fab_colorNormal="@color/colorAccent"
+                fab:fab_colorPressed="@color/colorAccent"
                 fab:fab_icon="@drawable/ic_add_white"
                 fab:fab_size="mini"
                 fab:fab_title="@string/fab_add_food" />
@@ -98,8 +98,8 @@
                 android:id="@+id/add_drink"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/colorAccentDark"
-                fab:fab_colorPressed="@color/colorAccentDark"
+                fab:fab_colorNormal="@color/colorAccent"
+                fab:fab_colorPressed="@color/colorAccent"
                 fab:fab_icon="@drawable/ic_add_white"
                 fab:fab_size="mini"
                 fab:fab_title="@string/fab_add_drink" />
@@ -108,13 +108,11 @@
                 android:id="@+id/add_recipe"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/colorAccentDark"
-                fab:fab_colorPressed="@color/colorAccentDark"
+                fab:fab_colorNormal="@color/colorAccent"
+                fab:fab_colorPressed="@color/colorAccent"
                 fab:fab_icon="@drawable/ic_add_white"
                 fab:fab_size="mini"
-                fab:fab_title="@string/fab_add_recipe">
-
-            </com.getbase.floatingactionbutton.FloatingActionButton>
+                fab:fab_title="@string/fab_add_recipe" />
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

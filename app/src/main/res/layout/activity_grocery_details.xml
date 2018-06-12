@@ -100,7 +100,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:textAlignment="center"
-            android:textColor="@color/colorAccentDark"
+            android:textColor="@color/colorAccent"
             tools:text="16. Mai 2018" />
 
     </LinearLayout>

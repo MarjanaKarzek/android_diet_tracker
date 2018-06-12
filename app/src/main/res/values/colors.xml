@@ -5,9 +5,9 @@
     <color name="colorPrimaryLight">#82d8b2</color>
     <color name="colorPrimaryDark">#009355</color>
 
-    <color name="colorAccent">#9eeaed</color>
-    <color name="colorAccentLight">#d1ffff</color>
-    <color name="colorAccentDark">#6cb8bb</color>
+    <color name="colorAccentLight">#9eeaed</color>
+    <color name="colorAccentExtraLight">#d1ffff</color>
+    <color name="colorAccent">#6cb8bb</color>
 
     <color name="textPrimary">#777777</color>
     <color name="textSecondary">#aaaaaa</color>

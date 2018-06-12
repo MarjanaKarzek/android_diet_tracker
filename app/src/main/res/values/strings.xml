@@ -58,4 +58,27 @@
     <string name="save_button">Speichern</string>
     <string name="button_delete">Löschen</string>
 
+    <string name="settings_nutrition_title">Ernährung</string>
+    <string name="settings_calories_subtitle">Kalorien: </string>
+    <string name="settings_proteins_subtitle">Proteinen: </string>
+    <string name="settings_carbs_subtitle">Kohlenhydraten: </string>
+    <string name="settings_fats_subtitle">Fetten: </string>
+    <string name="settings_daily_required_amount">Täglicher Bedarf an …</string>
+    <string name="settings_liquids_title">Flüssigkeitshaushalt</string>
+    <string name="settings_unit_gramm">g</string>
+    <string name="settings_unit_milliliters">ml</string>
+    <string name="settings_liquids_subtitle">Täglicher Bedarf</string>
+    <string name="settings_volume_subtitle">Volumen für …</string>
+    <string name="settings_volume_bottle_title">Flaschen: </string>
+    <string name="settings_volume_glasses_title">Gläser: </string>
+    <string name="settings_meals_title">Mahlzeiten</string>
+    <string name="settings_meals_add">+ Hinzufügen</string>
+    <string name="settings_allergies_title">Allergien</string>
+    <string name="settings_data_title">Datenauswertung</string>
+    <string name="settings_data_calories">Kalorien</string>
+    <string name="settings_data_macro_details">Makronährstoffe</string>
+    <string name="settings_start_screen_title">Startseite</string>
+    <string name="settings_start_screen_favorite_recipes_area">Favorisierte Rezepte</string>
+    <string name="settings_start_screen_liquid_area">Getränke Erfassung</string>
+
 </resources>
