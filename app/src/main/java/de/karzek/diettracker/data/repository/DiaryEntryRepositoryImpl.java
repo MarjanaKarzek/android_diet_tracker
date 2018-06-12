@@ -3,6 +3,7 @@ package de.karzek.diettracker.data.repository;
 import java.util.List;
 
 import de.karzek.diettracker.data.cache.DiaryEntryCacheImpl;
+import de.karzek.diettracker.data.cache.interfaces.DiaryEntryCache;
 import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.mapper.DiaryEntryDataMapper;
 import de.karzek.diettracker.data.mapper.MealDataMapper;
@@ -24,9 +25,9 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepository {
 
     private final DiaryEntryDataMapper diaryEntryMapper;
     private final MealDataMapper mealMapper;
-    private final DiaryEntryCacheImpl diaryEntryCache;
+    private final DiaryEntryCache diaryEntryCache;
 
-    public DiaryEntryRepositoryImpl(DiaryEntryCacheImpl diaryEntryCache, DiaryEntryDataMapper diaryEntryMapper, MealDataMapper mealMapper) {
+    public DiaryEntryRepositoryImpl(DiaryEntryCache diaryEntryCache, DiaryEntryDataMapper diaryEntryMapper, MealDataMapper mealMapper) {
         this.diaryEntryCache = diaryEntryCache;
         this.mealMapper = mealMapper;
         this.diaryEntryMapper = diaryEntryMapper;
@@ -75,5 +76,15 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepository {
     @Override
     public Observable<Boolean> addAmountOfWater(float amount, String date) {
         return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).addAmountOfWater(amount, date);
+    }
+
+    @Override
+    public Observable<DiaryEntryDataModel> getDiaryEntryById(int id) {
+        return new DiaryEntryLocalDataSourceImpl(diaryEntryCache).getDiaryEntryById(id).map(new Function<DiaryEntryEntity, DiaryEntryDataModel>() {
+            @Override
+            public DiaryEntryDataModel apply(DiaryEntryEntity diaryEntryEntities) {
+                return diaryEntryMapper.transform(diaryEntryEntities);
+            }
+        });
     }
 }

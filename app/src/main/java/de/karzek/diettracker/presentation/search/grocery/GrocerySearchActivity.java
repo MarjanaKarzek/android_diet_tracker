@@ -167,7 +167,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
 
     @Override
     public void showGroceryDetails(int id) {
-        startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal));
+        startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null));
     }
 
     @Override

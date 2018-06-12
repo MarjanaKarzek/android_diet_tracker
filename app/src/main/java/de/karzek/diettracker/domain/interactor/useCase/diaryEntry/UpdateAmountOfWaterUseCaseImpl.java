@@ -1,6 +1,7 @@
 package de.karzek.diettracker.domain.interactor.useCase.diaryEntry;
 
 import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateMealOfDiaryEntryUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
@@ -15,9 +16,9 @@ import io.reactivex.Observable;
  */
 public class UpdateAmountOfWaterUseCaseImpl implements UpdateAmountOfWaterUseCase {
 
-    private final DiaryEntryRepositoryImpl repository;
+    private final DiaryEntryRepository repository;
 
-    public UpdateAmountOfWaterUseCaseImpl(DiaryEntryRepositoryImpl repository) {
+    public UpdateAmountOfWaterUseCaseImpl(DiaryEntryRepository repository) {
         this.repository = repository;
     }
 

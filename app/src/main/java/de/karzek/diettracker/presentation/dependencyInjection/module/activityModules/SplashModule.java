@@ -7,6 +7,11 @@ import de.karzek.diettracker.data.cache.GroceryCacheImpl;
 import de.karzek.diettracker.data.cache.MealCacheImpl;
 import de.karzek.diettracker.data.cache.ServingCacheImpl;
 import de.karzek.diettracker.data.cache.UnitCacheImpl;
+import de.karzek.diettracker.data.cache.interfaces.AllergenCache;
+import de.karzek.diettracker.data.cache.interfaces.GroceryCache;
+import de.karzek.diettracker.data.cache.interfaces.MealCache;
+import de.karzek.diettracker.data.cache.interfaces.ServingCache;
+import de.karzek.diettracker.data.cache.interfaces.UnitCache;
 import de.karzek.diettracker.data.mapper.AllergenDataMapper;
 import de.karzek.diettracker.data.mapper.GroceryDataMapper;
 import de.karzek.diettracker.data.mapper.MealDataMapper;
@@ -17,13 +22,21 @@ import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.ServingRepositoryImpl;
 import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.AllergenRepository;
+import de.karzek.diettracker.data.repository.repositoryInterface.GroceryRepository;
+import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.data.repository.repositoryInterface.ServingRepository;
+import de.karzek.diettracker.data.repository.repositoryInterface.UnitRepository;
 import de.karzek.diettracker.domain.interactor.manager.InitializeSharedPreferencesUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.InitializeSharedPreferencesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.allergen.PutAllAllergensUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.PutAllGroceriesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.PutAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.serving.PutAllServingsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.PutAllUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.PutAllAllergensUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.PutAllGroceriesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.PutAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.serving.PutAllServingsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.PutAllUnitsUseCase;
 import de.karzek.diettracker.domain.mapper.AllergenDomainMapper;
@@ -82,54 +95,54 @@ public class SplashModule {
     //cache
 
     @Provides
-    UnitCacheImpl provideUnitCacheImpl(){
+    UnitCache provideUnitCacheImpl(){
         return new UnitCacheImpl();
     }
 
     @Provides
-    ServingCacheImpl provideServingCacheImpl(){
+    ServingCache provideServingCacheImpl(){
         return new ServingCacheImpl();
     }
 
     @Provides
-    AllergenCacheImpl provideAllergenCacheImpl(){
+    AllergenCache provideAllergenCacheImpl(){
         return new AllergenCacheImpl();
     }
 
     @Provides
-    GroceryCacheImpl provideGroceryCacheImpl(){
+    GroceryCache provideGroceryCacheImpl(){
         return new GroceryCacheImpl();
     }
 
     @Provides
-    MealCacheImpl provideMealCacheImpl(){
+    MealCache provideMealCacheImpl(){
         return new MealCacheImpl();
     }
 
     //repository
 
     @Provides
-    UnitRepositoryImpl provideUnitRepositoryImpl(UnitCacheImpl unitCache, UnitDataMapper mapper){
+    UnitRepository provideUnitRepositoryImpl(UnitCache unitCache, UnitDataMapper mapper){
         return new UnitRepositoryImpl(unitCache, mapper);
     }
 
     @Provides
-    ServingRepositoryImpl provideServingRepositoryImpl(ServingCacheImpl servingCache, ServingDataMapper mapper){
+    ServingRepository provideServingRepositoryImpl(ServingCache servingCache, ServingDataMapper mapper){
         return new ServingRepositoryImpl(servingCache, mapper);
     }
 
     @Provides
-    GroceryRepositoryImpl provideGroceryRepositoryImpl(GroceryCacheImpl groceryCache, GroceryDataMapper mapper){
+    GroceryRepository provideGroceryRepositoryImpl(GroceryCache groceryCache, GroceryDataMapper mapper){
         return new GroceryRepositoryImpl(groceryCache, mapper);
     }
 
     @Provides
-    MealRepositoryImpl provideMealRepositoryImpl(MealCacheImpl mealCache, MealDataMapper mapper){
+    MealRepository provideMealRepositoryImpl(MealCache mealCache, MealDataMapper mapper){
         return new MealRepositoryImpl(mealCache, mapper);
     }
 
     @Provides
-    AllergenRepositoryImpl provideAllergenRepositoryImpl(AllergenCacheImpl mealCache, AllergenDataMapper mapper){
+    AllergenRepository provideAllergenRepositoryImpl(AllergenCache mealCache, AllergenDataMapper mapper){
         return new AllergenRepositoryImpl(mealCache, mapper);
     }
 
@@ -165,32 +178,32 @@ public class SplashModule {
     //use case
 
     @Provides
-    PutAllUnitsUseCaseImpl providePutAllUnitsUseCaseImpl(UnitRepositoryImpl repository, UnitDomainMapper mapper){
+    PutAllUnitsUseCase providePutAllUnitsUseCaseImpl(UnitRepository repository, UnitDomainMapper mapper){
         return new PutAllUnitsUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    PutAllServingsUseCaseImpl providePutAllServingsUseCaseImpl(ServingRepositoryImpl repository, ServingDomainMapper mapper){
+    PutAllServingsUseCase providePutAllServingsUseCaseImpl(ServingRepository repository, ServingDomainMapper mapper){
         return new PutAllServingsUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    PutAllAllergensUseCaseImpl providePutAllAllergensUseCaseImpl(AllergenRepositoryImpl repository, AllergenDomainMapper mapper){
+    PutAllAllergensUseCase providePutAllAllergensUseCaseImpl(AllergenRepository repository, AllergenDomainMapper mapper){
         return new PutAllAllergensUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    PutAllGroceriesUseCaseImpl providePutAllGroceriesUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper){
+    PutAllGroceriesUseCase providePutAllGroceriesUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
         return new PutAllGroceriesUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    PutAllMealsUseCaseImpl providePutAllMealsUseCaseImpl(MealRepositoryImpl repository, MealDomainMapper mapper){
+    PutAllMealsUseCase providePutAllMealsUseCaseImpl(MealRepository repository, MealDomainMapper mapper){
         return new PutAllMealsUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    InitializeSharedPreferencesUseCaseImpl provideInitializeSharedPreferencesUseCaseImpl(SharedPreferencesUtil sharedPreferencesUtil){
+    InitializeSharedPreferencesUseCase provideInitializeSharedPreferencesUseCaseImpl(SharedPreferencesUtil sharedPreferencesUtil){
         return new InitializeSharedPreferencesUseCaseImpl(sharedPreferencesUtil);
     }
 
@@ -225,12 +238,12 @@ public class SplashModule {
 
     @Provides
     SplashContract.Presenter provideSplashPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                                    PutAllUnitsUseCaseImpl putAllUnitsUseCase,
-                                                    PutAllServingsUseCaseImpl putAllServingsUseCase,
-                                                    PutAllAllergensUseCaseImpl putAllAllergensUseCase,
-                                                    PutAllGroceriesUseCaseImpl putAllGroceriesUseCase,
-                                                    PutAllMealsUseCaseImpl putAllMealsUseCase,
-                                                    InitializeSharedPreferencesUseCaseImpl initializeSharedPreferencesUseCase,
+                                                    PutAllUnitsUseCase putAllUnitsUseCase,
+                                                    PutAllServingsUseCase putAllServingsUseCase,
+                                                    PutAllAllergensUseCase putAllAllergensUseCase,
+                                                    PutAllGroceriesUseCase putAllGroceriesUseCase,
+                                                    PutAllMealsUseCase putAllMealsUseCase,
+                                                    InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase,
                                                     UnitUIMapper unitMapper,
                                                     ServingUIMapper servingMapper,
                                                     AllergenUIMapper allergenMapper,

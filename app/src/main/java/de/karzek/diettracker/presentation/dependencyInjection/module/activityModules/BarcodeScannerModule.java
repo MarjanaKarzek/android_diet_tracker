@@ -4,8 +4,10 @@ import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.GroceryRepository;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByBarcodeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByBarcodeUseCase;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import de.karzek.diettracker.presentation.main.MainContract;
 import de.karzek.diettracker.presentation.main.MainPresenter;
@@ -26,14 +28,14 @@ public class BarcodeScannerModule {
     //domain
 
     @Provides
-    GetGroceryByBarcodeUseCaseImpl provideGetGroceryByBarcodeUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper) {
+    GetGroceryByBarcodeUseCase provideGetGroceryByBarcodeUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper) {
         return new GetGroceryByBarcodeUseCaseImpl(repository, mapper);
     }
 
     //presentation
 
     @Provides
-    BarcodeScannerContract.Presenter provideBarcodeScannerPresenter(Lazy<GetGroceryByBarcodeUseCaseImpl> getGroceryByBarcodeUseCase) {
+    BarcodeScannerContract.Presenter provideBarcodeScannerPresenter(Lazy<GetGroceryByBarcodeUseCase> getGroceryByBarcodeUseCase) {
         return new BarcodeScannerPresenter(getGroceryByBarcodeUseCase);
     }
 }

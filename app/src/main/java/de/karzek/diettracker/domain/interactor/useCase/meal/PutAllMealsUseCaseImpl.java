@@ -2,6 +2,7 @@ package de.karzek.diettracker.domain.interactor.useCase.meal;
 
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.PutAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.PutAllUnitsUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
@@ -17,10 +18,10 @@ import io.reactivex.Observable;
  */
 public class PutAllMealsUseCaseImpl implements PutAllMealsUseCase {
 
-    private final MealRepositoryImpl repository;
+    private final MealRepository repository;
     private final MealDomainMapper mapper;
 
-    public PutAllMealsUseCaseImpl(MealRepositoryImpl repository, MealDomainMapper mapper) {
+    public PutAllMealsUseCaseImpl(MealRepository repository, MealDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

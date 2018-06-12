@@ -1,6 +1,7 @@
 package de.karzek.diettracker.domain.interactor.useCase.grocery;
 
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.GroceryRepository;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import de.karzek.diettracker.data.model.GroceryDataModel;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
@@ -16,10 +17,10 @@ import io.reactivex.functions.Function;
  */
 public class GetGroceryByIdUseCaseImpl implements GetGroceryByIdUseCase {
 
-    private final GroceryRepositoryImpl repository;
+    private final GroceryRepository repository;
     private final GroceryDomainMapper mapper;
 
-    public GetGroceryByIdUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper) {
+    public GetGroceryByIdUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

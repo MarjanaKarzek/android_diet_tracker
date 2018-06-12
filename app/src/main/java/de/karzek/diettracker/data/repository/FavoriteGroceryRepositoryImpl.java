@@ -24,7 +24,7 @@ public class FavoriteGroceryRepositoryImpl implements FavoriteGroceryRepository 
     private final FavoriteGroceryDataMapper mapper;
     private final FavoriteGroceryCache favoriteGroceryCache;
 
-    public FavoriteGroceryRepositoryImpl(FavoriteGroceryCacheImpl favoriteCache, FavoriteGroceryDataMapper mapper) {
+    public FavoriteGroceryRepositoryImpl(FavoriteGroceryCache favoriteCache, FavoriteGroceryDataMapper mapper) {
         this.favoriteGroceryCache = favoriteCache;
         this.mapper = mapper;
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.DiaryEntryDataModel;
 import de.karzek.diettracker.data.model.MealDataModel;
 import io.reactivex.Observable;
 
@@ -30,4 +31,6 @@ public interface DiaryEntryDataSource {
     Observable<Boolean> updateAmountOfWater(float amount, String date);
 
     Observable<Boolean> addAmountOfWater(float amount, String date);
+
+    Observable<DiaryEntryEntity> getDiaryEntryById(int id);
 }

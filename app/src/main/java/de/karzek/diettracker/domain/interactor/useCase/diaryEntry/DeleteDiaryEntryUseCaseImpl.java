@@ -1,6 +1,7 @@
 package de.karzek.diettracker.domain.interactor.useCase.diaryEntry;
 
 import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
@@ -15,9 +16,9 @@ import io.reactivex.Observable;
  */
 public class DeleteDiaryEntryUseCaseImpl implements DeleteDiaryEntryUseCase {
 
-    private final DiaryEntryRepositoryImpl repository;
+    private final DiaryEntryRepository repository;
 
-    public DeleteDiaryEntryUseCaseImpl(DiaryEntryRepositoryImpl repository) {
+    public DeleteDiaryEntryUseCaseImpl(DiaryEntryRepository repository) {
         this.repository = repository;
     }
 

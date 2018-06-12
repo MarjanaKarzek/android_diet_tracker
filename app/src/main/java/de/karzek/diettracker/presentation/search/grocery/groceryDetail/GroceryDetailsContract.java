@@ -48,6 +48,10 @@ public interface GroceryDetailsContract {
         void openDatePicker();
 
         void setFavoriteIconCheckedState(boolean checked);
+
+        void prepareEditMode(DiaryEntryDisplayModel diaryEntry);
+
+        void finishView();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -65,5 +69,9 @@ public interface GroceryDetailsContract {
         void onFavoriteGroceryClicked(boolean checked, GroceryDisplayModel grocery);
 
         void checkFavoriteState(int groceryId);
+
+        void startEditMode(int diaryEntryId);
+
+        void onDeleteDiaryEntryClicked(int diaryEntryId);
     }
 }

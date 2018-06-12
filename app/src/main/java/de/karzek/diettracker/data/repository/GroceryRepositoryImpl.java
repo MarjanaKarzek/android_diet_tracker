@@ -24,7 +24,7 @@ public class GroceryRepositoryImpl implements GroceryRepository {
     private final GroceryDataMapper mapper;
     private final GroceryCache groceryCache;
 
-    public GroceryRepositoryImpl(GroceryCacheImpl groceryCache, GroceryDataMapper mapper) {
+    public GroceryRepositoryImpl(GroceryCache groceryCache, GroceryDataMapper mapper) {
         this.groceryCache = groceryCache;
         this.mapper = mapper;
     }

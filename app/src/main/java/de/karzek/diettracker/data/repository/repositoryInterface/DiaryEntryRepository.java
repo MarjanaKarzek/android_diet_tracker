@@ -25,9 +25,11 @@ public interface DiaryEntryRepository {
 
     Observable<Boolean> updateMealOfDiaryEntry(int id, MealDataModel mealDataModel);
 
-    Observable<DiaryEntryDataModel>  getWaterStatus(String date);
+    Observable<DiaryEntryDataModel> getWaterStatus(String date);
 
     Observable<Boolean> updateAmountOfWater(float amount, String date);
 
     Observable<Boolean> addAmountOfWater(float amount, String date);
+
+    Observable<DiaryEntryDataModel> getDiaryEntryById(int id);
 }

@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.dependencyInjection.module.activityMo
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.presentation.main.MainContract;
 import de.karzek.diettracker.presentation.main.MainPresenter;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
@@ -20,7 +21,7 @@ public class MainModule {
     //presentation
 
     @Provides
-    MainContract.Presenter provideMainPresenter(GetAllMealsUseCaseImpl getAllMealsUseCase,
+    MainContract.Presenter provideMainPresenter(GetAllMealsUseCase getAllMealsUseCase,
                                                 MealUIMapper mapper) {
         return new MainPresenter(getAllMealsUseCase, mapper);
     }

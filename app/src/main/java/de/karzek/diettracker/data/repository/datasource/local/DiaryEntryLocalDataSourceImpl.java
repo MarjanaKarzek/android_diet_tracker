@@ -7,6 +7,7 @@ import de.karzek.diettracker.data.cache.interfaces.UnitCache;
 import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.DiaryEntryDataModel;
 import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.repository.datasource.interfaces.DiaryEntryDataSource;
 import de.karzek.diettracker.data.repository.datasource.interfaces.UnitDataSource;
@@ -60,5 +61,10 @@ public class DiaryEntryLocalDataSourceImpl implements DiaryEntryDataSource {
     @Override
     public Observable<Boolean> addAmountOfWater(float amount, String date) {
         return diaryEntryCache.addAmountOfWater(amount, date);
+    }
+
+    @Override
+    public Observable<DiaryEntryEntity> getDiaryEntryById(int id) {
+        return diaryEntryCache.getDiaryEntryById(id);
     }
 }

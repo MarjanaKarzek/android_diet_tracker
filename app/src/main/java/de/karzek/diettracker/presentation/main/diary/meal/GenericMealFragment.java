@@ -36,6 +36,7 @@ import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetails
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
@@ -231,6 +232,11 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         bundle.putStringArrayList("meals", meals);
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction,"dialog");
+    }
+
+    @Override
+    public void startEditMode(int id) {
+        startActivity(GroceryDetailsActivity.newIntent(getContext(), null, null, null, id));
     }
 
     @Override

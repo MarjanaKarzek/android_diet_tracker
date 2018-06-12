@@ -8,6 +8,7 @@ import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.DiaryEntryDataModel;
 import de.karzek.diettracker.data.model.MealDataModel;
 import io.reactivex.Observable;
 import io.realm.Realm;
@@ -146,6 +147,13 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
         realm.close();
 
         return Observable.just(true);
+    }
+
+    @Override
+    public Observable<DiaryEntryEntity> getDiaryEntryById(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("id", id).findFirst()));
+
     }
 
     private void startWriteTransaction(){

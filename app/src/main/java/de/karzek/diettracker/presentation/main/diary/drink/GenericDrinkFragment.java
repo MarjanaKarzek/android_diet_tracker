@@ -37,6 +37,7 @@ import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryList
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
@@ -235,6 +236,11 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
             ((CaloryMacroDetailsView) detailsView).getFatsProgressBar().setProgress(100.0f / maxValues.get(Constants.fats) * values.get(Constants.fats));
             ((CaloryMacroDetailsView) detailsView).getFatsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.fats)));
         }
+    }
+
+    @Override
+    public void startEditMode(int id) {
+        startActivity(GroceryDetailsActivity.newIntent(getContext(), null, null, null, id));
     }
 
     @Override

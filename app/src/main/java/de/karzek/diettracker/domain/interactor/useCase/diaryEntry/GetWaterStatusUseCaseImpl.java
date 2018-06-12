@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.model.DiaryEntryDataModel;
 import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetAllDiaryEntriesMatchingUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetWaterStatusUseCase;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
@@ -19,10 +20,10 @@ import io.reactivex.functions.Function;
  */
 public class GetWaterStatusUseCaseImpl implements GetWaterStatusUseCase {
 
-    private final DiaryEntryRepositoryImpl repository;
+    private final DiaryEntryRepository repository;
     private final DiaryEntryDomainMapper mapper;
 
-    public GetWaterStatusUseCaseImpl(DiaryEntryRepositoryImpl repository, DiaryEntryDomainMapper mapper) {
+    public GetWaterStatusUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

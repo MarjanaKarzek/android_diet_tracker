@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.cache.ServingCacheImpl;
 import de.karzek.diettracker.data.cache.UnitCacheImpl;
+import de.karzek.diettracker.data.cache.interfaces.ServingCache;
 import de.karzek.diettracker.data.mapper.ServingDataMapper;
 import de.karzek.diettracker.data.mapper.UnitDataMapper;
 import de.karzek.diettracker.data.model.ServingDataModel;
@@ -24,9 +25,9 @@ import io.reactivex.Observable;
 public class ServingRepositoryImpl implements ServingRepository {
 
     private final ServingDataMapper mapper;
-    private final ServingCacheImpl servingCache;
+    private final ServingCache servingCache;
 
-    public ServingRepositoryImpl(ServingCacheImpl servingCache, ServingDataMapper mapper) {
+    public ServingRepositoryImpl(ServingCache servingCache, ServingDataMapper mapper) {
         this.servingCache = servingCache;
         this.mapper = mapper;
     }

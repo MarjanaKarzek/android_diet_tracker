@@ -24,10 +24,6 @@ public class AndroidModule {
         this.context = application;
     }
 
-    public AndroidModule(Context content) {
-        this.context = content;
-    }
-
     @Provides
     @Singleton
     public Context getContext() {

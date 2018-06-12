@@ -7,10 +7,12 @@ import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavori
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.GetMatchingGroceriesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetUnitByNameUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteGroceriesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetMatchingGroceriesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetUnitByNameUseCase;
+import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.FavoriteGroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
@@ -40,30 +42,36 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
     private FavoriteGroceryUIMapper favoriteGroceryMapper;
     private GroceryUIMapper groceryMapper;
     private UnitUIMapper unitMapper;
+    private DiaryEntryUIMapper diaryEntryMapper;
 
-    private GetFavoriteGroceriesUseCaseImpl getFavoriteGroceriesUseCase;
-    private Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase;
-    private Lazy<GetGroceryByIdUseCaseImpl> getGroceryByIdUseCase;
-    private Lazy<GetUnitByNameUseCaseImpl> getUnitByNameUseCase;
+    private GetFavoriteGroceriesUseCase getFavoriteGroceriesUseCase;
+    private Lazy<GetMatchingGroceriesUseCase> getMatchingGroceriesUseCase;
+    private Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase;
+    private Lazy<GetUnitByNameUseCase> getUnitByNameUseCase;
+    private Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private SharedPreferencesUtil sharedPreferencesUtil;
 
-    public GrocerySearchPresenter(GetFavoriteGroceriesUseCaseImpl getFavoriteGroceriesUseCase,
-                                  Lazy<GetMatchingGroceriesUseCaseImpl> getMatchingGroceriesUseCase,
-                                  Lazy<GetGroceryByIdUseCaseImpl> getGroceryByIdUseCase,
-                                  Lazy<GetUnitByNameUseCaseImpl> getUnitByNameUseCase,
+    public GrocerySearchPresenter(GetFavoriteGroceriesUseCase getFavoriteGroceriesUseCase,
+                                  Lazy<GetMatchingGroceriesUseCase> getMatchingGroceriesUseCase,
+                                  Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
+                                  Lazy<GetUnitByNameUseCase> getUnitByNameUseCase,
+                                  Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase,
                                   FavoriteGroceryUIMapper favoriteGroceryMapper,
                                   GroceryUIMapper groceryMapper,
                                   UnitUIMapper unitMapper,
+                                  DiaryEntryUIMapper diaryEntryMapper,
                                   SharedPreferencesUtil sharedPreferencesUtil) {
         this.getFavoriteGroceriesUseCase = getFavoriteGroceriesUseCase;
         this.getMatchingGroceriesUseCase = getMatchingGroceriesUseCase;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getUnitByNameUseCase = getUnitByNameUseCase;
+        this.putDiaryEntryUseCase = putDiaryEntryUseCase;
         this.favoriteGroceryMapper = favoriteGroceryMapper;
         this.groceryMapper = groceryMapper;
         this.unitMapper = unitMapper;
+        this.diaryEntryMapper = diaryEntryMapper;
         this.sharedPreferencesUtil = sharedPreferencesUtil;
     }
 
@@ -156,17 +164,18 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(
                                             output2 -> {
-                                                new DiaryEntryDisplayModel(-1,
+                                                putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
                                                         sharedPreferencesUtil.getFloat(KEY_BOTTLE_VOLUME, 0.0f),
                                                         unitMapper.transform(output2.getUnit()),
                                                         groceryMapper.transform(output.getGrocery()),
-                                                        view.getSelectedDate());
+                                                        view.getSelectedDate()))))
+                                                        .subscribeOn(Schedulers.io())
+                                                        .observeOn(AndroidSchedulers.mainThread());
                                             }
                                     );
                         }
                 )
         );
-
         view.finishActivity();
     }
 
@@ -184,11 +193,13 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(
                                             output2 -> {
-                                                new DiaryEntryDisplayModel(-1,
+                                                putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
                                                         sharedPreferencesUtil.getFloat(KEY_GLASS_VOLUME, 0.0f),
                                                         unitMapper.transform(output2.getUnit()),
                                                         groceryMapper.transform(output.getGrocery()),
-                                                        view.getSelectedDate());
+                                                        view.getSelectedDate()))))
+                                                        .subscribeOn(Schedulers.io())
+                                                        .observeOn(AndroidSchedulers.mainThread());
                                             }
                                     );
                         }

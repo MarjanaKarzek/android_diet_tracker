@@ -75,7 +75,7 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
 
     @Override
     public void startDetailsActivity(int id){
-        startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal));
+        startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null));
     }
 
     @Override

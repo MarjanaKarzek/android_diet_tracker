@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.model.FavoriteGroceryDataModel;
 import de.karzek.diettracker.data.repository.FavoriteGroceryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.FavoriteGroceryRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteGroceriesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteStateForGroceryIdUseCase;
 import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
@@ -19,12 +20,10 @@ import io.reactivex.functions.Function;
  */
 public class GetFavoriteStateForGroceryIdUseCaseImpl implements GetFavoriteStateForGroceryIdUseCase {
 
-    private final FavoriteGroceryRepositoryImpl repository;
-    private final FavoriteGroceryDomainMapper mapper;
+    private final FavoriteGroceryRepository repository;
 
-    public GetFavoriteStateForGroceryIdUseCaseImpl(FavoriteGroceryRepositoryImpl repository, FavoriteGroceryDomainMapper mapper) {
+    public GetFavoriteStateForGroceryIdUseCaseImpl(FavoriteGroceryRepository repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     @Override

@@ -51,6 +51,8 @@ public interface GenericDrinkContract {
         void setNutritionMaxValues(HashMap<String, Long> maxValues);
 
         void updateNutritionDetails(HashMap<String, Float> values);
+
+        void startEditMode(int id);
     }
 
     interface Presenter extends BasePresenter<View>,

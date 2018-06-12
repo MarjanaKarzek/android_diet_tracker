@@ -6,6 +6,7 @@ import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.model.UnitDataModel;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.UnitRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
@@ -22,10 +23,10 @@ import io.reactivex.functions.Function;
  */
 public class GetAllMealsUseCaseImpl implements GetAllMealsUseCase {
 
-    private final MealRepositoryImpl repository;
+    private final MealRepository repository;
     private final MealDomainMapper mapper;
 
-    public GetAllMealsUseCaseImpl(MealRepositoryImpl repository, MealDomainMapper mapper) {
+    public GetAllMealsUseCaseImpl(MealRepository repository, MealDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

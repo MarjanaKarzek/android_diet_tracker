@@ -5,6 +5,7 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.GroceryCacheImpl;
 import de.karzek.diettracker.data.cache.UnitCacheImpl;
 import de.karzek.diettracker.data.cache.interfaces.GroceryCache;
+import de.karzek.diettracker.data.cache.interfaces.UnitCache;
 import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
 import de.karzek.diettracker.data.mapper.GroceryDataMapper;
@@ -28,9 +29,9 @@ import io.reactivex.functions.Function;
 public class UnitRepositoryImpl implements UnitRepository {
 
     private final UnitDataMapper mapper;
-    private final UnitCacheImpl unitCache;
+    private final UnitCache unitCache;
 
-    public UnitRepositoryImpl(UnitCacheImpl unitCache, UnitDataMapper mapper) {
+    public UnitRepositoryImpl(UnitCache unitCache, UnitDataMapper mapper) {
         this.unitCache = unitCache;
         this.mapper = mapper;
     }

@@ -52,12 +52,12 @@ public class SplashPresenter implements SplashContract.Presenter {
 
     private SharedPreferencesUtil sharedPreferencesUtil;
 
-    private PutAllUnitsUseCaseImpl putAllUnitsUseCase;
-    private PutAllServingsUseCaseImpl putAllServingsUseCase;
-    private PutAllAllergensUseCaseImpl putAllAllergensUseCase;
-    private PutAllGroceriesUseCaseImpl putAllGroceriesUseCase;
-    private PutAllMealsUseCaseImpl putAllMealsUseCase;
-    private InitializeSharedPreferencesUseCaseImpl initializeSharedPreferencesUseCase;
+    private PutAllUnitsUseCase putAllUnitsUseCase;
+    private PutAllServingsUseCase putAllServingsUseCase;
+    private PutAllAllergensUseCase putAllAllergensUseCase;
+    private PutAllGroceriesUseCase putAllGroceriesUseCase;
+    private PutAllMealsUseCase putAllMealsUseCase;
+    private InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase;
 
     private UnitUIMapper unitMapper;
     private ServingUIMapper servingMapper;
@@ -73,12 +73,12 @@ public class SplashPresenter implements SplashContract.Presenter {
     private ArrayList<AllergenDisplayModel> allergens = new ArrayList<>();
 
     public SplashPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                           PutAllUnitsUseCaseImpl putAllUnitsUseCase,
-                           PutAllServingsUseCaseImpl putAllServingsUseCase,
-                           PutAllAllergensUseCaseImpl putAllAllergensUseCase,
-                           PutAllGroceriesUseCaseImpl putAllGroceriesUseCase,
-                           PutAllMealsUseCaseImpl putAllMealsUseCase,
-                           InitializeSharedPreferencesUseCaseImpl initializeSharedPreferencesUseCase,
+                           PutAllUnitsUseCase putAllUnitsUseCase,
+                           PutAllServingsUseCase putAllServingsUseCase,
+                           PutAllAllergensUseCase putAllAllergensUseCase,
+                           PutAllGroceriesUseCase putAllGroceriesUseCase,
+                           PutAllMealsUseCase putAllMealsUseCase,
+                           InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase,
                            UnitUIMapper unitMapper,
                            ServingUIMapper servingMapper,
                            AllergenUIMapper allergenMapper,

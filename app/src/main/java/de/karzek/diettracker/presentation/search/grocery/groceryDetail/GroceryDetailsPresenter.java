@@ -2,6 +2,9 @@ package de.karzek.diettracker.presentation.search.grocery.groceryDetail;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetDiaryEntryByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.PutDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.GetFavoriteStateForGroceryIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.favoriteGrocery.PutFavoriteGroceryUseCaseImpl;
@@ -10,6 +13,8 @@ import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUse
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetDiaryEntryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.GetFavoriteStateForGroceryIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteGrocery.PutFavoriteGroceryUseCase;
@@ -50,46 +55,52 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     private int groceryId;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
-    private GetGroceryByIdUseCaseImpl getGroceryByIdUseCase;
-    private GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase;
-    private GetAllMealsUseCaseImpl getAllMealsUseCase;
-    private GetMealCountUseCaseImpl getMealCountUseCase;
-    private GetFavoriteStateForGroceryIdUseCaseImpl getFavoriteStateForGroceryId;
-    private Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase;
-    private Lazy<PutFavoriteGroceryUseCaseImpl> putFavoriteGroceryUseCase;
-    private Lazy<RemoveFavoriteGroceryByNameUseCaseImpl> removeFavoriteGroceryByNameUseCase;
+    private GetGroceryByIdUseCase getGroceryByIdUseCase;
+    private GetAllDefaultUnitsUseCase getDefaultUnitsUseCase;
+    private GetAllMealsUseCase getAllMealsUseCase;
+    private GetMealCountUseCase getMealCountUseCase;
+    private GetFavoriteStateForGroceryIdUseCase getFavoriteStateForGroceryId;
+    private Lazy<GetDiaryEntryByIdUseCase> getDiaryEntryByIdUseCase;
+    private Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase;
+    private Lazy<PutFavoriteGroceryUseCase> putFavoriteGroceryUseCase;
+    private Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase;
+    private Lazy<RemoveFavoriteGroceryByNameUseCase> removeFavoriteGroceryByNameUseCase;
 
     private GroceryUIMapper groceryMapper;
     private UnitUIMapper unitMapper;
     private MealUIMapper mealMapper;
     private DiaryEntryUIMapper diaryEntryMapper;
 
-    private NutritionManagerImpl nutritionManager;
+    private NutritionManager nutritionManager;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public GroceryDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                   GetGroceryByIdUseCaseImpl getGroceryByIdUseCase,
-                                   GetAllDefaultUnitsUseCaseImpl getDefaultUnitsUseCase,
-                                   GetAllMealsUseCaseImpl getAllMealsUseCase,
-                                   GetMealCountUseCaseImpl getMealCountUseCase,
-                                   GetFavoriteStateForGroceryIdUseCaseImpl getFavoriteStateForGroceryId,
-                                   Lazy<PutDiaryEntryUseCaseImpl> putDiaryEntryUseCase,
-                                   Lazy<PutFavoriteGroceryUseCaseImpl> putFavoriteGroceryUseCase,
-                                   Lazy<RemoveFavoriteGroceryByNameUseCaseImpl> removeFavoriteGroceryByNameUseCase,
+                                   GetGroceryByIdUseCase getGroceryByIdUseCase,
+                                   GetAllDefaultUnitsUseCase getDefaultUnitsUseCase,
+                                   GetAllMealsUseCase getAllMealsUseCase,
+                                   GetMealCountUseCase getMealCountUseCase,
+                                   GetFavoriteStateForGroceryIdUseCase getFavoriteStateForGroceryId,
+                                   Lazy<GetDiaryEntryByIdUseCase> getDiaryEntryByIdUseCase,
+                                   Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase,
+                                   Lazy<PutFavoriteGroceryUseCase> putFavoriteGroceryUseCase,
+                                   Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase,
+                                   Lazy<RemoveFavoriteGroceryByNameUseCase> removeFavoriteGroceryByNameUseCase,
                                    GroceryUIMapper groceryMapper,
                                    UnitUIMapper unitMapper,
                                    MealUIMapper mealMapper,
                                    DiaryEntryUIMapper diaryEntryMapper,
-                                   NutritionManagerImpl nutritionManager) {
+                                   NutritionManager nutritionManager) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getDefaultUnitsUseCase = getDefaultUnitsUseCase;
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.getMealCountUseCase = getMealCountUseCase;
         this.getFavoriteStateForGroceryId = getFavoriteStateForGroceryId;
+        this.getDiaryEntryByIdUseCase = getDiaryEntryByIdUseCase;
         this.putDiaryEntryUseCase = putDiaryEntryUseCase;
         this.putFavoriteGroceryUseCase = putFavoriteGroceryUseCase;
+        this.deleteDiaryEntryUseCase = deleteDiaryEntryUseCase;
         this.removeFavoriteGroceryByNameUseCase = removeFavoriteGroceryByNameUseCase;
 
         this.groceryMapper = groceryMapper;
@@ -133,6 +144,52 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                             });
                 });
         compositeDisposable.add(subs);
+    }
+
+    @Override
+    public void startEditMode(int diaryEntryId) {
+        if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+            view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
+        } else {
+            view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS);
+        }
+
+        compositeDisposable.add(getDiaryEntryByIdUseCase.get().execute(new GetDiaryEntryByIdUseCase.Input(diaryEntryId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    DiaryEntryDisplayModel diaryEntry = diaryEntryMapper.transform(output.getDiaryEntry());
+                    GroceryDisplayModel grocery = diaryEntry.getGrocery();
+                    view.fillGroceryDetails(grocery);
+
+                    if(grocery.getAllergens().size() > 0)
+                        view.setupAllergenWarning(grocery.getAllergens());
+
+                    getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(output2 -> {
+                                view.initializeServingsSpinner(unitMapper.transformAll(output2.getUnitList()), grocery.getServings());
+                                getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(output3 -> {
+                                            view.initializeMealSpinner(mealMapper.transformAll(output3.getMealList()));
+                                            view.refreshNutritionDetails();
+                                            view.prepareEditMode(diaryEntry);
+                                        });
+                            });
+                }));
+    }
+
+    @Override
+    public void onDeleteDiaryEntryClicked(int diaryEntryId) {
+        compositeDisposable.add(deleteDiaryEntryUseCase.get().execute(new DeleteDiaryEntryUseCase.Input(groceryId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    view.finishView();
+                }));
     }
 
     @Override
@@ -260,25 +317,26 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
 
     @Override
     public void checkFavoriteState(int groceryId) {
-        getFavoriteStateForGroceryId.execute(new GetFavoriteStateForGroceryIdUseCase.Input(groceryId))
+        compositeDisposable.add(getFavoriteStateForGroceryId.execute(new GetFavoriteStateForGroceryIdUseCase.Input(groceryId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output2 -> {
                     view.setFavoriteIconCheckedState(output2.isState());
-                });
+                }));
     }
+
+
 
     private void putDiaryEntry(DiaryEntryDisplayModel diaryEntry){
         view.showLoading();
-        Disposable subs = putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(diaryEntry)))
+        compositeDisposable.add(putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(diaryEntry)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     if (output.getStatus() == 0) {
                         view.navigateToDiaryFragment();
                     }
-                });
-        compositeDisposable.add(subs);
+                }));
     }
 
 }

@@ -3,6 +3,7 @@ package de.karzek.diettracker.data.repository;
 import java.util.List;
 
 import de.karzek.diettracker.data.cache.AllergenCacheImpl;
+import de.karzek.diettracker.data.cache.interfaces.AllergenCache;
 import de.karzek.diettracker.data.mapper.AllergenDataMapper;
 import de.karzek.diettracker.data.model.AllergenDataModel;
 import de.karzek.diettracker.data.model.ServingDataModel;
@@ -21,9 +22,9 @@ import io.reactivex.Observable;
 public class AllergenRepositoryImpl implements AllergenRepository {
 
     private final AllergenDataMapper mapper;
-    private final AllergenCacheImpl allergenCache;
+    private final AllergenCache allergenCache;
 
-    public AllergenRepositoryImpl(AllergenCacheImpl allergenCache, AllergenDataMapper mapper) {
+    public AllergenRepositoryImpl(AllergenCache allergenCache, AllergenDataMapper mapper) {
         this.allergenCache = allergenCache;
         this.mapper = mapper;
     }

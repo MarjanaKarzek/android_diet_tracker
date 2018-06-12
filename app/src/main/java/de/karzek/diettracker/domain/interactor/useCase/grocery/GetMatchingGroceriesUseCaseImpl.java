@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.model.GroceryDataModel;
 import de.karzek.diettracker.data.repository.GroceryRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.GroceryRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetMatchingGroceriesUseCase;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import io.reactivex.Observable;
@@ -18,10 +19,10 @@ import io.reactivex.functions.Function;
  */
 public class GetMatchingGroceriesUseCaseImpl implements GetMatchingGroceriesUseCase {
 
-    private final GroceryRepositoryImpl repository;
+    private final GroceryRepository repository;
     private final GroceryDomainMapper mapper;
 
-    public GetMatchingGroceriesUseCaseImpl(GroceryRepositoryImpl repository, GroceryDomainMapper mapper) {
+    public GetMatchingGroceriesUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

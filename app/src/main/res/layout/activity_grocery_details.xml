@@ -105,15 +105,35 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/add_grocery"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="16dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/button_add"
-        android:textColor="@color/textOnPrimary" />
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/add_grocery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_add"
+            android:textColor="@color/textOnPrimary" />
+
+        <Button
+            android:id="@+id/delete_diary_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/delete"
+            android:text="@string/button_delete"
+            android:textColor="@color/textOnPrimary"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
     <include layout="@layout/snippet_loading_view" />
 

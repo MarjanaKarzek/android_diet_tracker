@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
@@ -75,6 +76,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     @BindView(R.id.spinner_meal) Spinner spinnerMeal;
     @BindView(R.id.edittext_amount) EditText editTextAmount;
     @BindView(R.id.date_label) TextView selectedDateLabel;
+    @BindView(R.id.add_grocery) Button addButton;
+    @BindView(R.id.delete_diary_entry) Button deleteButton;
 
     @BindView(R.id.loading_view) FrameLayout loadingView;
 
@@ -87,6 +90,9 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     private Menu menu;
 
+    private int diaryEntryId;
+    private boolean editMode = false;
+
     private Calendar selectedDateCalendar = Calendar.getInstance();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
@@ -98,11 +104,14 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     private ArrayList<MealDisplayModel> meals;
     private HashMap<String, Long> maxValues;
 
-    public static Intent newIntent(Context context, int id, String selectedDate, int selectedMeal) {
+    public static Intent newIntent(Context context, @Nullable Integer id, String selectedDate, @Nullable Integer selectedMeal, @Nullable Integer diaryEntryId) {
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("selectedDate", selectedDate);
-        intent.putExtra("selectedMeal", selectedMeal);
+        if(diaryEntryId == null) {
+            intent.putExtra("id", id.intValue());
+            intent.putExtra("selectedDate", selectedDate);
+            intent.putExtra("selectedMeal", selectedMeal.intValue());
+        } else
+            intent.putExtra("diaryEntryId", diaryEntryId.intValue());
 
         return intent;
     }
@@ -125,20 +134,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         setContentView(R.layout.activity_grocery_details);
         ButterKnife.bind(this);
 
-        groceryId = getIntent().getExtras().getInt("id");
-        selectedDate = getIntent().getExtras().getString("selectedDate");
-        selectedMeal = getIntent().getExtras().getInt("selectedMeal");
-
+        presenter.setView(this);
         setupSupportActionBar();
-        try {
-            Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
-            selectedDateLabel.setText(simpleDateFormat.format(currentSelectedDate));
-            selectedDateCalendar.setTime(currentSelectedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
-        }
-
         editTextAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -156,9 +153,28 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
             }
         });
 
-        presenter.setView(this);
-        presenter.setGroceryId(groceryId);
-        presenter.start();
+        if(getIntent().getExtras().getString("selectedDate") != null) {
+            groceryId = getIntent().getExtras().getInt("id");
+            selectedDate = getIntent().getExtras().getString("selectedDate");
+            selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+
+            try {
+                Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
+                selectedDateLabel.setText(simpleDateFormat.format(currentSelectedDate));
+                selectedDateCalendar.setTime(currentSelectedDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
+            }
+
+            presenter.setGroceryId(groceryId);
+            presenter.start();
+
+        } else {
+            editMode = true;
+            diaryEntryId = getIntent().getExtras().getInt("diaryEntryId");
+            presenter.startEditMode(diaryEntryId);
+        }
     }
 
     @Override
@@ -378,6 +394,33 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         }
     }
 
+    @Override
+    public void prepareEditMode(DiaryEntryDisplayModel diaryEntry) {
+        selectedDate = diaryEntry.getDate();
+        try {
+            Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
+            selectedDateLabel.setText(simpleDateFormat.format(currentSelectedDate));
+            selectedDateCalendar.setTime(currentSelectedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
+        }
+
+        editTextAmount.setText(StringUtils.formatFloat(diaryEntry.getAmount()));
+
+        if(diaryEntry.getGrocery().getType() == TYPE_FOOD)
+            spinnerMeal.setSelection(meals.indexOf(diaryEntry.getMeal()));
+        spinnerServing.setSelection(defaultUnits.indexOf(diaryEntry.getUnit()));
+
+        addButton.setText(getString(R.string.save_button));
+        deleteButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void finishView() {
+        this.finish();
+    }
+
     @OnClick(R.id.add_grocery) public void onAddGroceryClicked(){
         float amount = 1;
         int servingPosition = spinnerServing.getSelectedItemPosition();
@@ -394,19 +437,29 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         else
             editTextValue = Float.valueOf(editTextAmount.getHint().toString());
         amount *= multiplier * editTextValue;
+
+        int id = -1;
+        if(editMode)
+            id = diaryEntryId;
+
         if (groceryDisplayModel.getType() == TYPE_FOOD) {
-            presenter.addFood(new DiaryEntryDisplayModel(-1,
+            presenter.addFood(new DiaryEntryDisplayModel(id,
                     meals.get(spinnerMeal.getSelectedItemPosition()),
                     amount,
                     defaultUnits.get(0),
                     groceryDisplayModel,
                     databaseDateFormat.format(selectedDateCalendar.getTime())));
         } else {
-            presenter.addDrink(new DiaryEntryDisplayModel(-1,
+            presenter.addDrink(new DiaryEntryDisplayModel(id,
                     amount,
                     defaultUnits.get(0),
                     groceryDisplayModel,
                     databaseDateFormat.format(selectedDateCalendar.getTime())));
         }
+    }
+
+    @OnClick(R.id.delete_diary_entry) public void onDeleteDiaryEntryClicked(){
+        showLoading();
+        presenter.onDeleteDiaryEntryClicked(diaryEntryId);
     }
 }

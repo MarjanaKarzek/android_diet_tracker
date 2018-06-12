@@ -3,18 +3,20 @@ package de.karzek.diettracker.presentation.dependencyInjection.module;
 import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
-import de.karzek.diettracker.data.cache.DiaryEntryCacheImpl;
-import de.karzek.diettracker.data.mapper.DiaryEntryDataMapper;
-import de.karzek.diettracker.data.mapper.MealDataMapper;
 import de.karzek.diettracker.data.repository.DiaryEntryRepositoryImpl;
-import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.UpdateMealOfDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetAllDiaryEntriesMatchingUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateMealOfDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.mapper.DiaryEntryDomainMapper;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealContract;
@@ -36,17 +38,12 @@ public class GenericMealModule {
     //domain
 
     @Provides
-    GetAllDiaryEntriesMatchingUseCaseImpl provideGetAllDiaryEntriesMatchingUseCaseImpl(DiaryEntryRepositoryImpl repository, DiaryEntryDomainMapper mapper){
+    GetAllDiaryEntriesMatchingUseCase provideGetAllDiaryEntriesMatchingUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper){
         return new GetAllDiaryEntriesMatchingUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    DeleteDiaryEntryUseCaseImpl provideDeleteDiaryEntryUseCaseImpl(DiaryEntryRepositoryImpl repository){
-        return new DeleteDiaryEntryUseCaseImpl(repository);
-    }
-
-    @Provides
-    UpdateMealOfDiaryEntryUseCaseImpl provideUpdateMealOfDiaryEntryUseCaseImpl(DiaryEntryRepositoryImpl repository, MealDomainMapper mapper){
+    UpdateMealOfDiaryEntryUseCase provideUpdateMealOfDiaryEntryUseCaseImpl(DiaryEntryRepository repository, MealDomainMapper mapper){
         return new UpdateMealOfDiaryEntryUseCaseImpl(repository, mapper);
     }
 
@@ -54,12 +51,12 @@ public class GenericMealModule {
 
     @Provides
     GenericMealContract.Presenter provideGenericMealPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                                              GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
-                                                              Lazy<GetAllMealsUseCaseImpl> getAllMealsUseCase,
-                                                              GetMealCountUseCaseImpl getMealCountUseCase,
-                                                              Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
-                                                              Lazy<UpdateMealOfDiaryEntryUseCaseImpl> updateMealOfDiaryEntryUseCase,
-                                                              NutritionManagerImpl nutritionManager,
+                                                              GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase,
+                                                              Lazy<GetAllMealsUseCase> getAllMealsUseCase,
+                                                              GetMealCountUseCase getMealCountUseCase,
+                                                              Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase,
+                                                              Lazy<UpdateMealOfDiaryEntryUseCase> updateMealOfDiaryEntryUseCase,
+                                                              NutritionManager nutritionManager,
                                                               MealUIMapper mealMapper,
                                                               DiaryEntryUIMapper diaryEntryMapper) {
         return new GenericMealPresenter(sharedPreferencesUtil,

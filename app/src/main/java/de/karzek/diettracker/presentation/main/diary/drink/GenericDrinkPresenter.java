@@ -4,6 +4,7 @@ import java.util.List;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.AddAmountOfWaterUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
@@ -44,24 +45,24 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
     GenericDrinkContract.View view;
 
     private SharedPreferencesUtil sharedPreferencesUtil;
-    private Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase;
-    private Lazy<AddAmountOfWaterUseCaseImpl> addAmountOfWaterUseCase;
-    private Lazy<UpdateAmountOfWaterUseCaseImpl> updateAmountOfWaterUseCase;
-    private GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase;
-    private GetWaterStatusUseCaseImpl getWaterStatusUseCase;
+    private Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase;
+    private Lazy<AddAmountOfWaterUseCase> addAmountOfWaterUseCase;
+    private Lazy<UpdateAmountOfWaterUseCase> updateAmountOfWaterUseCase;
+    private GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase;
+    private GetWaterStatusUseCase getWaterStatusUseCase;
     private DiaryEntryUIMapper diaryEntryMapper;
-    private NutritionManagerImpl nutritionManager;
+    private NutritionManager nutritionManager;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public GenericDrinkPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                 Lazy<DeleteDiaryEntryUseCaseImpl> deleteDiaryEntryUseCase,
-                                 Lazy<AddAmountOfWaterUseCaseImpl> addAmountOfWaterUseCase,
-                                 Lazy<UpdateAmountOfWaterUseCaseImpl> updateAmountOfWaterUseCase,
-                                 GetAllDiaryEntriesMatchingUseCaseImpl getAllDiaryEntriesMatchingUseCase,
-                                 GetWaterStatusUseCaseImpl getWaterStatusUseCase,
+                                 Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase,
+                                 Lazy<AddAmountOfWaterUseCase> addAmountOfWaterUseCase,
+                                 Lazy<UpdateAmountOfWaterUseCase> updateAmountOfWaterUseCase,
+                                 GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase,
+                                 GetWaterStatusUseCase getWaterStatusUseCase,
                                  DiaryEntryUIMapper diaryEntryMapper,
-                                 NutritionManagerImpl nutritionManager) {
+                                 NutritionManager nutritionManager) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.deleteDiaryEntryUseCase = deleteDiaryEntryUseCase;
         this.addAmountOfWaterUseCase = addAmountOfWaterUseCase;
@@ -229,7 +230,9 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
 
     @Override
     public void onItemClicked(int id) {
-        //start edit
+        view.showLoading();
+        view.startEditMode(id);
+        view.hideLoading();
     }
 
     @Override
@@ -251,6 +254,8 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
 
     @Override
     public void onItemEdit(int id) {
-
+        view.showLoading();
+        view.startEditMode(id);
+        view.hideLoading();
     }
 }

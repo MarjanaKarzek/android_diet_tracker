@@ -19,12 +19,12 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 
     private DiaryContract.View view;
 
-    private GetAllMealsUseCaseImpl getAllMealsUseCase;
+    private GetAllMealsUseCase getAllMealsUseCase;
     private MealUIMapper mapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public DiaryPresenter(GetAllMealsUseCaseImpl getAllMealsUseCase,
+    public DiaryPresenter(GetAllMealsUseCase getAllMealsUseCase,
                           MealUIMapper mapper) {
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.mapper = mapper;

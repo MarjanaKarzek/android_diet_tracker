@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
@@ -19,9 +20,9 @@ import io.reactivex.functions.Function;
  */
 public class GetMealCountUseCaseImpl implements GetMealCountUseCase {
 
-    private final MealRepositoryImpl repository;
+    private final MealRepository repository;
 
-    public GetMealCountUseCaseImpl(MealRepositoryImpl repository) {
+    public GetMealCountUseCaseImpl(MealRepository repository) {
         this.repository = repository;
     }
 

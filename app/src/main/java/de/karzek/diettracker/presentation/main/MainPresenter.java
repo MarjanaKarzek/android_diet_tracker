@@ -24,12 +24,12 @@ public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
 
-    private GetAllMealsUseCaseImpl getAllMealsUseCase;
+    private GetAllMealsUseCase getAllMealsUseCase;
     private MealUIMapper mealMapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public MainPresenter(GetAllMealsUseCaseImpl getAllMealsUseCase,
+    public MainPresenter(GetAllMealsUseCase getAllMealsUseCase,
                          MealUIMapper mealMapper) {
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.mealMapper = mealMapper;

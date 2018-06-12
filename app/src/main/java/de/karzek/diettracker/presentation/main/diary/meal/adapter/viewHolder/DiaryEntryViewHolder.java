@@ -68,7 +68,7 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
         return "" + amount + diaryEntry.getUnit().getName() + " " + diaryEntry.getGrocery().getName();
     }
 
-    @OnClick(R.id.diary_grocery_item) public void onItemClicked() {
+    @OnClick(R.id.grocery_summary) public void onItemClicked() {
         onItemClickedListener.onItemClicked((int) itemView.getTag());
     }
 

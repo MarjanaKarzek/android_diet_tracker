@@ -2,6 +2,7 @@ package de.karzek.diettracker.domain.interactor.useCase.allergen;
 
 import de.karzek.diettracker.data.repository.AllergenRepositoryImpl;
 import de.karzek.diettracker.data.repository.ServingRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.AllergenRepository;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.PutAllAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.serving.PutAllServingsUseCase;
 import de.karzek.diettracker.domain.mapper.AllergenDomainMapper;
@@ -17,10 +18,10 @@ import io.reactivex.Observable;
  */
 public class PutAllAllergensUseCaseImpl implements PutAllAllergensUseCase {
 
-    private final AllergenRepositoryImpl repository;
+    private final AllergenRepository repository;
     private final AllergenDomainMapper mapper;
 
-    public PutAllAllergensUseCaseImpl(AllergenRepositoryImpl repository, AllergenDomainMapper mapper) {
+    public PutAllAllergensUseCaseImpl(AllergenRepository repository, AllergenDomainMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

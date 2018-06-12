@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.cache.MealCacheImpl;
 import de.karzek.diettracker.data.cache.UnitCacheImpl;
+import de.karzek.diettracker.data.cache.interfaces.MealCache;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
 import de.karzek.diettracker.data.mapper.MealDataMapper;
@@ -27,9 +28,9 @@ import io.reactivex.functions.Function;
 public class MealRepositoryImpl implements MealRepository {
 
     private final MealDataMapper mapper;
-    private final MealCacheImpl mealCache;
+    private final MealCache mealCache;
 
-    public MealRepositoryImpl(MealCacheImpl mealCache, MealDataMapper mapper) {
+    public MealRepositoryImpl(MealCache mealCache, MealDataMapper mapper) {
         this.mealCache = mealCache;
         this.mapper = mapper;
     }
