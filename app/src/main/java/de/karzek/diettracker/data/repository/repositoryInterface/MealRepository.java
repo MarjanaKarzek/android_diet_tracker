@@ -20,4 +20,8 @@ public interface MealRepository {
     Observable<List<MealDataModel>> getAllMeals();
 
     Observable<Long> getMealCount();
+
+    Observable<MealDataModel> getMealById(int id);
+
+    Observable<Boolean> updateMealTime(int id, String startTime, String endTime);
 }

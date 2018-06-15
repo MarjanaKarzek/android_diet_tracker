@@ -8,7 +8,7 @@ package de.karzek.diettracker.domain.common;
  * @date 25.04.2018
  */
 
-public interface BaseUseCase<IN extends BaseUseCase.Input, OUT extends BaseUseCase.Output> {
+public interface BaseUseCase {
 
     interface Input {
     }

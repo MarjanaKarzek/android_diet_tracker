@@ -5,6 +5,7 @@ import java.util.List;
 import de.karzek.diettracker.data.cache.interfaces.MealCache;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.MealDataModel;
 import io.reactivex.Observable;
 import io.realm.Realm;
 
@@ -69,5 +70,25 @@ public class MealCacheImpl implements MealCache {
     public Observable<Long> getMealCount() {
         Realm realm = Realm.getDefaultInstance();
         return Observable.just(realm.where(MealEntity.class).count());
+    }
+
+    @Override
+    public Observable<MealEntity> getMealById(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        return Observable.just(realm.copyFromRealm(realm.where(MealEntity.class).equalTo("id", id).findFirst()));
+    }
+
+    @Override
+    public Observable<Boolean> updateMealTime(int id, String startTime, String endTime) {
+        Realm realm = Realm.getDefaultInstance();
+        MealEntity entity = realm.copyFromRealm(realm.where(MealEntity.class).equalTo("id",id).findFirst());
+
+        entity.setStartTime(startTime);
+        entity.setEndTime(endTime);
+        realm.copyToRealmOrUpdate(entity);
+        realm.commitTransaction();
+        realm.close();
+
+        return Observable.just(true);
     }
 }

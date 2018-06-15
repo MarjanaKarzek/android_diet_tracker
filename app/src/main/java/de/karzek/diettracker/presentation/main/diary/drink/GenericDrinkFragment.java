@@ -93,11 +93,8 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             drinkStatus.clearFocus();
-
                             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(drinkStatus.getWindowToken(), 0);
-                            drinkStatus.clearFocus();
-                            drinkStatus.setCursorVisible(false);
                             presenter.updateAmountOfWater(Float.valueOf(drinkStatus.getText().toString()), selectedDate);
                         }
                         return true;

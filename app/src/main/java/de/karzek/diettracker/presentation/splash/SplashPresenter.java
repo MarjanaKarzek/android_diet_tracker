@@ -178,7 +178,8 @@ public class SplashPresenter implements SplashContract.Presenter {
                             }
                     );
             compositeDisposable.add(subs);
-        }
+        } else
+            view.startMainActivity();
     }
 
     @Override

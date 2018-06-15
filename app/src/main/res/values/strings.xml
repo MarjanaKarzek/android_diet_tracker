@@ -80,5 +80,15 @@
     <string name="settings_start_screen_title">Startseite</string>
     <string name="settings_start_screen_favorite_recipes_area">Favorisierte Rezepte</string>
     <string name="settings_start_screen_liquid_area">Getränke Erfassung</string>
+    <string name="settings_meal_name_hint">Name der Mahlzeit</string>
+    <string name="error_message_only_ten_supported_meals">Mehr als 10 Mahlzeiten werden nicht unterstützt</string>
+    <string name="no_allergens_set_placeholder">Verwalte deine Allergene über das Stift Symbol</string>
+    <string name="dialog_action_save">Speichern</string>
+    <string name="dialog_edit_meal_instructions">In welchem Zeitraum nimmst du diese Mahlzeit zu dir?</string>
+    <string name="double_point">:</string>
+    <string name="o_clock">Uhr</string>
+    <string name="beginning">Beginn</string>
+    <string name="end">Ende</string>
+    <string name="_00">00</string>
 
 </resources>

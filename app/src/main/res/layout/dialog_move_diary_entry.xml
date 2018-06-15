@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/move_to"
-            style="@style/Body1"
+            style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
@@ -36,7 +36,7 @@
 
         <Button
             android:id="@+id/dialog_action_dismiss"
-            style="@style/Body2"
+            style="@style/TransparentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -46,7 +46,7 @@
 
         <Button
             android:id="@+id/dialog_action_move"
-            style="@style/Body2"
+            style="@style/TransparentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

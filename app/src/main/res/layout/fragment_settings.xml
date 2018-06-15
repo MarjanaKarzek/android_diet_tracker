@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,11 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true">
 
         <FrameLayout
-            android:id="@+id/settings_nutritions_title"
+            android:id="@+id/settings_diet_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -27,7 +28,7 @@
                 android:textColor="@color/textPrimary" />
 
             <ImageButton
-                android:id="@+id/expandable_nutritions_action"
+                android:id="@+id/expandable_diet_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:el_expanded="false"
-            app:layout_constraintTop_toBottomOf="@id/settings_nutritions_title">
+            app:layout_constraintTop_toBottomOf="@id/settings_diet_title">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,7 +83,10 @@
                         android:layout_gravity="end"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="2"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_amount_calories"
+                        android:nextFocusUp="@id/edit_text_amount_calories"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="2000" />
@@ -111,7 +115,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="5"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_amount_proteins"
+                        android:nextFocusUp="@id/edit_text_amount_proteins"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="120" />
@@ -137,7 +144,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="2"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_amount_carbs"
+                        android:nextFocusUp="@id/edit_text_amount_carbs"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="200" />
@@ -163,7 +173,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="2"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_amount_fats"
+                        android:nextFocusUp="@id/edit_text_amount_fats"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="80" />
@@ -244,7 +257,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_amount_liquids"
+                        android:nextFocusUp="@id/edit_text_amount_liquids"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="2000" />
@@ -290,11 +306,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="2"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_volume_bottle"
+                        android:nextFocusUp="@id/edit_text_volume_bottle"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="2000" />
-
 
                     <TextView
                         style="@style/Body2"
@@ -317,7 +335,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="2"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
+                        android:nextFocusLeft="@id/edit_text_volume_glasses"
+                        android:nextFocusUp="@id/edit_text_volume_glasses"
                         android:textAlignment="viewEnd"
                         android:textColor="@color/textPrimary"
                         tools:hint="120" />
@@ -379,7 +400,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/settings_meal_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
 
                 <Button
                     android:id="@+id/add_meal"
@@ -429,10 +451,12 @@
 
             <TextView
                 android:id="@+id/text_allergies"
+                style="@style/Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:drawableEnd="@drawable/ic_edit_accent_dark"
+                android:textColor="@color/textPrimary"
                 tools:text="Fructose, Gluten" />
 
         </net.cachapa.expandablelayout.ExpandableLayout>
@@ -488,6 +512,7 @@
                     android:textColor="@color/textPrimary" />
 
                 <CheckBox
+                    android:id="@+id/settings_data_macros"
                     style="@style/Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -541,6 +566,7 @@
                 android:orientation="vertical">
 
                 <CheckBox
+                    android:id="@+id/settings_start_screen_recipes"
                     style="@style/Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -549,6 +575,7 @@
                     android:textColor="@color/textPrimary" />
 
                 <CheckBox
+                    android:id="@+id/settings_start_screen_liquids"
                     style="@style/Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -562,4 +589,4 @@
 
     </android.support.constraint.ConstraintLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

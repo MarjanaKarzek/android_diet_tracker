@@ -11,7 +11,7 @@ import io.reactivex.Observable;
  */
 
 public interface BaseObservableUseCase<Input extends BaseUseCase.Input, Output extends BaseUseCase.Output>
-        extends BaseUseCase<Input, Output> {
+        extends BaseUseCase {
 
     Observable<Output> execute(Input input);
 

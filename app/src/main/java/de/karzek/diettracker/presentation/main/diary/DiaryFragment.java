@@ -66,7 +66,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     OnDateSelectedListener callback;
 
     public interface OnDateSelectedListener {
-        public void onDateSelected(String databaseDateFormat);
+        void onDateSelected(String databaseDateFormat);
     }
 
     @Override
@@ -168,7 +168,6 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         for (MealDisplayModel meal : meals) {
             Bundle bundle = new Bundle();
             bundle.putString("meal", meal.getName());
-            bundle.putString("selectedDate", getSelectedDate());
             GenericMealFragment fragment = new GenericMealFragment();
             fragment.setArguments(bundle);
             adapter.addFragment(fragment, meal.getName());

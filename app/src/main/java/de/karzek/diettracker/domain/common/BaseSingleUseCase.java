@@ -11,7 +11,7 @@ import io.reactivex.Single;
  */
 
 public interface BaseSingleUseCase<Input extends BaseUseCase.Input, Output extends BaseUseCase.Output>
-        extends BaseUseCase<Input, Output> {
+        extends BaseUseCase {
 
     Single<Output> execute(Input input);
 

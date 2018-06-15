@@ -100,12 +100,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
 
     @Override
     public void onDateSelected(String databaseDateFormat) {
-        /*for(int i=0; i < meals.size(); i++) {
-            GenericMealFragment fragment = (GenericMealFragment)
-                    getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + i);
-            if (fragment != null)
-                fragment.setSelectedDate(databaseDateFormat);
-        }*/
         DiaryFragment fragment = (DiaryFragment)
                 getSupportFragmentManager().findFragmentByTag("DiaryFragment");
         fragment.refreshViewPager();

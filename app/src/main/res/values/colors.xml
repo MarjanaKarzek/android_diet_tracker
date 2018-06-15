@@ -8,6 +8,7 @@
     <color name="colorAccentLight">#9eeaed</color>
     <color name="colorAccentExtraLight">#d1ffff</color>
     <color name="colorAccent">#6cb8bb</color>
+    <color name="colorAccentDark">#3a888b</color>
 
     <color name="textPrimary">#777777</color>
     <color name="textSecondary">#aaaaaa</color>

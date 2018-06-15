@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.presentation.main.diary.meal.GenericMealContract;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 
@@ -19,19 +18,20 @@ import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
  */
 public class DiaryEntryListAdapter extends RecyclerView.Adapter<DiaryEntryViewHolder> {
 
-    private DiaryEntryViewHolder.OnDiaryEntryItemClickedListener itemOnClickListener;
+    private DiaryEntryViewHolder.OnDiaryEntryItemClickedListener onItemClickListener;
     private DiaryEntryViewHolder.OnDeleteDiaryEntryItemListener onItemDeleteListener;
     private DiaryEntryViewHolder.OnEditDiaryEntryItemListener onItemEditListener;
     private DiaryEntryViewHolder.OnMoveDiaryEntryItemListener onItemMoveListener;
 
     private ArrayList<DiaryEntryDisplayModel> list;
 
-    public DiaryEntryListAdapter(DiaryEntryViewHolder.OnDiaryEntryItemClickedListener itemOnClickListener,
+    public DiaryEntryListAdapter(DiaryEntryViewHolder.OnDiaryEntryItemClickedListener onItemClickListener,
                                  DiaryEntryViewHolder.OnDeleteDiaryEntryItemListener onItemDeleteListener,
                                  DiaryEntryViewHolder.OnEditDiaryEntryItemListener onItemEditListener,
                                  DiaryEntryViewHolder.OnMoveDiaryEntryItemListener onItemMoveListener) {
         list = new ArrayList<>();
-        this.itemOnClickListener = itemOnClickListener;
+
+        this.onItemClickListener = onItemClickListener;
         this.onItemDeleteListener = onItemDeleteListener;
         this.onItemEditListener = onItemEditListener;
         this.onItemMoveListener = onItemMoveListener;
@@ -40,7 +40,7 @@ public class DiaryEntryListAdapter extends RecyclerView.Adapter<DiaryEntryViewHo
     @NonNull
     @Override
     public DiaryEntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DiaryEntryViewHolder(parent, itemOnClickListener, onItemDeleteListener, onItemMoveListener,onItemEditListener );
+        return new DiaryEntryViewHolder(parent, onItemClickListener, onItemDeleteListener, onItemMoveListener, onItemEditListener);
     }
 
     @Override

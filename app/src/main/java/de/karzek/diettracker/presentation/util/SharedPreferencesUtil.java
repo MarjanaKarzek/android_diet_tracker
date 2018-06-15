@@ -35,15 +35,21 @@ public class SharedPreferencesUtil {
     public static final float VALUE_BOTTLE_VOLUME = 500.0f;
     public static final float VALUE_GLASS_VOLUME = 200.0f;
 
-    public SharedPreferencesUtil(SharedPreferences sharedPreferences){
+    public static final String KEY_START_SCREEN_RECIPE = "KEY_START_SCREEN_RECIPE";
+    public static final String KEY_START_SCREEN_LIQUIDS = "KEY_START_SCREEN_LIQUIDS";
+
+    public static final boolean VALUE_TRUE = true;
+    public static final boolean VALUE_FALSE = false;
+
+    public SharedPreferencesUtil(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public boolean initialiseStandardValues(){
+    public boolean initialiseStandardValues() {
         try {
             sharedPreferences
                     .edit()
-                    .putBoolean(KEY_APP_INITIALIZED, false)
+                    .putBoolean(KEY_APP_INITIALIZED, VALUE_TRUE)
                     .putString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS)
                     .putInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY)
                     .putInt(KEY_REQUIREMENT_PROTEINS_DAILY, VALUE_REQUIREMENT_PROTEINS_DAILY)
@@ -52,32 +58,45 @@ public class SharedPreferencesUtil {
                     .putFloat(KEY_BOTTLE_VOLUME, VALUE_BOTTLE_VOLUME)
                     .putFloat(KEY_GLASS_VOLUME, VALUE_GLASS_VOLUME)
                     .putFloat(KEY_REQUIREMENT_LIQUID_DAILY, VALUE_REQUIREMENT_LIQUID_DAILY)
+                    .putBoolean(KEY_START_SCREEN_RECIPE, VALUE_TRUE)
+                    .putBoolean(KEY_START_SCREEN_LIQUIDS, VALUE_TRUE)
                     .apply();
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public String getString(String key, String defaultValue){
+    public String getString(String key, String defaultValue) {
         return sharedPreferences.getString(key, defaultValue);
     }
 
-    public boolean getBoolean(String key, boolean defaultValue){
+    public boolean getBoolean(String key, boolean defaultValue) {
         return sharedPreferences.getBoolean(key, defaultValue);
     }
 
-    public float getFloat(String key, float defaultValue){
-        return sharedPreferences.getFloat(key,defaultValue);
+    public float getFloat(String key, float defaultValue) {
+        return sharedPreferences.getFloat(key, defaultValue);
     }
 
-    public int getInt(String key, int defaultValue){
+    public int getInt(String key, int defaultValue) {
         return sharedPreferences.getInt(key, defaultValue);
     }
 
-    public long getLong(String key, long defaultValue){
-        return sharedPreferences.getLong(key, defaultValue);
+    public void setInt(String key, int value) {
+        sharedPreferences.edit()
+                .putInt(key, value)
+                .apply();
     }
 
+    public void setFloat(String key, float value) {
+        sharedPreferences.edit()
+                .putFloat(key, value)
+                .apply();
+    }
+
+    public long getLong(String key, long defaultValue) {
+        return sharedPreferences.getLong(key, defaultValue);
+    }
 
 }

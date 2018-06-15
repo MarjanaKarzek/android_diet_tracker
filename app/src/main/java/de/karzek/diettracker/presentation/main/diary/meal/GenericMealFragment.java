@@ -99,7 +99,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         ButterKnife.bind(this, view);
 
         meal = getArguments().getString("meal");
-        selectedDate = getArguments().getString("selectedDate");
+        selectedDate = ((DiaryFragment) getActivity().getSupportFragmentManager().findFragmentByTag("DiaryFragment")).getSelectedDate();
 
         return view;
     }

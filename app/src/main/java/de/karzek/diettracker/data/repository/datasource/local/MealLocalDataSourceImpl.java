@@ -6,6 +6,7 @@ import de.karzek.diettracker.data.cache.interfaces.MealCache;
 import de.karzek.diettracker.data.cache.interfaces.UnitCache;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.repository.datasource.interfaces.MealDataSource;
 import de.karzek.diettracker.data.repository.datasource.interfaces.UnitDataSource;
 import io.reactivex.Observable;
@@ -38,5 +39,15 @@ public class MealLocalDataSourceImpl implements MealDataSource {
     @Override
     public Observable<Long> getMealCount() {
         return mealCache.getMealCount();
+    }
+
+    @Override
+    public Observable<MealEntity> getMealById(int id) {
+        return mealCache.getMealById(id);
+    }
+
+    @Override
+    public Observable<Boolean> updateMealTime(int id, String startTime, String endTime) {
+        return mealCache.updateMealTime(id, startTime, endTime);
     }
 }

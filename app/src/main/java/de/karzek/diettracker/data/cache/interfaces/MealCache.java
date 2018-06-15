@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
+import de.karzek.diettracker.data.model.MealDataModel;
 import io.reactivex.Observable;
 
 /**
@@ -22,4 +23,8 @@ public interface MealCache {
     Observable<List<MealEntity>> getAllMeals();
 
     Observable<Long> getMealCount();
+
+    Observable<MealEntity> getMealById(int id);
+
+    Observable<Boolean> updateMealTime(int id, String startTime, String endTime);
 }
