@@ -17,8 +17,7 @@ import lombok.EqualsAndHashCode;
 public class IngredientEntity extends RealmObject {
     @PrimaryKey
     private int id;
-    private int recipe_id;
-    private int grocery_id;
+    private GroceryEntity grocery;
     private int amount;
-    private int unit;
+    private UnitEntity unit;
 }

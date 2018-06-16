@@ -5,8 +5,10 @@ import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealByIdUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.meal.UpdateMealTimeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.UpdateMealTimeUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
 import de.karzek.diettracker.presentation.main.settings.SettingsContract;
 import de.karzek.diettracker.presentation.main.settings.SettingsPresenter;
@@ -30,16 +32,23 @@ public class SettingsModule {
         return new GetMealByIdUseCaseImpl(repository, mapper);
     }
 
+    @Provides
+    UpdateMealTimeUseCase providesUpdateMealTimeUseCase(MealRepository repository){
+        return new UpdateMealTimeUseCaseImpl(repository);
+    }
+
     //presentation
 
     @Provides
     SettingsContract.Presenter provideSettingsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                                         GetAllMealsUseCase getAllMealsUseCase,
                                                         Lazy<GetMealByIdUseCase> getMealByIdUseCase,
+                                                        Lazy<UpdateMealTimeUseCase> updateMealTimeUseCase,
                                                         MealUIMapper mealMapper) {
         return new SettingsPresenter(sharedPreferencesUtil,
                 getAllMealsUseCase,
                 getMealByIdUseCase,
+                updateMealTimeUseCase,
                 mealMapper);
     }
 }

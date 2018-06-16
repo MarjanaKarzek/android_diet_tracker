@@ -90,5 +90,8 @@
     <string name="beginning">Beginn</string>
     <string name="end">Ende</string>
     <string name="_00">00</string>
+    <string name="cookbook_placeholder">Füge über das + neue Rezepte hinzu</string>
+    <string name="menu_item_recipe_filter_title">Recipe Filter</string>
+    <string name="menu_item_recipe_sort_title">Recipe Sort</string>
 
 </resources>

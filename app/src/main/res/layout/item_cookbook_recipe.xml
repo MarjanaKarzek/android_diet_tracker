@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -12,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/swipe_option_move"
+            android:id="@+id/swipe_option_portion"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
@@ -43,21 +44,38 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/item_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_chef_accent_dark"
+            app:civ_border_color="@color/colorAccent"
+            app:civ_border_overlay="false"
+            app:civ_border_width="4dp" />
 
         <TextView
-            android:id="@+id/grocery_summary"
-            style="@style/Body1"
+            android:id="@+id/recipe_title"
+            style="@style/Subtitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            tools:text="150g Putenfleisch" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/textPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recipe_image"
+            tools:text="Bananen Split" />
 
-    </FrameLayout>
+    </LinearLayout>
 
 </com.daimajia.swipe.SwipeLayout>
+
+
+

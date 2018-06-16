@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 public class PreparationStepEntity extends RealmObject {
     @PrimaryKey
     private int id;
-    private int recipe_id;
-    private int step_no;
+    private int stepNo;
     private String description;
 }

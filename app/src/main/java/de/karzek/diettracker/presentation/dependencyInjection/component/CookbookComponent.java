@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.dependencyInjection.component;
 
 import dagger.Subcomponent;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.RecipeModule;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookFragment;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 
@@ -11,7 +12,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookMod
  * @version 1.0
  * @date 12.05.2018
  */
-@Subcomponent(modules = {CookbookModule.class})
+@Subcomponent(modules = {CookbookModule.class, RecipeModule.class})
 public interface CookbookComponent {
 
     void inject(CookbookFragment fragment);
