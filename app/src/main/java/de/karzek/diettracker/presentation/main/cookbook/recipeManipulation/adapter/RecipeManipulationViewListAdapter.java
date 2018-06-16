@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientsTitleAndPortionsViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchContract;
 import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
@@ -25,11 +26,14 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
     private ArrayList<RecipeManipulationViewItemWrapper> list;
 
     private RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener;
+    private RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener;
 
-    public RecipeManipulationViewListAdapter(RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener){
+    public RecipeManipulationViewListAdapter(RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener,
+                                             RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener){
         list = new ArrayList<>();
 
         this.onDeleteImageClickListener = onDeleteImageClickListener;
+        this.onPortionChangedListener = onPortionChangedListener;
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             case RecipeManipulationViewItemWrapper.ItemType.PHOTO_VIEW:
                 return new RecipeManipulationPhotoViewHolder(parent, onDeleteImageClickListener);
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW:
-                //return new RecipeManipulationIngredientsTitleAndPortionsViewHolder();
+                return new RecipeManipulationIngredientsTitleAndPortionsViewHolder(parent, onPortionChangedListener);
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM:
                 //return new RecipeManipulationIngredientItemViewHolder();
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM_ADD_VIEW:

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_title"
+    android:orientation="horizontal"
+    android:paddingBottom="4dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="4dp">
+
+    <TextView
+        style="@style/Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="@string/recipe_man_ingredient_title"
+        android:textColor="@color/textPrimary" />
+
+    <ImageButton
+        android:id="@+id/remove_portion"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:background="@null"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:src="@drawable/ic_remove_primary_text" />
+
+    <EditText
+        android:id="@+id/value_portions"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:text="@string/_1" />
+
+    <ImageButton
+        android:id="@+id/add_portion"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:background="@null"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:src="@drawable/ic_add_primary_text" />
+
+    <TextView
+        style="@style/Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="@string/recipe_man_portions"
+        android:textColor="@color/textPrimary" />
+
+</LinearLayout>

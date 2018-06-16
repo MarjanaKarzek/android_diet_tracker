@@ -105,6 +105,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
         presenter.setView(this);
         setupSupportActionBar();
+        setupRecyclerView();
 
         if (getIntent() != null) {
             if (getIntent().getExtras() != null) {
@@ -124,8 +125,6 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             presenter.start();
         }
 
-        setupRecyclerView();
-
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.setHideable(true);
@@ -134,7 +133,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter));
+        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter));
     }
 
     private void setupSupportActionBar() {
@@ -184,6 +183,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         if(displayModel.getPhoto() != null){
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW,displayModel.getPortions()));
 
         ((RecipeManipulationViewListAdapter)recyclerView.getAdapter()).setList(views);
     }

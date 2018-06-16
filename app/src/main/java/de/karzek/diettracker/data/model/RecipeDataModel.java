@@ -16,7 +16,7 @@ public class RecipeDataModel {
     private int id;
     private String title;
     private byte[] photo;
-    private int portions;
+    private float portions;
     private ArrayList<IngredientDataModel> ingredients;
     private ArrayList<PreparationStepDataModel> steps;
 }

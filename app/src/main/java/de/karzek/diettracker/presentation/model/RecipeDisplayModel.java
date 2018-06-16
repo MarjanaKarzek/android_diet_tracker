@@ -21,7 +21,7 @@ public class RecipeDisplayModel {
     private int id;
     private String title;
     private byte[] photo;
-    private int portions;
+    private float portions;
     private ArrayList<IngredientDisplayModel> ingredients;
     private ArrayList<PreparationStepDisplayModel> steps;
 }

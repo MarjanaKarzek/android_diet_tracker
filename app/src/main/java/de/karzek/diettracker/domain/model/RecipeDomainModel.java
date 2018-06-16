@@ -18,7 +18,7 @@ public class RecipeDomainModel {
     private int id;
     private String title;
     private byte[] photo;
-    private int portions;
+    private float portions;
     private ArrayList<IngredientDomainModel> ingredients;
     private ArrayList<PreparationStepDomainModel> steps;
 }

@@ -20,7 +20,7 @@ public class RecipeEntity extends RealmObject {
     private int id;
     private String title;
     private byte[] photo;
-    private int portions;
+    private float portions;
     private RealmList<IngredientEntity> ingredients;
     private RealmList<PreparationStepEntity> steps;
 }

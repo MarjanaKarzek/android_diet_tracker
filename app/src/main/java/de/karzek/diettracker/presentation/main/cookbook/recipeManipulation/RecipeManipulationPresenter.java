@@ -23,7 +23,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void start() {
-        displayModel = new RecipeDisplayModel(-1,"",null,1, new ArrayList<>(), new ArrayList<>());
+        displayModel = new RecipeDisplayModel(-1,"",null,1.0f, new ArrayList<>(), new ArrayList<>());
+        view.setupViewsInRecyclerView(displayModel);
     }
 
     @Override
@@ -73,6 +74,12 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onDeleteImageClicked() {
+        displayModel.setPhoto(null);
+        view.setupViewsInRecyclerView(displayModel);
+    }
 
+    @Override
+    public void onPortionChanges(float portion) {
+        displayModel.setPortions(portion);
     }
 }

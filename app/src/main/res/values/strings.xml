@@ -98,5 +98,8 @@
     <string name="menu_item_recipe_sort_title">Recipe Sort</string>
     <string name="recipe_title_hint">Rezept Titel</string>
     <string name="toolbar_photo_action_title">Photo</string>
+    <string name="recipe_man_ingredient_title">Zutaten für</string>
+    <string name="recipe_man_portions">Portion/en</string>
+    <string name="_1">1</string>
 
 </resources>
