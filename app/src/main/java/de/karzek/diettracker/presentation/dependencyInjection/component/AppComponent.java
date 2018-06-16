@@ -15,8 +15,10 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodSearchModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.MainModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeManipulationModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
@@ -30,7 +32,7 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
  * @date 28.04.2018
  */
 @Singleton
-@Component(modules = {AppModule.class, AndroidModule.class, SplashModule.class, MainModule.class, FoodSearchModule.class, FoodDetailsModule.class, BarcodeScannerModule.class})
+@Component(modules = {AppModule.class, AndroidModule.class, SplashModule.class, MainModule.class, FoodSearchModule.class, FoodDetailsModule.class, BarcodeScannerModule.class, RecipeManipulationModule.class})
 public interface AppComponent {
 
     HomeComponent plus(HomeModule module);
@@ -54,5 +56,7 @@ public interface AppComponent {
     void inject(GroceryDetailsActivity activity);
 
     void inject(BarcodeScannerActivity activity);
+
+    void inject(RecipeManipulationActivity activity);
 
 }

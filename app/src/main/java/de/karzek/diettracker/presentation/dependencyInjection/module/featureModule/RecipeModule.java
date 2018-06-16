@@ -10,6 +10,7 @@ import de.karzek.diettracker.data.repository.repositoryInterface.RecipeRepositor
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetAllRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.domain.mapper.RecipeDomainMapper;
+import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 
 /**
  * Created by MarjanaKarzek on 16.06.2018.
@@ -48,6 +49,13 @@ public class RecipeModule {
     @Provides
     GetAllRecipesUseCase providesGetAllRecipesUseCase(RecipeRepository repository, RecipeDomainMapper mapper){
         return new GetAllRecipesUseCaseImpl(repository, mapper);
+    }
+
+    // presentation
+
+    @Provides
+    RecipeUIMapper providesRecipeUIMapper(){
+        return new RecipeUIMapper();
     }
 
 }

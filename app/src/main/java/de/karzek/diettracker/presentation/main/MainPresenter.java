@@ -24,28 +24,10 @@ public class MainPresenter implements MainContract.Presenter {
 
     private MainContract.View view;
 
-    private GetAllMealsUseCase getAllMealsUseCase;
-    private MealUIMapper mealMapper;
-
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public MainPresenter(GetAllMealsUseCase getAllMealsUseCase,
-                         MealUIMapper mealMapper) {
-        this.getAllMealsUseCase = getAllMealsUseCase;
-        this.mealMapper = mealMapper;
-    }
-
     @Override
-    public void start() {
-        Disposable subs = getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(output -> {
-                            view.setMeals(mealMapper.transformAll(output.getMealList()));
-                        });
-
-        compositeDisposable.add(subs);
-    }
+    public void start() { }
 
     @Override
     public void setView(MainContract.View view) {

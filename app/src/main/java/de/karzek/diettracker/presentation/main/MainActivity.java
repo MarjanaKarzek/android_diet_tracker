@@ -33,8 +33,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
     @Inject
     MainContract.Presenter presenter;
 
-    private ArrayList<MealDisplayModel> meals;
-
     public static Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -103,11 +101,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
         DiaryFragment fragment = (DiaryFragment)
                 getSupportFragmentManager().findFragmentByTag("DiaryFragment");
         fragment.refreshViewPager();
-    }
-
-    @Override
-    public void setMeals(ArrayList<MealDisplayModel> meals) {
-        this.meals = meals;
     }
 
     @Override

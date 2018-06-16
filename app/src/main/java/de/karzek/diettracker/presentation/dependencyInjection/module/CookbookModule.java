@@ -5,6 +5,7 @@ import dagger.Provides;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookContract;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookPresenter;
+import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -19,7 +20,9 @@ public class CookbookModule {
     //presentation
 
     @Provides
-    CookbookContract.Presenter provideCookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase) {
-        return new CookbookPresenter(getAllRecipesUseCase);
+    CookbookContract.Presenter provideCookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase,
+                                                        RecipeUIMapper mapper) {
+        return new CookbookPresenter(getAllRecipesUseCase,
+                mapper);
     }
 }

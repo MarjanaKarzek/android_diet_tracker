@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import de.karzek.diettracker.domain.model.IngredientDomainModel;
 import de.karzek.diettracker.domain.model.PreparationStepDomainModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Value;
 
 /**
@@ -13,7 +15,8 @@ import lombok.Value;
  * @version 1.0
  * @date 27.05.2018
  */
-@Value
+@Data
+@AllArgsConstructor
 public class RecipeDisplayModel {
     private int id;
     private String title;

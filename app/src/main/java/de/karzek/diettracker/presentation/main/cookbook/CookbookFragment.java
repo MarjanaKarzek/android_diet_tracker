@@ -29,6 +29,7 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.RecipeSearchResultListAdapter;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -158,6 +159,6 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @OnClick(R.id.add_recipe) public void onAddRecipeClicked(){
-        //startActivity();
+        startActivity(RecipeManipulationActivity.newIntent(getContext(),null));
     }
 }

@@ -21,8 +21,7 @@ public class MainModule {
     //presentation
 
     @Provides
-    MainContract.Presenter provideMainPresenter(GetAllMealsUseCase getAllMealsUseCase,
-                                                MealUIMapper mapper) {
-        return new MainPresenter(getAllMealsUseCase, mapper);
+    MainContract.Presenter provideMainPresenter() {
+        return new MainPresenter();
     }
 }

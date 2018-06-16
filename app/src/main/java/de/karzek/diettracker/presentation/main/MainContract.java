@@ -22,8 +22,6 @@ public interface MainContract {
 
     interface View extends BaseView<Presenter> {
 
-        void setMeals(ArrayList<MealDisplayModel> meals);
-
     }
 
     interface Presenter extends BasePresenter<View> {

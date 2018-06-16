@@ -81,17 +81,22 @@
     <string name="settings_start_screen_favorite_recipes_area">Favorisierte Rezepte</string>
     <string name="settings_start_screen_liquid_area">Getränke Erfassung</string>
     <string name="settings_meal_name_hint">Name der Mahlzeit</string>
+
     <string name="error_message_only_ten_supported_meals">Mehr als 10 Mahlzeiten werden nicht unterstützt</string>
     <string name="no_allergens_set_placeholder">Verwalte deine Allergene über das Stift Symbol</string>
     <string name="dialog_action_save">Speichern</string>
     <string name="dialog_edit_meal_instructions">In welchem Zeitraum nimmst du diese Mahlzeit zu dir?</string>
+
     <string name="double_point">:</string>
     <string name="o_clock">Uhr</string>
     <string name="beginning">Beginn</string>
     <string name="end">Ende</string>
     <string name="_00">00</string>
+
     <string name="cookbook_placeholder">Füge über das + neue Rezepte hinzu</string>
     <string name="menu_item_recipe_filter_title">Recipe Filter</string>
     <string name="menu_item_recipe_sort_title">Recipe Sort</string>
+    <string name="recipe_title_hint">Rezept Titel</string>
+    <string name="toolbar_photo_action_title">Photo</string>
 
 </resources>
