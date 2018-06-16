@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
+import de.karzek.diettracker.presentation.util.StringUtils;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 
@@ -59,12 +60,7 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
     }
 
     private String formatGrocerySummary(DiaryEntryDisplayModel diaryEntry){
-        String amount = "";
-        if (diaryEntry.getAmount() % 10 == 0)
-            amount = "" +(int)diaryEntry.getAmount();
-        else
-            amount = "" + diaryEntry.getAmount();
-
+        String amount = StringUtils.formatFloat(diaryEntry.getAmount());
         return "" + amount + diaryEntry.getUnit().getName() + " " + diaryEntry.getGrocery().getName();
     }
 

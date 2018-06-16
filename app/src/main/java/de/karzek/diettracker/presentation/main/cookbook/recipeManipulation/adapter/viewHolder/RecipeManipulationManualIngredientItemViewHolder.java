@@ -12,6 +12,7 @@ import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
+import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
 /**
@@ -21,14 +22,14 @@ import de.karzek.diettracker.presentation.util.StringUtils;
  * @version 1.0
  * @date 30.05.2018
  */
-public class RecipeManipulationIngredientItemViewHolder extends RecyclerView.ViewHolder {
+public class RecipeManipulationManualIngredientItemViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.ingredient_summary) TextView summary;
 
     private final OnDeleteIngredientClickListener onDeleteIngredientClickListener;
 
-    public RecipeManipulationIngredientItemViewHolder(ViewGroup viewGroup,
-                                                      OnDeleteIngredientClickListener onDeleteIngredientClickListener) {
+    public RecipeManipulationManualIngredientItemViewHolder(ViewGroup viewGroup,
+                                                            OnDeleteIngredientClickListener onDeleteIngredientClickListener) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.viewholder_recipe_man_ingredient, viewGroup, false));
         ButterKnife.bind(this, itemView);
@@ -40,17 +41,17 @@ public class RecipeManipulationIngredientItemViewHolder extends RecyclerView.Vie
         summary.setText(formatSummary(item.getManualIngredientDisplayModel()));
     }
 
-    private String formatSummary(IngredientDisplayModel ingredient){
+    private String formatSummary(ManualIngredientDisplayModel ingredient){
         String amount = StringUtils.formatFloat(ingredient.getAmount());
-        return amount + ingredient.getUnit().getName() + " " + ingredient.getGrocery().getName();
+        return amount + ingredient.getUnit().getName() + " " + ingredient.getGroceryQuery();
     }
 
     @OnClick(R.id.action_delete) public void onDeleteIngredientClicked() {
-        onDeleteIngredientClickListener.onDeleteIngredientClicked();
+        onDeleteIngredientClickListener.onDeleteManualIngredientClicked();
     }
 
     public interface OnDeleteIngredientClickListener {
-        void onDeleteIngredientClicked();
+        void onDeleteManualIngredientClicked();
     }
 
 }

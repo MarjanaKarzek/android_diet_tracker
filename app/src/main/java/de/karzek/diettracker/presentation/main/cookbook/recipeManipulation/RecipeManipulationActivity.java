@@ -42,6 +42,8 @@ import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.RecipeManipulationViewListAdapter;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
+import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
+import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -111,10 +113,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             if (getIntent().getExtras() != null) {
                 if (getIntent().getExtras().containsKey("recipeId")) {
                     recipeId = getIntent().getExtras().getInt("recipeId");
-
                     editMode = true;
                     presenter.startEditMode(recipeId);
-
                 } else {
                     presenter.start();
                 }
@@ -133,7 +133,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter));
+        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter));
     }
 
     private void setupSupportActionBar() {
@@ -184,6 +184,13 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW,displayModel.getPortions()));
+
+        for(IngredientDisplayModel ingredient: displayModel.getIngredients()){
+            if(ingredient instanceof ManualIngredientDisplayModel)
+                views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MANUAL_INGREDIENT_ITEM, ingredient));
+            else
+                views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM, ingredient));
+        }
 
         ((RecipeManipulationViewListAdapter)recyclerView.getAdapter()).setList(views);
     }

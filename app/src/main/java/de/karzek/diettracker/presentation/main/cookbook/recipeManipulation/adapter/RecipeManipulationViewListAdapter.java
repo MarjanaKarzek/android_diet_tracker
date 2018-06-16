@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientsTitleAndPortionsViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
-import de.karzek.diettracker.presentation.search.grocery.GrocerySearchContract;
-import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
-import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchDrinkResultViewHolder;
-import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchFoodResultViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -27,13 +25,19 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
 
     private RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener;
     private RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener;
+    private RecipeManipulationManualIngredientItemViewHolder.OnDeleteIngredientClickListener onDeleteManualIngredientClickListener;
+    private RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener onDeleteIngredientClickListener;
 
     public RecipeManipulationViewListAdapter(RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener,
-                                             RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener){
+                                             RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener,
+                                             RecipeManipulationManualIngredientItemViewHolder.OnDeleteIngredientClickListener onDeleteManualIngredientClickListener,
+                                             RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener onDeleteIngredientClickListener){
         list = new ArrayList<>();
 
         this.onDeleteImageClickListener = onDeleteImageClickListener;
         this.onPortionChangedListener = onPortionChangedListener;
+        this.onDeleteManualIngredientClickListener = onDeleteManualIngredientClickListener;
+        this.onDeleteIngredientClickListener = onDeleteIngredientClickListener;
     }
 
     @NonNull
@@ -44,8 +48,10 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
                 return new RecipeManipulationPhotoViewHolder(parent, onDeleteImageClickListener);
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW:
                 return new RecipeManipulationIngredientsTitleAndPortionsViewHolder(parent, onPortionChangedListener);
+            case RecipeManipulationViewItemWrapper.ItemType.MANUAL_INGREDIENT_ITEM:
+                return new RecipeManipulationManualIngredientItemViewHolder(parent, onDeleteManualIngredientClickListener);
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM:
-                //return new RecipeManipulationIngredientItemViewHolder();
+                return new RecipeManipulationIngredientItemViewHolder(parent, onDeleteIngredientClickListener);
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM_ADD_VIEW:
                 //return new RecipeManipulationItemAddViewHolder();
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEPS_TITLE_VIEW:

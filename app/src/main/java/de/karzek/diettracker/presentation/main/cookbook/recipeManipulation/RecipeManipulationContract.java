@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeSearchResultViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientsTitleAndPortionsViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
@@ -34,7 +36,9 @@ public interface RecipeManipulationContract {
 
     interface Presenter extends BasePresenter<View>,
             RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener,
-            RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener{
+            RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener,
+            RecipeManipulationManualIngredientItemViewHolder.OnDeleteIngredientClickListener,
+            RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener {
 
         void startEditMode(int recipeId);
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -24,6 +25,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void start() {
         displayModel = new RecipeDisplayModel(-1,"",null,1.0f, new ArrayList<>(), new ArrayList<>());
+
         view.setupViewsInRecyclerView(displayModel);
     }
 
@@ -81,5 +83,15 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onPortionChanges(float portion) {
         displayModel.setPortions(portion);
+    }
+
+    @Override
+    public void onDeleteIngredientClicked() {
+
+    }
+
+    @Override
+    public void onDeleteManualIngredientClicked() {
+
     }
 }

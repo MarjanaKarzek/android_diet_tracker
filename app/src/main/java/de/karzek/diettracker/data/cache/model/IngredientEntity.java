@@ -18,6 +18,6 @@ public class IngredientEntity extends RealmObject {
     @PrimaryKey
     private int id;
     private GroceryEntity grocery;
-    private int amount;
+    private float amount;
     private UnitEntity unit;
 }

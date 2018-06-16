@@ -13,6 +13,6 @@ import lombok.Value;
 public class IngredientDataModel {
     private int id;
     private GroceryDataModel grocery;
-    private int amount;
+    private float amount;
     private UnitDataModel unit;
 }

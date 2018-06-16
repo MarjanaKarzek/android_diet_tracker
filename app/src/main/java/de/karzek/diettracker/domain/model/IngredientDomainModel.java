@@ -15,6 +15,6 @@ import lombok.Value;
 public class IngredientDomainModel {
     private int id;
     private GroceryDomainModel grocery;
-    private int amount;
+    private float amount;
     private UnitDomainModel unit;
 }
