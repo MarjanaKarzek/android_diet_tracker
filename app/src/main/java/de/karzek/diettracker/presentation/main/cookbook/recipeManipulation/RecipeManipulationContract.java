@@ -9,9 +9,13 @@ import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeSearchResultViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientsTitleAndPortionsViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
+import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
+import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -22,7 +26,8 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  */
 public interface RecipeManipulationContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter>,
+            AddIngredientDialog.OnAddIngredientClickedInDialogListener {
         void openCamera();
 
         void closeBottomSheet();
@@ -32,13 +37,22 @@ public interface RecipeManipulationContract {
         void openGallery();
 
         void setupViewsInRecyclerView(RecipeDisplayModel displayModel);
+
+        void startBarcodeScan();
+
+        void startGrocerySearch();
+
+        void openAddManualIngredientDialog(ArrayList<UnitDisplayModel> units);
     }
 
     interface Presenter extends BasePresenter<View>,
             RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener,
             RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener,
             RecipeManipulationManualIngredientItemViewHolder.OnDeleteIngredientClickListener,
-            RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener {
+            RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener,
+            RecipeManipulationItemAddViewHolder.OnAddManualIngredientClickListener,
+            RecipeManipulationItemAddViewHolder.OnStartGrocerySearchClickListener,
+            RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener {
 
         void startEditMode(int recipeId);
 
@@ -49,5 +63,8 @@ public interface RecipeManipulationContract {
         void onOpenCameraClicked();
 
         void addPhotoToRecipe(Bitmap bitmap);
+
+        void addManualIngredient(ManualIngredientDisplayModel manualIngredientDisplayModel);
+
     }
 }

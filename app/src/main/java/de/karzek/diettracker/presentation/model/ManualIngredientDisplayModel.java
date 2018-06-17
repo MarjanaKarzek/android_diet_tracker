@@ -2,6 +2,7 @@ package de.karzek.diettracker.presentation.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Value;
  * @date 27.05.2018
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class ManualIngredientDisplayModel extends IngredientDisplayModel{
     private String groceryQuery;
 

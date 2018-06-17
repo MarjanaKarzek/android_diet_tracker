@@ -38,7 +38,7 @@ public class RecipeManipulationManualIngredientItemViewHolder extends RecyclerVi
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        summary.setText(formatSummary(item.getManualIngredientDisplayModel()));
+        summary.setText(formatSummary((ManualIngredientDisplayModel) item.getIngredientDisplayModel()));
     }
 
     private String formatSummary(ManualIngredientDisplayModel ingredient){

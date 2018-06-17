@@ -24,6 +24,7 @@
 
     <!--Colour palette-->
     <color name="white">#ffffff</color>
+    <color name="lightGrey">#f9f9f9</color>
 
     <!--Backgrounds-->
     <color name="bg_fab_transparent">#77ffffff</color>

@@ -37,7 +37,7 @@ public class RecipeManipulationIngredientItemViewHolder extends RecyclerView.Vie
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        summary.setText(formatSummary(item.getManualIngredientDisplayModel()));
+        summary.setText(formatSummary(item.getIngredientDisplayModel()));
     }
 
     private String formatSummary(IngredientDisplayModel ingredient){

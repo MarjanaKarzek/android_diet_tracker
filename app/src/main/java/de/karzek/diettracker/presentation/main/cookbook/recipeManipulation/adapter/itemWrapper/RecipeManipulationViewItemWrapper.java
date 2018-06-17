@@ -53,16 +53,23 @@ public class RecipeManipulationViewItemWrapper {
     int type;
     Bitmap image;
     Float portions;
-    ManualIngredientDisplayModel manualIngredientDisplayModel;
     IngredientDisplayModel ingredientDisplayModel;
     PreparationStepDisplayModel preparationStepDisplayModel;
     MealDisplayModel mealDisplayModel;
+
+    public RecipeManipulationViewItemWrapper(@ItemType int type) {
+        this.type = type;
+        image = null;
+        portions = null;
+        ingredientDisplayModel = null;
+        preparationStepDisplayModel = null;
+        mealDisplayModel = null;
+    }
 
     public RecipeManipulationViewItemWrapper(@ItemType int type, Bitmap image) {
         this.type = type;
         this.image = image;
         portions = null;
-        manualIngredientDisplayModel = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
         mealDisplayModel = null;
@@ -72,17 +79,6 @@ public class RecipeManipulationViewItemWrapper {
         this.type = type;
         image = null;
         this.portions = portions;
-        manualIngredientDisplayModel = null;
-        ingredientDisplayModel = null;
-        preparationStepDisplayModel = null;
-        mealDisplayModel = null;
-    }
-
-    public RecipeManipulationViewItemWrapper(@ItemType int type, ManualIngredientDisplayModel displayModel) {
-        this.type = type;
-        image = null;
-        portions = null;
-        this.manualIngredientDisplayModel = displayModel;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
         mealDisplayModel = null;
@@ -92,7 +88,6 @@ public class RecipeManipulationViewItemWrapper {
         this.type = type;
         image = null;
         portions = null;
-        manualIngredientDisplayModel = null;
         this.ingredientDisplayModel = displayModel;
         preparationStepDisplayModel = null;
         mealDisplayModel = null;
@@ -102,7 +97,6 @@ public class RecipeManipulationViewItemWrapper {
         this.type = type;
         image = null;
         portions = null;
-        manualIngredientDisplayModel = null;
         ingredientDisplayModel = null;
         this.preparationStepDisplayModel = displayModel;
         mealDisplayModel = null;
@@ -112,7 +106,6 @@ public class RecipeManipulationViewItemWrapper {
         this.type = type;
         image = null;
         portions = null;
-        manualIngredientDisplayModel = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
         this.mealDisplayModel = displayModel;

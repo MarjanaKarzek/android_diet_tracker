@@ -20,29 +20,49 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
  */
 public class RecipeManipulationItemAddViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recipe_image) ImageView imageView;
-
-    private final OnDeleteImageClickListener onDeleteImageClickListener;
+    private final OnAddManualIngredientClickListener onAddManualIngredientClickListener;
+    private final OnStartGrocerySearchClickListener onStartGrocerySearchClickListener;
+    private final OnStartBarcodeScanClickListener onStartBarcodeScanClickListener;
 
     public RecipeManipulationItemAddViewHolder(ViewGroup viewGroup,
-                                               OnDeleteImageClickListener onDeleteImageClickListener) {
+                                               OnAddManualIngredientClickListener onAddManualIngredientClickListener,
+                                               OnStartGrocerySearchClickListener onStartGrocerySearchClickListener,
+                                               OnStartBarcodeScanClickListener onStartBarcodeScanClickListener) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.viewholder_recipe_man_photo, viewGroup, false));
+                .inflate(R.layout.viewholder_recipe_man_ingredient_add, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
-        this.onDeleteImageClickListener = onDeleteImageClickListener;
+        this.onAddManualIngredientClickListener = onAddManualIngredientClickListener;
+        this.onStartGrocerySearchClickListener = onStartGrocerySearchClickListener;
+        this.onStartBarcodeScanClickListener = onStartBarcodeScanClickListener;
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        imageView.setImageBitmap(item.getImage());
+
     }
 
-    @OnClick(R.id.delete_image) public void onDeleteImageClicked() {
-        onDeleteImageClickListener.onDeleteImageClicked();
+    @OnClick(R.id.add_ingredient) public void onAddManualIngredientClicked() {
+        onAddManualIngredientClickListener.onAddManualIngredientClicked();
     }
 
-    public interface OnDeleteImageClickListener {
-        void onDeleteImageClicked();
+    @OnClick(R.id.action_search) public void onStartGrocerySearchClicked() {
+        onStartGrocerySearchClickListener.onStartGrocerySearchClicked();
+    }
+
+    @OnClick(R.id.action_barcode_search) public void onStartBarcodeScanClicked() {
+        onStartBarcodeScanClickListener.onStartBarcodeScanClicked();
+    }
+
+    public interface OnAddManualIngredientClickListener {
+        void onAddManualIngredientClicked();
+    }
+
+    public interface OnStartGrocerySearchClickListener {
+        void onStartGrocerySearchClicked();
+    }
+
+    public interface OnStartBarcodeScanClickListener {
+        void onStartBarcodeScanClicked();
     }
 
 }

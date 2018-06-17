@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/lightGrey">
+
+    <Button
+        android:id="@+id/add_ingredient"
+        style="@style/TransparentButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/add_ingredient_action" />
+
+    <ImageButton
+        android:id="@+id/action_search"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:src="@drawable/ic_search_accent" />
+
+    <ImageButton
+        android:id="@+id/action_barcode_search"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:src="@drawable/ic_barcode_accent" />
+
+</LinearLayout>

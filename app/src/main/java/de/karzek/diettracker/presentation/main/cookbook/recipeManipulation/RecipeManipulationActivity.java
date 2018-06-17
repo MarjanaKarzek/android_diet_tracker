@@ -11,6 +11,9 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,9 +45,13 @@ import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.RecipeManipulationViewListAdapter;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
+import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
@@ -69,8 +76,10 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     private boolean editMode = false;
 
     private Bitmap image;
-    private int CAMERA = 0;
-    private int GALLERY = 1;
+    private final int CAMERA = 0;
+    private final int GALLERY = 1;
+
+    private ArrayList<UnitDisplayModel> units;
 
     public static Intent newIntent(Context context, @Nullable Integer recipeId) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
@@ -133,7 +142,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter));
+        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter));
     }
 
     private void setupSupportActionBar() {
@@ -183,7 +192,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         if(displayModel.getPhoto() != null){
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
-        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW,displayModel.getPortions()));
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW, displayModel.getPortions()));
 
         for(IngredientDisplayModel ingredient: displayModel.getIngredients()){
             if(ingredient instanceof ManualIngredientDisplayModel)
@@ -191,8 +200,55 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             else
                 views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM, ingredient));
         }
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM_ADD_VIEW));
+
+        /*views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEPS_TITLE_VIEW));
+        /*for(PreparationStepDisplayModel step: displayModel.getSteps())
+            views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM,step));
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM_ADD_VIEW));
+
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEALS_TITLE_VIEW));
+        for(MealDisplayModel meal:displayModel.getMeals())
+            views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM, meal));
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM_ADD_VIEW));
+
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_SAVE_VIEW));
+        if(editMode)
+            views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));*/
 
         ((RecipeManipulationViewListAdapter)recyclerView.getAdapter()).setList(views);
+    }
+
+    @Override
+    public void startBarcodeScan() {
+
+    }
+
+    @Override
+    public void startGrocerySearch() {
+
+    }
+
+    @Override
+    public void openAddManualIngredientDialog(ArrayList<UnitDisplayModel> units) {
+        this.units = units;
+
+        ArrayList<String> unitStrings = new ArrayList<>();
+        for(UnitDisplayModel unit: units)
+            unitStrings.add(unit.getName());
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (previous != null){
+            fragmentTransaction.remove(previous);
+        }
+        fragmentTransaction.addToBackStack(null);
+
+        AppCompatDialogFragment dialogFragment = new AddIngredientDialog();
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("units", unitStrings);
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(fragmentTransaction,"dialog");
     }
 
     @OnClick(R.id.image_source_camera) public void onOpenCameraClicked(){
@@ -227,4 +283,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         }
     }
 
+    @Override
+    public void onAddIngredientClicked(float amount, int selectedUnitId, String groceryQuery) {
+        presenter.addManualIngredient(new ManualIngredientDisplayModel(-1,null,amount, units.get(selectedUnitId), groceryQuery));
+    }
 }
