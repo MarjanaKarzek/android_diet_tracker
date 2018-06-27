@@ -43,6 +43,10 @@ public interface RecipeManipulationContract {
         void startGrocerySearch();
 
         void openAddManualIngredientDialog(ArrayList<UnitDisplayModel> units);
+
+        void showLoading();
+
+        void hideLoading();
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -66,5 +70,6 @@ public interface RecipeManipulationContract {
 
         void addManualIngredient(ManualIngredientDisplayModel manualIngredientDisplayModel);
 
+        void addIngredient(int groceryId, float amount, int unitId);
     }
 }

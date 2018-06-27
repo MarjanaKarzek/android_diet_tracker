@@ -194,12 +194,12 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void startFoodSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem()));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem(), false) );
     }
 
     @Override
     public void startDrinkSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem()));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem(), false));
     }
 
     @Override

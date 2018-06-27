@@ -61,4 +61,6 @@
 
     </LinearLayout>
 
+    <include layout="@layout/snippet_loading_view" />
+
 </android.support.design.widget.CoordinatorLayout>

@@ -1,14 +1,7 @@
 package de.karzek.diettracker.presentation.main;
 
-import android.support.annotation.IntDef;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
-import de.karzek.diettracker.presentation.model.MealDisplayModel;
-import de.karzek.diettracker.presentation.model.RandomQuoteDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 26.04.2018.

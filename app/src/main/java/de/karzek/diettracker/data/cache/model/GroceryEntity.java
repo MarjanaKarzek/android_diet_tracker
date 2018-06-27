@@ -35,8 +35,9 @@ public class GroceryEntity extends RealmObject {
     @GroceryEntityType
     public static final int TYPE_FOOD = 0;
     public static final int TYPE_DRINK = 1;
+    public static final int TYPE_COMBINED = 2;
 
-    @IntDef({TYPE_FOOD, TYPE_DRINK})
+    @IntDef({TYPE_FOOD, TYPE_DRINK, TYPE_COMBINED})
 
     private @interface GroceryEntityType { }
 

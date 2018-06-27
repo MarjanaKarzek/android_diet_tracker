@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.search.grocery.groceryDetail;
 
+import android.support.annotation.IntDef;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,6 +53,8 @@ public interface GroceryDetailsContract {
 
         void prepareEditMode(DiaryEntryDisplayModel diaryEntry);
 
+        void prepareAddIngredientMode();
+
         void finishView();
     }
 
@@ -72,6 +76,17 @@ public interface GroceryDetailsContract {
 
         void startEditMode(int diaryEntryId);
 
+        void startAddIngredientMode(int groceryId);
+
         void onDeleteDiaryEntryClicked(int diaryEntryId);
     }
+
+    @DetailsMode
+    int MODE_SEARCH_RESULT = 0;
+    int MODE_EDIT_DIARY_ENTRY = 1;
+    int MODE_ADD_INGREDIENT = 2;
+
+    @IntDef({MODE_SEARCH_RESULT, MODE_EDIT_DIARY_ENTRY, MODE_ADD_INGREDIENT})
+
+    @interface DetailsMode { }
 }

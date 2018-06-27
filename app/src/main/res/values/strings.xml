@@ -36,6 +36,11 @@
     <string name="recipe_search_placeholder">Markiere Rezepte als Favoriten, um sie hier schnell auszuwählen.</string>
     <string name="recipe_search_query_without_result_placeholder">Es wurden keine Rezepte gefunden.</string>
 
+    <string name="product_search_title">Produkte</string>
+    <string name="product_search_hint">Produkte durchsuchen</string>
+    <string name="product_search_placeholder">Markiere Produkte als Favoriten, um sie hier schnell auszuwählen.</string>
+    <string name="product_search_query_without_result_placeholder">Es wurden keine Produkte gefunden.</string>
+
     <string name="calories">Kalorien</string>
     <string name="proteins">Proteine</string>
     <string name="carbs">Kohlenhydrate</string>

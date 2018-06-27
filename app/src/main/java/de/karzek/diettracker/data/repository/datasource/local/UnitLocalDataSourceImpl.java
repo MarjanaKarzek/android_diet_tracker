@@ -40,4 +40,9 @@ public class UnitLocalDataSourceImpl implements UnitDataSource {
     public Observable<UnitEntity> getUnitByName(String name) {
         return unitCache.getUnitByName(name);
     }
+
+    @Override
+    public Observable<UnitEntity> getUnitById(int id) {
+        return unitCache.getUnitById(id);
+    }
 }

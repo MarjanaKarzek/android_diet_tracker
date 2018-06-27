@@ -10,6 +10,8 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
+
 /**
  * Created by MarjanaKarzek on 27.05.2018.
  *
@@ -61,7 +63,11 @@ public class GroceryCacheImpl implements GroceryCache {
     @Override
     public Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query) {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("type", type).notEqualTo("id", -1).notEqualTo("id",0).contains("name",query, Case.INSENSITIVE).sort("name").findAll()));
+        if (type != TYPE_COMBINED)
+            return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).equalTo("type", type).notEqualTo("id", -1).notEqualTo("id",0).contains("name",query, Case.INSENSITIVE).sort("name").findAll()));
+        else
+            return Observable.just(realm.copyFromRealm(realm.where(GroceryEntity.class).notEqualTo("id", -1).notEqualTo("id",0).contains("name",query, Case.INSENSITIVE).sort("name").findAll()));
+
     }
 
     @Override

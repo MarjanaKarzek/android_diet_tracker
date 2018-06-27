@@ -75,4 +75,10 @@ public class UnitCacheImpl implements UnitCache {
         Realm realm = Realm.getDefaultInstance();
         return Observable.just(realm.copyFromRealm(realm.where(UnitEntity.class).equalTo("name", name).findFirst()));
     }
+
+    @Override
+    public Observable<UnitEntity> getUnitById(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        return Observable.just(realm.copyFromRealm(realm.where(UnitEntity.class).equalTo("id", id).findFirst()));
+    }
 }

@@ -11,6 +11,8 @@ import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
+
 /**
  * Created by MarjanaKarzek on 27.05.2018.
  *
@@ -56,8 +58,14 @@ public class FavoriteGroceryCacheImpl implements FavoriteGroceryCache {
     @Override
     public Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type) {
         Realm realm = Realm.getDefaultInstance();
-        List<FavoriteGroceryEntity> favorites = realm.copyFromRealm(realm.where(FavoriteGroceryEntity.class).equalTo("grocery.type", type).findAll());
-        return Observable.just(favorites);
+
+        if (type != TYPE_COMBINED) {
+            List<FavoriteGroceryEntity> favorites = realm.copyFromRealm(realm.where(FavoriteGroceryEntity.class).equalTo("grocery.type", type).findAll());
+            return Observable.just(favorites);
+        } else {
+            List<FavoriteGroceryEntity> favorites = realm.copyFromRealm(realm.where(FavoriteGroceryEntity.class).findAll());
+            return Observable.just(favorites);
+        }
     }
 
     @Override
@@ -75,7 +83,7 @@ public class FavoriteGroceryCacheImpl implements FavoriteGroceryCache {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<FavoriteGroceryEntity> result = realm.where(FavoriteGroceryEntity.class).equalTo("grocery.name",name).findAll();
+                RealmResults<FavoriteGroceryEntity> result = realm.where(FavoriteGroceryEntity.class).equalTo("grocery.name", name).findAll();
                 result.deleteAllFromRealm();
             }
         });
@@ -84,7 +92,7 @@ public class FavoriteGroceryCacheImpl implements FavoriteGroceryCache {
 
     @Override
     public Observable<Boolean> getFavoriteStateForGroceryById(int id) {
-        if(Realm.getDefaultInstance().where(FavoriteGroceryEntity.class).equalTo("grocery.id",id).findFirst() == null)
+        if (Realm.getDefaultInstance().where(FavoriteGroceryEntity.class).equalTo("grocery.id", id).findFirst() == null)
             return Observable.just(false);
         else
             return Observable.just(true);

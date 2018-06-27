@@ -183,6 +183,35 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     }
 
     @Override
+    public void startAddIngredientMode(int groceryId){
+        if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+            view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
+        } else {
+            view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS);
+        }
+
+        compositeDisposable.add(getGroceryByIdUseCase.execute(new GetGroceryByIdUseCase.Input(groceryId))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(output -> {
+                            GroceryDisplayModel grocery = groceryMapper.transform(output.getGrocery());
+                            view.fillGroceryDetails(grocery);
+
+                            if(grocery.getAllergens().size() > 0)
+                                view.setupAllergenWarning(grocery.getAllergens());
+
+                            getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(output2 -> {
+                                        view.initializeServingsSpinner(unitMapper.transformAll(output2.getUnitList()), grocery.getServings());
+                                        view.refreshNutritionDetails();
+                                        view.prepareAddIngredientMode();
+                                    });
+                        }));
+    }
+
+    @Override
     public void onDeleteDiaryEntryClicked(int diaryEntryId) {
         compositeDisposable.add(deleteDiaryEntryUseCase.get().execute(new DeleteDiaryEntryUseCase.Input(groceryId))
                 .subscribeOn(Schedulers.io())

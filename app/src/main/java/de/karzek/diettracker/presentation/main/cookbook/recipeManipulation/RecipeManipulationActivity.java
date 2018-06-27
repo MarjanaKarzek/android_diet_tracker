@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -52,7 +53,13 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
+import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
+import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
+import de.karzek.diettracker.presentation.util.Constants;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
 
 /**
  * Created by MarjanaKarzek on 16.06.2018.
@@ -69,15 +76,14 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.bottom_sheet_image_picker) LinearLayout bottomSheet;
+    @BindView(R.id.loading_view) FrameLayout loadingView;
 
     private BottomSheetBehavior bottomSheetBehavior;
 
-    private int recipeId;
     private boolean editMode = false;
 
-    private Bitmap image;
-    private final int CAMERA = 0;
-    private final int GALLERY = 1;
+    private final int CAMERA = 1;
+    private final int GALLERY = 2;
 
     private ArrayList<UnitDisplayModel> units;
 
@@ -121,9 +127,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         if (getIntent() != null) {
             if (getIntent().getExtras() != null) {
                 if (getIntent().getExtras().containsKey("recipeId")) {
-                    recipeId = getIntent().getExtras().getInt("recipeId");
                     editMode = true;
-                    presenter.startEditMode(recipeId);
+                    presenter.startEditMode(getIntent().getExtras().getInt("recipeId"));
                 } else {
                     presenter.start();
                 }
@@ -221,12 +226,12 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void startBarcodeScan() {
-
+        startActivityForResult(BarcodeScannerActivity.newIntent(this,null,-1, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
     public void startGrocerySearch() {
-
+        startActivityForResult(GrocerySearchActivity.newIntent(this,TYPE_COMBINED,null,-1, true), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -251,6 +256,16 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         dialogFragment.show(fragmentTransaction,"dialog");
     }
 
+    @Override
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingView.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.image_source_camera) public void onOpenCameraClicked(){
         presenter.onOpenCameraClicked();
     }
@@ -261,26 +276,33 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri contentURI = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    presenter.addPhotoToRecipe(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
 
-        } else if (requestCode == CAMERA) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            presenter.addPhotoToRecipe(bitmap);
+        switch (resultCode){
+            case RESULT_CANCELED:
+                return;
+            case GALLERY:
+                if (data != null) {
+                    Uri contentURI = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                        presenter.addPhotoToRecipe(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CAMERA:
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                presenter.addPhotoToRecipe(bitmap);
+                break;
+            case Constants.ADD_INGREDIENT_INTENT_RESULT:
+                presenter.addIngredient(data.getIntExtra("groceryId", 0),
+                        data.getFloatExtra("amount", 0.0f),
+                        data.getIntExtra("unitId", 0));
+                break;
         }
+
     }
 
     @Override

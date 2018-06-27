@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.view.menu.MenuItemImpl;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +43,7 @@ import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDe
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
+import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.ServingDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
@@ -53,6 +53,9 @@ import de.karzek.diettracker.presentation.util.StringUtils;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_EDIT_DIARY_ENTRY;
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_SEARCH_RESULT;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
@@ -64,22 +67,34 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  */
 public class GroceryDetailsActivity extends BaseActivity implements GroceryDetailsContract.View {
 
-    @Inject GroceryDetailsContract.Presenter presenter;
+    @Inject
+    GroceryDetailsContract.Presenter presenter;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    @BindView(R.id.viewstub_allergen_info) ViewStub allergenViewStub;
-    @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
+    @BindView(R.id.viewstub_allergen_info)
+    ViewStub allergenViewStub;
+    @BindView(R.id.viewstub_calory_details)
+    ViewStub caloryDetails;
+    @BindView(R.id.viewstub_calory_makro_details)
+    ViewStub caloryMacroDetails;
 
-    @BindView(R.id.spinner_serving) Spinner spinnerServing;
-    @BindView(R.id.spinner_meal) Spinner spinnerMeal;
-    @BindView(R.id.edittext_amount) EditText editTextAmount;
-    @BindView(R.id.date_label) TextView selectedDateLabel;
-    @BindView(R.id.add_grocery) Button addButton;
-    @BindView(R.id.delete_diary_entry) Button deleteButton;
+    @BindView(R.id.spinner_serving)
+    Spinner spinnerServing;
+    @BindView(R.id.spinner_meal)
+    Spinner spinnerMeal;
+    @BindView(R.id.edittext_amount)
+    EditText editTextAmount;
+    @BindView(R.id.date_label)
+    TextView selectedDateLabel;
+    @BindView(R.id.add_grocery)
+    Button addButton;
+    @BindView(R.id.delete_diary_entry)
+    Button deleteButton;
 
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
     private AllergenView allergenView;
     private CaloryDetailsView detailsView;
@@ -91,7 +106,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     private Menu menu;
 
     private int diaryEntryId;
-    private boolean editMode = false;
+    private int mode;
 
     private Calendar selectedDateCalendar = Calendar.getInstance();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
@@ -104,14 +119,23 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     private ArrayList<MealDisplayModel> meals;
     private HashMap<String, Long> maxValues;
 
-    public static Intent newIntent(Context context, @Nullable Integer id, String selectedDate, @Nullable Integer selectedMeal, @Nullable Integer diaryEntryId) {
+    public static Intent newIntent(Context context, @Nullable Integer id, String selectedDate, @Nullable Integer selectedMeal, @Nullable Integer diaryEntryId, int mode) {
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
-        if(diaryEntryId == null) {
-            intent.putExtra("id", id.intValue());
-            intent.putExtra("selectedDate", selectedDate);
-            intent.putExtra("selectedMeal", selectedMeal.intValue());
-        } else
-            intent.putExtra("diaryEntryId", diaryEntryId.intValue());
+        intent.putExtra("mode", mode);
+
+        switch (mode) {
+            case MODE_SEARCH_RESULT:
+                intent.putExtra("id", id.intValue());
+                intent.putExtra("selectedDate", selectedDate);
+                intent.putExtra("selectedMeal", selectedMeal.intValue());
+                break;
+            case MODE_EDIT_DIARY_ENTRY:
+                intent.putExtra("diaryEntryId", diaryEntryId.intValue());
+                break;
+            case MODE_ADD_INGREDIENT:
+                intent.putExtra("id", id.intValue());
+                break;
+        }
 
         return intent;
     }
@@ -153,27 +177,35 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
             }
         });
 
-        if(getIntent().getExtras().getString("selectedDate") != null) {
-            groceryId = getIntent().getExtras().getInt("id");
-            selectedDate = getIntent().getExtras().getString("selectedDate");
-            selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+        switch (getIntent().getExtras().getInt("mode")) {
+            case MODE_SEARCH_RESULT:
+                mode = MODE_SEARCH_RESULT;
+                groceryId = getIntent().getExtras().getInt("id");
+                selectedDate = getIntent().getExtras().getString("selectedDate");
+                selectedMeal = getIntent().getExtras().getInt("selectedMeal");
 
-            try {
-                Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
-                selectedDateLabel.setText(simpleDateFormat.format(currentSelectedDate));
-                selectedDateCalendar.setTime(currentSelectedDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
-            }
+                try {
+                    Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
+                    selectedDateLabel.setText(simpleDateFormat.format(currentSelectedDate));
+                    selectedDateCalendar.setTime(currentSelectedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    selectedDateLabel.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
+                }
 
-            presenter.setGroceryId(groceryId);
-            presenter.start();
-
-        } else {
-            editMode = true;
-            diaryEntryId = getIntent().getExtras().getInt("diaryEntryId");
-            presenter.startEditMode(diaryEntryId);
+                presenter.setGroceryId(groceryId);
+                presenter.start();
+                break;
+            case MODE_EDIT_DIARY_ENTRY:
+                mode = MODE_EDIT_DIARY_ENTRY;
+                diaryEntryId = getIntent().getExtras().getInt("diaryEntryId");
+                presenter.startEditMode(diaryEntryId);
+                break;
+            case MODE_ADD_INGREDIENT:
+                mode = MODE_ADD_INGREDIENT;
+                groceryId = getIntent().getExtras().getInt("id");
+                presenter.startAddIngredientMode(groceryId);
+                break;
         }
     }
 
@@ -182,20 +214,20 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         float amount = 1;
         int servingPosition = spinnerServing.getSelectedItemPosition();
         int multiplier = 0;
-        if(servingPosition >= defaultUnits.size()){
-            amount = servings.get(servingPosition-defaultUnits.size()).getAmount();
-            multiplier = servings.get(servingPosition-defaultUnits.size()).getUnit().getMultiplier();
+        if (servingPosition >= defaultUnits.size()) {
+            amount = servings.get(servingPosition - defaultUnits.size()).getAmount();
+            multiplier = servings.get(servingPosition - defaultUnits.size()).getUnit().getMultiplier();
         } else {
             multiplier = defaultUnits.get(servingPosition).getMultiplier();
         }
         float editTextValue = 0.0f;
-        if(!editTextAmount.getText().toString().equals(""))
+        if (!editTextAmount.getText().toString().equals(""))
             editTextValue = Float.valueOf(editTextAmount.getText().toString());
         else
             editTextValue = Float.valueOf(editTextAmount.getHint().toString());
         amount *= multiplier * editTextValue;
 
-        presenter.updateNutritionDetails(groceryDisplayModel,amount);
+        presenter.updateNutritionDetails(groceryDisplayModel, amount);
     }
 
     @Override
@@ -228,14 +260,14 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     }
 
     @Override
-    public void setupAllergenWarning(ArrayList<AllergenDisplayModel> allergenDisplayModels){
+    public void setupAllergenWarning(ArrayList<AllergenDisplayModel> allergenDisplayModels) {
         allergenView = new AllergenView(allergenViewStub.inflate());
 
         String warning = getString(R.string.allergen_warning) + " ";
 
-        for(int i = 0; i < allergenDisplayModels.size(); i++) {
+        for (int i = 0; i < allergenDisplayModels.size(); i++) {
             warning += allergenDisplayModels.get(i).getName();
-            if (i < allergenDisplayModels.size()-1)
+            if (i < allergenDisplayModels.size() - 1)
                 warning += ", ";
         }
 
@@ -247,7 +279,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         maxValues = values;
         detailsView.getCaloryProgressBarMaxValue().setText("" + values.get(Constants.calories));
 
-        if (detailsView instanceof CaloryMacroDetailsView){
+        if (detailsView instanceof CaloryMacroDetailsView) {
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + values.get(Constants.proteins) + "g");
             ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + values.get(Constants.carbs) + "g");
             ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + values.get(Constants.fats) + "g");
@@ -257,9 +289,9 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     @Override
     public void updateNutritionDetails(HashMap<String, Float> values) {
         detailsView.getCaloryProgressBar().setProgress(100.0f / maxValues.get(Constants.calories) * values.get(Constants.calories));
-        detailsView.getCaloryProgressBarValue().setText("" + (int)values.get(Constants.calories).floatValue());
+        detailsView.getCaloryProgressBarValue().setText("" + (int) values.get(Constants.calories).floatValue());
 
-        if (detailsView instanceof CaloryMacroDetailsView){
+        if (detailsView instanceof CaloryMacroDetailsView) {
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100.0f / maxValues.get(Constants.proteins) * values.get(Constants.proteins));
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.proteins)));
 
@@ -295,7 +327,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         spinnerServing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i >= defaultUnits.size())
+                if (i >= defaultUnits.size())
                     editTextAmount.setHint("1");
                 else
                     editTextAmount.setHint("100");
@@ -312,7 +344,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     @Override
     public void initializeMealSpinner(ArrayList<MealDisplayModel> mealDisplayModels) {
-        if(groceryDisplayModel.getType() == TYPE_DRINK) {
+        if (groceryDisplayModel.getType() == TYPE_DRINK) {
             spinnerMeal.setVisibility(View.GONE);
             return;
         }
@@ -349,12 +381,12 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
         else if (item.getItemId() == R.id.food_detail_favorite) {
             item.setChecked(!item.isChecked());
-            if(item.isChecked()){
+            if (item.isChecked()) {
                 item.setIcon(getDrawable(R.drawable.ic_star_filled_white));
             } else {
                 item.setIcon(getDrawable(R.drawable.ic_star_white));
@@ -364,13 +396,14 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.date_label) public void onDateLabelClicked(){
+    @OnClick(R.id.date_label)
+    public void onDateLabelClicked() {
         presenter.onDateLabelClicked();
     }
 
     @Override
-    public void openDatePicker(){
-        if(dateSetListener == null) {
+    public void openDatePicker() {
+        if (dateSetListener == null) {
             dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
                 selectedDateCalendar.set(Calendar.YEAR, year);
                 selectedDateCalendar.set(Calendar.MONTH, monthOfYear);
@@ -387,7 +420,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     @Override
     public void setFavoriteIconCheckedState(boolean checked) {
         MenuItem item = menu.findItem(R.id.food_detail_favorite).setChecked(checked);
-        if(item.isChecked()){
+        if (item.isChecked()) {
             item.setIcon(getDrawable(R.drawable.ic_star_filled_white));
         } else {
             item.setIcon(getDrawable(R.drawable.ic_star_white));
@@ -408,7 +441,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
         editTextAmount.setText(StringUtils.formatFloat(diaryEntry.getAmount()));
 
-        if(diaryEntry.getGrocery().getType() == TYPE_FOOD)
+        if (diaryEntry.getGrocery().getType() == TYPE_FOOD)
             spinnerMeal.setSelection(meals.indexOf(diaryEntry.getMeal()));
         spinnerServing.setSelection(defaultUnits.indexOf(diaryEntry.getUnit()));
 
@@ -417,21 +450,30 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     }
 
     @Override
+    public void prepareAddIngredientMode() {
+        selectedDateLabel.setVisibility(View.GONE);
+        spinnerMeal.setVisibility(View.GONE);
+    }
+
+    @Override
     public void finishView() {
         this.finish();
     }
 
-    @OnClick(R.id.add_grocery) public void onAddGroceryClicked(){
+    @OnClick(R.id.add_grocery)
+    public void onAddGroceryClicked() {
         float amount = 1;
         int servingPosition = spinnerServing.getSelectedItemPosition();
-        int multiplier = 0;
+
+        int multiplier;
         if (servingPosition >= defaultUnits.size()) {
             amount = servings.get(servingPosition - defaultUnits.size()).getAmount();
             multiplier = servings.get(servingPosition - defaultUnits.size()).getUnit().getMultiplier();
         } else {
             multiplier = defaultUnits.get(servingPosition).getMultiplier();
         }
-        float editTextValue = 0.0f;
+
+        float editTextValue;
         if (!editTextAmount.getText().toString().equals(""))
             editTextValue = Float.valueOf(editTextAmount.getText().toString());
         else
@@ -439,8 +481,18 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         amount *= multiplier * editTextValue;
 
         int id = -1;
-        if(editMode)
+        if (mode == MODE_EDIT_DIARY_ENTRY)
             id = diaryEntryId;
+
+        if (mode == MODE_ADD_INGREDIENT) {
+            Intent intent = new Intent();
+            intent.putExtra("groceryId", groceryDisplayModel.getId());
+            intent.putExtra("amount", amount);
+            intent.putExtra("unitId", defaultUnits.get(0).getId());
+            setResult(Constants.ADD_INGREDIENT_INTENT_RESULT, intent);
+            finish();
+            return;
+        }
 
         if (groceryDisplayModel.getType() == TYPE_FOOD) {
             presenter.addFood(new DiaryEntryDisplayModel(id,
@@ -458,7 +510,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         }
     }
 
-    @OnClick(R.id.delete_diary_entry) public void onDeleteDiaryEntryClicked(){
+    @OnClick(R.id.delete_diary_entry)
+    public void onDeleteDiaryEntryClicked() {
         showLoading();
         presenter.onDeleteDiaryEntryClicked(diaryEntryId);
     }

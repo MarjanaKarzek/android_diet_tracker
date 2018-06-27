@@ -19,7 +19,11 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
+import de.karzek.diettracker.presentation.util.Constants;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_SEARCH_RESULT;
 
 /**
  * Created by MarjanaKarzek on 08.06.2018.
@@ -38,11 +42,16 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
 
     private String selectedDate;
     private int selectedMeal;
+    private int mode;
 
-    public static Intent newIntent(Context context, String selectedDate, int selectedMeal) {
+    public static Intent newIntent(Context context, String selectedDate, int selectedMeal, int mode) {
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
-        intent.putExtra("selectedDate", selectedDate);
-        intent.putExtra("selectedMeal", selectedMeal);
+        intent.putExtra("mode", mode);
+
+        if(mode != MODE_ADD_INGREDIENT) {
+            intent.putExtra("selectedDate", selectedDate);
+            intent.putExtra("selectedMeal", selectedMeal);
+        }
 
         return intent;
     }
@@ -58,8 +67,11 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
         setContentView(R.layout.activity_barcode_scanner);
         ButterKnife.bind(this);
 
-        selectedDate = getIntent().getExtras().getString("selectedDate");
-        selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+        mode = getIntent().getExtras().getInt("mode");
+        if (mode != MODE_ADD_INGREDIENT) {
+            selectedDate = getIntent().getExtras().getString("selectedDate");
+            selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+        }
 
         scannerView.setResultHandler(this);
         scannerView.startCamera();
@@ -75,7 +87,10 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
 
     @Override
     public void startDetailsActivity(int id){
-        startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null));
+        if(mode == MODE_ADD_INGREDIENT)
+            startActivityForResult(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        else
+            startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT));
     }
 
     @Override
@@ -112,5 +127,18 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
         presenter.finish();
         scannerView.stopCamera();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Constants.ADD_INGREDIENT_INTENT_RESULT) {
+            Intent intent = new Intent();
+            intent.putExtra("groceryId", data.getIntExtra("groceryId", 0));
+            intent.putExtra("amount", data.getFloatExtra("amount", 0.0f));
+            intent.putExtra("unitId", data.getIntExtra("unitId", 0));
+            setResult(Constants.ADD_INGREDIENT_INTENT_RESULT, intent);
+            finish();
+        }
     }
 }

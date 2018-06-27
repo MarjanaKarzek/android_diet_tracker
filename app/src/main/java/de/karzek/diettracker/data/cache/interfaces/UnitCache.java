@@ -23,4 +23,6 @@ public interface UnitCache {
     Observable<List<UnitEntity>> getAllDefaultUnits(int type);
 
     Observable<UnitEntity> getUnitByName(String name);
+
+    Observable<UnitEntity> getUnitById(int id);
 }

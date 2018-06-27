@@ -40,6 +40,7 @@ import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDe
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
+import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_EDIT_DIARY_ENTRY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
@@ -236,7 +237,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
 
     @Override
     public void startEditMode(int id) {
-        startActivity(GroceryDetailsActivity.newIntent(getContext(), null, null, null, id));
+        startActivity(GroceryDetailsActivity.newIntent(getContext(), null, null, null, id, MODE_EDIT_DIARY_ENTRY));
     }
 
     @Override

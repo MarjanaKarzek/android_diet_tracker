@@ -60,4 +60,14 @@ public class UnitRepositoryImpl implements UnitRepository {
                 }
             });
     }
+
+    @Override
+    public Observable<UnitDataModel> getUnitById(int id) {
+        return new UnitLocalDataSourceImpl(unitCache).getUnitById(id).map(new Function<UnitEntity, UnitDataModel>() {
+            @Override
+            public UnitDataModel apply(UnitEntity unitEntities) {
+                return mapper.transform(unitEntities);
+            }
+        });
+    }
 }

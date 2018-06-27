@@ -6,8 +6,12 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetUnitByIdUseCase;
+import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
+import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
@@ -30,7 +34,11 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private RecipeManipulationContract.View view;
 
     private Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase;
+    private Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase;
+    private Lazy<GetUnitByIdUseCase> getUnitByIdUseCase;
+
     private UnitUIMapper unitMapper;
+    private GroceryUIMapper groceryMapper;
 
     private boolean editMode = false;
     private RecipeDisplayModel displayModel;
@@ -39,9 +47,15 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private ArrayList<UnitDisplayModel> units;
 
     public RecipeManipulationPresenter(Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
-                                       UnitUIMapper unitMapper) {
+                                       Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
+                                       Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
+                                       UnitUIMapper unitMapper,
+                                       GroceryUIMapper groceryMapper) {
         this.getAllDefaultUnitsUseCase = getAllDefaultUnitsUseCase;
+        this.getGroceryByIdUseCase = getGroceryByIdUseCase;
+        this.getUnitByIdUseCase = getUnitByIdUseCase;
         this.unitMapper = unitMapper;
+        this.groceryMapper = groceryMapper;
     }
 
     @Override
@@ -90,6 +104,27 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public void addManualIngredient(ManualIngredientDisplayModel manualIngredientDisplayModel) {
         displayModel.getIngredients().add(manualIngredientDisplayModel);
         view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
+    public void addIngredient(int groceryId, float amount, int unitId) {
+        view.showLoading();
+
+        compositeDisposable.add(getGroceryByIdUseCase.get().execute(new GetGroceryByIdUseCase.Input(groceryId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(groceryOutput-> {
+                    getUnitByIdUseCase.get().execute(new GetUnitByIdUseCase.Input(unitId))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(unitOutput -> {
+                                displayModel.getIngredients().add(new IngredientDisplayModel(-1, groceryMapper.transform(groceryOutput.getGrocery()), amount, unitMapper.transform(unitOutput.getUnit())));
+                                view.setupViewsInRecyclerView(displayModel);
+                                view.hideLoading();
+                            });
+                }));
+
+
     }
 
     @Override

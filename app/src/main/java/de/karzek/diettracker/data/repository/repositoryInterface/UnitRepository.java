@@ -20,4 +20,6 @@ public interface UnitRepository {
     Observable<List<UnitDataModel>> getAllDefaultUnits(int type);
 
     Observable<UnitDataModel> getUnitByName(String name);
+
+    Observable<UnitDataModel> getUnitById(int id);
 }
