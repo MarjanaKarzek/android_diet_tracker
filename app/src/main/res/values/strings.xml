@@ -111,5 +111,6 @@
     <string name="add_ingredient_product_name">Produktname</string>
     <string name="add_ingredient_dialog_action">Hinzufügen</string>
     <string name="error_message_missing_product_name">Bitte Produkt Namen angeben</string>
+    <string name="recipe_man_preparation_steps_title">Zubereitung</string>
 
 </resources>

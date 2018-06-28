@@ -12,6 +12,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepTitleViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -66,7 +67,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             case RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM_ADD_VIEW:
                 return new RecipeManipulationItemAddViewHolder(parent, onAddManualIngredientClickListener, onStartGrocerySearchClickListener, onStartBarcodeScanClickListener);
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEPS_TITLE_VIEW:
-                //return new RecipeManipulationPreparationStepsTitleViewHolder();
+                return new RecipeManipulationPreparationStepTitleViewHolder(parent);
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM:
                 //return new RecipeManipulationPreparationStepItemViewHolder();
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM_ADD_VIEW:
@@ -98,6 +99,8 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             ((RecipeManipulationIngredientItemViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeManipulationItemAddViewHolder){
             ((RecipeManipulationItemAddViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeManipulationPreparationStepTitleViewHolder){
+            ((RecipeManipulationPreparationStepTitleViewHolder) holder).bind(list.get(position));
         }
     }
 

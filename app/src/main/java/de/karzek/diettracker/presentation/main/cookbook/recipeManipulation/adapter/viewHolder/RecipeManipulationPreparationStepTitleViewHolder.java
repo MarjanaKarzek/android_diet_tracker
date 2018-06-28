@@ -20,29 +20,12 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
  */
 public class RecipeManipulationPreparationStepTitleViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recipe_image) ImageView imageView;
-
-    private final OnDeleteImageClickListener onDeleteImageClickListener;
-
-    public RecipeManipulationPreparationStepTitleViewHolder(ViewGroup viewGroup,
-                                                            OnDeleteImageClickListener onDeleteImageClickListener) {
+    public RecipeManipulationPreparationStepTitleViewHolder(ViewGroup viewGroup) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.viewholder_recipe_man_photo, viewGroup, false));
-        ButterKnife.bind(this, itemView);
-
-        this.onDeleteImageClickListener = onDeleteImageClickListener;
+                .inflate(R.layout.viewholder_recipe_man_preparation_step_title, viewGroup, false));
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        imageView.setImageBitmap(item.getImage());
-    }
-
-    @OnClick(R.id.delete_image) public void onDeleteImageClicked() {
-        onDeleteImageClickListener.onDeleteImageClicked();
-    }
-
-    public interface OnDeleteImageClickListener {
-        void onDeleteImageClicked();
     }
 
 }
