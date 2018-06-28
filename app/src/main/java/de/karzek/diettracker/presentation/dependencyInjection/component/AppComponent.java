@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditAllergensDialogComponent;
+import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditMealsDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AppModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
@@ -19,6 +20,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeManipulationModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditMealsDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
@@ -43,7 +45,8 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         FoodDetailsModule.class,
         BarcodeScannerModule.class,
         RecipeManipulationModule.class,
-        AllergenModule.class})
+        AllergenModule.class
+})
 public interface AppComponent {
 
     HomeComponent plus(HomeModule module);
@@ -59,6 +62,8 @@ public interface AppComponent {
     GenericDrinkComponent plus(GenericDrinkModule module);
 
     EditAllergensDialogComponent plus(EditAllergensDialogModule module);
+
+    EditMealsDialogComponent plus(EditMealsDialogModule module);
 
     void inject(SplashActivity activity);
 

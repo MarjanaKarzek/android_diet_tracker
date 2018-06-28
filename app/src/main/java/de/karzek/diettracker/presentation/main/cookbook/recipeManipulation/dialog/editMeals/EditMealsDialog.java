@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.main.settings.dialog.editAllergen;
+package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,8 +22,8 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseDialog;
-import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.adapter.EditAllergensListAdapter;
-import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.adapter.EditMealsListAdapter;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 07.06.2018.
@@ -31,9 +32,9 @@ import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
  * @version 1.0
  * @date 07.06.2018
  */
-public class EditAllergensDialog extends BaseDialog implements EditAllergensDialogContract.View {
+public class EditMealsDialog extends BaseDialog implements EditMealsDialogContract.View {
 
-    @Inject EditAllergensDialogContract.Presenter presenter;
+    @Inject EditMealsDialogContract.Presenter presenter;
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.loading_view) FrameLayout loadingView;
@@ -43,11 +44,13 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
 
     private View view;
 
-    private SaveAllergenSelectionDialogListener listener;
+    private ArrayList<Integer> mealList = new ArrayList<>();
+
+    private SaveMealsSelectionDialogListener listener;
 
     @Override
     protected void setupDialogComponent() {
-        TrackerApplication.get(getContext()).createEditAllergensDialogComponent().inject(this);
+        TrackerApplication.get(getContext()).createEditMealsDialogComponent().inject(this);
     }
 
     @Nullable
@@ -55,6 +58,12 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_edit_checkbox_list, container, false);
         ButterKnife.bind(this, view);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mealList = bundle.getIntegerArrayList("SelectedMeals");
+        }
+        presenter.setSelectedMealList(mealList);
 
         setupRecyclerView();
 
@@ -69,8 +78,7 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
             @Override
             public void onClick(View view) {
                 dismiss();
-                presenter.saveAllergenSelection();
-                listener.updateAllergens();
+                listener.updateMeals(presenter.getSelectedMeals());
             }
         });
 
@@ -83,7 +91,7 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new EditAllergensListAdapter(presenter));
+        recyclerView.setAdapter(new EditMealsListAdapter(presenter));
     }
 
     @Override
@@ -91,20 +99,20 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
         super.onCreate(savedInstanceState);
 
         try {
-            listener = (SaveAllergenSelectionDialogListener) getParentFragment();
+            listener = (SaveMealsSelectionDialogListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException("fragment must implement SaveAllergenSelectionDialogListener");
+            throw new ClassCastException("fragment must implement SaveMealsSelectionDialogListener");
         }
     }
 
     @Override
-    public void setPresenter(EditAllergensDialogContract.Presenter presenter) {
+    public void setPresenter(EditMealsDialogContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public void updateRecyclerView(ArrayList<AllergenDisplayModel> allergens, HashMap<Integer, Boolean> allergenStatus) {
-        ((EditAllergensListAdapter) recyclerView.getAdapter()).setAllergens(allergens, allergenStatus);
+    public void updateRecyclerView(ArrayList<MealDisplayModel> meals, HashMap<Integer, Boolean> mealStatus) {
+        ((EditMealsListAdapter) recyclerView.getAdapter()).setMeals(meals, mealStatus);
     }
 
     @Override
@@ -124,7 +132,7 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
         TrackerApplication.get(getContext()).releaseEditAllergensDialogComponent();
     }
 
-    public interface SaveAllergenSelectionDialogListener {
-        void updateAllergens();
+    public interface SaveMealsSelectionDialogListener {
+        void updateMeals(ArrayList<MealDisplayModel> selectedMeals);
     }
 }

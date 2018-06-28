@@ -24,7 +24,8 @@ public class RecipeDomainMapper {
                     dataModel.getPhoto(),
                     dataModel.getPortions(),
                     new IngredientDomainMapper().transformAll(dataModel.getIngredients()),
-                    new PreparationStepDomainMapper().transformAll(dataModel.getSteps()));
+                    new PreparationStepDomainMapper().transformAll(dataModel.getSteps()),
+                    new MealDomainMapper().transformAll(dataModel.getMeals()));
         }
         return domainModel;
     }
@@ -45,7 +46,8 @@ public class RecipeDomainMapper {
                     domainModel.getPhoto(),
                     domainModel.getPortions(),
                     new IngredientDomainMapper().transformAllToData(domainModel.getIngredients()),
-                    new PreparationStepDomainMapper().transformAllToData(domainModel.getSteps()));
+                    new PreparationStepDomainMapper().transformAllToData(domainModel.getSteps()),
+                    new MealDomainMapper().transformAllToData(domainModel.getMeals()));
         }
         return dataModel;
     }

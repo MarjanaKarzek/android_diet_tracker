@@ -3,6 +3,9 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adap
 import android.graphics.Bitmap;
 import android.support.annotation.IntDef;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
@@ -29,8 +32,7 @@ public class RecipeManipulationViewItemWrapper {
             ItemType.PREPARATION_STEP_ITEM,
             ItemType.PREPARATION_STEP_ITEM_ADD_VIEW,
             ItemType.MEALS_TITLE_VIEW,
-            ItemType.MEAL_ITEM,
-            ItemType.MEAL_ITEM_ADD_VIEW,
+            ItemType.MEAL_LIST,
             ItemType.RECIPE_SAVE_VIEW,
             ItemType.RECIPE_DELETE_VIEW})
     public @interface ItemType {
@@ -43,10 +45,9 @@ public class RecipeManipulationViewItemWrapper {
         int PREPARATION_STEP_ITEM = 6;
         int PREPARATION_STEP_ITEM_ADD_VIEW = 7;
         int MEALS_TITLE_VIEW = 8;
-        int MEAL_ITEM = 9;
-        int MEAL_ITEM_ADD_VIEW = 10;
-        int RECIPE_SAVE_VIEW = 11;
-        int RECIPE_DELETE_VIEW = 12;
+        int MEAL_LIST = 9;
+        int RECIPE_SAVE_VIEW = 10;
+        int RECIPE_DELETE_VIEW = 11;
     }
 
     @ItemType
@@ -55,7 +56,7 @@ public class RecipeManipulationViewItemWrapper {
     Float portions;
     IngredientDisplayModel ingredientDisplayModel;
     PreparationStepDisplayModel preparationStepDisplayModel;
-    MealDisplayModel mealDisplayModel;
+    List<MealDisplayModel> meals;
 
     public RecipeManipulationViewItemWrapper(@ItemType int type) {
         this.type = type;
@@ -63,7 +64,7 @@ public class RecipeManipulationViewItemWrapper {
         portions = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        mealDisplayModel = null;
+        meals = new ArrayList<>();
     }
 
     public RecipeManipulationViewItemWrapper(@ItemType int type, Bitmap image) {
@@ -72,7 +73,7 @@ public class RecipeManipulationViewItemWrapper {
         portions = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        mealDisplayModel = null;
+        meals = new ArrayList<>();
     }
 
     public RecipeManipulationViewItemWrapper(@ItemType int type, float portions) {
@@ -81,7 +82,7 @@ public class RecipeManipulationViewItemWrapper {
         this.portions = portions;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        mealDisplayModel = null;
+        meals = new ArrayList<>();
     }
 
     public RecipeManipulationViewItemWrapper(@ItemType int type, IngredientDisplayModel displayModel) {
@@ -90,7 +91,7 @@ public class RecipeManipulationViewItemWrapper {
         portions = null;
         this.ingredientDisplayModel = displayModel;
         preparationStepDisplayModel = null;
-        mealDisplayModel = null;
+        meals = new ArrayList<>();
     }
 
     public RecipeManipulationViewItemWrapper(@ItemType int type, PreparationStepDisplayModel displayModel) {
@@ -99,15 +100,15 @@ public class RecipeManipulationViewItemWrapper {
         portions = null;
         ingredientDisplayModel = null;
         this.preparationStepDisplayModel = displayModel;
-        mealDisplayModel = null;
+        meals = new ArrayList<>();
     }
 
-    public RecipeManipulationViewItemWrapper(@ItemType int type, MealDisplayModel displayModel) {
+    public RecipeManipulationViewItemWrapper(@ItemType int type, List<MealDisplayModel> displayModels) {
         this.type = type;
         image = null;
         portions = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        this.mealDisplayModel = displayModel;
+        this.meals = displayModels;
     }
 }

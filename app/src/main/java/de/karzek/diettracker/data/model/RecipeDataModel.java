@@ -19,4 +19,5 @@ public class RecipeDataModel {
     private float portions;
     private ArrayList<IngredientDataModel> ingredients;
     private ArrayList<PreparationStepDataModel> steps;
+    private ArrayList<MealDataModel> meals;
 }

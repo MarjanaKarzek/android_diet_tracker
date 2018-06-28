@@ -115,5 +115,6 @@
     <string name="add_preparation_step_description">Beschreibung</string>
     <string name="error_message_missing_preparation_step_description">Bitte Beschreibung angeben</string>
     <string name="recipe_man_meals_title">Mahlzeiten</string>
+    <string name="no_meals_selected_placeholder">Füge Mahlzeiten für dieses Rezept über das Stift Symbol hinzu</string>
 
 </resources>

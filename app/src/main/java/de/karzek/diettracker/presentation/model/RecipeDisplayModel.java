@@ -24,4 +24,5 @@ public class RecipeDisplayModel {
     private float portions;
     private ArrayList<IngredientDisplayModel> ingredients;
     private ArrayList<PreparationStepDisplayModel> steps;
+    private ArrayList<MealDisplayModel> meals;
 }

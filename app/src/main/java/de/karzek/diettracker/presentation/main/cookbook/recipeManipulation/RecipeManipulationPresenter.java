@@ -3,7 +3,9 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
@@ -13,6 +15,7 @@ import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
@@ -61,7 +64,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void start() {
-        displayModel = new RecipeDisplayModel(-1, "", null, 1.0f, new ArrayList<>(), new ArrayList<>());
+        displayModel = new RecipeDisplayModel(-1, "", null, 1.0f, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
         view.setupViewsInRecyclerView(displayModel);
     }
@@ -131,6 +134,12 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void addPreparationStep(String description) {
         displayModel.getSteps().add(new PreparationStepDisplayModel(-1, displayModel.getSteps().size()+1 ,description));
+        view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
+    public void updateMeals(ArrayList<MealDisplayModel> selectedMeals) {
+        displayModel.setMeals(selectedMeals);
         view.setupViewsInRecyclerView(displayModel);
     }
 
@@ -217,5 +226,15 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onAddPreparationStepClicked() {
         view.showAddPreparationStepDialog();
+    }
+
+    @Override
+    public void onEditMealsClicked() {
+        ArrayList<Integer> selectedMeals = new ArrayList<>();
+
+        for(MealDisplayModel meals: displayModel.getMeals())
+            selectedMeals.add(meals.getId());
+
+        view.openEditMealsDialog(selectedMeals);
     }
 }

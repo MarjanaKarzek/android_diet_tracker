@@ -26,7 +26,8 @@ public class RecipeDataMapper {
                     entity.getPhoto(),
                     entity.getPortions(),
                     new IngredientDataMapper().transformAll(entity.getIngredients()),
-                    new PreparationStepDataMapper().transformAll(entity.getSteps()));
+                    new PreparationStepDataMapper().transformAll(entity.getSteps()),
+                    new MealDataMapper().transformAll(entity.getMeals()));
         }
         return dataModel;
     }
@@ -55,6 +56,7 @@ public class RecipeDataMapper {
             entity.setPortions(dataModel.getPortions());
             entity.setIngredients(new IngredientDataMapper().transformAllToEntity(dataModel.getIngredients()));
             entity.setSteps(new PreparationStepDataMapper().transformAllToEntity(dataModel.getSteps()));
+            entity.setMeals(new MealDataMapper().transformAllToEntity(dataModel.getMeals()));
         }
         return entity;
     }

@@ -24,7 +24,8 @@ public class RecipeUIMapper {
                     domainModel.getPhoto(),
                     domainModel.getPortions(),
                     new IngredientUIMapper().transformAll(domainModel.getIngredients()),
-                    new PreparationStepUIMapper().transformAll(domainModel.getSteps())
+                    new PreparationStepUIMapper().transformAll(domainModel.getSteps()),
+                    new MealUIMapper().transformAll(domainModel.getMeals())
             );
         }
         return displayModel;
@@ -46,7 +47,8 @@ public class RecipeUIMapper {
                     displayModel.getPhoto(),
                     displayModel.getPortions(),
                     new IngredientUIMapper().transformAllToDomain(displayModel.getIngredients()),
-                    new PreparationStepUIMapper().transformAllToDomain(displayModel.getSteps())
+                    new PreparationStepUIMapper().transformAllToDomain(displayModel.getSteps()),
+                    new MealUIMapper().transformAllToDomain(displayModel.getMeals())
             );
         }
         return domainModel;

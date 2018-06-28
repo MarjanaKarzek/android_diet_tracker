@@ -23,4 +23,5 @@ public class RecipeEntity extends RealmObject {
     private float portions;
     private RealmList<IngredientEntity> ingredients;
     private RealmList<PreparationStepEntity> steps;
+    private RealmList<MealEntity> meals;
 }

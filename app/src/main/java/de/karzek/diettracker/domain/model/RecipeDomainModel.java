@@ -21,4 +21,5 @@ public class RecipeDomainModel {
     private float portions;
     private ArrayList<IngredientDomainModel> ingredients;
     private ArrayList<PreparationStepDomainModel> steps;
+    private ArrayList<MealDomainModel> meals;
 }

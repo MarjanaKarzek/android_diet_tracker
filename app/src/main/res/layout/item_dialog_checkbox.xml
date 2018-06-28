@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/allergen"
+        android:id="@+id/checkbox"
         style="@style/Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

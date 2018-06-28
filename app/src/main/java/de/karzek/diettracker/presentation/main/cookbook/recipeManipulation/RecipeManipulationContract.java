@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
@@ -11,12 +12,15 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientsTitleAndPortionsViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationMealsViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.EditMealsDialog;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 
@@ -31,7 +35,8 @@ public interface RecipeManipulationContract {
 
     interface View extends BaseView<Presenter>,
             AddIngredientDialog.OnAddIngredientClickedInDialogListener,
-            AddPreparationStepDialog.OnAddPreparationStepClickedInDialogListener {
+            AddPreparationStepDialog.OnAddPreparationStepClickedInDialogListener,
+            EditMealsDialog.SaveMealsSelectionDialogListener {
         void openCamera();
 
         void closeBottomSheet();
@@ -53,6 +58,9 @@ public interface RecipeManipulationContract {
         void hideLoading();
 
         void showAddPreparationStepDialog();
+
+        void openEditMealsDialog(ArrayList<Integer> selectedMeals);
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -65,7 +73,8 @@ public interface RecipeManipulationContract {
             RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener,
             RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener,
             RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener,
-            RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener {
+            RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener,
+            RecipeManipulationMealsViewHolder.OnEditMealsClickedListener {
 
         void startEditMode(int recipeId);
 
@@ -82,5 +91,8 @@ public interface RecipeManipulationContract {
         void addIngredient(int groceryId, float amount, int unitId);
 
         void addPreparationStep(String description);
+
+        void updateMeals(ArrayList<MealDisplayModel> selectedMeals);
+
     }
 }
