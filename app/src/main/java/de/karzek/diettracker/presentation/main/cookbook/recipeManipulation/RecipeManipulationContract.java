@@ -12,6 +12,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
@@ -56,7 +57,9 @@ public interface RecipeManipulationContract {
             RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener,
             RecipeManipulationItemAddViewHolder.OnAddManualIngredientClickListener,
             RecipeManipulationItemAddViewHolder.OnStartGrocerySearchClickListener,
-            RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener {
+            RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener,
+            RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener,
+            RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener {
 
         void startEditMode(int recipeId);
 

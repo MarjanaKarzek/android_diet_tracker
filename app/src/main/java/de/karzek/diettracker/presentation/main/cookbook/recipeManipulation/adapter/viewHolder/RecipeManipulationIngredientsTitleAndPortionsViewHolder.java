@@ -39,6 +39,10 @@ public class RecipeManipulationIngredientsTitleAndPortionsViewHolder extends Rec
 
         this.onPortionChangedListener = onPortionChangedListener;
 
+        setupPortionsChangedListener();
+    }
+
+    private void setupPortionsChangedListener() {
         portions.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

@@ -1,9 +1,14 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,29 +25,60 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
  */
 public class RecipeManipulationPreparationStepItemViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recipe_image) ImageView imageView;
+    @BindView(R.id.preparation_step_number) TextView stepNumber;
+    @BindView(R.id.preparation_step_text) EditText description;
 
-    private final OnDeleteImageClickListener onDeleteImageClickListener;
+    private final OnDeletePreparationStepClickedListener onDeletePreparationStepClickedListener;
+    private final OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener;
 
     public RecipeManipulationPreparationStepItemViewHolder(ViewGroup viewGroup,
-                                                           OnDeleteImageClickListener onDeleteImageClickListener) {
+                                                           OnDeletePreparationStepClickedListener onDeletePreparationStepClickedListener,
+                                                           OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.viewholder_recipe_man_photo, viewGroup, false));
+                .inflate(R.layout.viewholder_recipe_man_preparation_step, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
-        this.onDeleteImageClickListener = onDeleteImageClickListener;
+        this.onDeletePreparationStepClickedListener = onDeletePreparationStepClickedListener;
+        this.onEditPreparationStepFinishedListener = onEditPreparationStepFinishedListener;
+
+        setupDescriptionChangedListener();
+    }
+
+    private void setupDescriptionChangedListener() {
+        description.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    onEditPreparationStepFinishedListener.onEditPreparationStepFinished((int) itemView.getTag(), description.getText().toString());
+                }
+                return true;
+            }
+        });
+        description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                onEditPreparationStepFinishedListener.onEditPreparationStepFinished((int) itemView.getTag(), description.getText().toString());
+            }
+        });
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        imageView.setImageBitmap(item.getImage());
+        stepNumber.setText(item.getPreparationStepDisplayModel().getStepNo());
+        description.setText(item.getPreparationStepDisplayModel().getDescription());
+
+        itemView.setTag(item.getPreparationStepDisplayModel().getId());
     }
 
-    @OnClick(R.id.delete_image) public void onDeleteImageClicked() {
-        onDeleteImageClickListener.onDeleteImageClicked();
+    @OnClick(R.id.action_delete) public void onDeletePreparationStepClicked() {
+        onDeletePreparationStepClickedListener.onDeletePreparationStepClicked((int) itemView.getTag());
     }
 
-    public interface OnDeleteImageClickListener {
-        void onDeleteImageClicked();
+    public interface OnDeletePreparationStepClickedListener {
+        void onDeletePreparationStepClicked(int id);
+    }
+
+    public interface OnEditPreparationStepFinishedListener {
+        void onEditPreparationStepFinished(int id, String description);
     }
 
 }

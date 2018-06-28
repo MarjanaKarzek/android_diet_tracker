@@ -191,4 +191,14 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public void onStartBarcodeScanClicked() {
         view.startBarcodeScan();
     }
+
+    @Override
+    public void onDeletePreparationStepClicked(int id) {
+
+    }
+
+    @Override
+    public void onEditPreparationStepFinished(int id, String description) {
+
+    }
 }

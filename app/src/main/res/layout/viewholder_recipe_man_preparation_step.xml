@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/preparation_step_number"
+        style="@style/Headline2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        android:gravity="center_vertical"
+        tools:text="1" />
+
+    <EditText
+        android:id="@+id/preparation_step_text"
+        style="@style/Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:textColor="@color/textPrimary"
+        tools:text="Die trockenen Zutaten in einer großen Schüssel vermengen. Währenddessen den Backofen auf 180° vorheizen." />
+
+    <ImageButton
+        android:id="@+id/action_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:src="@drawable/ic_delete_accent" />
+
+</LinearLayout>
