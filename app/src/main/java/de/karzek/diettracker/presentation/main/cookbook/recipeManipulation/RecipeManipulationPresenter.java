@@ -13,6 +13,7 @@ import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
+import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -128,6 +129,12 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     }
 
     @Override
+    public void addPreparationStep(String description) {
+        displayModel.getSteps().add(new PreparationStepDisplayModel(-1, displayModel.getSteps().size()+1 ,description));
+        view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
     public void setView(RecipeManipulationContract.View view) {
         this.view = view;
     }
@@ -194,11 +201,21 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onDeletePreparationStepClicked(int id) {
+        displayModel.getSteps().remove(id);
 
+        for(int i = id; i < displayModel.getSteps().size(); i++)
+            displayModel.getSteps().get(i).setStepNo(i+1);
+
+        view.setupViewsInRecyclerView(displayModel);
     }
 
     @Override
     public void onEditPreparationStepFinished(int id, String description) {
+        displayModel.getSteps().get(id).setDescription(description);
+    }
 
+    @Override
+    public void onAddPreparationStepClicked() {
+        view.showAddPreparationStepDialog();
     }
 }

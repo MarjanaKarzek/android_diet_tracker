@@ -112,5 +112,7 @@
     <string name="add_ingredient_dialog_action">Hinzufügen</string>
     <string name="error_message_missing_product_name">Bitte Produkt Namen angeben</string>
     <string name="recipe_man_preparation_steps_title">Zubereitung</string>
+    <string name="add_preparation_step_description">Beschreibung</string>
+    <string name="error_message_missing_preparation_step_description">Bitte Beschreibung angeben</string>
 
 </resources>

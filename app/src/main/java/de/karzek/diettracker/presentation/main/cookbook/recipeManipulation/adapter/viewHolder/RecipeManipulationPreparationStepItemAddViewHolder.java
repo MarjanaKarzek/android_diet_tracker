@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adap
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import butterknife.BindView;
@@ -20,29 +21,26 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
  */
 public class RecipeManipulationPreparationStepItemAddViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recipe_image) ImageView imageView;
-
-    private final OnDeleteImageClickListener onDeleteImageClickListener;
+    private final OnAddPreparationStepClickedListener onAddPreparationStepClickedListener;
 
     public RecipeManipulationPreparationStepItemAddViewHolder(ViewGroup viewGroup,
-                                                              OnDeleteImageClickListener onDeleteImageClickListener) {
+                                                              OnAddPreparationStepClickedListener onAddPreparationStepClickedListener) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.viewholder_recipe_man_photo, viewGroup, false));
+                .inflate(R.layout.viewholder_recipe_man_preparation_step_add, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
-        this.onDeleteImageClickListener = onDeleteImageClickListener;
+        this.onAddPreparationStepClickedListener = onAddPreparationStepClickedListener;
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        imageView.setImageBitmap(item.getImage());
     }
 
-    @OnClick(R.id.delete_image) public void onDeleteImageClicked() {
-        onDeleteImageClickListener.onDeleteImageClicked();
+    @OnClick(R.id.add_preparation_step) public void onAddPreparationStepClickedListener() {
+        onAddPreparationStepClickedListener.onAddPreparationStepClicked();
     }
 
-    public interface OnDeleteImageClickListener {
-        void onDeleteImageClicked();
+    public interface OnAddPreparationStepClickedListener {
+        void onAddPreparationStepClicked();
     }
 
 }

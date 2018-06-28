@@ -12,8 +12,10 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
@@ -28,7 +30,8 @@ import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 public interface RecipeManipulationContract {
 
     interface View extends BaseView<Presenter>,
-            AddIngredientDialog.OnAddIngredientClickedInDialogListener {
+            AddIngredientDialog.OnAddIngredientClickedInDialogListener,
+            AddPreparationStepDialog.OnAddPreparationStepClickedInDialogListener {
         void openCamera();
 
         void closeBottomSheet();
@@ -48,6 +51,8 @@ public interface RecipeManipulationContract {
         void showLoading();
 
         void hideLoading();
+
+        void showAddPreparationStepDialog();
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -59,7 +64,8 @@ public interface RecipeManipulationContract {
             RecipeManipulationItemAddViewHolder.OnStartGrocerySearchClickListener,
             RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener,
             RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener,
-            RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener {
+            RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener,
+            RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener {
 
         void startEditMode(int recipeId);
 
@@ -74,5 +80,7 @@ public interface RecipeManipulationContract {
         void addManualIngredient(ManualIngredientDisplayModel manualIngredientDisplayModel);
 
         void addIngredient(int groceryId, float amount, int unitId);
+
+        void addPreparationStep(String description);
     }
 }

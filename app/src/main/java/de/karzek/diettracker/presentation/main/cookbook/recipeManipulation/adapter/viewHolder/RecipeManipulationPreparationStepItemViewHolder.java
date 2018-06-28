@@ -62,11 +62,11 @@ public class RecipeManipulationPreparationStepItemViewHolder extends RecyclerVie
         });
     }
 
-    public void bind(RecipeManipulationViewItemWrapper item) {
-        stepNumber.setText(item.getPreparationStepDisplayModel().getStepNo());
+    public void bind(RecipeManipulationViewItemWrapper item, int innerListId) {
+        stepNumber.setText("" + item.getPreparationStepDisplayModel().getStepNo());
         description.setText(item.getPreparationStepDisplayModel().getDescription());
 
-        itemView.setTag(item.getPreparationStepDisplayModel().getId());
+        itemView.setTag(innerListId);
     }
 
     @OnClick(R.id.action_delete) public void onDeletePreparationStepClicked() {

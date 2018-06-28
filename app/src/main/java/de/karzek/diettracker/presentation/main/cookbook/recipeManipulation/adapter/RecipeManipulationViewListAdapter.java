@@ -12,6 +12,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepTitleViewHolder;
 
@@ -26,6 +27,8 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
 
     private ArrayList<RecipeManipulationViewItemWrapper> list;
 
+    private int currentPreparationStepInnerListId = 0;
+
     private RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener;
     private RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener;
     private RecipeManipulationManualIngredientItemViewHolder.OnDeleteIngredientClickListener onDeleteManualIngredientClickListener;
@@ -35,6 +38,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
     private RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener onStartBarcodeScanClickListener;
     private RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener onDeletePreparationStepClickedListener;
     private RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener;
+    private RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener onAddPreparationStepClickedListener;
 
     public RecipeManipulationViewListAdapter(RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener,
                                              RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener,
@@ -44,7 +48,8 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
                                              RecipeManipulationItemAddViewHolder.OnStartGrocerySearchClickListener onStartGrocerySearchClickListener,
                                              RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener onStartBarcodeScanClickListener,
                                              RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener onDeletePreparationStepClickedListener,
-                                             RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener){
+                                             RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener,
+                                             RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener onAddPreparationStepClickedListener){
         list = new ArrayList<>();
 
         this.onDeleteImageClickListener = onDeleteImageClickListener;
@@ -56,6 +61,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
         this.onStartBarcodeScanClickListener = onStartBarcodeScanClickListener;
         this.onDeletePreparationStepClickedListener = onDeletePreparationStepClickedListener;
         this.onEditPreparationStepFinishedListener = onEditPreparationStepFinishedListener;
+        this.onAddPreparationStepClickedListener = onAddPreparationStepClickedListener;
     }
 
     @NonNull
@@ -77,7 +83,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM:
                 return new RecipeManipulationPreparationStepItemViewHolder(parent, onDeletePreparationStepClickedListener, onEditPreparationStepFinishedListener);
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM_ADD_VIEW:
-                //return new RecipeManipulationPreparationStepItemAddViewHolder();
+                return new RecipeManipulationPreparationStepItemAddViewHolder(parent, onAddPreparationStepClickedListener);
             case RecipeManipulationViewItemWrapper.ItemType.MEALS_TITLE_VIEW:
                 //return new RecipeManipulationMealsTitleViewHolder();
             case RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM:
@@ -108,7 +114,10 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
         } else if (holder instanceof RecipeManipulationPreparationStepTitleViewHolder){
             ((RecipeManipulationPreparationStepTitleViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeManipulationPreparationStepItemViewHolder){
-            ((RecipeManipulationPreparationStepItemViewHolder) holder).bind(list.get(position));
+            ((RecipeManipulationPreparationStepItemViewHolder) holder).bind(list.get(position), currentPreparationStepInnerListId);
+            currentPreparationStepInnerListId++;
+        } else if (holder instanceof RecipeManipulationPreparationStepItemAddViewHolder){
+            ((RecipeManipulationPreparationStepItemAddViewHolder) holder).bind(list.get(position));
         }
     }
 
@@ -118,6 +127,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
     }
 
     public void setList(ArrayList<RecipeManipulationViewItemWrapper> list){
+        currentPreparationStepInnerListId = 0;
         this.list = list;
         notifyDataSetChanged();
     }
@@ -126,8 +136,4 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
         return list.get(position).getType();
     }
 
-    public void removeItem(int position) {
-        list.remove(position);
-        notifyDataSetChanged();
-    }
 }
