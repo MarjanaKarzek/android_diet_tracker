@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.main.settings.dialog;
+package de.karzek.diettracker.presentation.main.settings.dialog.editMealTime;
 
 import android.os.Bundle;
 import android.provider.CalendarContract;

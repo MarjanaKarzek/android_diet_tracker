@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.dependencyInjection.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditAllergensDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AppModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
@@ -17,6 +18,8 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeManipulationModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
@@ -32,7 +35,15 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
  * @date 28.04.2018
  */
 @Singleton
-@Component(modules = {AppModule.class, AndroidModule.class, SplashModule.class, MainModule.class, FoodSearchModule.class, FoodDetailsModule.class, BarcodeScannerModule.class, RecipeManipulationModule.class})
+@Component(modules = {AppModule.class,
+        AndroidModule.class,
+        SplashModule.class,
+        MainModule.class,
+        FoodSearchModule.class,
+        FoodDetailsModule.class,
+        BarcodeScannerModule.class,
+        RecipeManipulationModule.class,
+        AllergenModule.class})
 public interface AppComponent {
 
     HomeComponent plus(HomeModule module);
@@ -46,6 +57,8 @@ public interface AppComponent {
     GenericMealComponent plus(GenericMealModule module);
 
     GenericDrinkComponent plus(GenericDrinkModule module);
+
+    EditAllergensDialogComponent plus(EditAllergensDialogModule module);
 
     void inject(SplashActivity activity);
 

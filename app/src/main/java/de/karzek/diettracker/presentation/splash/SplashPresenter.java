@@ -2,13 +2,7 @@ package de.karzek.diettracker.presentation.splash;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.domain.interactor.manager.InitializeSharedPreferencesUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.allergen.PutAllAllergensUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.grocery.PutAllGroceriesUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.manager.managerInterface.InitializeSharedPreferencesUseCase;
-import de.karzek.diettracker.domain.interactor.useCase.meal.PutAllMealsUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.serving.PutAllServingsUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.unit.PutAllUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.PutAllAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.PutAllGroceriesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.PutAllMealsUseCase;
@@ -57,7 +51,7 @@ public class SplashPresenter implements SplashContract.Presenter {
     private PutAllAllergensUseCase putAllAllergensUseCase;
     private PutAllGroceriesUseCase putAllGroceriesUseCase;
     private PutAllMealsUseCase putAllMealsUseCase;
-    private InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase;
+    private SharedPreferencesManager sharedPreferencesManager;
 
     private UnitUIMapper unitMapper;
     private ServingUIMapper servingMapper;
@@ -78,7 +72,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                            PutAllAllergensUseCase putAllAllergensUseCase,
                            PutAllGroceriesUseCase putAllGroceriesUseCase,
                            PutAllMealsUseCase putAllMealsUseCase,
-                           InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase,
+                           SharedPreferencesManager sharedPreferencesManager,
                            UnitUIMapper unitMapper,
                            ServingUIMapper servingMapper,
                            AllergenUIMapper allergenMapper,
@@ -91,7 +85,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         this.putAllAllergensUseCase = putAllAllergensUseCase;
         this.putAllGroceriesUseCase = putAllGroceriesUseCase;
         this.putAllMealsUseCase = putAllMealsUseCase;
-        this.initializeSharedPreferencesUseCase = initializeSharedPreferencesUseCase;
+        this.sharedPreferencesManager = sharedPreferencesManager;
 
         this.unitMapper = unitMapper;
         this.servingMapper = servingMapper;
@@ -128,11 +122,37 @@ public class SplashPresenter implements SplashContract.Presenter {
         paprikaServings.add(paprika_0);
 
         //allergens
-        AllergenDisplayModel lactose = new AllergenDisplayModel(0, "Lactose");
-        AllergenDisplayModel fructose = new AllergenDisplayModel(1, "Fructose");
+        AllergenDisplayModel eggs = new AllergenDisplayModel(0, "Eier");
+        AllergenDisplayModel peanuts = new AllergenDisplayModel(1, "Erdnüsse");
+        AllergenDisplayModel fish = new AllergenDisplayModel(2, "Fisch");
+        AllergenDisplayModel fructose = new AllergenDisplayModel(3, "Fruktose");
+        AllergenDisplayModel gluten = new AllergenDisplayModel(4, "Gluten");
+        AllergenDisplayModel hazelnut = new AllergenDisplayModel(5, "Haselnüsse");
+        AllergenDisplayModel crustaceans = new AllergenDisplayModel(6, "Krebstiere");
+        AllergenDisplayModel lactose = new AllergenDisplayModel(7, "Laktose");
+        AllergenDisplayModel nuts = new AllergenDisplayModel(8, "Schalenfrüchte");
+        AllergenDisplayModel celery = new AllergenDisplayModel(9, "Sellerie");
+        AllergenDisplayModel mustard = new AllergenDisplayModel(10, "Senf");
+        AllergenDisplayModel sesame = new AllergenDisplayModel(11, "Sesamsamen");
+        AllergenDisplayModel soy = new AllergenDisplayModel(12, "Soja");
+        AllergenDisplayModel sulfites = new AllergenDisplayModel(13, "Sulfite");
+        AllergenDisplayModel walnuts = new AllergenDisplayModel(14, "Walnüsse");
 
-        allergens.add(lactose);
+        allergens.add(eggs);
+        allergens.add(peanuts);
+        allergens.add(fish);
         allergens.add(fructose);
+        allergens.add(gluten);
+        allergens.add(hazelnut);
+        allergens.add(crustaceans);
+        allergens.add(lactose);
+        allergens.add(nuts);
+        allergens.add(celery);
+        allergens.add(mustard);
+        allergens.add(sesame);
+        allergens.add(soy);
+        allergens.add(sulfites);
+        allergens.add(walnuts);
 
         ArrayList<AllergenDisplayModel> colaAllergens = new ArrayList<>();
         colaAllergens.add(fructose);
@@ -160,14 +180,14 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void start() {
         if (!sharedPreferencesUtil.getBoolean(KEY_APP_INITIALIZED, false)) {
-            Disposable subs = Observable.zip(
-                    initializeSharedPreferencesUseCase.execute(new InitializeSharedPreferencesUseCase.Input()),
+            sharedPreferencesManager.initializeStandardValues();
+            compositeDisposable.add(Observable.zip(
                     putAllUnitsUseCase.execute(new PutAllUnitsUseCase.Input(unitMapper.transformAllToDomain(units))),
                     putAllServingsUseCase.execute(new PutAllServingsUseCase.Input(servingMapper.transformAllToDomain(servings))),
                     putAllAllergensUseCase.execute(new PutAllAllergensUseCase.Input(allergenMapper.transformAllToDomain(allergens))),
                     putAllGroceriesUseCase.execute(new PutAllGroceriesUseCase.Input(groceryMapper.transformAllToDomain(groceries))),
                     putAllMealsUseCase.execute(new PutAllMealsUseCase.Input(mealMapper.transformAllToDomain(meals))),
-                    (output1, output2, output3, output4, output5, output6) -> (output1.getStatus() + output2.getStatus() + output3.getStatus() + output4.getStatus() + output5.getStatus()) + output6.getStatus())
+                    (output1, output2, output3, output4, output5) -> (output1.getStatus() + output2.getStatus() + output3.getStatus() + output4.getStatus() + output5.getStatus()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output -> {
@@ -176,8 +196,7 @@ public class SplashPresenter implements SplashContract.Presenter {
                                 //else
                                 //todo handle error
                             }
-                    );
-            compositeDisposable.add(subs);
+                    ));
         } else
             view.startMainActivity();
     }

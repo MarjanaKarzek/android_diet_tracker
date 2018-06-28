@@ -4,14 +4,17 @@ import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.UpdateMealTimeUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllergenByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.UpdateMealTimeUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
 import de.karzek.diettracker.presentation.main.settings.SettingsContract;
 import de.karzek.diettracker.presentation.main.settings.SettingsPresenter;
+import de.karzek.diettracker.presentation.mapper.AllergenUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
@@ -42,13 +45,19 @@ public class SettingsModule {
     @Provides
     SettingsContract.Presenter provideSettingsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                                         GetAllMealsUseCase getAllMealsUseCase,
+                                                        GetAllergenByIdUseCase getAllergenByIdUseCase,
+                                                        SharedPreferencesManager sharedPreferencesManager,
                                                         Lazy<GetMealByIdUseCase> getMealByIdUseCase,
                                                         Lazy<UpdateMealTimeUseCase> updateMealTimeUseCase,
-                                                        MealUIMapper mealMapper) {
+                                                        MealUIMapper mealMapper,
+                                                        AllergenUIMapper allergenMapper) {
         return new SettingsPresenter(sharedPreferencesUtil,
                 getAllMealsUseCase,
+                getAllergenByIdUseCase,
+                sharedPreferencesManager,
                 getMealByIdUseCase,
                 updateMealTimeUseCase,
-                mealMapper);
+                mealMapper,
+                allergenMapper);
     }
 }

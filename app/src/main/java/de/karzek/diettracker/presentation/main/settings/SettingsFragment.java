@@ -33,7 +33,8 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.settings.adapter.SettingsMealListAdapter;
-import de.karzek.diettracker.presentation.main.settings.dialog.EditMealTimeDialog;
+import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.EditAllergensDialog;
+import de.karzek.diettracker.presentation.main.settings.dialog.editMealTime.EditMealTimeDialog;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -257,7 +258,7 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
                 allergenDescription += ", ";
         }
 
-        if (allergenDescription.equals(""))
+        if (allergens.size() == 0)
             allergenDescription = getString(R.string.no_allergens_set_placeholder);
 
         allergenText.setText(allergenDescription);
@@ -318,6 +319,18 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
+    public void showEditAllergenDialog() {
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        Fragment previous = getFragmentManager().findFragmentByTag("dialog");
+        if (previous != null)
+            fragmentTransaction.remove(previous);
+        fragmentTransaction.addToBackStack(null);
+
+        AppCompatDialogFragment dialogFragment = new EditAllergensDialog();
+        dialogFragment.show(fragmentTransaction,"dialog");
+    }
+
+    @Override
     public void updateRecyclerView() {
         recyclerViewMeals.getAdapter().notifyDataSetChanged();
     }
@@ -334,7 +347,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         if(expandableLiquidLayout.isExpanded()){
             collapseExpandableLayout(expandableLiquidLayout, expandableLiquidLayoutAction);
         } else {
-
             expandExpandableLayout(expandableLiquidLayout, expandableLiquidLayoutAction);
         }
     }
@@ -343,7 +355,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         if(expandableMealsLayout.isExpanded()){
             collapseExpandableLayout(expandableMealsLayout, expandableMealsLayoutAction);
         } else {
-
             expandExpandableLayout(expandableMealsLayout, expandableMealsLayoutAction);
         }
     }
@@ -352,7 +363,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         if(expandableAllergiesLayout.isExpanded()){
             collapseExpandableLayout(expandableAllergiesLayout, expandableAllergiesLayoutAction);
         } else {
-
             expandExpandableLayout(expandableAllergiesLayout, expandableAllergiesLayoutAction);
         }
     }
@@ -361,7 +371,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         if(expandableDataLayout.isExpanded()){
             collapseExpandableLayout(expandableDataLayout, expandableDataLayoutAction);
         } else {
-
             expandExpandableLayout(expandableDataLayout, expandableDataLayoutAction);
         }
     }
@@ -370,7 +379,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         if(expandableStartScreenLayout.isExpanded()){
             collapseExpandableLayout(expandableStartScreenLayout, expandableStartScreenLayoutAction);
         } else {
-
             expandExpandableLayout(expandableStartScreenLayout, expandableStartScreenLayoutAction);
         }
     }
@@ -380,6 +388,10 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             Toast.makeText(getContext(),R.string.error_message_only_ten_supported_meals, Toast.LENGTH_LONG).show();
         else
             ((SettingsMealListAdapter)recyclerViewMeals.getAdapter()).addItem(new MealDisplayModel(-1, "", "",""));
+    }
+
+    @OnClick(R.id.text_allergies) public void onEditAllergensClicked(){
+        presenter.onEditAllergensClicked();
     }
 
     private void collapseExpandableLayout(ExpandableLayout layout, ImageButton action){
@@ -395,5 +407,10 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     @Override
     public void saveMealTime(int id, String startTime, String endTime) {
         presenter.updateMealTime(id, startTime, endTime);
+    }
+
+    @Override
+    public void updateAllergens() {
+        presenter.updateAllergens();
     }
 }

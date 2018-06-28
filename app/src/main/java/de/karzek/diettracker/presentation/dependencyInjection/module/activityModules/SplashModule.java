@@ -27,8 +27,8 @@ import de.karzek.diettracker.data.repository.repositoryInterface.GroceryReposito
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.data.repository.repositoryInterface.ServingRepository;
 import de.karzek.diettracker.data.repository.repositoryInterface.UnitRepository;
-import de.karzek.diettracker.domain.interactor.manager.InitializeSharedPreferencesUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.manager.managerInterface.InitializeSharedPreferencesUseCase;
+import de.karzek.diettracker.domain.interactor.manager.SharedPreferencesManagerImpl;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.allergen.PutAllAllergensUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.grocery.PutAllGroceriesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.PutAllMealsUseCaseImpl;
@@ -78,11 +78,6 @@ public class SplashModule {
     }
 
     @Provides
-    AllergenDataMapper provideAllergenDataMapper(){
-        return new AllergenDataMapper();
-    }
-
-    @Provides
     GroceryDataMapper provideGroceryDataMapper(){
         return new GroceryDataMapper();
     }
@@ -102,11 +97,6 @@ public class SplashModule {
     @Provides
     ServingCache provideServingCacheImpl(){
         return new ServingCacheImpl();
-    }
-
-    @Provides
-    AllergenCache provideAllergenCacheImpl(){
-        return new AllergenCacheImpl();
     }
 
     @Provides
@@ -141,11 +131,6 @@ public class SplashModule {
         return new MealRepositoryImpl(mealCache, mapper);
     }
 
-    @Provides
-    AllergenRepository provideAllergenRepositoryImpl(AllergenCache mealCache, AllergenDataMapper mapper){
-        return new AllergenRepositoryImpl(mealCache, mapper);
-    }
-
     //domain
 
     //mapper
@@ -170,11 +155,6 @@ public class SplashModule {
         return new MealDomainMapper();
     }
 
-    @Provides
-    AllergenDomainMapper provideAllergenDomainMapper(){
-        return new AllergenDomainMapper();
-    }
-
     //use case
 
     @Provides
@@ -188,11 +168,6 @@ public class SplashModule {
     }
 
     @Provides
-    PutAllAllergensUseCase providePutAllAllergensUseCaseImpl(AllergenRepository repository, AllergenDomainMapper mapper){
-        return new PutAllAllergensUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
     PutAllGroceriesUseCase providePutAllGroceriesUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
         return new PutAllGroceriesUseCaseImpl(repository, mapper);
     }
@@ -203,8 +178,8 @@ public class SplashModule {
     }
 
     @Provides
-    InitializeSharedPreferencesUseCase provideInitializeSharedPreferencesUseCaseImpl(SharedPreferencesUtil sharedPreferencesUtil){
-        return new InitializeSharedPreferencesUseCaseImpl(sharedPreferencesUtil);
+    SharedPreferencesManager provideInitializeSharedPreferencesUseCaseImpl(SharedPreferencesUtil sharedPreferencesUtil){
+        return new SharedPreferencesManagerImpl(sharedPreferencesUtil);
     }
 
     //presentation
@@ -232,18 +207,13 @@ public class SplashModule {
     }
 
     @Provides
-    AllergenUIMapper providAllergenUIMapper(){
-        return new AllergenUIMapper();
-    }
-
-    @Provides
     SplashContract.Presenter provideSplashPresenter(SharedPreferencesUtil sharedPreferencesUtil,
                                                     PutAllUnitsUseCase putAllUnitsUseCase,
                                                     PutAllServingsUseCase putAllServingsUseCase,
                                                     PutAllAllergensUseCase putAllAllergensUseCase,
                                                     PutAllGroceriesUseCase putAllGroceriesUseCase,
                                                     PutAllMealsUseCase putAllMealsUseCase,
-                                                    InitializeSharedPreferencesUseCase initializeSharedPreferencesUseCase,
+                                                    SharedPreferencesManager sharedPreferencesManager,
                                                     UnitUIMapper unitMapper,
                                                     ServingUIMapper servingMapper,
                                                     AllergenUIMapper allergenMapper,
@@ -255,7 +225,7 @@ public class SplashModule {
                 putAllAllergensUseCase,
                 putAllGroceriesUseCase,
                 putAllMealsUseCase,
-                initializeSharedPreferencesUseCase,
+                sharedPreferencesManager,
                 unitMapper,
                 servingMapper,
                 allergenMapper,

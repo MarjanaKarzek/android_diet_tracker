@@ -17,4 +17,7 @@ public interface AllergenDataSource {
 
     Observable<Boolean> putAllAllergens(List<AllergenEntity> allergenEntities);
 
+    Observable<AllergenEntity> getAllergenById(Integer id);
+
+    Observable<List<AllergenEntity>> getAllAllergens();
 }

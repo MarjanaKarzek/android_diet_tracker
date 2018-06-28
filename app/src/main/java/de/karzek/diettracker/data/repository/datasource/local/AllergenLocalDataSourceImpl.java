@@ -29,4 +29,14 @@ public class AllergenLocalDataSourceImpl implements AllergenDataSource {
     public Observable<Boolean> putAllAllergens(List<AllergenEntity> allergenEntities) {
         return allergenCache.putAllAllergens(allergenEntities);
     }
+
+    @Override
+    public Observable<AllergenEntity> getAllergenById(Integer id) {
+        return allergenCache.getAllergenById(id);
+    }
+
+    @Override
+    public Observable<List<AllergenEntity>> getAllAllergens() {
+        return allergenCache.getAllAllergens();
+    }
 }

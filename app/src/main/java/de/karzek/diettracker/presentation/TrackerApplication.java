@@ -16,6 +16,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.component.GenericD
 import de.karzek.diettracker.presentation.dependencyInjection.component.GenericMealComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.HomeComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.SettingsComponent;
+import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditAllergensDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule;
@@ -23,6 +24,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrin
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
 
 /**
  * Created by MarjanaKarzek on 28.04.2018.
@@ -41,6 +43,7 @@ public class TrackerApplication extends Application {
     private SettingsComponent settingsComponent;
     private GenericMealComponent genericMealComponent;
     private GenericDrinkComponent genericDrinkComponent;
+    private EditAllergensDialogComponent editAllergensDialogComponent;
 
     private RefWatcher refwatcher;
 
@@ -122,6 +125,14 @@ public class TrackerApplication extends Application {
         return genericDrinkComponent;
     }
 
+    public EditAllergensDialogComponent createEditAllergensDialogComponent() {
+        if (editAllergensDialogComponent != null) {
+            return editAllergensDialogComponent;
+        }
+        editAllergensDialogComponent = appComponent.plus(new EditAllergensDialogModule());
+        return editAllergensDialogComponent;
+    }
+
     //Release Components
     public void releaseHomeComponent() {
         homeComponent = null;
@@ -147,4 +158,7 @@ public class TrackerApplication extends Application {
         genericDrinkComponent = null;
     }
 
+    public void releaseEditAllergensDialogComponent() {
+        editAllergensDialogComponent = null;
+    }
 }

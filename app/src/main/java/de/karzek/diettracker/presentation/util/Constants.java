@@ -17,4 +17,5 @@ public class Constants {
 
     public static final int ZXING_CAMERA_PERMISSION = 1;
     public static final int ADD_INGREDIENT_INTENT_RESULT = 2001;
+    public static String SHARED_PREFERENCES_SPLIT_ARRAY_CHAR = ";";
 }

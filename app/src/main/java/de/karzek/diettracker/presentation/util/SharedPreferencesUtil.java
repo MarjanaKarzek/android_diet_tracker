@@ -38,6 +38,9 @@ public class SharedPreferencesUtil {
     public static final String KEY_START_SCREEN_RECIPE = "KEY_START_SCREEN_RECIPE";
     public static final String KEY_START_SCREEN_LIQUIDS = "KEY_START_SCREEN_LIQUIDS";
 
+    public static final String KEY_ALLERGENS = "KEY_ALLERGENS";
+    private static final String VALUE_ALLERGENS = "";
+
     public static final boolean VALUE_TRUE = true;
     public static final boolean VALUE_FALSE = false;
 
@@ -60,6 +63,7 @@ public class SharedPreferencesUtil {
                     .putFloat(KEY_REQUIREMENT_LIQUID_DAILY, VALUE_REQUIREMENT_LIQUID_DAILY)
                     .putBoolean(KEY_START_SCREEN_RECIPE, VALUE_TRUE)
                     .putBoolean(KEY_START_SCREEN_LIQUIDS, VALUE_TRUE)
+                    .putString(KEY_ALLERGENS, VALUE_ALLERGENS)
                     .apply();
             return true;
         } catch (Exception e) {
@@ -81,6 +85,12 @@ public class SharedPreferencesUtil {
 
     public int getInt(String key, int defaultValue) {
         return sharedPreferences.getInt(key, defaultValue);
+    }
+
+    public void setString(String key, String value) {
+        sharedPreferences.edit()
+                .putString(key, value)
+                .apply();
     }
 
     public void setInt(String key, int value) {

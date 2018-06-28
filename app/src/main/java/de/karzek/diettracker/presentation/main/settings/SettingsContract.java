@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.settings.adapter.viewHolder.SettingsMealViewHolder;
-import de.karzek.diettracker.presentation.main.settings.dialog.EditMealTimeDialog;
+import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.EditAllergensDialog;
+import de.karzek.diettracker.presentation.main.settings.dialog.editMealTime.EditMealTimeDialog;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -22,7 +23,8 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 public interface SettingsContract {
 
     interface View extends BaseView<Presenter>,
-            EditMealTimeDialog.SaveMealTimeDialogListener {
+            EditMealTimeDialog.SaveMealTimeDialogListener,
+            EditAllergensDialog.SaveAllergenSelectionDialogListener {
 
         void clearFocusOfView(EditText view);
 
@@ -33,6 +35,8 @@ public interface SettingsContract {
         void fillSettingsOptions(SharedPreferencesUtil sharedPreferencesUtil);
 
         void showMealEditTimeDialog(MealDisplayModel mealDisplayModel);
+
+        void showEditAllergenDialog();
 
         void updateRecyclerView();
     }
@@ -47,5 +51,9 @@ public interface SettingsContract {
         void updateSharedPreferenceFloatValue(String key, Float value);
 
         void updateMealTime(int id, String startTime, String endTime);
+
+        void onEditAllergensClicked();
+
+        void updateAllergens();
     }
 }

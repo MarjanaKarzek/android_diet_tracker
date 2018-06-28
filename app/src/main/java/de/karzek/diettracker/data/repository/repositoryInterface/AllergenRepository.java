@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.karzek.diettracker.data.model.AllergenDataModel;
 import de.karzek.diettracker.data.model.ServingDataModel;
+import de.karzek.diettracker.domain.model.AllergenDomainModel;
 import io.reactivex.Observable;
 
 /**
@@ -17,4 +18,7 @@ public interface AllergenRepository {
 
     Observable<Boolean> putAllAllergens(List<AllergenDataModel> allergenDataModels);
 
+    Observable<AllergenDataModel> getAllergenById(Integer integer);
+
+    Observable<List<AllergenDataModel>> getAllAllergens();
 }
