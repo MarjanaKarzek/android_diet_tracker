@@ -11,6 +11,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationIngredientsTitleAndPortionsViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationManualIngredientItemViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationMealsTitleViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
@@ -85,7 +86,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             case RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM_ADD_VIEW:
                 return new RecipeManipulationPreparationStepItemAddViewHolder(parent, onAddPreparationStepClickedListener);
             case RecipeManipulationViewItemWrapper.ItemType.MEALS_TITLE_VIEW:
-                //return new RecipeManipulationMealsTitleViewHolder();
+                return new RecipeManipulationMealsTitleViewHolder(parent);
             case RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM:
                 //return new RecipeManipulationMealItemViewHolder();
             case RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM_ADD_VIEW:
@@ -118,6 +119,8 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             currentPreparationStepInnerListId++;
         } else if (holder instanceof RecipeManipulationPreparationStepItemAddViewHolder){
             ((RecipeManipulationPreparationStepItemAddViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeManipulationMealsTitleViewHolder){
+            ((RecipeManipulationMealsTitleViewHolder) holder).bind(list.get(position));
         }
     }
 

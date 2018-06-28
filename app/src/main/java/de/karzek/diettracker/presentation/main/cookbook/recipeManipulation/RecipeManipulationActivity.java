@@ -213,8 +213,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM, step));
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM_ADD_VIEW));
 
-        /*views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEALS_TITLE_VIEW));
-        for(MealDisplayModel meal:displayModel.getMeals())
+        views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEALS_TITLE_VIEW));
+        /*for(MealDisplayModel meal:displayModel.getMeals())
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM, meal));
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM_ADD_VIEW));
 
