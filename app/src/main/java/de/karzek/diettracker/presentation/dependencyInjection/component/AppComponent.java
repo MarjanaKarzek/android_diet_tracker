@@ -17,13 +17,16 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodSearchModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.MainModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeDetailsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeManipulationModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditMealsDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.FavoriteRecipeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.RecipeModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
@@ -46,6 +49,8 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         FoodDetailsModule.class,
         BarcodeScannerModule.class,
         RecipeManipulationModule.class,
+        RecipeDetailsModule.class,
+        FavoriteRecipeModule.class,
         AllergenModule.class,
         RecipeModule.class
 })
@@ -78,5 +83,7 @@ public interface AppComponent {
     void inject(BarcodeScannerActivity activity);
 
     void inject(RecipeManipulationActivity activity);
+
+    void inject(RecipeDetailsActivity activity);
 
 }

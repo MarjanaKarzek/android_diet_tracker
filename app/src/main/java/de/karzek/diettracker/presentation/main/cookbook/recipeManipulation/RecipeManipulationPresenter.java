@@ -10,6 +10,7 @@ import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.UpdateRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetUnitByIdUseCase;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
@@ -45,6 +46,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase;
     private Lazy<GetUnitByIdUseCase> getUnitByIdUseCase;
     private Lazy<PutRecipeUseCase> putRecipeUseCase;
+    private Lazy<UpdateRecipeUseCase> updateRecipeUseCase;
     private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
 
     private UnitUIMapper unitMapper;
@@ -61,6 +63,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                                        Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                        Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
                                        Lazy<PutRecipeUseCase> putRecipeUseCase,
+                                       Lazy<UpdateRecipeUseCase> updateRecipeUseCase,
                                        Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                        UnitUIMapper unitMapper,
                                        GroceryUIMapper groceryMapper,
@@ -69,6 +72,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getUnitByIdUseCase = getUnitByIdUseCase;
         this.putRecipeUseCase = putRecipeUseCase;
+        this.updateRecipeUseCase = updateRecipeUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.unitMapper = unitMapper;
         this.groceryMapper = groceryMapper;
@@ -90,6 +94,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                 .subscribe(output -> {
                     if (output.getStatus() == SUCCESS) {
                         recipe = recipeMapper.transform(output.getRecipe());
+                        view.setRecipeTitle(recipe.getTitle());
                         view.setupViewsInRecyclerView(recipe);
                     } else {
                         view.finishActivity();
@@ -185,7 +190,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void updateTitle(String text) {
-        recipe.setTitle(text);
+        if(recipe != null)
+            recipe.setTitle(text);
     }
 
     @Override
@@ -327,9 +333,23 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
             validRecipe = false;
         }
 
-        if (validRecipe) {
+        if (validRecipe && !editMode) {
             view.showLoading();
             compositeDisposable.add(putRecipeUseCase.get().execute(new PutRecipeUseCase.Input(recipeMapper.transformToDomain(recipe)))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(output -> {
+                        if (output.getStatus() == SUCCESS) {
+                            view.finishActivity();
+                        } else {
+                            view.hideLoading();
+                            view.showErrorWhileSavingRecipe();
+                        }
+                    })
+            );
+        } else if(validRecipe && editMode){
+            view.showLoading();
+            compositeDisposable.add(updateRecipeUseCase.get().execute(new UpdateRecipeUseCase.Input(recipeMapper.transformToDomain(recipe)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output -> {

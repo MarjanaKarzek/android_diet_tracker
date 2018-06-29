@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 
 import android.graphics.Bitmap;
+import android.support.annotation.IntDef;
 import android.text.Editable;
 
 import java.util.ArrayList;
@@ -78,6 +79,14 @@ public interface RecipeManipulationContract {
         void finishActivity();
 
         void showErrorWhileSavingRecipe();
+
+        void setRecipeTitle(String title);
+
+        int MODE_ADD_RECIPE = 0;
+        int MODE_EDIT_RECIPE = 1;
+
+        @IntDef({MODE_ADD_RECIPE, MODE_EDIT_RECIPE})
+        @interface RecipeManipulationMode {}
     }
 
     interface Presenter extends BasePresenter<View>,

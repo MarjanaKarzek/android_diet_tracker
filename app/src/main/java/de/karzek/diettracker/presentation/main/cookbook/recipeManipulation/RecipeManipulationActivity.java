@@ -86,15 +86,20 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @BindView(R.id.loading_view)
     FrameLayout loadingView;
 
-    private int mode;
+    private static int mode;
 
     private ArrayList<UnitDisplayModel> units;
 
-    public static Intent newIntent(Context context, @Nullable Integer recipeId) {
+    public static Intent newIntent(Context context) {
+        mode = MODE_ADD_RECIPE;
+        return new Intent(context, RecipeManipulationActivity.class);
+    }
+
+    public static Intent newEditRecipeIntent(Context context, int recipeId) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
 
-        if (recipeId != null)
-            intent.putExtra("recipeId", recipeId.intValue());
+        mode = MODE_EDIT_RECIPE;
+        intent.putExtra("recipeId", recipeId);
 
         return intent;
     }
@@ -128,19 +133,10 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         setupRecyclerView();
         setupTitleSetListener();
 
-        if (getIntent() != null) {
-            if (getIntent().getExtras() != null) {
-                if (getIntent().getExtras().containsKey("recipeId")) {
-                    mode = 1; //todo IntDef
-                    presenter.startEditMode(getIntent().getExtras().getInt("recipeId"));
-                } else {
-                    presenter.start();
-                }
-            } else {
-                presenter.start();
-            }
-        } else {
+        if (mode == MODE_ADD_RECIPE) {
             presenter.start();
+        } else if (mode == MODE_EDIT_RECIPE) {
+            presenter.startEditMode(getIntent().getExtras().getInt("recipeId"));
         }
     }
 
@@ -382,6 +378,11 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
+    public void setRecipeTitle(String title) {
+        titleView.setText(title);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -445,4 +446,5 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public void onOpenGalleryClickedInBottomSheet() {
         presenter.onOpenGalleryClicked();
     }
+
 }

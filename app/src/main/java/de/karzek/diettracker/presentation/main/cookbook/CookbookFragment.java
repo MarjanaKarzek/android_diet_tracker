@@ -29,6 +29,7 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.RecipeSearchResultListAdapter;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
@@ -154,11 +155,22 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
+    public void startRecipeDetailsActivity(int id) {
+        startActivity(RecipeDetailsActivity.newIntent(getContext(), id));
+        hideLoading();
+    }
+
+    @Override
+    public void startEditRecipe(int id) {
+        startActivity(RecipeManipulationActivity.newEditRecipeIntent(getContext(), id));
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return false;
     }
 
     @OnClick(R.id.add_recipe) public void onAddRecipeClicked(){
-        startActivity(RecipeManipulationActivity.newIntent(getContext(),null));
+        startActivity(RecipeManipulationActivity.newIntent(getContext()));
     }
 }

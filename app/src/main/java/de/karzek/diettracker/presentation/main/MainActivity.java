@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
         navigateToFragment(new HomeFragment(), "HomeFragment");
 
         presenter.setView(this);
-        setPresenter(presenter);
         presenter.start();
     }
 

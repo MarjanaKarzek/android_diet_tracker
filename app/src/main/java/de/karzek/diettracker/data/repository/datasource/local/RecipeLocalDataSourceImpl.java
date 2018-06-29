@@ -39,4 +39,9 @@ public class RecipeLocalDataSourceImpl implements RecipeDataSource {
     public Observable<RecipeEntity> getRecipeById(int id) {
         return recipeCache.getRecipeById(id);
     }
+
+    @Override
+    public Observable<Boolean> updateRecipe(RecipeEntity recipeEntity) {
+        return recipeCache.updateRecipe(recipeEntity);
+    }
 }

@@ -72,4 +72,13 @@ public class RecipeCacheImpl implements RecipeCache {
         return Observable.just(realm.copyFromRealm(realm.where(RecipeEntity.class).equalTo("id", id).findFirst()));
     }
 
+    @Override
+    public Observable<Boolean> updateRecipe(RecipeEntity recipeEntity) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.copyToRealmOrUpdate(recipeEntity);
+        realm.commitTransaction();
+        realm.close();
+        return Observable.just(true);
+    }
+
 }

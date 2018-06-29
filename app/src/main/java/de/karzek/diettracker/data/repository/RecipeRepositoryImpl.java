@@ -55,4 +55,9 @@ public class RecipeRepositoryImpl implements RecipeRepository {
             }
         });
     }
+
+    @Override
+    public Observable<Boolean> updateRecipe(RecipeDataModel recipe) {
+        return new RecipeLocalDataSourceImpl(recipeCache).updateRecipe(mapper.transformToEntity(recipe));
+    }
 }

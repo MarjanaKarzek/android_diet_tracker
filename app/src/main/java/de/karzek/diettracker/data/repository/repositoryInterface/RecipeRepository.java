@@ -15,10 +15,11 @@ import io.reactivex.Observable;
  */
 public interface RecipeRepository {
 
-    Observable<Boolean> putRecipe(RecipeDataModel recipeEntity);
+    Observable<Boolean> putRecipe(RecipeDataModel recipe);
 
     Observable<List<RecipeDataModel>> getAllRecipes();
 
     Observable<RecipeDataModel> getRecipeById(int id);
 
+    Observable<Boolean> updateRecipe(RecipeDataModel recipe);
 }

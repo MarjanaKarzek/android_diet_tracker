@@ -8,6 +8,7 @@ import de.karzek.diettracker.domain.interactor.useCase.unit.GetUnitByIdUseCaseIm
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.UpdateRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetUnitByIdUseCase;
 import de.karzek.diettracker.domain.mapper.UnitDomainMapper;
@@ -39,6 +40,7 @@ public class RecipeManipulationModule {
                                                                             Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                                                             Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
                                                                             Lazy<PutRecipeUseCase> putRecipeUseCase,
+                                                                            Lazy<UpdateRecipeUseCase> updateRecipeUseCase,
                                                                             Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                                                             UnitUIMapper unitMapper,
                                                                             GroceryUIMapper groceryMapper,
@@ -47,6 +49,7 @@ public class RecipeManipulationModule {
                 getGroceryByIdUseCase,
                 getUnitByIdUseCase,
                 putRecipeUseCase,
+                updateRecipeUseCase,
                 getRecipeByIdUseCase,
                 unitMapper,
                 groceryMapper,

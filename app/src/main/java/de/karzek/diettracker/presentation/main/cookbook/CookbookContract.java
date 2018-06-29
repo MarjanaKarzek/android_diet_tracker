@@ -29,6 +29,10 @@ public interface CookbookContract {
         void hideRecyclerView();
 
         void hidePlaceholder();
+
+        void startRecipeDetailsActivity(int id);
+
+        void startEditRecipe(int id);
     }
 
     interface Presenter extends BasePresenter<View>,

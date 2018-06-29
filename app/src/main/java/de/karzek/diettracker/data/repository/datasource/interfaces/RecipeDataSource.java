@@ -21,4 +21,6 @@ public interface RecipeDataSource {
 
     Observable<RecipeEntity> getRecipeById(int id);
 
+    Observable<Boolean> updateRecipe(RecipeEntity recipeEntity);
+
 }

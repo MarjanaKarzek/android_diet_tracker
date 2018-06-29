@@ -1,5 +1,6 @@
 package de.karzek.diettracker.presentation.main.cookbook;
 
+import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -66,7 +67,8 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     @Override
     public void onItemClicked(int id) {
-
+        view.showLoading();
+        view.startRecipeDetailsActivity(id);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     @Override
     public void onEditRecipeClicked(int id) {
-
+        view.startEditRecipe(id);
     }
 
     @Override
