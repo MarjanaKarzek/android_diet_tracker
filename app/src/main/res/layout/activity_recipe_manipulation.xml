@@ -17,9 +17,11 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
             <EditText
+                android:id="@+id/recipe_title"
                 style="@style/SubtitleEditTextWhite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
                 android:hint="@string/recipe_title_hint"
                 android:inputType="text" />
 

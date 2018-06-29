@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 
 import android.graphics.Bitmap;
+import android.text.Editable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationRecipeSaveViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.bottomSheet.ImageSelectorBottomSheetDialogFragment;
@@ -45,8 +47,6 @@ public interface RecipeManipulationContract {
 
         void openCamera();
 
-        void closeBottomSheet();
-
         void openBottomSheet();
 
         void openGallery();
@@ -71,6 +71,13 @@ public interface RecipeManipulationContract {
 
         void openEditIngredient(IngredientDisplayModel displayModel);
 
+        void showMissingTitleError();
+
+        void showMissingIngredientsError();
+
+        void finishActivity();
+
+        void showErrorWhileSavingRecipe();
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -86,7 +93,8 @@ public interface RecipeManipulationContract {
             RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener,
             RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener,
             RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener,
-            RecipeManipulationMealsViewHolder.OnEditMealsClickedListener {
+            RecipeManipulationMealsViewHolder.OnEditMealsClickedListener,
+            RecipeManipulationRecipeSaveViewHolder.OnSaveRecipeClickedListener {
 
         void startEditMode(int recipeId);
 
@@ -110,5 +118,6 @@ public interface RecipeManipulationContract {
 
         void editManualIngredient(int id, float amount, UnitDisplayModel unit, String groceryQuery);
 
+        void updateTitle(String text);
     }
 }

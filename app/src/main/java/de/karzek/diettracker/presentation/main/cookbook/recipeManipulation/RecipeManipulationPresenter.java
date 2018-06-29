@@ -1,15 +1,19 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 
 import android.graphics.Bitmap;
+import android.text.Editable;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetUnitByIdUseCase;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
+import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
@@ -24,6 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_LIQUID;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_SOLID;
+import static de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase.Output.SUCCESS;
 
 /**
  * Created by MarjanaKarzek on 16.06.2018.
@@ -39,12 +44,15 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase;
     private Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase;
     private Lazy<GetUnitByIdUseCase> getUnitByIdUseCase;
+    private Lazy<PutRecipeUseCase> putRecipeUseCase;
+    private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
 
     private UnitUIMapper unitMapper;
     private GroceryUIMapper groceryMapper;
+    private RecipeUIMapper recipeMapper;
 
     private boolean editMode = false;
-    private RecipeDisplayModel displayModel;
+    private RecipeDisplayModel recipe;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private ArrayList<UnitDisplayModel> units;
@@ -52,25 +60,42 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public RecipeManipulationPresenter(Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
                                        Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                        Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
+                                       Lazy<PutRecipeUseCase> putRecipeUseCase,
+                                       Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                        UnitUIMapper unitMapper,
-                                       GroceryUIMapper groceryMapper) {
+                                       GroceryUIMapper groceryMapper,
+                                       RecipeUIMapper recipeMapper) {
         this.getAllDefaultUnitsUseCase = getAllDefaultUnitsUseCase;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getUnitByIdUseCase = getUnitByIdUseCase;
+        this.putRecipeUseCase = putRecipeUseCase;
+        this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.unitMapper = unitMapper;
         this.groceryMapper = groceryMapper;
+        this.recipeMapper = recipeMapper;
     }
 
     @Override
     public void start() {
-        displayModel = new RecipeDisplayModel(-1, "", null, 1.0f, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-
-        view.setupViewsInRecyclerView(displayModel);
+        recipe = new RecipeDisplayModel(-1, "", null, 1.0f, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void startEditMode(int recipeId) {
         editMode = true;
+        compositeDisposable.add(getRecipeByIdUseCase.get().execute(new GetRecipeByIdUseCase.Input(recipeId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if (output.getStatus() == SUCCESS) {
+                        recipe = recipeMapper.transform(output.getRecipe());
+                        view.setupViewsInRecyclerView(recipe);
+                    } else {
+                        view.finishActivity();
+                    }
+                })
+        );
     }
 
     @Override
@@ -81,13 +106,11 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onOpenGalleryClicked() {
         view.openGallery();
-        view.closeBottomSheet();
     }
 
     @Override
     public void onOpenCameraClicked() {
         view.openCamera();
-        view.closeBottomSheet();
     }
 
     @Override
@@ -102,8 +125,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(output2 -> {
-                                displayModel.setPhoto(output2);
-                                view.setupViewsInRecyclerView(displayModel);
+                                recipe.setPhoto(output2);
+                                view.setupViewsInRecyclerView(recipe);
                                 view.hideLoading();
                             });
                 }));
@@ -111,8 +134,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void addManualIngredient(ManualIngredientDisplayModel manualIngredientDisplayModel) {
-        displayModel.getIngredients().add(manualIngredientDisplayModel);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.getIngredients().add(manualIngredientDisplayModel);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
@@ -127,39 +150,42 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(unitOutput -> {
-                                displayModel.getIngredients().add(new IngredientDisplayModel(-1, groceryMapper.transform(groceryOutput.getGrocery()), amount, unitMapper.transform(unitOutput.getUnit())));
-                                view.setupViewsInRecyclerView(displayModel);
+                                recipe.getIngredients().add(new IngredientDisplayModel(-1, groceryMapper.transform(groceryOutput.getGrocery()), amount, unitMapper.transform(unitOutput.getUnit())));
+                                view.setupViewsInRecyclerView(recipe);
                                 view.hideLoading();
                             });
                 }));
-
-
     }
 
     @Override
     public void addPreparationStep(String description) {
-        displayModel.getSteps().add(new PreparationStepDisplayModel(-1, displayModel.getSteps().size() + 1, description));
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.getSteps().add(new PreparationStepDisplayModel(-1, recipe.getSteps().size() + 1, description));
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void updateMeals(ArrayList<MealDisplayModel> selectedMeals) {
-        displayModel.setMeals(selectedMeals);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.setMeals(selectedMeals);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void editIngredient(int ingredientId, float amount) {
-        displayModel.getIngredients().get(ingredientId).setAmount(amount);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.getIngredients().get(ingredientId).setAmount(amount);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void editManualIngredient(int id, float amount, UnitDisplayModel unit, String groceryQuery) {
-        displayModel.getIngredients().get(id).setAmount(amount);
-        ((ManualIngredientDisplayModel) displayModel.getIngredients().get(id)).setGroceryQuery(groceryQuery);
-        displayModel.getIngredients().get(id).setUnit(unit);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.getIngredients().get(id).setAmount(amount);
+        ((ManualIngredientDisplayModel) recipe.getIngredients().get(id)).setGroceryQuery(groceryQuery);
+        recipe.getIngredients().get(id).setUnit(unit);
+        view.setupViewsInRecyclerView(recipe);
+    }
+
+    @Override
+    public void updateTitle(String text) {
+        recipe.setTitle(text);
     }
 
     @Override
@@ -174,13 +200,13 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onDeleteImageClicked() {
-        displayModel.setPhoto(null);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.setPhoto(null);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void onPortionChanges(float portion) {
-        displayModel.setPortions(portion);
+        recipe.setPortions(portion);
     }
 
     @Override
@@ -219,17 +245,17 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onDeletePreparationStepClicked(int id) {
-        displayModel.getSteps().remove(id);
+        recipe.getSteps().remove(id);
 
-        for (int i = id; i < displayModel.getSteps().size(); i++)
-            displayModel.getSteps().get(i).setStepNo(i + 1);
+        for (int i = id; i < recipe.getSteps().size(); i++)
+            recipe.getSteps().get(i).setStepNo(i + 1);
 
-        view.setupViewsInRecyclerView(displayModel);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void onEditPreparationStepFinished(int id, String description) {
-        displayModel.getSteps().get(id).setDescription(description);
+        recipe.getSteps().get(id).setDescription(description);
     }
 
     @Override
@@ -241,7 +267,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public void onEditMealsClicked() {
         ArrayList<Integer> selectedMeals = new ArrayList<>();
 
-        for (MealDisplayModel meals : displayModel.getMeals())
+        for (MealDisplayModel meals : recipe.getMeals())
             selectedMeals.add(meals.getId());
 
         view.openEditMealsDialog(selectedMeals);
@@ -249,19 +275,19 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onDeleteIngredientClicked(int id) {
-        displayModel.getIngredients().remove(id);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.getIngredients().remove(id);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
     public void onIngredientClicked(int id) {
-        view.openEditIngredient(displayModel.getIngredients().get(id));
+        view.openEditIngredient(recipe.getIngredients().get(id));
     }
 
     @Override
     public void onDeleteManualIngredientClicked(int id) {
-        displayModel.getIngredients().remove(id);
-        view.setupViewsInRecyclerView(displayModel);
+        recipe.getIngredients().remove(id);
+        view.setupViewsInRecyclerView(recipe);
     }
 
     @Override
@@ -278,13 +304,43 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(output2 -> {
                                                     units.addAll(unitMapper.transformAll(output.getUnitList()));
-                                                    view.openEditManualIngredient(id, (ManualIngredientDisplayModel) displayModel.getIngredients().get(id), units);
+                                                    view.openEditManualIngredient(id, (ManualIngredientDisplayModel) recipe.getIngredients().get(id), units);
                                                 }
                                         );
                             }
                     ));
         } else {
-            view.openEditManualIngredient(id, (ManualIngredientDisplayModel) displayModel.getIngredients().get(id), units);
+            view.openEditManualIngredient(id, (ManualIngredientDisplayModel) recipe.getIngredients().get(id), units);
+        }
+    }
+
+    @Override
+    public void onSaveRecipeClicked() {
+        boolean validRecipe = true;
+        if (recipe.getTitle().equals("")) {
+            view.showMissingTitleError();
+            validRecipe = false;
+        }
+
+        if (recipe.getIngredients().size() == 0) {
+            view.showMissingIngredientsError();
+            validRecipe = false;
+        }
+
+        if (validRecipe) {
+            view.showLoading();
+            compositeDisposable.add(putRecipeUseCase.get().execute(new PutRecipeUseCase.Input(recipeMapper.transformToDomain(recipe)))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(output -> {
+                        if (output.getStatus() == SUCCESS) {
+                            view.finishActivity();
+                        } else {
+                            view.hideLoading();
+                            view.showErrorWhileSavingRecipe();
+                        }
+                    })
+            );
         }
     }
 }

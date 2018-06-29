@@ -6,12 +6,15 @@ import dagger.Provides;
 import de.karzek.diettracker.data.repository.repositoryInterface.UnitRepository;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetUnitByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetUnitByIdUseCase;
 import de.karzek.diettracker.domain.mapper.UnitDomainMapper;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationContract;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationPresenter;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
+import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 
 /**
@@ -35,12 +38,18 @@ public class RecipeManipulationModule {
     RecipeManipulationContract.Presenter provideRecipeManipulationPresenter(Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
                                                                             Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                                                             Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
+                                                                            Lazy<PutRecipeUseCase> putRecipeUseCase,
+                                                                            Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                                                             UnitUIMapper unitMapper,
-                                                                            GroceryUIMapper groceryMapper) {
+                                                                            GroceryUIMapper groceryMapper,
+                                                                            RecipeUIMapper recipeMapper) {
         return new RecipeManipulationPresenter(getAllDefaultUnitsUseCase,
                 getGroceryByIdUseCase,
                 getUnitByIdUseCase,
+                putRecipeUseCase,
+                getRecipeByIdUseCase,
                 unitMapper,
-                groceryMapper);
+                groceryMapper,
+                recipeMapper);
     }
 }

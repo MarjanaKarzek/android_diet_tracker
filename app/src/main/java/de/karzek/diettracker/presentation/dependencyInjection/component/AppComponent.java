@@ -22,6 +22,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditMealsDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.RecipeModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
@@ -45,7 +46,8 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         FoodDetailsModule.class,
         BarcodeScannerModule.class,
         RecipeManipulationModule.class,
-        AllergenModule.class
+        AllergenModule.class,
+        RecipeModule.class
 })
 public interface AppComponent {
 

@@ -3,6 +3,7 @@ package de.karzek.diettracker.data.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.IngredientEntity;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.model.IngredientDataModel;
@@ -43,12 +44,13 @@ public class IngredientDataMapper {
         IngredientEntity entity = null;
         if(dataModel != null){
             startWriteTransaction();
+            int id = dataModel.getId();
             if(realm.where(IngredientEntity.class).equalTo("id", dataModel.getId()).findFirst() == null) {
-                realm.createObject(IngredientEntity.class, dataModel.getId());
+                if(dataModel.getId() == -1)
+                    id = getNextId();
+                realm.createObject(IngredientEntity.class, id);
             }
-
-            startWriteTransaction();
-            entity = realm.copyFromRealm(realm.where(IngredientEntity.class).equalTo("id", dataModel.getId()).findFirst());
+            entity = realm.copyFromRealm(realm.where(IngredientEntity.class).equalTo("id", id).findFirst());
 
             entity.setAmount(dataModel.getAmount());
             entity.setGrocery(new GroceryDataMapper().transformToEntity(dataModel.getGrocery()));
@@ -71,5 +73,16 @@ public class IngredientDataMapper {
         if(!realm.isInTransaction()){
             realm.beginTransaction();
         }
+    }
+
+    private int getNextId(){
+        Number currentIdNum = Realm.getDefaultInstance().where(IngredientEntity.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
+        return nextId;
     }
 }

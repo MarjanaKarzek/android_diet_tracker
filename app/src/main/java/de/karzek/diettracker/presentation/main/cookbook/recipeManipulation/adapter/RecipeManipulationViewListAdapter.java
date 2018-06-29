@@ -17,6 +17,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepTitleViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationRecipeSaveViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -45,6 +46,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
     private RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener;
     private RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener onAddPreparationStepClickedListener;
     private RecipeManipulationMealsViewHolder.OnEditMealsClickedListener onEditMealsClickedListener;
+    private RecipeManipulationRecipeSaveViewHolder.OnSaveRecipeClickedListener onSaveRecipeClickedListener;
 
     public RecipeManipulationViewListAdapter(RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener onDeleteImageClickListener,
                                              RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener onPortionChangedListener,
@@ -58,7 +60,8 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
                                              RecipeManipulationPreparationStepItemViewHolder.OnDeletePreparationStepClickedListener onDeletePreparationStepClickedListener,
                                              RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener onEditPreparationStepFinishedListener,
                                              RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener onAddPreparationStepClickedListener,
-                                             RecipeManipulationMealsViewHolder.OnEditMealsClickedListener onEditMealsClickedListener){
+                                             RecipeManipulationMealsViewHolder.OnEditMealsClickedListener onEditMealsClickedListener,
+                                             RecipeManipulationRecipeSaveViewHolder.OnSaveRecipeClickedListener onSaveRecipeClickedListener){
         list = new ArrayList<>();
 
         this.onDeleteImageClickListener = onDeleteImageClickListener;
@@ -74,6 +77,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
         this.onEditPreparationStepFinishedListener = onEditPreparationStepFinishedListener;
         this.onAddPreparationStepClickedListener = onAddPreparationStepClickedListener;
         this.onEditMealsClickedListener = onEditMealsClickedListener;
+        this.onSaveRecipeClickedListener = onSaveRecipeClickedListener;
     }
 
     @NonNull
@@ -101,7 +105,7 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             case RecipeManipulationViewItemWrapper.ItemType.MEAL_LIST:
                 return new RecipeManipulationMealsViewHolder(parent, onEditMealsClickedListener);
             case RecipeManipulationViewItemWrapper.ItemType.RECIPE_SAVE_VIEW:
-                //return new RecipeManipulationRecipeSaveViewHolder();
+                return new RecipeManipulationRecipeSaveViewHolder(parent, onSaveRecipeClickedListener);
             case RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW:
                 //return new RecipeManipulationRecipeDeleteViewHolder();
         }
@@ -134,6 +138,8 @@ public class RecipeManipulationViewListAdapter extends RecyclerView.Adapter<Recy
             ((RecipeManipulationMealsTitleViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeManipulationMealsViewHolder){
             ((RecipeManipulationMealsViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeManipulationRecipeSaveViewHolder){
+            ((RecipeManipulationRecipeSaveViewHolder) holder).bind(list.get(position));
         }
     }
 

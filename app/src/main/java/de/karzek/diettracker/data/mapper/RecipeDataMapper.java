@@ -3,6 +3,7 @@ package de.karzek.diettracker.data.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.data.cache.model.RecipeEntity;
 import de.karzek.diettracker.data.model.GroceryDataModel;
@@ -47,9 +48,13 @@ public class RecipeDataMapper {
         RecipeEntity entity = null;
         if(dataModel != null){
             startWriteTransaction();
-            if(realm.where(RecipeEntity.class).equalTo("id",dataModel.getId()).findFirst() == null)
-                realm.createObject(GroceryEntity.class, dataModel.getId());
-            entity = realm.copyFromRealm(realm.where(RecipeEntity.class).equalTo("id",dataModel.getId()).findFirst());
+            int id = dataModel.getId();
+            if(realm.where(RecipeEntity.class).equalTo("id", dataModel.getId()).findFirst() == null) {
+                if(dataModel.getId() == -1)
+                    id = getNextId();
+                realm.createObject(RecipeEntity.class, id);
+            }
+            entity = realm.copyFromRealm(realm.where(RecipeEntity.class).equalTo("id", id).findFirst());
 
             entity.setTitle(dataModel.getTitle());
             entity.setPhoto(dataModel.getPhoto());
@@ -75,5 +80,16 @@ public class RecipeDataMapper {
         if(!realm.isInTransaction()){
             realm.beginTransaction();
         }
+    }
+
+    private int getNextId(){
+        Number currentIdNum = Realm.getDefaultInstance().where(RecipeEntity.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
+        return nextId;
     }
 }

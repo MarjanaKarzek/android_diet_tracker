@@ -19,11 +19,16 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -74,6 +79,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.recipe_title)
+    EditText titleView;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.loading_view)
@@ -119,6 +126,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         presenter.setView(this);
         setupSupportActionBar();
         setupRecyclerView();
+        setupTitleSetListener();
 
         if (getIntent() != null) {
             if (getIntent().getExtras() != null) {
@@ -136,10 +144,31 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         }
     }
 
+    private void setupTitleSetListener() {
+        titleView.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(titleView.getWindowToken(), 0);
+                    titleView.clearFocus();
+                    presenter.updateTitle(titleView.getText().toString());
+                }
+                return true;
+            }
+        });
+        titleView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                presenter.updateTitle(titleView.getText().toString());
+            }
+        });
+    }
+
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter));
+        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter));
     }
 
     private void setupSupportActionBar() {
@@ -184,11 +213,6 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
-    public void closeBottomSheet() {
-
-    }
-
-    @Override
     public void openBottomSheet() {
         ImageSelectorBottomSheetDialogFragment imageSelector =
                 ImageSelectorBottomSheetDialogFragment.newInstance();
@@ -227,10 +251,9 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEALS_TITLE_VIEW));
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_LIST, displayModel.getMeals()));
-        /*views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_ITEM_ADD_VIEW));
 
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_SAVE_VIEW));
-        if(editMode)
+        /*if(editMode)
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));*/
 
         ((RecipeManipulationViewListAdapter) recyclerView.getAdapter()).setList(views);
@@ -339,35 +362,57 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
+    public void showMissingTitleError() {
+        titleView.setError(getString(R.string.error_message_missing_recipe_title));
+    }
+
+    @Override
+    public void showMissingIngredientsError() {
+        Toast.makeText(this, getString(R.string.error_message_missing_ingredient), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void finishActivity() {
+        this.finish();
+    }
+
+    @Override
+    public void showErrorWhileSavingRecipe() {
+        Toast.makeText(this, getString(R.string.error_message_unknown_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
-            case GET_IMAGE_FROM_GALLERY_RESULT:
-                if (data != null) {
-                    Uri contentURI = data.getData();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                        presenter.addPhotoToRecipe(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        if(data != null) {
+            switch (requestCode) {
+                case GET_IMAGE_FROM_GALLERY_RESULT:
+                    if (data != null) {
+                        Uri contentURI = data.getData();
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                            presenter.addPhotoToRecipe(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                break;
-            case GET_IMAGE_FROM_CAMERA_RESULT:
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                presenter.addPhotoToRecipe(bitmap);
-                break;
-            case Constants.ADD_INGREDIENT_INTENT_RESULT:
-                presenter.addIngredient(data.getIntExtra("groceryId", 0),
-                        data.getFloatExtra("amount", 0.0f),
-                        data.getIntExtra("unitId", 0));
-                break;
-            case Constants.EDIT_INGREDIENT_INTENT_RESULT:
-                presenter.editIngredient(
-                        data.getIntExtra("ingredientId", 0),
-                        data.getFloatExtra("amount", 0.0f));
-                break;
+                    break;
+                case GET_IMAGE_FROM_CAMERA_RESULT:
+                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    presenter.addPhotoToRecipe(bitmap);
+                    break;
+                case Constants.ADD_INGREDIENT_INTENT_RESULT:
+                    presenter.addIngredient(data.getIntExtra("groceryId", 0),
+                            data.getFloatExtra("amount", 0.0f),
+                            data.getIntExtra("unitId", 0));
+                    break;
+                case Constants.EDIT_INGREDIENT_INTENT_RESULT:
+                    presenter.editIngredient(
+                            data.getIntExtra("ingredientId", 0),
+                            data.getFloatExtra("amount", 0.0f));
+                    break;
+            }
         }
     }
 
