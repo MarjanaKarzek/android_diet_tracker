@@ -27,18 +27,22 @@ public class RecipeManipulationManualIngredientItemViewHolder extends RecyclerVi
     @BindView(R.id.ingredient_summary) TextView summary;
 
     private final OnDeleteIngredientClickListener onDeleteIngredientClickListener;
+    private final OnManualIngredientClickedListener onManualIngredientClickedListener;
 
     public RecipeManipulationManualIngredientItemViewHolder(ViewGroup viewGroup,
-                                                            OnDeleteIngredientClickListener onDeleteIngredientClickListener) {
+                                                            OnDeleteIngredientClickListener onDeleteIngredientClickListener,
+                                                            OnManualIngredientClickedListener onManualIngredientClickedListener) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.viewholder_recipe_man_ingredient, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
         this.onDeleteIngredientClickListener = onDeleteIngredientClickListener;
+        this.onManualIngredientClickedListener = onManualIngredientClickedListener;
     }
 
-    public void bind(RecipeManipulationViewItemWrapper item) {
+    public void bind(RecipeManipulationViewItemWrapper item, int id) {
         summary.setText(formatSummary((ManualIngredientDisplayModel) item.getIngredientDisplayModel()));
+        itemView.setTag(id);
     }
 
     private String formatSummary(ManualIngredientDisplayModel ingredient){
@@ -47,11 +51,19 @@ public class RecipeManipulationManualIngredientItemViewHolder extends RecyclerVi
     }
 
     @OnClick(R.id.action_delete) public void onDeleteIngredientClicked() {
-        onDeleteIngredientClickListener.onDeleteManualIngredientClicked();
+        onDeleteIngredientClickListener.onDeleteManualIngredientClicked((int) itemView.getTag());
+    }
+
+    @OnClick(R.id.item_layout) public void setOnManualIngredientClicked() {
+        onManualIngredientClickedListener.onManualIngredientClicked((int) itemView.getTag());
     }
 
     public interface OnDeleteIngredientClickListener {
-        void onDeleteManualIngredientClicked();
+        void onDeleteManualIngredientClicked(int id);
+    }
+
+    public interface OnManualIngredientClickedListener {
+        void onManualIngredientClicked(int id);
     }
 
 }

@@ -56,6 +56,8 @@ public interface GroceryDetailsContract {
         void prepareAddIngredientMode();
 
         void finishView();
+
+        void prepareEditIngredientMode(float amount);
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -79,14 +81,18 @@ public interface GroceryDetailsContract {
         void startAddIngredientMode(int groceryId);
 
         void onDeleteDiaryEntryClicked(int diaryEntryId);
+
+        void startEditIngredientMode(float amount);
+        
     }
 
     @DetailsMode
     int MODE_SEARCH_RESULT = 0;
     int MODE_EDIT_DIARY_ENTRY = 1;
-    int MODE_ADD_INGREDIENT = 2;
+    int MODE_EDIT_INGREDIENT = 2;
+    int MODE_ADD_INGREDIENT = 3;
 
-    @IntDef({MODE_SEARCH_RESULT, MODE_EDIT_DIARY_ENTRY, MODE_ADD_INGREDIENT})
+    @IntDef({MODE_SEARCH_RESULT, MODE_EDIT_DIARY_ENTRY, MODE_EDIT_INGREDIENT, MODE_ADD_INGREDIENT})
 
     @interface DetailsMode { }
 }

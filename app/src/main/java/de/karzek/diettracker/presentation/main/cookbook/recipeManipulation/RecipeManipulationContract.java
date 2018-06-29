@@ -19,6 +19,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.EditMealsDialog;
+import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
@@ -61,13 +62,19 @@ public interface RecipeManipulationContract {
 
         void openEditMealsDialog(ArrayList<Integer> selectedMeals);
 
+        void openEditManualIngredient(IngredientDisplayModel displayModel);
+
+        void openEditIngredient(IngredientDisplayModel displayModel);
+
     }
 
     interface Presenter extends BasePresenter<View>,
             RecipeManipulationPhotoViewHolder.OnDeleteImageClickListener,
             RecipeManipulationIngredientsTitleAndPortionsViewHolder.OnPortionChangedListener,
             RecipeManipulationManualIngredientItemViewHolder.OnDeleteIngredientClickListener,
+            RecipeManipulationManualIngredientItemViewHolder.OnManualIngredientClickedListener,
             RecipeManipulationIngredientItemViewHolder.OnDeleteIngredientClickListener,
+            RecipeManipulationIngredientItemViewHolder.OnIngredientClickListener,
             RecipeManipulationItemAddViewHolder.OnAddManualIngredientClickListener,
             RecipeManipulationItemAddViewHolder.OnStartGrocerySearchClickListener,
             RecipeManipulationItemAddViewHolder.OnStartBarcodeScanClickListener,
@@ -94,5 +101,6 @@ public interface RecipeManipulationContract {
 
         void updateMeals(ArrayList<MealDisplayModel> selectedMeals);
 
+        void editIngredient(int ingredientId, float amount);
     }
 }

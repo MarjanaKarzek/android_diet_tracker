@@ -26,18 +26,22 @@ public class RecipeManipulationIngredientItemViewHolder extends RecyclerView.Vie
     @BindView(R.id.ingredient_summary) TextView summary;
 
     private final OnDeleteIngredientClickListener onDeleteIngredientClickListener;
+    private final OnIngredientClickListener onIngredientClickListener;
 
     public RecipeManipulationIngredientItemViewHolder(ViewGroup viewGroup,
-                                                      OnDeleteIngredientClickListener onDeleteIngredientClickListener) {
+                                                      OnDeleteIngredientClickListener onDeleteIngredientClickListener,
+                                                      OnIngredientClickListener onIngredientClickListener) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.viewholder_recipe_man_ingredient, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
         this.onDeleteIngredientClickListener = onDeleteIngredientClickListener;
+        this.onIngredientClickListener = onIngredientClickListener;
     }
 
-    public void bind(RecipeManipulationViewItemWrapper item) {
+    public void bind(RecipeManipulationViewItemWrapper item, int id) {
         summary.setText(formatSummary(item.getIngredientDisplayModel()));
+        itemView.setTag(id);
     }
 
     private String formatSummary(IngredientDisplayModel ingredient){
@@ -46,11 +50,19 @@ public class RecipeManipulationIngredientItemViewHolder extends RecyclerView.Vie
     }
 
     @OnClick(R.id.action_delete) public void onDeleteIngredientClicked() {
-        onDeleteIngredientClickListener.onDeleteIngredientClicked();
+        onDeleteIngredientClickListener.onDeleteIngredientClicked((int) itemView.getTag());
+    }
+
+    @OnClick(R.id.item_layout) public void onIngredientClicked() {
+        onIngredientClickListener.onIngredientClicked((int) itemView.getTag());
     }
 
     public interface OnDeleteIngredientClickListener {
-        void onDeleteIngredientClicked();
+        void onDeleteIngredientClicked(int id);
+    }
+
+    public interface OnIngredientClickListener {
+        void onIngredientClicked(int id);
     }
 
 }

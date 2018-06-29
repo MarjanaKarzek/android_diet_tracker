@@ -15,7 +15,12 @@ public class Constants {
     public static final String carbs = "carbs";
     public static final String fats = "fats";
 
-    public static final int ZXING_CAMERA_PERMISSION = 1;
+    public static final String SHARED_PREFERENCES_SPLIT_ARRAY_CHAR = ";";
+
+    //Permissions
+    public static final int ZXING_CAMERA_PERMISSION = 3001;
+
+    //Intent Result Codes
     public static final int ADD_INGREDIENT_INTENT_RESULT = 2001;
-    public static String SHARED_PREFERENCES_SPLIT_ARRAY_CHAR = ";";
+    public static final int EDIT_INGREDIENT_INTENT_RESULT = 2002;
 }

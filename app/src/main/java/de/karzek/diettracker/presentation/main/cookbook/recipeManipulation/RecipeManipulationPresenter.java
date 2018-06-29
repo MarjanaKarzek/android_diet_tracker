@@ -144,6 +144,12 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     }
 
     @Override
+    public void editIngredient(int ingredientId, float amount) {
+        displayModel.getIngredients().get(ingredientId).setAmount(amount);
+        view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
     public void setView(RecipeManipulationContract.View view) {
         this.view = view;
     }
@@ -162,16 +168,6 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onPortionChanges(float portion) {
         displayModel.setPortions(portion);
-    }
-
-    @Override
-    public void onDeleteIngredientClicked() {
-
-    }
-
-    @Override
-    public void onDeleteManualIngredientClicked() {
-
     }
 
     @Override
@@ -236,5 +232,27 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
             selectedMeals.add(meals.getId());
 
         view.openEditMealsDialog(selectedMeals);
+    }
+
+    @Override
+    public void onDeleteIngredientClicked(int id) {
+        displayModel.getIngredients().remove(id);
+        view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
+    public void onIngredientClicked(int id) {
+        view.openEditIngredient(displayModel.getIngredients().get(id));
+    }
+
+    @Override
+    public void onDeleteManualIngredientClicked(int id) {
+        displayModel.getIngredients().remove(id);
+        view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
+    public void onManualIngredientClicked(int id) {
+        view.openEditManualIngredient(displayModel.getIngredients().get(id));
     }
 }

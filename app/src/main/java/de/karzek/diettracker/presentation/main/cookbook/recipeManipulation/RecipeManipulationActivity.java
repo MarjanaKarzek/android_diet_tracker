@@ -58,6 +58,7 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
+import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -83,7 +84,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     private BottomSheetBehavior bottomSheetBehavior;
 
-    private boolean editMode = false;
+    private int mode;
 
     private final int CAMERA = 1;
     private final int GALLERY = 2;
@@ -130,7 +131,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         if (getIntent() != null) {
             if (getIntent().getExtras() != null) {
                 if (getIntent().getExtras().containsKey("recipeId")) {
-                    editMode = true;
+                    mode = 1; //todo IntDef
                     presenter.startEditMode(getIntent().getExtras().getInt("recipeId"));
                 } else {
                     presenter.start();
@@ -150,7 +151,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter));
+        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter));
     }
 
     private void setupSupportActionBar() {
@@ -296,6 +297,16 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         dialogFragment.show(fragmentTransaction,"dialog");
     }
 
+    @Override
+    public void openEditManualIngredient(IngredientDisplayModel displayModel) {
+
+    }
+
+    @Override
+    public void openEditIngredient(IngredientDisplayModel displayModel) {
+        startActivityForResult(GroceryDetailsActivity.newEditIngredientIntent(this, displayModel), Constants.EDIT_INGREDIENT_INTENT_RESULT);
+    }
+
     @OnClick(R.id.image_source_camera) public void onOpenCameraClicked(){
         presenter.onOpenCameraClicked();
     }
@@ -331,6 +342,11 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                         data.getFloatExtra("amount", 0.0f),
                         data.getIntExtra("unitId", 0));
                 break;
+                case Constants.EDIT_INGREDIENT_INTENT_RESULT:
+                    presenter.editIngredient(
+                            data.getIntExtra("ingredientId", 0),
+                            data.getFloatExtra("amount", 0.0f));
+                    break;
         }
 
     }
