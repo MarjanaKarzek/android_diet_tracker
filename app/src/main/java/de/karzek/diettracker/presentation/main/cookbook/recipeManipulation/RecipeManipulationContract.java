@@ -18,6 +18,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.bottomSheet.ImageSelectorBottomSheetDialogFragment;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.EditMealsDialog;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
@@ -38,7 +39,10 @@ public interface RecipeManipulationContract {
             AddIngredientDialog.OnSaveIngredientClickedInDialogListener,
             AddIngredientDialog.OnAddIngredientClickedInDialogListener,
             AddPreparationStepDialog.OnAddPreparationStepClickedInDialogListener,
-            EditMealsDialog.SaveMealsSelectionDialogListener {
+            EditMealsDialog.SaveMealsSelectionDialogListener,
+            ImageSelectorBottomSheetDialogFragment.OnOpenCameraClickListener,
+            ImageSelectorBottomSheetDialogFragment.OnOpenGalleryClickListener {
+
         void openCamera();
 
         void closeBottomSheet();
@@ -105,5 +109,6 @@ public interface RecipeManipulationContract {
         void editIngredient(int ingredientId, float amount);
 
         void editManualIngredient(int id, float amount, UnitDisplayModel unit, String groceryQuery);
+
     }
 }

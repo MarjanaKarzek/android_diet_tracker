@@ -1,8 +1,9 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,38 +11,28 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
@@ -49,6 +40,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.bottomSheet.ImageSelectorBottomSheetDialogFragment;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.EditMealsDialog;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.ManualIngredientDisplayModel;
@@ -60,10 +52,13 @@ import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
 import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
+import static de.karzek.diettracker.presentation.util.Constants.CAMERA_PERMISSION;
+import static de.karzek.diettracker.presentation.util.Constants.GET_IMAGE_FROM_CAMERA_RESULT;
+import static de.karzek.diettracker.presentation.util.Constants.GET_IMAGE_FROM_GALLERY_RESULT;
+import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 /**
  * Created by MarjanaKarzek on 16.06.2018.
@@ -81,17 +76,10 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     Toolbar toolbar;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.bottom_sheet_image_picker)
-    LinearLayout bottomSheet;
     @BindView(R.id.loading_view)
     FrameLayout loadingView;
 
-    private BottomSheetBehavior bottomSheetBehavior;
-
     private int mode;
-
-    private final int CAMERA = 1;
-    private final int GALLERY = 2;
 
     private ArrayList<UnitDisplayModel> units;
 
@@ -146,10 +134,6 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         } else {
             presenter.start();
         }
-
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.setHideable(true);
     }
 
     private void setupRecyclerView() {
@@ -177,18 +161,39 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void openCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+        } else {
+            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, GET_IMAGE_FROM_CAMERA_RESULT);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, GET_IMAGE_FROM_CAMERA_RESULT);
+                } else
+                    Toast.makeText(this, getString(R.string.permission_grand_camera_for_recipe), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void closeBottomSheet() {
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
     }
 
     @Override
     public void openBottomSheet() {
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        ImageSelectorBottomSheetDialogFragment imageSelector =
+                ImageSelectorBottomSheetDialogFragment.newInstance();
+        imageSelector.show(getSupportFragmentManager(),
+                "imageSelector");
     }
 
     @Override
@@ -196,7 +201,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        startActivityForResult(galleryIntent, GALLERY);
+        startActivityForResult(galleryIntent, GET_IMAGE_FROM_GALLERY_RESULT);
     }
 
     @Override
@@ -233,12 +238,12 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void startBarcodeScan() {
-        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, -1, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, INVALID_ENTITY_ID, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
     public void startGrocerySearch() {
-        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, -1, true), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, INVALID_ENTITY_ID, true), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -258,7 +263,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
         AppCompatDialogFragment dialogFragment = new AddIngredientDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("manualIngredientId", -1);
+        bundle.putInt("manualIngredientId", INVALID_ENTITY_ID);
         bundle.putStringArrayList("units", unitStrings);
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, "dialog");
@@ -333,24 +338,12 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         startActivityForResult(GroceryDetailsActivity.newEditIngredientIntent(this, displayModel), Constants.EDIT_INGREDIENT_INTENT_RESULT);
     }
 
-    @OnClick(R.id.image_source_camera)
-    public void onOpenCameraClicked() {
-        presenter.onOpenCameraClicked();
-    }
-
-    @OnClick(R.id.image_source_gallery)
-    public void onOpenGalleryClicked() {
-        presenter.onOpenGalleryClicked();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (resultCode) {
-            case RESULT_CANCELED:
-                return;
-            case GALLERY:
+        switch (requestCode) {
+            case GET_IMAGE_FROM_GALLERY_RESULT:
                 if (data != null) {
                     Uri contentURI = data.getData();
                     try {
@@ -361,7 +354,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                     }
                 }
                 break;
-            case CAMERA:
+            case GET_IMAGE_FROM_CAMERA_RESULT:
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 presenter.addPhotoToRecipe(bitmap);
                 break;
@@ -376,12 +369,11 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                         data.getFloatExtra("amount", 0.0f));
                 break;
         }
-
     }
 
     @Override
     public void onAddManualIngredientClicked(float amount, int selectedUnitId, String groceryQuery) {
-        presenter.addManualIngredient(new ManualIngredientDisplayModel(-1, null, amount, units.get(selectedUnitId), groceryQuery));
+        presenter.addManualIngredient(new ManualIngredientDisplayModel(INVALID_ENTITY_ID, null, amount, units.get(selectedUnitId), groceryQuery));
     }
 
     @Override
@@ -397,5 +389,15 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Override
     public void onSaveManualIngredientClicked(int id, float amount, int selectedUnitId, String groceryQuery) {
         presenter.editManualIngredient(id, amount, units.get(selectedUnitId), groceryQuery);
+    }
+
+    @Override
+    public void onOpenCameraClickedInBottomSheet() {
+        presenter.onOpenCameraClicked();
+    }
+
+    @Override
+    public void onOpenGalleryClickedInBottomSheet() {
+        presenter.onOpenGalleryClicked();
     }
 }

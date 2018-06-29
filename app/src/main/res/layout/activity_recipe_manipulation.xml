@@ -35,32 +35,6 @@
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp" />
 
-    <LinearLayout
-        android:id="@+id/bottom_sheet_image_picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/lightGrey"
-        app:layout_behavior="@string/bottom_sheet_behavior">
-
-        <ImageButton
-            android:id="@+id/image_source_camera"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@drawable/ic_camera_accent" />
-
-        <ImageButton
-            android:id="@+id/image_source_gallery"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@drawable/ic_gallery_accent" />
-
-    </LinearLayout>
-
     <include layout="@layout/snippet_loading_view" />
 
 </android.support.design.widget.CoordinatorLayout>

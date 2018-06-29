@@ -3,9 +3,7 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
@@ -19,6 +17,7 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -93,15 +92,21 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void addPhotoToRecipe(Bitmap bitmap) {
-        if (!editMode) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            displayModel.setPhoto(byteArray);
-        } else {
-            //todo add edit mode
-        }
-        view.setupViewsInRecyclerView(displayModel);
+        view.showLoading();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        compositeDisposable.add(Observable.just(bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    Observable.just(stream.toByteArray())
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(output2 -> {
+                                displayModel.setPhoto(output2);
+                                view.setupViewsInRecyclerView(displayModel);
+                                view.hideLoading();
+                            });
+                }));
     }
 
     @Override
