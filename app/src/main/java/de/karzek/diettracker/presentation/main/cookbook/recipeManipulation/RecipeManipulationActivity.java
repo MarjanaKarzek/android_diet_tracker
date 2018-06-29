@@ -77,10 +77,14 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Inject
     RecipeManipulationContract.Presenter presenter;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.bottom_sheet_image_picker) LinearLayout bottomSheet;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.bottom_sheet_image_picker)
+    LinearLayout bottomSheet;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
     private BottomSheetBehavior bottomSheetBehavior;
 
@@ -162,7 +166,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
         else if (item.getItemId() == R.id.recipe_manipulation_camera) {
@@ -198,13 +202,13 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Override
     public void setupViewsInRecyclerView(RecipeDisplayModel displayModel) {
         ArrayList<RecipeManipulationViewItemWrapper> views = new ArrayList<>();
-        if(displayModel.getPhoto() != null){
+        if (displayModel.getPhoto() != null) {
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENTS_TITLE_AND_PORTIONS_VIEW, displayModel.getPortions()));
 
-        for(IngredientDisplayModel ingredient: displayModel.getIngredients()){
-            if(ingredient instanceof ManualIngredientDisplayModel)
+        for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
+            if (ingredient instanceof ManualIngredientDisplayModel)
                 views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MANUAL_INGREDIENT_ITEM, ingredient));
             else
                 views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM, ingredient));
@@ -212,7 +216,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.INGREDIENT_ITEM_ADD_VIEW));
 
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEPS_TITLE_VIEW));
-        for(PreparationStepDisplayModel step: displayModel.getSteps())
+        for (PreparationStepDisplayModel step : displayModel.getSteps())
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM, step));
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.PREPARATION_STEP_ITEM_ADD_VIEW));
 
@@ -224,17 +228,17 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         if(editMode)
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));*/
 
-        ((RecipeManipulationViewListAdapter)recyclerView.getAdapter()).setList(views);
+        ((RecipeManipulationViewListAdapter) recyclerView.getAdapter()).setList(views);
     }
 
     @Override
     public void startBarcodeScan() {
-        startActivityForResult(BarcodeScannerActivity.newIntent(this,null,-1, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, -1, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
     public void startGrocerySearch() {
-        startActivityForResult(GrocerySearchActivity.newIntent(this,TYPE_COMBINED,null,-1, true), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, -1, true), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -242,21 +246,22 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         this.units = units;
 
         ArrayList<String> unitStrings = new ArrayList<>();
-        for(UnitDisplayModel unit: units)
+        for (UnitDisplayModel unit : units)
             unitStrings.add(unit.getName());
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (previous != null){
+        if (previous != null) {
             fragmentTransaction.remove(previous);
         }
         fragmentTransaction.addToBackStack(null);
 
         AppCompatDialogFragment dialogFragment = new AddIngredientDialog();
         Bundle bundle = new Bundle();
+        bundle.putInt("manualIngredientId", -1);
         bundle.putStringArrayList("units", unitStrings);
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction,"dialog");
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override
@@ -273,13 +278,13 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public void showAddPreparationStepDialog() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (previous != null){
+        if (previous != null) {
             fragmentTransaction.remove(previous);
         }
         fragmentTransaction.addToBackStack(null);
 
         AppCompatDialogFragment dialogFragment = new AddPreparationStepDialog();
-        dialogFragment.show(fragmentTransaction,"dialog");
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override
@@ -294,12 +299,33 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         Bundle bundle = new Bundle();
         bundle.putIntegerArrayList("SelectedMeals", selectedMeals);
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction,"dialog");
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override
-    public void openEditManualIngredient(IngredientDisplayModel displayModel) {
+    public void openEditManualIngredient(int id, ManualIngredientDisplayModel displayModel, ArrayList<UnitDisplayModel> units) {
+        this.units = units;
 
+        ArrayList<String> unitStrings = new ArrayList<>();
+        for (UnitDisplayModel unit : units)
+            unitStrings.add(unit.getName());
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (previous != null) {
+            fragmentTransaction.remove(previous);
+        }
+        fragmentTransaction.addToBackStack(null);
+
+        AppCompatDialogFragment dialogFragment = new AddIngredientDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("manualIngredientId", id);
+        bundle.putString("groceryQuery", displayModel.getGroceryQuery());
+        bundle.putFloat("amount", displayModel.getAmount());
+        bundle.putInt("unitId", displayModel.getUnit().getId());
+        bundle.putStringArrayList("units", unitStrings);
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override
@@ -307,11 +333,13 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         startActivityForResult(GroceryDetailsActivity.newEditIngredientIntent(this, displayModel), Constants.EDIT_INGREDIENT_INTENT_RESULT);
     }
 
-    @OnClick(R.id.image_source_camera) public void onOpenCameraClicked(){
+    @OnClick(R.id.image_source_camera)
+    public void onOpenCameraClicked() {
         presenter.onOpenCameraClicked();
     }
 
-    @OnClick(R.id.image_source_gallery) public void onOpenGalleryClicked(){
+    @OnClick(R.id.image_source_gallery)
+    public void onOpenGalleryClicked() {
         presenter.onOpenGalleryClicked();
     }
 
@@ -319,7 +347,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (resultCode){
+        switch (resultCode) {
             case RESULT_CANCELED:
                 return;
             case GALLERY:
@@ -342,18 +370,18 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                         data.getFloatExtra("amount", 0.0f),
                         data.getIntExtra("unitId", 0));
                 break;
-                case Constants.EDIT_INGREDIENT_INTENT_RESULT:
-                    presenter.editIngredient(
-                            data.getIntExtra("ingredientId", 0),
-                            data.getFloatExtra("amount", 0.0f));
-                    break;
+            case Constants.EDIT_INGREDIENT_INTENT_RESULT:
+                presenter.editIngredient(
+                        data.getIntExtra("ingredientId", 0),
+                        data.getFloatExtra("amount", 0.0f));
+                break;
         }
 
     }
 
     @Override
-    public void onAddIngredientClicked(float amount, int selectedUnitId, String groceryQuery) {
-        presenter.addManualIngredient(new ManualIngredientDisplayModel(-1,null,amount, units.get(selectedUnitId), groceryQuery));
+    public void onAddManualIngredientClicked(float amount, int selectedUnitId, String groceryQuery) {
+        presenter.addManualIngredient(new ManualIngredientDisplayModel(-1, null, amount, units.get(selectedUnitId), groceryQuery));
     }
 
     @Override
@@ -364,5 +392,10 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Override
     public void updateMeals(ArrayList<MealDisplayModel> selectedMeals) {
         presenter.updateMeals(selectedMeals);
+    }
+
+    @Override
+    public void onSaveManualIngredientClicked(int id, float amount, int selectedUnitId, String groceryQuery) {
+        presenter.editManualIngredient(id, amount, units.get(selectedUnitId), groceryQuery);
     }
 }

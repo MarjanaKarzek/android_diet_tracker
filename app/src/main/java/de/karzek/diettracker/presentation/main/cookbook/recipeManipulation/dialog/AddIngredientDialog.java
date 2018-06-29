@@ -37,8 +37,10 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
 
     private View view;
     private ArrayList<String> units;
+    private int manualIngredientId;
 
-    private OnAddIngredientClickedInDialogListener listener;
+    private OnAddIngredientClickedInDialogListener addListener;
+    private OnSaveIngredientClickedInDialogListener saveListener;
 
     @Nullable
     @Override
@@ -50,6 +52,7 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             units = bundle.getStringArrayList("units");
+            manualIngredientId = bundle.getInt("manualIngredientId");
             initializeSpinner();
         }
 
@@ -60,21 +63,44 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
             }
         });
 
-        addIngredient.setOnClickListener(new View.OnClickListener() {
+        if(manualIngredientId == -1)
+            addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (inputFieldsValid()) {
                     int selectedUnitId = spinner.getSelectedItemPosition();
                     dismiss();
                     if (amount.getText().toString().equals(""))
-                        listener.onAddIngredientClicked(Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
+                        addListener.onAddManualIngredientClicked(Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
                     else
-                        listener.onAddIngredientClicked(Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
+                        addListener.onAddManualIngredientClicked(Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
                 } else {
                     showInvalidFieldsError();
                 }
             }
         });
+        else {
+            addIngredient.setText(R.string.save_button);
+            addIngredient.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (inputFieldsValid()) {
+                        int selectedUnitId = spinner.getSelectedItemPosition();
+                        dismiss();
+                        if (amount.getText().toString().equals(""))
+                            saveListener.onSaveManualIngredientClicked(manualIngredientId, Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
+                        else
+                            saveListener.onSaveManualIngredientClicked(manualIngredientId, Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
+                    } else {
+                        showInvalidFieldsError();
+                    }
+                }
+            });
+
+            groceryQuery.setText(bundle.getString("groceryQuery"));
+            amount.setText(StringUtils.formatFloat(bundle.getFloat("amount")));
+            spinner.setSelection(bundle.getInt("unitId"));
+        }
 
         return view;
     }
@@ -101,13 +127,18 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
         super.onCreate(savedInstanceState);
 
         try {
-            listener = (OnAddIngredientClickedInDialogListener) getActivity();
+            addListener = (OnAddIngredientClickedInDialogListener) getActivity();
+            saveListener = (OnSaveIngredientClickedInDialogListener) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException("fragment must implement OnAddIngredientClickedInDialogListener");
+            throw new ClassCastException("fragment must implement OnAddIngredientClickedInDialogListener and OnSaveIngredientClickedInDialogListener");
         }
     }
 
     public interface OnAddIngredientClickedInDialogListener {
-        void onAddIngredientClicked(float amount, int selectedUnitId, String groceryQuery);
+        void onAddManualIngredientClicked(float amount, int selectedUnitId, String groceryQuery);
+    }
+
+    public interface OnSaveIngredientClickedInDialogListener {
+        void onSaveManualIngredientClicked(int id, float amount, int selectedUnitId, String groceryQuery);
     }
 }

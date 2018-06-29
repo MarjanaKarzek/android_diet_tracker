@@ -117,7 +117,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
         compositeDisposable.add(getGroceryByIdUseCase.get().execute(new GetGroceryByIdUseCase.Input(groceryId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(groceryOutput-> {
+                .subscribe(groceryOutput -> {
                     getUnitByIdUseCase.get().execute(new GetUnitByIdUseCase.Input(unitId))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -133,7 +133,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void addPreparationStep(String description) {
-        displayModel.getSteps().add(new PreparationStepDisplayModel(-1, displayModel.getSteps().size()+1 ,description));
+        displayModel.getSteps().add(new PreparationStepDisplayModel(-1, displayModel.getSteps().size() + 1, description));
         view.setupViewsInRecyclerView(displayModel);
     }
 
@@ -150,13 +150,21 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     }
 
     @Override
+    public void editManualIngredient(int id, float amount, UnitDisplayModel unit, String groceryQuery) {
+        displayModel.getIngredients().get(id).setAmount(amount);
+        ((ManualIngredientDisplayModel) displayModel.getIngredients().get(id)).setGroceryQuery(groceryQuery);
+        displayModel.getIngredients().get(id).setUnit(unit);
+        view.setupViewsInRecyclerView(displayModel);
+    }
+
+    @Override
     public void setView(RecipeManipulationContract.View view) {
         this.view = view;
     }
 
     @Override
     public void finish() {
-
+        compositeDisposable.clear();
     }
 
     @Override
@@ -208,8 +216,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public void onDeletePreparationStepClicked(int id) {
         displayModel.getSteps().remove(id);
 
-        for(int i = id; i < displayModel.getSteps().size(); i++)
-            displayModel.getSteps().get(i).setStepNo(i+1);
+        for (int i = id; i < displayModel.getSteps().size(); i++)
+            displayModel.getSteps().get(i).setStepNo(i + 1);
 
         view.setupViewsInRecyclerView(displayModel);
     }
@@ -228,7 +236,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public void onEditMealsClicked() {
         ArrayList<Integer> selectedMeals = new ArrayList<>();
 
-        for(MealDisplayModel meals: displayModel.getMeals())
+        for (MealDisplayModel meals : displayModel.getMeals())
             selectedMeals.add(meals.getId());
 
         view.openEditMealsDialog(selectedMeals);
@@ -253,6 +261,25 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onManualIngredientClicked(int id) {
-        view.openEditManualIngredient(displayModel.getIngredients().get(id));
+        if (units == null) {
+            compositeDisposable.add(getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(TYPE_SOLID))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(output -> {
+                                units = new ArrayList<>();
+                                units.addAll(unitMapper.transformAll(output.getUnitList()));
+                                getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(TYPE_LIQUID))
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(output2 -> {
+                                                    units.addAll(unitMapper.transformAll(output.getUnitList()));
+                                                    view.openEditManualIngredient(id, (ManualIngredientDisplayModel) displayModel.getIngredients().get(id), units);
+                                                }
+                                        );
+                            }
+                    ));
+        } else {
+            view.openEditManualIngredient(id, (ManualIngredientDisplayModel) displayModel.getIngredients().get(id), units);
+        }
     }
 }

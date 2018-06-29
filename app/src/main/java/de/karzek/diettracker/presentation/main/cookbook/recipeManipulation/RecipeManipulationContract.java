@@ -35,6 +35,7 @@ import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 public interface RecipeManipulationContract {
 
     interface View extends BaseView<Presenter>,
+            AddIngredientDialog.OnSaveIngredientClickedInDialogListener,
             AddIngredientDialog.OnAddIngredientClickedInDialogListener,
             AddPreparationStepDialog.OnAddPreparationStepClickedInDialogListener,
             EditMealsDialog.SaveMealsSelectionDialogListener {
@@ -62,7 +63,7 @@ public interface RecipeManipulationContract {
 
         void openEditMealsDialog(ArrayList<Integer> selectedMeals);
 
-        void openEditManualIngredient(IngredientDisplayModel displayModel);
+        void openEditManualIngredient(int id, ManualIngredientDisplayModel displayModel, ArrayList<UnitDisplayModel> units);
 
         void openEditIngredient(IngredientDisplayModel displayModel);
 
@@ -102,5 +103,7 @@ public interface RecipeManipulationContract {
         void updateMeals(ArrayList<MealDisplayModel> selectedMeals);
 
         void editIngredient(int ingredientId, float amount);
+
+        void editManualIngredient(int id, float amount, UnitDisplayModel unit, String groceryQuery);
     }
 }
