@@ -2,6 +2,7 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
+import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.RecipeManipulationViewListAdapter;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
@@ -164,7 +167,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter));
+        recyclerView.setAdapter(new RecipeManipulationViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter, presenter));
     }
 
     private void setupSupportActionBar() {
@@ -249,8 +252,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_LIST, displayModel.getMeals()));
 
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_SAVE_VIEW));
-        /*if(editMode)
-            views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));*/
+        if(mode == MODE_EDIT_RECIPE)
+            views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));
 
         ((RecipeManipulationViewListAdapter) recyclerView.getAdapter()).setList(views);
     }
@@ -380,6 +383,26 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Override
     public void setRecipeTitle(String title) {
         titleView.setText(title);
+    }
+
+    @Override
+    public void showConfirmDeletionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(getString(R.string.dialog_message_confirm_recipe_deletion));
+        builder.setPositiveButton(getString(R.string.dialog_action_delete_recipe), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                presenter.onDeleteRecipeConfirmed();
+            }
+        });
+        builder.create().show();
+    }
+
+    @Override
+    public void navigateToCookbook() {
+        startActivity(MainActivity.newIntentToCookbook(this));
+        finish();
     }
 
     @Override

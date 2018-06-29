@@ -33,6 +33,9 @@ public interface CookbookContract {
         void startRecipeDetailsActivity(int id);
 
         void startEditRecipe(int id);
+
+        void showConfirmRecipeDeletionDialog(int id);
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -42,6 +45,8 @@ public interface CookbookContract {
             RecipeSearchResultViewHolder.OnRecipeDeleteClickedListener {
 
         void getRecipesMatchingQuery(String query);
+
+        void onDeleteRecipeConfirmed(int id);
 
     }
 }

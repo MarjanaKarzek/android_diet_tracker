@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.UpdateRecipeUseCase;
@@ -48,6 +49,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private Lazy<PutRecipeUseCase> putRecipeUseCase;
     private Lazy<UpdateRecipeUseCase> updateRecipeUseCase;
     private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
+    private Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase;
 
     private UnitUIMapper unitMapper;
     private GroceryUIMapper groceryMapper;
@@ -65,6 +67,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                                        Lazy<PutRecipeUseCase> putRecipeUseCase,
                                        Lazy<UpdateRecipeUseCase> updateRecipeUseCase,
                                        Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
+                                       Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                                        UnitUIMapper unitMapper,
                                        GroceryUIMapper groceryMapper,
                                        RecipeUIMapper recipeMapper) {
@@ -74,6 +77,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
         this.putRecipeUseCase = putRecipeUseCase;
         this.updateRecipeUseCase = updateRecipeUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
+        this.deleteRecipeByIdUseCase = deleteRecipeByIdUseCase;
+
         this.unitMapper = unitMapper;
         this.groceryMapper = groceryMapper;
         this.recipeMapper = recipeMapper;
@@ -362,5 +367,21 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                     })
             );
         }
+    }
+
+    @Override
+    public void onDeleteRecipeClicked() {
+        view.showConfirmDeletionDialog();
+    }
+
+    @Override
+    public void onDeleteRecipeConfirmed() {
+        view.showLoading();
+        compositeDisposable.add(deleteRecipeByIdUseCase.get().execute(new DeleteRecipeByIdUseCase.Input(recipe.getId()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    view.navigateToCookbook();
+                }));
     }
 }

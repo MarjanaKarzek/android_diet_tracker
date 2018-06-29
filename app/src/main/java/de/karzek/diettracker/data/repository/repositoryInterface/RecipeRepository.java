@@ -22,4 +22,6 @@ public interface RecipeRepository {
     Observable<RecipeDataModel> getRecipeById(int id);
 
     Observable<Boolean> updateRecipe(RecipeDataModel recipe);
+
+    Observable<Boolean> deleteRecipe(int id);
 }

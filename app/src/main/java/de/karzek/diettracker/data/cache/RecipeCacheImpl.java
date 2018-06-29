@@ -8,6 +8,7 @@ import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.RecipeEntity;
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -78,6 +79,19 @@ public class RecipeCacheImpl implements RecipeCache {
         realm.copyToRealmOrUpdate(recipeEntity);
         realm.commitTransaction();
         realm.close();
+        return Observable.just(true);
+    }
+
+    @Override
+    public Observable<Boolean> deleteRecipe(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<RecipeEntity> result = realm.where(RecipeEntity.class).equalTo("id",id).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
         return Observable.just(true);
     }
 

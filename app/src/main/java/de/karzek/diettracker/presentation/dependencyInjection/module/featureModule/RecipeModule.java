@@ -7,10 +7,12 @@ import de.karzek.diettracker.data.cache.interfaces.RecipeCache;
 import de.karzek.diettracker.data.mapper.RecipeDataMapper;
 import de.karzek.diettracker.data.repository.RecipeRepositoryImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.RecipeRepository;
+import de.karzek.diettracker.domain.interactor.useCase.recipe.DeleteRecipeByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetAllRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetRecipeByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.PutRecipeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.UpdateRecipeUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
@@ -70,6 +72,11 @@ public class RecipeModule {
     @Provides
     UpdateRecipeUseCase providesUpdateRecipeUseCase(RecipeRepository repository, RecipeDomainMapper mapper){
         return new UpdateRecipeUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    DeleteRecipeByIdUseCase providesDeleteRecipeByIdUseCase(RecipeRepository repository){
+        return new DeleteRecipeByIdUseCaseImpl(repository);
     }
 
     // presentation

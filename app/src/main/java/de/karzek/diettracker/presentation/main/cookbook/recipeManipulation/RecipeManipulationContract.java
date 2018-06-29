@@ -18,6 +18,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPhotoViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemAddViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationPreparationStepItemViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationRecipeDeleteViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.viewHolder.RecipeManipulationRecipeSaveViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
@@ -82,6 +83,10 @@ public interface RecipeManipulationContract {
 
         void setRecipeTitle(String title);
 
+        void showConfirmDeletionDialog();
+
+        void navigateToCookbook();
+
         int MODE_ADD_RECIPE = 0;
         int MODE_EDIT_RECIPE = 1;
 
@@ -103,7 +108,8 @@ public interface RecipeManipulationContract {
             RecipeManipulationPreparationStepItemViewHolder.OnEditPreparationStepFinishedListener,
             RecipeManipulationPreparationStepItemAddViewHolder.OnAddPreparationStepClickedListener,
             RecipeManipulationMealsViewHolder.OnEditMealsClickedListener,
-            RecipeManipulationRecipeSaveViewHolder.OnSaveRecipeClickedListener {
+            RecipeManipulationRecipeSaveViewHolder.OnSaveRecipeClickedListener,
+            RecipeManipulationRecipeDeleteViewHolder.OnDeleteRecipeClickListener {
 
         void startEditMode(int recipeId);
 
@@ -128,5 +134,7 @@ public interface RecipeManipulationContract {
         void editManualIngredient(int id, float amount, UnitDisplayModel unit, String groceryQuery);
 
         void updateTitle(String text);
+
+        void onDeleteRecipeConfirmed();
     }
 }

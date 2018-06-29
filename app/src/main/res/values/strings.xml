@@ -121,5 +121,7 @@
     <string name="error_message_missing_recipe_title">Bitte füge einen Titel hinzu</string>
     <string name="error_message_missing_ingredient">Bitte füge mindestens eine Zutat hinzu</string>
     <string name="error_message_unknown_error">Ein unbekannter Fehler inst aufgetreten</string>
+    <string name="dialog_message_confirm_recipe_deletion">Bist Du Dir sicher, dass Du dieses Rezept löschen möchtest?</string>
+    <string name="dialog_action_delete_recipe">Löschen</string>
 
 </resources>

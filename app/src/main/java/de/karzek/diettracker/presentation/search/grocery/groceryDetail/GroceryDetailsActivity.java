@@ -372,9 +372,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     @Override
     public void navigateToDiaryFragment() {
-        final Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        startActivity(MainActivity.newIntentToDiary(this));
         finish();
     }
 

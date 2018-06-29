@@ -2,8 +2,10 @@ package de.karzek.diettracker.presentation.main.cookbook;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -163,6 +165,20 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @Override
     public void startEditRecipe(int id) {
         startActivity(RecipeManipulationActivity.newEditRecipeIntent(getContext(), id));
+    }
+
+    @Override
+    public void showConfirmRecipeDeletionDialog(int id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setMessage(getString(R.string.dialog_message_confirm_recipe_deletion));
+        builder.setPositiveButton(getString(R.string.dialog_action_delete_recipe), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                presenter.onDeleteRecipeConfirmed(id);
+            }
+        });
+        builder.create().show();
     }
 
     @Override

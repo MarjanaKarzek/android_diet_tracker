@@ -6,6 +6,7 @@ import dagger.Provides;
 import de.karzek.diettracker.data.repository.repositoryInterface.UnitRepository;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetUnitByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.UpdateRecipeUseCase;
@@ -42,6 +43,7 @@ public class RecipeManipulationModule {
                                                                             Lazy<PutRecipeUseCase> putRecipeUseCase,
                                                                             Lazy<UpdateRecipeUseCase> updateRecipeUseCase,
                                                                             Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
+                                                                            Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                                                                             UnitUIMapper unitMapper,
                                                                             GroceryUIMapper groceryMapper,
                                                                             RecipeUIMapper recipeMapper) {
@@ -51,6 +53,7 @@ public class RecipeManipulationModule {
                 putRecipeUseCase,
                 updateRecipeUseCase,
                 getRecipeByIdUseCase,
+                deleteRecipeByIdUseCase,
                 unitMapper,
                 groceryMapper,
                 recipeMapper);

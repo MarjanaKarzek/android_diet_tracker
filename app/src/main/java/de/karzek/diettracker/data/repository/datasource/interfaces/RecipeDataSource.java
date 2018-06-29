@@ -23,4 +23,5 @@ public interface RecipeDataSource {
 
     Observable<Boolean> updateRecipe(RecipeEntity recipeEntity);
 
+    Observable<Boolean> deleteRecipe(int id);
 }

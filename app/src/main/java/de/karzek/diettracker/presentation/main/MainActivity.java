@@ -34,7 +34,38 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
     MainContract.Presenter presenter;
 
     public static Intent newIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("fragmentId", FRAGMENT_HOME);
+        return intent;
+    }
+
+    public static Intent newIntentToHome(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("fragmentId", FRAGMENT_HOME);
+        return intent;
+    }
+
+    public static Intent newIntentToDiary(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("fragmentId", FRAGMENT_DIARY);
+        return intent;
+    }
+
+    public static Intent newIntentToCookbook(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("fragmentId", FRAGMENT_COOKBOOK);
+        return intent;
+    }
+
+    public static Intent newIntentToSettings(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("fragmentId", FRAGMENT_SETTINGS);
+        return intent;
     }
 
     @Override
@@ -51,7 +82,20 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
         ViewUtils.customizeBottomNavigation(navigationView);
 
         setupNavigationListener();
-        navigateToFragment(new HomeFragment(), "HomeFragment");
+        switch (getIntent().getIntExtra("fragmentId", 0)) {
+            case FRAGMENT_HOME:
+                navigateToFragment(new HomeFragment(), "HomeFragment");
+                break;
+            case FRAGMENT_DIARY:
+                navigateToFragment(new DiaryFragment(), "DiaryFragment");
+                break;
+            case FRAGMENT_COOKBOOK:
+                navigateToFragment(new CookbookFragment(), "CookbookFragment");
+                break;
+            case FRAGMENT_SETTINGS:
+                navigateToFragment(new SettingsFragment(), "SettingsFragment");
+                break;
+        }
 
         presenter.setView(this);
         presenter.start();
@@ -108,4 +152,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
                 getSupportFragmentManager().findFragmentByTag("DiaryFragment");
         fragment.refreshViewPager();
     }
+
+
 }

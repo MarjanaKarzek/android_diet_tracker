@@ -20,29 +20,28 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapt
  */
 public class RecipeManipulationRecipeDeleteViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recipe_image) ImageView imageView;
-
-    private final OnDeleteImageClickListener onDeleteImageClickListener;
+    private final OnDeleteRecipeClickListener onDeleteRecipeClickListener;
 
     public RecipeManipulationRecipeDeleteViewHolder(ViewGroup viewGroup,
-                                                    OnDeleteImageClickListener onDeleteImageClickListener) {
+                                                    OnDeleteRecipeClickListener onDeleteRecipeClickListener) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.viewholder_recipe_man_photo, viewGroup, false));
+                .inflate(R.layout.viewholder_recipe_man_delete, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
-        this.onDeleteImageClickListener = onDeleteImageClickListener;
+        this.onDeleteRecipeClickListener = onDeleteRecipeClickListener;
     }
 
     public void bind(RecipeManipulationViewItemWrapper item) {
-        imageView.setImageBitmap(item.getImage());
+
     }
 
-    @OnClick(R.id.delete_image) public void onDeleteImageClicked() {
-        onDeleteImageClickListener.onDeleteImageClicked();
+    @OnClick(R.id.delete_recipe_button)
+    public void onDeleteRecipeClicked() {
+        onDeleteRecipeClickListener.onDeleteRecipeClicked();
     }
 
-    public interface OnDeleteImageClickListener {
-        void onDeleteImageClicked();
+    public interface OnDeleteRecipeClickListener {
+        void onDeleteRecipeClicked();
     }
 
 }

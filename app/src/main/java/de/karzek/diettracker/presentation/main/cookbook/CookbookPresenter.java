@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.main.cookbook;
 
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,14 +20,17 @@ public class CookbookPresenter implements CookbookContract.Presenter {
     private CookbookContract.View view;
 
     private GetAllRecipesUseCase getAllRecipesUseCase;
+    private Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase;
 
     private RecipeUIMapper mapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public CookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase,
+                             Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                              RecipeUIMapper mapper){
         this.getAllRecipesUseCase = getAllRecipesUseCase;
+        this.deleteRecipeByIdUseCase = deleteRecipeByIdUseCase;
 
         this.mapper = mapper;
     }
@@ -34,6 +38,10 @@ public class CookbookPresenter implements CookbookContract.Presenter {
     @Override
     public void start() {
         view.showLoading();
+        getAllRecipes();
+    }
+
+    private void getAllRecipes() {
         compositeDisposable.add(getAllRecipesUseCase.execute(new GetAllRecipesUseCase.Input())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -83,6 +91,17 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     @Override
     public void onDeleteRecipeClicked(int id) {
+        view.showConfirmRecipeDeletionDialog(id);
+    }
 
+    @Override
+    public void onDeleteRecipeConfirmed(int id){
+        view.showLoading();
+        compositeDisposable.add(deleteRecipeByIdUseCase.get().execute(new DeleteRecipeByIdUseCase.Input(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    getAllRecipes();
+                }));
     }
 }
