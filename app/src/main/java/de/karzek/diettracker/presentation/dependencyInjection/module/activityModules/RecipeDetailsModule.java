@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.dependencyInjection.module.activityMo
 import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.favoriteRecipe.RemoveFavoriteRecipeByTitleUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetFavoriteStateForRecipeByIdUseCase;
@@ -28,12 +29,14 @@ public class RecipeDetailsModule {
     @Provides
     RecipeDetailsContract.Presenter provideRecipeDetailsPresenter(GetRecipeByIdUseCase getRecipeByIdUseCase,
                                                                   SharedPreferencesManager sharedPreferencesManager,
+                                                                  NutritionManager nutritionManager,
                                                                   Lazy<PutFavoriteRecipeUseCase> putFavoriteRecipeUseCase,
                                                                   Lazy<RemoveFavoriteRecipeByTitleUseCase> removeFavoriteRecipeByTitleUseCase,
                                                                   Lazy<GetFavoriteStateForRecipeByIdUseCase> getFavoriteStateForRecipeByIdUseCase,
                                                                   RecipeUIMapper recipeUIMapper) {
         return new RecipeDetailsPresenter(getRecipeByIdUseCase,
                 sharedPreferencesManager,
+                nutritionManager,
                 putFavoriteRecipeUseCase,
                 removeFavoriteRecipeByTitleUseCase,
                 getFavoriteStateForRecipeByIdUseCase,

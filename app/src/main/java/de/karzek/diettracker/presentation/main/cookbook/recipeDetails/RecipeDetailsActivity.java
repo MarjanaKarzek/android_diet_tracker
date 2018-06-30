@@ -117,12 +117,12 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
 
-        /*if(nutritionDetails == VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY && detailsExpanded)
+        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, getString(R.string.recipe_details_ingredients_title, StringUtils.formatFloat(displayModel.getPortions()))));
+
+        if(nutritionDetails == VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY && detailsExpanded)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
         else if (nutritionDetails == VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS && detailsExpanded)
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));*/
-
-        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, getString(R.string.recipe_details_ingredients_title, StringUtils.formatFloat(displayModel.getPortions()))));
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
 
         for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));

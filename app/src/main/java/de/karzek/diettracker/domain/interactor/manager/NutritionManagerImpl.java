@@ -1,5 +1,6 @@
 package de.karzek.diettracker.domain.interactor.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import de.karzek.diettracker.domain.interactor.manager.managerInterface.Nutritio
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.domain.model.GroceryDomainModel;
 import de.karzek.diettracker.domain.model.UnitDomainModel;
+import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
@@ -35,7 +37,7 @@ public class NutritionManagerImpl implements NutritionManager {
     }
 
     @Override
-    public HashMap<String, Float> calculateTotalNutrition(List<DiaryEntryDomainModel> diaryEntries) {
+    public HashMap<String, Float> calculateTotalNutritionForDiaryEntry(List<DiaryEntryDomainModel> diaryEntries) {
         HashMap<String, Float> values = new HashMap<>();
 
         float calories = 0.0f;
@@ -71,7 +73,7 @@ public class NutritionManagerImpl implements NutritionManager {
     }
 
     @Override
-    public HashMap<String, Float> calculateTotalCalories(List<DiaryEntryDomainModel> diaryEntries) {
+    public HashMap<String, Float> calculateTotalCaloriesForDiaryEntry(List<DiaryEntryDomainModel> diaryEntries) {
         HashMap<String, Float> values = new HashMap<>();
 
         float calories = 0.0f;
@@ -161,5 +163,51 @@ public class NutritionManagerImpl implements NutritionManager {
         defaultNutritionValues.put(Constants.fats, 0.0f);
 
         return defaultNutritionValues;
+    }
+
+    @Override
+    public HashMap<String, Float> calculateTotalCaloriesForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions) {
+        HashMap<String, Float> values = new HashMap<>();
+
+        float calories = 0.0f;
+
+        for (IngredientDisplayModel entry : ingredients) {
+            calories += entry.getGrocery().getCalories_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+        }
+
+        calories = calories / portions;
+
+        values.put(Constants.calories, calories);
+
+        return values;
+    }
+
+    @Override
+    public HashMap<String, Float> calculateTotalNutritionsForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions) {
+        HashMap<String, Float> values = new HashMap<>();
+
+        float calories = 0.0f;
+        float proteins = 0.0f;
+        float carbs = 0.0f;
+        float fats = 0.0f;
+
+        for (IngredientDisplayModel entry : ingredients) {
+            calories += entry.getGrocery().getCalories_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+            proteins += entry.getGrocery().getProteins_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+            carbs += entry.getGrocery().getCarbohydrates_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+            fats += entry.getGrocery().getFats_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+        }
+
+        calories = calories / portions;
+        proteins = proteins / portions;
+        carbs = carbs / portions;
+        fats = fats / portions;
+
+        values.put(Constants.calories, calories);
+        values.put(Constants.proteins, proteins);
+        values.put(Constants.carbs, carbs);
+        values.put(Constants.fats, fats);
+
+        return values;
     }
 }

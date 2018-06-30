@@ -1,6 +1,9 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeDetails;
 
+import java.util.HashMap;
+
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.favoriteRecipe.GetFavoriteStateForRecipeByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetFavoriteStateForRecipeByIdUseCase;
@@ -32,6 +35,7 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     private RecipeDetailsContract.View view;
 
     private SharedPreferencesManager sharedPreferencesManager;
+    private NutritionManager nutritionManager;
     private GetRecipeByIdUseCase getRecipeByIdUseCase;
     private Lazy<PutFavoriteRecipeUseCase> putFavoriteRecipeUseCase;
     private Lazy<RemoveFavoriteRecipeByTitleUseCase> removeFavoriteRecipeByTitleUseCase;
@@ -46,11 +50,13 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
 
     public RecipeDetailsPresenter(GetRecipeByIdUseCase getRecipeByIdUseCase,
                                   SharedPreferencesManager sharedPreferencesManager,
+                                  NutritionManager nutritionManager,
                                   Lazy<PutFavoriteRecipeUseCase> putFavoriteRecipeUseCase,
                                   Lazy<RemoveFavoriteRecipeByTitleUseCase> removeFavoriteRecipeByTitleUseCase,
                                   Lazy<GetFavoriteStateForRecipeByIdUseCase> getFavoriteStateForRecipeByIdUseCase,
                                   RecipeUIMapper recipeMapper){
         this.sharedPreferencesManager = sharedPreferencesManager;
+        this.nutritionManager = nutritionManager;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.putFavoriteRecipeUseCase = putFavoriteRecipeUseCase;
         this.removeFavoriteRecipeByTitleUseCase = removeFavoriteRecipeByTitleUseCase;
@@ -67,9 +73,9 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
                 .subscribe(output -> {
                     recipe = recipeMapper.transform(output.getRecipe());
                     if (sharedPreferencesManager.getNutritionDetailsSetting().equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
-                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY, detailsExpanded, null, null );
+                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY, detailsExpanded, nutritionManager.getCaloryMaxValueForDay(), nutritionManager.calculateTotalCaloriesForRecipe(recipe.getIngredients(), recipe.getPortions()));
                     } else {
-                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, null, null);
+                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, nutritionManager.getNutritionMaxValuesForDay(), nutritionManager.calculateTotalNutritionsForRecipe(recipe.getIngredients(), recipe.getPortions()));
                     }
                     view.hideLoading();
                 })
@@ -125,6 +131,10 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     @Override
     public void onExpandNutritionDetailsViewClicked() {
         detailsExpanded = !detailsExpanded;
-        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, null, null);
+        if (sharedPreferencesManager.getNutritionDetailsSetting().equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+            view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY, detailsExpanded, nutritionManager.getCaloryMaxValueForDay(), nutritionManager.calculateTotalCaloriesForRecipe(recipe.getIngredients(), recipe.getPortions()));
+        } else {
+            view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, nutritionManager.getNutritionMaxValuesForDay(), nutritionManager.calculateTotalNutritionsForRecipe(recipe.getIngredients(), recipe.getPortions()));
+        }
     }
 }

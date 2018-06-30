@@ -3,13 +3,7 @@ package de.karzek.diettracker.presentation.main.diary.drink;
 import java.util.List;
 
 import dagger.Lazy;
-import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
-import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.AddAmountOfWaterUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetWaterStatusUseCaseImpl;
-import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.UpdateAmountOfWaterUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.AddAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetAllDiaryEntriesMatchingUseCase;
@@ -173,7 +167,7 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output1 -> {
                         view.setNutritionMaxValues(output1);
-                        Observable.just(nutritionManager.calculateTotalCalories(diaryEntries))
+                        Observable.just(nutritionManager.calculateTotalCaloriesForDiaryEntry(diaryEntries))
                                 .subscribeOn(Schedulers.computation())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(output2 -> view.updateNutritionDetails(output2));
@@ -184,7 +178,7 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output1 -> {
                         view.setNutritionMaxValues(output1);
-                        Observable.just(nutritionManager.calculateTotalNutrition(diaryEntries))
+                        Observable.just(nutritionManager.calculateTotalNutritionForDiaryEntry(diaryEntries))
                                 .subscribeOn(Schedulers.computation())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(output2 -> view.updateNutritionDetails(output2));

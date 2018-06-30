@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsCaloryAndMacroDetailsViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsCaloryDetailsViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientsAndPortionsTitleViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsMealsViewHolder;
@@ -41,6 +43,10 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
                 return new RecipeDetailsPhotoViewHolder(parent);
             case RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW:
                 return new RecipeDetailsIngredientsAndPortionsTitleViewHolder(parent, onExpandNutritionDetailsViewClickListener);
+            case RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW:
+                return new RecipeDetailsCaloryDetailsViewHolder(parent);
+            case RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW:
+                return new RecipeDetailsCaloryAndMacroDetailsViewHolder(parent);
             case RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW:
                 return new RecipeDetailsIngredientViewHolder(parent);
             case RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW:
@@ -59,6 +65,10 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
             ((RecipeDetailsPhotoViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeDetailsIngredientsAndPortionsTitleViewHolder) {
             ((RecipeDetailsIngredientsAndPortionsTitleViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeDetailsCaloryDetailsViewHolder) {
+            ((RecipeDetailsCaloryDetailsViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeDetailsCaloryAndMacroDetailsViewHolder) {
+            ((RecipeDetailsCaloryAndMacroDetailsViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeDetailsIngredientViewHolder) {
             ((RecipeDetailsIngredientViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeDetailsTitleViewHolder) {

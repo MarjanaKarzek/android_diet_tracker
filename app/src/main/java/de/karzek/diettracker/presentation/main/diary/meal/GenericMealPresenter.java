@@ -128,7 +128,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(output1 -> {
                                     view.setNutritionMaxValues(output1);
-                                    Observable.just(nutritionManager.calculateTotalCalories(diaryEntryDomainModels))
+                                    Observable.just(nutritionManager.calculateTotalCaloriesForDiaryEntry(diaryEntryDomainModels))
                                             .subscribeOn(Schedulers.computation())
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(output2 -> view.updateNutritionDetails(output2));
@@ -139,7 +139,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(output1 -> {
                                     view.setNutritionMaxValues(output1);
-                                    Observable.just(nutritionManager.calculateTotalNutrition(diaryEntryDomainModels))
+                                    Observable.just(nutritionManager.calculateTotalNutritionForDiaryEntry(diaryEntryDomainModels))
                                             .subscribeOn(Schedulers.computation())
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(output2 -> view.updateNutritionDetails(output2));
