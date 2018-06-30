@@ -128,12 +128,14 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));
         }
 
-        /*views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW,getString(R.string.recipe_preparation_steps_title)));
-        for (PreparationStepDisplayModel step : displayModel.getSteps())
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));
+        if(displayModel.getSteps().size() > 0)
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_preparation_steps_title)));
+        /*for (PreparationStepDisplayModel step : displayModel.getSteps())
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));*/
 
-        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_meals_title)));
-        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW, displayModel.getMeals()));*/
+        if(displayModel.getMeals().size() > 0)
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_meals_title)));
+        /*views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW, displayModel.getMeals()));*/
 
         ((RecipeDetailsViewListAdapter) recyclerView.getAdapter()).setList(views);
     }

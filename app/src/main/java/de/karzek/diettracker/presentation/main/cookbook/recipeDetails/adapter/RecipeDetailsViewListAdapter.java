@@ -10,6 +10,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.it
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientsAndPortionsTitleViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsPhotoViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsTitleViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -40,6 +41,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
                 return new RecipeDetailsIngredientsAndPortionsTitleViewHolder(parent, onExpandNutritionDetailsViewClickListener);
             case RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW:
                 return new RecipeDetailsIngredientViewHolder(parent);
+            case RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW:
+                return new RecipeDetailsTitleViewHolder(parent);
         }
         return null;
     }
@@ -52,6 +55,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
             ((RecipeDetailsIngredientsAndPortionsTitleViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeDetailsIngredientViewHolder) {
             ((RecipeDetailsIngredientViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeDetailsTitleViewHolder) {
+            ((RecipeDetailsTitleViewHolder) holder).bind(list.get(position));
         }
     }
 
