@@ -135,7 +135,7 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
         if(displayModel.getMeals().size() > 0)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_meals_title)));
-        /*views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW, displayModel.getMeals()));*/
+        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW, displayModel.getMeals()));
 
         ((RecipeDetailsViewListAdapter) recyclerView.getAdapter()).setList(views);
     }

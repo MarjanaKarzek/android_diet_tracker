@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientsAndPortionsTitleViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsMealsViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsPhotoViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsPreparationStepViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsTitleViewHolder;
@@ -46,6 +47,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
                 return new RecipeDetailsTitleViewHolder(parent);
             case RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW:
                 return new RecipeDetailsPreparationStepViewHolder(parent);
+            case RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW:
+                return new RecipeDetailsMealsViewHolder(parent);
         }
         return null;
     }
@@ -62,6 +65,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
             ((RecipeDetailsTitleViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeDetailsPreparationStepViewHolder) {
             ((RecipeDetailsPreparationStepViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeDetailsMealsViewHolder) {
+            ((RecipeDetailsMealsViewHolder) holder).bind(list.get(position));
         }
     }
 
