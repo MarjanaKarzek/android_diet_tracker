@@ -130,8 +130,8 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
         if(displayModel.getSteps().size() > 0)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_preparation_steps_title)));
-        /*for (PreparationStepDisplayModel step : displayModel.getSteps())
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));*/
+        for (PreparationStepDisplayModel step : displayModel.getSteps())
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));
 
         if(displayModel.getMeals().size() > 0)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_meals_title)));

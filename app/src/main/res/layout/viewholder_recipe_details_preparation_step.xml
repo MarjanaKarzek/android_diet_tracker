@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="8dp">
+
+    <TextView
+        android:id="@+id/preparation_step_number"
+        style="@style/Headline2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center_vertical"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/preparation_step_text"
+        style="@style/Body1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/textPrimary"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        tools:text="Die trockenen Zutaten in einer großen Schüssel vermengen. Währenddessen den Backofen auf 180° vorheizen." />
+
+</LinearLayout>
