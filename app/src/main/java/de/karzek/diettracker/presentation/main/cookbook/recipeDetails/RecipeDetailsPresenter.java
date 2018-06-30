@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeDetails;
 
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.favoriteRecipe.GetFavoriteStateForRecipeByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetFavoriteStateForRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.PutFavoriteRecipeUseCase;
@@ -14,6 +15,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
+
 /**
  * Created by MarjanaKarzek on 25.04.2018.
  *
@@ -26,6 +31,7 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
 
     private RecipeDetailsContract.View view;
 
+    private SharedPreferencesManager sharedPreferencesManager;
     private GetRecipeByIdUseCase getRecipeByIdUseCase;
     private Lazy<PutFavoriteRecipeUseCase> putFavoriteRecipeUseCase;
     private Lazy<RemoveFavoriteRecipeByTitleUseCase> removeFavoriteRecipeByTitleUseCase;
@@ -33,13 +39,16 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     private RecipeUIMapper recipeMapper;
 
     private int recipeId;
+    private RecipeDisplayModel recipe;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public RecipeDetailsPresenter(GetRecipeByIdUseCase getRecipeByIdUseCase,
+                                  SharedPreferencesManager sharedPreferencesManager,
                                   Lazy<PutFavoriteRecipeUseCase> putFavoriteRecipeUseCase,
                                   Lazy<RemoveFavoriteRecipeByTitleUseCase> removeFavoriteRecipeByTitleUseCase,
                                   Lazy<GetFavoriteStateForRecipeByIdUseCase> getFavoriteStateForRecipeByIdUseCase,
                                   RecipeUIMapper recipeMapper){
+        this.sharedPreferencesManager = sharedPreferencesManager;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.putFavoriteRecipeUseCase = putFavoriteRecipeUseCase;
         this.removeFavoriteRecipeByTitleUseCase = removeFavoriteRecipeByTitleUseCase;
@@ -54,7 +63,12 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    view.fillRecipeDetails(recipeMapper.transform(output.getRecipe()));
+                    recipe = recipeMapper.transform(output.getRecipe());
+                    if (sharedPreferencesManager.getNutritionDetailsSetting().equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
+                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY,null, null );
+                    } else {
+                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, null, null);
+                    }
                     view.hideLoading();
                 })
         );
@@ -86,7 +100,7 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     }
 
     @Override
-    public void onFavoriteGroceryClicked(boolean checked, RecipeDisplayModel recipe) {
+    public void onFavoriteGroceryClicked(boolean checked) {
         if(checked){
             Disposable subs = putFavoriteRecipeUseCase.get().execute(new PutFavoriteRecipeUseCase.Input(new FavoriteRecipeDomainModel(-1, recipeMapper.transformToDomain(recipe))))
                     .subscribeOn(Schedulers.io())

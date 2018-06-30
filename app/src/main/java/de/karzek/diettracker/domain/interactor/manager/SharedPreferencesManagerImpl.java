@@ -12,6 +12,9 @@ import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
+
 /**
  * Created by MarjanaKarzek on 27.05.2018.
  *
@@ -50,6 +53,11 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
     @Override
     public void putAllergenIds(String allergenSelection) {
         sharedPreferencesUtil.setString(SharedPreferencesUtil.KEY_ALLERGENS, allergenSelection);
+    }
+
+    @Override
+    public String getNutritionDetailsSetting() {
+        return sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
     }
 
 }

@@ -26,4 +26,7 @@ public interface SharedPreferencesManager {
     ArrayList<Integer> getAllergenIds();
 
     void putAllergenIds(String allergenSelection);
+
+    String getNutritionDetailsSetting();
+
 }

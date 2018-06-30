@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeDetails;
 
+import java.util.HashMap;
+
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
@@ -16,13 +18,14 @@ public interface RecipeDetailsContract {
 
     interface View extends BaseView<Presenter> {
 
+        void setupViewsInRecyclerView(RecipeDisplayModel displayModel, String nutritionDetails, HashMap<String, Long> maxValues, HashMap<String, Float> values);
+
         void showLoading();
 
         void hideLoading();
 
         void setFavoriteIconCheckedState(boolean checked);
 
-        void fillRecipeDetails(RecipeDisplayModel transform);
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -31,7 +34,8 @@ public interface RecipeDetailsContract {
 
         void setRecipeId(int id);
 
-        void onFavoriteGroceryClicked(boolean checked, RecipeDisplayModel recipe);
+        void onFavoriteGroceryClicked(boolean checked);
+
     }
 
 }

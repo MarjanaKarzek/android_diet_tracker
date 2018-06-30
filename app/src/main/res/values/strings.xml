@@ -112,10 +112,10 @@
     <string name="add_ingredient_product_name">Produktname</string>
     <string name="add_ingredient_dialog_action">Hinzufügen</string>
     <string name="error_message_missing_product_name">Bitte Produkt Namen angeben</string>
-    <string name="recipe_man_preparation_steps_title">Zubereitung</string>
+    <string name="recipe_preparation_steps_title">Zubereitung</string>
     <string name="add_preparation_step_description">Beschreibung</string>
     <string name="error_message_missing_preparation_step_description">Bitte Beschreibung angeben</string>
-    <string name="recipe_man_meals_title">Mahlzeiten</string>
+    <string name="recipe_meals_title">Mahlzeiten</string>
     <string name="no_meals_selected_placeholder">Verwalte Mahlzeiten für dieses Rezept über das Stift Symbol</string>
     <string name="button_add_recipe">Speichern und Zutaten erkennen</string>
     <string name="error_message_missing_recipe_title">Bitte füge einen Titel hinzu</string>
@@ -123,5 +123,6 @@
     <string name="error_message_unknown_error">Ein unbekannter Fehler inst aufgetreten</string>
     <string name="dialog_message_confirm_recipe_deletion">Bist Du Dir sicher, dass Du dieses Rezept löschen möchtest?</string>
     <string name="dialog_action_delete_recipe">Löschen</string>
+    <string name="recipe_details_ingredients_title">Zutaten für %1$s Portionen</string>
 
 </resources>
