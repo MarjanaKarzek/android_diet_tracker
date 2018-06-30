@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -57,43 +58,68 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_
  */
 public class SettingsFragment extends BaseFragment implements SettingsContract.View {
 
-    @Inject SettingsContract.Presenter presenter;
+    @Inject
+    SettingsContract.Presenter presenter;
 
-    @BindView(R.id.expandable_diet_action) ImageButton expandableDietLayoutAction;
-    @BindView(R.id.expandable_diet_details) ExpandableLayout expandableDietLayout;
+    @BindView(R.id.expandable_diet_action)
+    ImageButton expandableDietLayoutAction;
+    @BindView(R.id.expandable_diet_details)
+    ExpandableLayout expandableDietLayout;
 
-    @BindView(R.id.edit_text_amount_calories) EditText amountCalories;
-    @BindView(R.id.edit_text_amount_proteins) EditText amountProteins;
-    @BindView(R.id.edit_text_amount_carbs) EditText amountCarbs;
-    @BindView(R.id.edit_text_amount_fats) EditText amountFats;
+    @BindView(R.id.edit_text_amount_calories)
+    EditText amountCalories;
+    @BindView(R.id.edit_text_amount_proteins)
+    EditText amountProteins;
+    @BindView(R.id.edit_text_amount_carbs)
+    EditText amountCarbs;
+    @BindView(R.id.edit_text_amount_fats)
+    EditText amountFats;
 
-    @BindView(R.id.expandable_liquids_action) ImageButton expandableLiquidLayoutAction;
-    @BindView(R.id.expandable_liquid_details) ExpandableLayout expandableLiquidLayout;
+    @BindView(R.id.expandable_liquids_action)
+    ImageButton expandableLiquidLayoutAction;
+    @BindView(R.id.expandable_liquid_details)
+    ExpandableLayout expandableLiquidLayout;
 
-    @BindView(R.id.edit_text_amount_liquids) EditText amountLiquids;
-    @BindView(R.id.edit_text_volume_bottle) EditText volumeBottle;
-    @BindView(R.id.edit_text_volume_glasses) EditText volumeGlass;
+    @BindView(R.id.edit_text_amount_liquids)
+    EditText amountLiquids;
+    @BindView(R.id.edit_text_volume_bottle)
+    EditText volumeBottle;
+    @BindView(R.id.edit_text_volume_glasses)
+    EditText volumeGlass;
 
-    @BindView(R.id.expandable_meals_action) ImageButton expandableMealsLayoutAction;
-    @BindView(R.id.expandable_meal_details) ExpandableLayout expandableMealsLayout;
+    @BindView(R.id.expandable_meals_action)
+    ImageButton expandableMealsLayoutAction;
+    @BindView(R.id.expandable_meal_details)
+    ExpandableLayout expandableMealsLayout;
 
-    @BindView(R.id.settings_meal_recyclerview) RecyclerView recyclerViewMeals;
+    @BindView(R.id.settings_meal_recyclerview)
+    RecyclerView recyclerViewMeals;
 
-    @BindView(R.id.expandable_allergies_action) ImageButton expandableAllergiesLayoutAction;
-    @BindView(R.id.expandable_allergies_details) ExpandableLayout expandableAllergiesLayout;
+    @BindView(R.id.expandable_allergies_action)
+    ImageButton expandableAllergiesLayoutAction;
+    @BindView(R.id.expandable_allergies_details)
+    ExpandableLayout expandableAllergiesLayout;
 
-    @BindView(R.id.text_allergies) TextView allergenText;
+    @BindView(R.id.text_allergies)
+    TextView allergenText;
 
-    @BindView(R.id.expandable_data_action) ImageButton expandableDataLayoutAction;
-    @BindView(R.id.expandable_data_details) ExpandableLayout expandableDataLayout;
+    @BindView(R.id.expandable_data_action)
+    ImageButton expandableDataLayoutAction;
+    @BindView(R.id.expandable_data_details)
+    ExpandableLayout expandableDataLayout;
 
-    @BindView(R.id.settings_data_macros) CheckBox dataDisplayMacro;
+    @BindView(R.id.settings_data_macros)
+    CheckBox dataDisplayMacro;
 
-    @BindView(R.id.expandable_start_screen_action) ImageButton expandableStartScreenLayoutAction;
-    @BindView(R.id.expandable_start_screen_details) ExpandableLayout expandableStartScreenLayout;
+    @BindView(R.id.expandable_start_screen_action)
+    ImageButton expandableStartScreenLayoutAction;
+    @BindView(R.id.expandable_start_screen_details)
+    ExpandableLayout expandableStartScreenLayout;
 
-    @BindView(R.id.settings_start_screen_recipes) CheckBox startScreenRecipes;
-    @BindView(R.id.settings_start_screen_liquids) CheckBox startScreenLiquids;
+    @BindView(R.id.settings_start_screen_recipes)
+    CheckBox startScreenRecipes;
+    @BindView(R.id.settings_start_screen_liquids)
+    CheckBox startScreenLiquids;
 
     @Nullable
     @Override
@@ -250,11 +276,11 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
-    public void setupAllergenTextView(ArrayList<AllergenDisplayModel> allergens){
+    public void setupAllergenTextView(ArrayList<AllergenDisplayModel> allergens) {
         String allergenDescription = "";
-        for(int i=0; i < allergens.size(); i++){
+        for (int i = 0; i < allergens.size(); i++) {
             allergenDescription += allergens.get(i).getName();
-            if(i < allergens.size()-1)
+            if (i < allergens.size() - 1)
                 allergenDescription += ", ";
         }
 
@@ -275,30 +301,30 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         presenter.finish();
         TrackerApplication.get(getContext()).releaseSettingsComponent();
     }
 
     @Override
-    public void fillSettingsOptions(SharedPreferencesUtil sharedPreferencesUtil){
-        amountCalories.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY,SharedPreferencesUtil.VALUE_REQUIREMENT_CALORIES_DAILY)));
-        amountProteins.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_PROTEINS_DAILY,SharedPreferencesUtil.VALUE_REQUIREMENT_PROTEINS_DAILY)));
-        amountCarbs.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_CARBS_DAILY,SharedPreferencesUtil.VALUE_REQUIREMENT_CARBS_DAILY)));
-        amountFats.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_FATS_DAILY,SharedPreferencesUtil.VALUE_REQUIREMENT_FATS_DAILY)));
+    public void fillSettingsOptions(SharedPreferencesUtil sharedPreferencesUtil) {
+        amountCalories.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_CALORIES_DAILY)));
+        amountProteins.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_PROTEINS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_PROTEINS_DAILY)));
+        amountCarbs.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_CARBS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_CARBS_DAILY)));
+        amountFats.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_FATS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_FATS_DAILY)));
 
-        amountLiquids.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY,SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY)));
-        volumeBottle.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_BOTTLE_VOLUME,SharedPreferencesUtil.VALUE_BOTTLE_VOLUME)));
-        volumeGlass.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_GLASS_VOLUME,SharedPreferencesUtil.VALUE_GLASS_VOLUME)));
+        amountLiquids.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY)));
+        volumeBottle.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_BOTTLE_VOLUME, SharedPreferencesUtil.VALUE_BOTTLE_VOLUME)));
+        volumeGlass.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_GLASS_VOLUME, SharedPreferencesUtil.VALUE_GLASS_VOLUME)));
 
-        if(sharedPreferencesUtil.getString(SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS,SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS).equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS))
+        if (sharedPreferencesUtil.getString(SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS, SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS).equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS))
             dataDisplayMacro.setChecked(true);
+        else
+            dataDisplayMacro.setChecked(false);
 
-        if(sharedPreferencesUtil.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_RECIPE,SharedPreferencesUtil.VALUE_TRUE))
-            startScreenRecipes.setChecked(true);
-        if(sharedPreferencesUtil.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_LIQUIDS,SharedPreferencesUtil.VALUE_TRUE))
-            startScreenLiquids.setChecked(true);
+        startScreenRecipes.setChecked(sharedPreferencesUtil.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_RECIPE, SharedPreferencesUtil.VALUE_TRUE));
+        startScreenLiquids.setChecked(sharedPreferencesUtil.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_LIQUIDS, SharedPreferencesUtil.VALUE_TRUE));
     }
 
     @Override
@@ -315,7 +341,7 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         bundle.putString("startTime", mealDisplayModel.getStartTime());
         bundle.putString("endTime", mealDisplayModel.getEndTime());
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction,"dialog");
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override
@@ -327,7 +353,7 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         fragmentTransaction.addToBackStack(null);
 
         AppCompatDialogFragment dialogFragment = new EditAllergensDialog();
-        dialogFragment.show(fragmentTransaction,"dialog");
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override
@@ -335,71 +361,103 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         recyclerViewMeals.getAdapter().notifyDataSetChanged();
     }
 
-    @OnClick(R.id.expandable_diet_action) public void onExpandDietLayoutClicked(){
-        if(expandableDietLayout.isExpanded()){
+    @Override
+    public void setupCheckboxListeners() {
+        dataDisplayMacro.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                presenter.setNutritionDetailsSetting(checked);
+            }
+        });
+
+        startScreenRecipes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                presenter.setStartScreenRecipesSetting(checked);
+            }
+        });
+
+        startScreenLiquids.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                presenter.setStartScreenLiquidsSetting(checked);
+            }
+        });
+    }
+
+    @OnClick(R.id.expandable_diet_action)
+    public void onExpandDietLayoutClicked() {
+        if (expandableDietLayout.isExpanded()) {
             collapseExpandableLayout(expandableDietLayout, expandableDietLayoutAction);
         } else {
             expandExpandableLayout(expandableDietLayout, expandableDietLayoutAction);
         }
     }
 
-    @OnClick(R.id.expandable_liquids_action) public void onExpandLiquidsLayoutClicked(){
-        if(expandableLiquidLayout.isExpanded()){
+    @OnClick(R.id.expandable_liquids_action)
+    public void onExpandLiquidsLayoutClicked() {
+        if (expandableLiquidLayout.isExpanded()) {
             collapseExpandableLayout(expandableLiquidLayout, expandableLiquidLayoutAction);
         } else {
             expandExpandableLayout(expandableLiquidLayout, expandableLiquidLayoutAction);
         }
     }
 
-    @OnClick(R.id.expandable_meals_action) public void onExpandMealLayoutClicked(){
-        if(expandableMealsLayout.isExpanded()){
+    @OnClick(R.id.expandable_meals_action)
+    public void onExpandMealLayoutClicked() {
+        if (expandableMealsLayout.isExpanded()) {
             collapseExpandableLayout(expandableMealsLayout, expandableMealsLayoutAction);
         } else {
             expandExpandableLayout(expandableMealsLayout, expandableMealsLayoutAction);
         }
     }
 
-    @OnClick(R.id.expandable_allergies_action) public void onExpandAllergiesLayoutClicked(){
-        if(expandableAllergiesLayout.isExpanded()){
+    @OnClick(R.id.expandable_allergies_action)
+    public void onExpandAllergiesLayoutClicked() {
+        if (expandableAllergiesLayout.isExpanded()) {
             collapseExpandableLayout(expandableAllergiesLayout, expandableAllergiesLayoutAction);
         } else {
             expandExpandableLayout(expandableAllergiesLayout, expandableAllergiesLayoutAction);
         }
     }
 
-    @OnClick(R.id.expandable_data_action) public void onExpandDataLayoutClicked(){
-        if(expandableDataLayout.isExpanded()){
+    @OnClick(R.id.expandable_data_action)
+    public void onExpandDataLayoutClicked() {
+        if (expandableDataLayout.isExpanded()) {
             collapseExpandableLayout(expandableDataLayout, expandableDataLayoutAction);
         } else {
             expandExpandableLayout(expandableDataLayout, expandableDataLayoutAction);
         }
     }
 
-    @OnClick(R.id.expandable_start_screen_action) public void onExpandStartScreenLayoutClicked(){
-        if(expandableStartScreenLayout.isExpanded()){
+    @OnClick(R.id.expandable_start_screen_action)
+    public void onExpandStartScreenLayoutClicked() {
+        if (expandableStartScreenLayout.isExpanded()) {
             collapseExpandableLayout(expandableStartScreenLayout, expandableStartScreenLayoutAction);
         } else {
             expandExpandableLayout(expandableStartScreenLayout, expandableStartScreenLayoutAction);
         }
     }
 
-    @OnClick(R.id.add_meal) public void onAddMealClicked(){
+    @OnClick(R.id.add_meal)
+    public void onAddMealClicked() {
         if (recyclerViewMeals.getAdapter().getItemCount() >= 10)
-            Toast.makeText(getContext(),R.string.error_message_only_ten_supported_meals, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.error_message_only_ten_supported_meals, Toast.LENGTH_LONG).show();
         else
-            ((SettingsMealListAdapter)recyclerViewMeals.getAdapter()).addItem(new MealDisplayModel(-1, "", "",""));
+            ((SettingsMealListAdapter) recyclerViewMeals.getAdapter()).addItem(new MealDisplayModel(-1, "", "", ""));
     }
 
-    @OnClick(R.id.text_allergies) public void onEditAllergensClicked(){
+    @OnClick(R.id.text_allergies)
+    public void onEditAllergensClicked() {
         presenter.onEditAllergensClicked();
     }
 
-    private void collapseExpandableLayout(ExpandableLayout layout, ImageButton action){
+    private void collapseExpandableLayout(ExpandableLayout layout, ImageButton action) {
         action.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_primary_text));
         layout.collapse(true);
     }
 
-    private void expandExpandableLayout(ExpandableLayout layout, ImageButton action){
+    private void expandExpandableLayout(ExpandableLayout layout, ImageButton action) {
         action.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_less_primary_text));
         layout.expand(true);
     }

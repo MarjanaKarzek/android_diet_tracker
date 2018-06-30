@@ -64,6 +64,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     @Override
     public void start() {
         view.fillSettingsOptions(sharedPreferencesUtil);
+        view.setupCheckboxListeners();
 
         compositeDisposable.add(getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
                 .subscribeOn(Schedulers.io())
@@ -129,6 +130,21 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
                     view.setupAllergenTextView(displayModels);
                 }));
+    }
+
+    @Override
+    public void setNutritionDetailsSetting(boolean checked) {
+        sharedPreferencesManager.setNutritionDetailsSetting(checked);
+    }
+
+    @Override
+    public void setStartScreenRecipesSetting(boolean checked) {
+        sharedPreferencesManager.setStartScreenRecipesSetting(checked);
+    }
+
+    @Override
+    public void setStartScreenLiquidsSetting(boolean checked) {
+        sharedPreferencesManager.setStartScreenLiquidsSetting(checked);
     }
 
     @Override

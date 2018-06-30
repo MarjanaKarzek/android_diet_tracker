@@ -13,6 +13,9 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_START_SCREEN_LIQUIDS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_START_SCREEN_RECIPE;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
@@ -58,6 +61,24 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
     @Override
     public String getNutritionDetailsSetting() {
         return sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
+    }
+
+    @Override
+    public void setNutritionDetailsSetting(boolean checked) {
+        if (checked)
+            sharedPreferencesUtil.setString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS);
+        else
+            sharedPreferencesUtil.setString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
+    }
+
+    @Override
+    public void setStartScreenRecipesSetting(boolean checked) {
+        sharedPreferencesUtil.setBoolean(KEY_START_SCREEN_RECIPE, checked);
+    }
+
+    @Override
+    public void setStartScreenLiquidsSetting(boolean checked) {
+        sharedPreferencesUtil.setBoolean(KEY_START_SCREEN_LIQUIDS, checked);
     }
 
 }

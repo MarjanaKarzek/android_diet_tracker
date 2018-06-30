@@ -29,4 +29,10 @@ public interface SharedPreferencesManager {
 
     String getNutritionDetailsSetting();
 
+    void setNutritionDetailsSetting(boolean checked);
+
+    void setStartScreenRecipesSetting(boolean checked);
+
+    void setStartScreenLiquidsSetting(boolean checked);
+
 }

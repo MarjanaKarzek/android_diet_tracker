@@ -105,6 +105,12 @@ public class SharedPreferencesUtil {
                 .apply();
     }
 
+    public void setBoolean(String key, boolean value) {
+        sharedPreferences.edit()
+                .putBoolean(key, value)
+                .apply();
+    }
+
     public long getLong(String key, long defaultValue) {
         return sharedPreferences.getLong(key, defaultValue);
     }

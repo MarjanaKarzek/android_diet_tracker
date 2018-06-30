@@ -39,6 +39,9 @@ public interface SettingsContract {
         void showEditAllergenDialog();
 
         void updateRecyclerView();
+
+        void setupCheckboxListeners();
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -55,5 +58,11 @@ public interface SettingsContract {
         void onEditAllergensClicked();
 
         void updateAllergens();
+
+        void setNutritionDetailsSetting(boolean checked);
+
+        void setStartScreenRecipesSetting(boolean checked);
+
+        void setStartScreenLiquidsSetting(boolean checked);
     }
 }
