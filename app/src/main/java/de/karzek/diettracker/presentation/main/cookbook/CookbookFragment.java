@@ -42,14 +42,25 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  * @version 1.0
  * @date 12.05.2018
  */
-public class CookbookFragment extends BaseFragment implements CookbookContract.View{
+public class CookbookFragment extends BaseFragment implements CookbookContract.View {
 
-    @Inject CookbookContract.Presenter presenter;
+    @Inject
+    CookbookContract.Presenter presenter;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.cookbook_recyclerview) RecyclerView recyclerView;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
-    @BindView(R.id.cookbook_placeholder) TextView placeholder;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.cookbook_recyclerview)
+    RecyclerView recyclerView;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
+    @BindView(R.id.cookbook_placeholder)
+    TextView placeholder;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.start();
+    }
 
     @Nullable
     @Override
@@ -95,8 +106,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
         ButterKnife.bind(this, view);
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("");
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
         setupRecyclerView();
 
         presenter.setView(this);
@@ -120,7 +131,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         presenter.finish();
         TrackerApplication.get(getContext()).releaseCookbookComponent();
@@ -186,7 +197,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
         return false;
     }
 
-    @OnClick(R.id.add_recipe) public void onAddRecipeClicked(){
+    @OnClick(R.id.add_recipe)
+    public void onAddRecipeClicked() {
         startActivity(RecipeManipulationActivity.newIntent(getContext()));
     }
 }

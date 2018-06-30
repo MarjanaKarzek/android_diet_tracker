@@ -1,5 +1,6 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeDetails;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -62,6 +63,12 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.start();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.recipe_details, menu);
@@ -100,6 +107,7 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
         recyclerView.setAdapter(new RecipeDetailsViewListAdapter(presenter));
     }
 
+    @SuppressLint("StringFormatInvalid")
     @Override
     public void setupViewsInRecyclerView(RecipeDisplayModel displayModel, String nutritionDetails, boolean detailsExpanded, HashMap<String, Long> maxValues, HashMap<String, Float> values) {
         getSupportActionBar().setTitle(displayModel.getTitle());
@@ -116,11 +124,11 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
         views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, getString(R.string.recipe_details_ingredients_title, StringUtils.formatFloat(displayModel.getPortions()))));
 
-        /*for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
+        for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));
         }
 
-        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW,getString(R.string.recipe_preparation_steps_title)));
+        /*views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW,getString(R.string.recipe_preparation_steps_title)));
         for (PreparationStepDisplayModel step : displayModel.getSteps())
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));
 

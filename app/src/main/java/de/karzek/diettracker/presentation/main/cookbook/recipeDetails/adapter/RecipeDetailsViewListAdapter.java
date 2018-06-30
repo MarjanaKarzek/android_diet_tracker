@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientsAndPortionsTitleViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsPhotoViewHolder;
 
@@ -37,6 +38,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
                 return new RecipeDetailsPhotoViewHolder(parent);
             case RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW:
                 return new RecipeDetailsIngredientsAndPortionsTitleViewHolder(parent, onExpandNutritionDetailsViewClickListener);
+            case RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW:
+                return new RecipeDetailsIngredientViewHolder(parent);
         }
         return null;
     }
@@ -47,6 +50,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
             ((RecipeDetailsPhotoViewHolder) holder).bind(list.get(position));
         } else if (holder instanceof RecipeDetailsIngredientsAndPortionsTitleViewHolder) {
             ((RecipeDetailsIngredientsAndPortionsTitleViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeDetailsIngredientViewHolder) {
+            ((RecipeDetailsIngredientViewHolder) holder).bind(list.get(position));
         }
     }
 

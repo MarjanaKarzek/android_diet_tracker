@@ -2,7 +2,7 @@
     <string name="app_name">DietTracker</string>
 
     <string name="welcome">Willkommen</string>
-    <string name="welcome_text">Datenbank wird vorbereitet...</string>
+    <string name="welcome_text">Datenbank wird vorbereitet…</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_diary">Tagebuch</string>
@@ -123,6 +123,6 @@
     <string name="error_message_unknown_error">Ein unbekannter Fehler inst aufgetreten</string>
     <string name="dialog_message_confirm_recipe_deletion">Bist Du Dir sicher, dass Du dieses Rezept löschen möchtest?</string>
     <string name="dialog_action_delete_recipe">Löschen</string>
-    <string name="recipe_details_ingredients_title">Zutaten für %1$s Portionen</string>
+    <string name="recipe_details_ingredients_title">Zutaten für %1$s Portion/en</string>
 
 </resources>
