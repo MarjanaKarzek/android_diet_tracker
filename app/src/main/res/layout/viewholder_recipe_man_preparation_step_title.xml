@@ -7,9 +7,6 @@
     android:background="@color/bg_title"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="16dp"
-    android:paddingEnd="16dp"
-    android:paddingStart="16dp"
-    android:paddingTop="16dp"
+    android:padding="16dp"
     android:text="@string/recipe_preparation_steps_title"
     android:textColor="@color/textPrimary" />

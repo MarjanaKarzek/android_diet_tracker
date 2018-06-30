@@ -31,6 +31,7 @@ import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 public class RecipeDetailsActivity extends BaseActivity implements RecipeDetailsContract.View {
@@ -96,11 +97,11 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeDetailsViewListAdapter());
+        recyclerView.setAdapter(new RecipeDetailsViewListAdapter(presenter));
     }
 
     @Override
-    public void setupViewsInRecyclerView(RecipeDisplayModel displayModel, String nutritionDetails, HashMap<String, Long> maxValues, HashMap<String, Float> values) {
+    public void setupViewsInRecyclerView(RecipeDisplayModel displayModel, String nutritionDetails, boolean detailsExpanded, HashMap<String, Long> maxValues, HashMap<String, Float> values) {
         getSupportActionBar().setTitle(displayModel.getTitle());
 
         ArrayList<RecipeDetailsViewItemWrapper> views = new ArrayList<>();
@@ -108,14 +109,14 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
 
-        /*if(nutritionDetails == VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)
+        /*if(nutritionDetails == VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY && detailsExpanded)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
-        else
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
+        else if (nutritionDetails == VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS && detailsExpanded)
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));*/
 
         views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, getString(R.string.recipe_details_ingredients_title, StringUtils.formatFloat(displayModel.getPortions()))));
 
-        for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
+        /*for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));
         }
 

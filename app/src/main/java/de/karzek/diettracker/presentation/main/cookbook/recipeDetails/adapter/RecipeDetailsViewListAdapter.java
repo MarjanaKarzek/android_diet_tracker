@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsIngredientsAndPortionsTitleViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder.RecipeDetailsPhotoViewHolder;
 
 /**
@@ -20,8 +21,12 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
 
     private ArrayList<RecipeDetailsViewItemWrapper> list;
 
-    public RecipeDetailsViewListAdapter(){
+    private RecipeDetailsIngredientsAndPortionsTitleViewHolder.OnExpandNutritionDetailsViewClickListener onExpandNutritionDetailsViewClickListener;
+
+    public RecipeDetailsViewListAdapter(RecipeDetailsIngredientsAndPortionsTitleViewHolder.OnExpandNutritionDetailsViewClickListener onExpandNutritionDetailsViewClickListener){
         list = new ArrayList<>();
+
+        this.onExpandNutritionDetailsViewClickListener = onExpandNutritionDetailsViewClickListener;
     }
 
     @NonNull
@@ -30,6 +35,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
         switch (viewType) {
             case RecipeDetailsViewItemWrapper.ItemType.PHOTO_VIEW:
                 return new RecipeDetailsPhotoViewHolder(parent);
+            case RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW:
+                return new RecipeDetailsIngredientsAndPortionsTitleViewHolder(parent, onExpandNutritionDetailsViewClickListener);
         }
         return null;
     }
@@ -38,6 +45,8 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RecipeDetailsPhotoViewHolder) {
             ((RecipeDetailsPhotoViewHolder) holder).bind(list.get(position));
+        } else if (holder instanceof RecipeDetailsIngredientsAndPortionsTitleViewHolder) {
+            ((RecipeDetailsIngredientsAndPortionsTitleViewHolder) holder).bind(list.get(position));
         }
     }
 

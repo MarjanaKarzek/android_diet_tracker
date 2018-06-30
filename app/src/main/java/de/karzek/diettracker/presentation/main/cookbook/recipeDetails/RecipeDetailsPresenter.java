@@ -40,6 +40,8 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
 
     private int recipeId;
     private RecipeDisplayModel recipe;
+    private boolean detailsExpanded = false;
+
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public RecipeDetailsPresenter(GetRecipeByIdUseCase getRecipeByIdUseCase,
@@ -65,9 +67,9 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
                 .subscribe(output -> {
                     recipe = recipeMapper.transform(output.getRecipe());
                     if (sharedPreferencesManager.getNutritionDetailsSetting().equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
-                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY,null, null );
+                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY, detailsExpanded, null, null );
                     } else {
-                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, null, null);
+                        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, null, null);
                     }
                     view.hideLoading();
                 })
@@ -118,5 +120,11 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
                     });
             compositeDisposable.add(subs);
         }
+    }
+
+    @Override
+    public void onExpandNutritionDetailsViewClicked() {
+        detailsExpanded = !detailsExpanded;
+        view.setupViewsInRecyclerView(recipe, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, null, null);
     }
 }
