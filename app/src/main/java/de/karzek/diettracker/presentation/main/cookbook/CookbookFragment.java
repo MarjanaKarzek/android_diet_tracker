@@ -56,6 +56,9 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @BindView(R.id.cookbook_placeholder)
     TextView placeholder;
 
+    private String noRecipesPlaceholder;
+    private String noResultsPlaceholder;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -86,6 +89,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
             public boolean onQueryTextSubmit(String query) {
                 if (!query.equals(""))
                     presenter.getRecipesMatchingQuery(query);
+                else
+                    presenter.start();
                 return false;
             }
 
@@ -93,6 +98,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
             public boolean onQueryTextChange(String query) {
                 if (!query.equals(""))
                     presenter.getRecipesMatchingQuery(query);
+                else
+                    presenter.start();
                 return false;
             }
         });
@@ -109,6 +116,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
         setupRecyclerView();
+        noResultsPlaceholder = getString(R.string.recipe_search_query_without_result_placeholder);
+        noRecipesPlaceholder = getString(R.string.cookbook_placeholder);
 
         presenter.setView(this);
         presenter.start();
@@ -149,6 +158,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
     @Override
     public void showPlaceholder() {
+        placeholder.setText(noRecipesPlaceholder);
         placeholder.setVisibility(View.VISIBLE);
     }
 
@@ -190,6 +200,22 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void hideQueryWithoutResultPlaceholder() {
+        placeholder.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRecyclerView() {
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showQueryWithoutResultPlaceholder() {
+        placeholder.setText(noResultsPlaceholder);
+        placeholder.setVisibility(View.VISIBLE);
     }
 
     @Override

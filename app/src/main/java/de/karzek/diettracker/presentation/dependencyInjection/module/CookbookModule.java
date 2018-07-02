@@ -5,6 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetMatchingRecipesUseCase;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookContract;
 import de.karzek.diettracker.presentation.main.cookbook.CookbookPresenter;
 import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
@@ -24,9 +25,11 @@ public class CookbookModule {
     @Provides
     CookbookContract.Presenter provideCookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase,
                                                         Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
+                                                        Lazy<GetMatchingRecipesUseCase> getMatchingRecipesUseCase,
                                                         RecipeUIMapper mapper) {
         return new CookbookPresenter(getAllRecipesUseCase,
                 deleteRecipeByIdUseCase,
+                getMatchingRecipesUseCase,
                 mapper);
     }
 }

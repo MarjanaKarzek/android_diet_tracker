@@ -71,7 +71,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     public static Intent newIntent(Context context, int groceryType, String selectedDate, int selectedMeal, boolean ingredientSearch) {
         Intent intent = new Intent(context, GrocerySearchActivity.class);
         if (!ingredientSearch) {
-            intent.putExtra("selectedDate", selectedDate);
+            intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
             intent.putExtra("selectedMeal", selectedMeal);
         }
         intent.putExtra("groceryType", groceryType);

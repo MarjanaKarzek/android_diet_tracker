@@ -36,6 +36,12 @@ public interface CookbookContract {
 
         void showConfirmRecipeDeletionDialog(int id);
 
+        void hideQueryWithoutResultPlaceholder();
+
+        void showRecyclerView();
+
+        void showQueryWithoutResultPlaceholder();
+
     }
 
     interface Presenter extends BasePresenter<View>,

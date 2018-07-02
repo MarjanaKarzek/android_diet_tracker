@@ -65,4 +65,14 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     public Observable<Boolean> deleteRecipe(int id) {
         return new RecipeLocalDataSourceImpl(recipeCache).deleteRecipe(id);
     }
+
+    @Override
+    public Observable<List<RecipeDataModel>> getAllRecipesMatching(String query) {
+        return new RecipeLocalDataSourceImpl(recipeCache).getAllRecipesMatching(query).map(new Function<List<RecipeEntity>, List<RecipeDataModel>>() {
+            @Override
+            public List<RecipeDataModel> apply(List<RecipeEntity> recipeEntities) {
+                return mapper.transformAll(recipeEntities);
+            }
+        });
+    }
 }

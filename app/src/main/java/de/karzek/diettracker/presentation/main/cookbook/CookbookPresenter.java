@@ -1,11 +1,14 @@
 package de.karzek.diettracker.presentation.main.cookbook;
 
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetMatchingGroceriesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetMatchingRecipesUseCase;
 import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -21,6 +24,7 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     private GetAllRecipesUseCase getAllRecipesUseCase;
     private Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase;
+    private Lazy<GetMatchingRecipesUseCase> getMatchingRecipesUseCase;
 
     private RecipeUIMapper mapper;
 
@@ -28,9 +32,11 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     public CookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase,
                              Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
+                             Lazy<GetMatchingRecipesUseCase> getMatchingRecipesUseCase,
                              RecipeUIMapper mapper){
         this.getAllRecipesUseCase = getAllRecipesUseCase;
         this.deleteRecipeByIdUseCase = deleteRecipeByIdUseCase;
+        this.getMatchingRecipesUseCase = getMatchingRecipesUseCase;
 
         this.mapper = mapper;
     }
@@ -51,8 +57,9 @@ public class CookbookPresenter implements CookbookContract.Presenter {
                         view.showPlaceholder();
                         view.hideLoading();
                     } else {
-                        view.hidePlaceholder();
+                        view.showRecyclerView();
                         view.updateRecyclerView(mapper.transformAll(output.getRecipes()));
+                        view.hidePlaceholder();
                         view.hideLoading();
                     }
                 }));
@@ -70,7 +77,22 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     @Override
     public void getRecipesMatchingQuery(String query) {
-
+        view.showLoading();
+        compositeDisposable.add(getMatchingRecipesUseCase.get().execute(new GetMatchingRecipesUseCase.Input(query))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if (output.getRecipes().size() > 0) {
+                        view.hidePlaceholder();
+                        view.hideQueryWithoutResultPlaceholder();
+                        view.showRecyclerView();
+                        view.updateRecyclerView(mapper.transformAll(output.getRecipes()));
+                    } else {
+                        view.hideRecyclerView();
+                        view.showQueryWithoutResultPlaceholder();
+                    }
+                    view.hideLoading();
+                }));
     }
 
     @Override

@@ -26,4 +26,7 @@ public interface RecipeCache {
     Observable<Boolean> updateRecipe(RecipeEntity recipeEntity);
 
     Observable<Boolean> deleteRecipe(int id);
+
+    Observable<List<RecipeEntity>> getAllRecipesMatching(String query);
+
 }

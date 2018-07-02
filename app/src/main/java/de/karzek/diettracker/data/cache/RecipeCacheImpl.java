@@ -7,6 +7,7 @@ import de.karzek.diettracker.data.cache.interfaces.RecipeCache;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.RecipeEntity;
 import io.reactivex.Observable;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -93,6 +94,13 @@ public class RecipeCacheImpl implements RecipeCache {
             }
         });
         return Observable.just(true);
+    }
+
+    @Override
+    public Observable<List<RecipeEntity>> getAllRecipesMatching(String query) {
+
+        Realm realm = Realm.getDefaultInstance();
+        return Observable.just(realm.copyFromRealm(realm.where(RecipeEntity.class).contains("title",query, Case.INSENSITIVE).sort("title").findAll()));
     }
 
 }

@@ -24,4 +24,7 @@ public interface RecipeRepository {
     Observable<Boolean> updateRecipe(RecipeDataModel recipe);
 
     Observable<Boolean> deleteRecipe(int id);
+
+    Observable<List<RecipeDataModel>> getAllRecipesMatching(String query);
+
 }

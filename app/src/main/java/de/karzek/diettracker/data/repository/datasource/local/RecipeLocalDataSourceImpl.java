@@ -49,4 +49,10 @@ public class RecipeLocalDataSourceImpl implements RecipeDataSource {
     public Observable<Boolean> deleteRecipe(int id) {
         return recipeCache.deleteRecipe(id);
     }
+
+    @Override
+    public Observable<List<RecipeEntity>> getAllRecipesMatching(String query) {
+        return recipeCache.getAllRecipesMatching(query);
+    }
+
 }
