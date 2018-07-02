@@ -35,5 +35,7 @@ public interface EditMealsDialogContract {
 
         ArrayList<MealDisplayModel> getSelectedMeals();
 
+        void onResetSelectionClicked();
+
     }
 }

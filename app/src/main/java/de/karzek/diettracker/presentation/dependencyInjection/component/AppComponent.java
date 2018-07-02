@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditAllergensDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditMealsDialogComponent;
+import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.RecipeFilterOptionsDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AppModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
@@ -22,6 +23,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditMealsDialogModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.RecipeFilterOptionsDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.FavoriteRecipeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.RecipeModule;
@@ -71,6 +73,8 @@ public interface AppComponent {
     EditAllergensDialogComponent plus(EditAllergensDialogModule module);
 
     EditMealsDialogComponent plus(EditMealsDialogModule module);
+
+    RecipeFilterOptionsDialogComponent plus(RecipeFilterOptionsDialogModule module);
 
     void inject(SplashActivity activity);
 

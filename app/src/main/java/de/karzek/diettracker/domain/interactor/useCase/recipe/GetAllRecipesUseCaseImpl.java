@@ -32,7 +32,7 @@ public class GetAllRecipesUseCaseImpl implements GetAllRecipesUseCase {
 
     @Override
     public Observable<Output> execute(Input input) {
-        return repository.getAllRecipes().map(new Function<List<RecipeDataModel>, Output>() {
+        return repository.getAllRecipes(input.getFilterOptions(), input.getSortOption(), input.isAsc()).map(new Function<List<RecipeDataModel>, Output>() {
             @Override
             public Output apply(List<RecipeDataModel> dataModels) {
                 return new Output( mapper.transformAll(dataModels), Output.SUCCESS);

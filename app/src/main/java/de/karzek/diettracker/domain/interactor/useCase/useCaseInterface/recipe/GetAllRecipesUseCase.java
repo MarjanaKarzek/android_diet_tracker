@@ -2,6 +2,7 @@ package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe;
 
 import android.support.annotation.IntDef;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.domain.common.BaseObservableUseCase;
@@ -23,6 +24,10 @@ public interface GetAllRecipesUseCase extends BaseObservableUseCase<GetAllRecipe
     @AllArgsConstructor
     @Data
     class Input implements BaseUseCase.Input {
+
+        ArrayList<String> filterOptions;
+        String sortOption;
+        boolean asc;
 
     }
 

@@ -1,8 +1,8 @@
 package de.karzek.diettracker.data.cache.interfaces;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.RecipeEntity;
 import io.reactivex.Observable;
 
@@ -19,7 +19,7 @@ public interface RecipeCache {
 
     Observable<Boolean> putRecipe(RecipeEntity recipeEntity);
 
-    Observable<List<RecipeEntity>> getAllRecipes();
+    Observable<List<RecipeEntity>> getAllRecipes(ArrayList<String> filterOptions, String sortOption, boolean asc);
 
     Observable<RecipeEntity> getRecipeById(int id);
 
@@ -27,6 +27,6 @@ public interface RecipeCache {
 
     Observable<Boolean> deleteRecipe(int id);
 
-    Observable<List<RecipeEntity>> getAllRecipesMatching(String query);
+    Observable<List<RecipeEntity>> getAllRecipesMatching(String query, ArrayList<String> filterOptions, String sortOption, boolean asc);
 
 }

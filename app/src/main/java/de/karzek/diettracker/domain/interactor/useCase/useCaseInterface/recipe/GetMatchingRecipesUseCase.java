@@ -2,6 +2,7 @@ package de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe;
 
 import android.support.annotation.IntDef;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.domain.common.BaseObservableUseCase;
@@ -25,6 +26,9 @@ public interface GetMatchingRecipesUseCase extends BaseObservableUseCase<GetMatc
     class Input implements BaseUseCase.Input {
 
         String query;
+        ArrayList<String> filterOptions;
+        String sortOption;
+        boolean asc;
 
     }
 

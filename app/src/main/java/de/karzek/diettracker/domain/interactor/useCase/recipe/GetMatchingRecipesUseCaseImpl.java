@@ -32,7 +32,7 @@ public class GetMatchingRecipesUseCaseImpl implements GetMatchingRecipesUseCase 
 
     @Override
     public Observable<Output> execute(Input input) {
-        return repository.getAllRecipesMatching(input.getQuery())
+        return repository.getAllRecipesMatching(input.getQuery(), input.getFilterOptions(), input.getSortOption(), input.isAsc())
                 .map(new Function<List<RecipeDataModel>, Output>() {
                     @Override
                     public Output apply(List<RecipeDataModel> dataModels) {

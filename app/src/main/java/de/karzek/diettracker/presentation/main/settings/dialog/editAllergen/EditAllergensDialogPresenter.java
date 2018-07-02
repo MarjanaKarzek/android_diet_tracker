@@ -97,6 +97,17 @@ public class EditAllergensDialogPresenter implements EditAllergensDialogContract
                 allergenSelection += current + Constants.SHARED_PREFERENCES_SPLIT_ARRAY_CHAR;
         }
 
-        sharedPreferencesManager.putAllergenIds(allergenSelection.substring(0, allergenSelection.length() - 1));
+        if(allergenSelection.length() > 0)
+            sharedPreferencesManager.putAllergenIds(allergenSelection.substring(0, allergenSelection.length() - 1));
+        else
+            sharedPreferencesManager.putAllergenIds(allergenSelection);
+    }
+
+    @Override
+    public void onResetSelectionClicked() {
+        for (Integer key : allergenStatus.keySet()){
+            allergenStatus.put(key, false);
+        }
+        view.updateRecyclerView(allergens, allergenStatus);
     }
 }

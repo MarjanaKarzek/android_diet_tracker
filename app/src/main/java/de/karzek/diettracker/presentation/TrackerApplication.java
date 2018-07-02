@@ -18,6 +18,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.component.HomeComp
 import de.karzek.diettracker.presentation.dependencyInjection.component.SettingsComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditAllergensDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.EditMealsDialogComponent;
+import de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent.RecipeFilterOptionsDialogComponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.AndroidModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.CookbookModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule;
@@ -27,6 +28,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditMealsDialogModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.RecipeFilterOptionsDialogModule;
 
 /**
  * Created by MarjanaKarzek on 28.04.2018.
@@ -47,6 +49,7 @@ public class TrackerApplication extends Application {
     private GenericDrinkComponent genericDrinkComponent;
     private EditAllergensDialogComponent editAllergensDialogComponent;
     private EditMealsDialogComponent editMealsDialogComponent;
+    private RecipeFilterOptionsDialogComponent recipeFilterOptionsDialogComponent;
 
     private RefWatcher refwatcher;
 
@@ -144,6 +147,14 @@ public class TrackerApplication extends Application {
         return editMealsDialogComponent;
     }
 
+    public RecipeFilterOptionsDialogComponent createRecipeFilterOptionsDialogComponent() {
+        if (recipeFilterOptionsDialogComponent != null) {
+            return recipeFilterOptionsDialogComponent;
+        }
+        recipeFilterOptionsDialogComponent = appComponent.plus(new RecipeFilterOptionsDialogModule());
+        return recipeFilterOptionsDialogComponent;
+    }
+
     //Release Components
     public void releaseHomeComponent() {
         homeComponent = null;
@@ -177,5 +188,8 @@ public class TrackerApplication extends Application {
         editMealsDialogComponent = null;
     }
 
+    public void releaseRecipeFilterOptionsDialogComponent() {
+        recipeFilterOptionsDialogComponent = null;
+    }
 
 }

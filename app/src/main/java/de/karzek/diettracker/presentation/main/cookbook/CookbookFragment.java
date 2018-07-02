@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -31,6 +34,8 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.RecipeSearchResultListAdapter;
+import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.RecipeFilterOptionsDialog;
+import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
@@ -219,12 +224,60 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
+    public void openFilterOptionsDialog(ArrayList<String> filterOptions) {
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        Fragment previous = getChildFragmentManager().findFragmentByTag("dialog");
+        if (previous != null)
+            fragmentTransaction.remove(previous);
+        fragmentTransaction.addToBackStack(null);
+
+        AppCompatDialogFragment dialogFragment = new RecipeFilterOptionsDialog();
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("filterOptions", filterOptions);
+        dialogFragment.setArguments(bundle);
+
+        dialogFragment.show(fragmentTransaction, "dialog");
+    }
+
+    @Override
+    public void openSortOptionsDialog(String sortOption, boolean asc) {
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        Fragment previous = getChildFragmentManager().findFragmentByTag("dialog");
+        if (previous != null)
+            fragmentTransaction.remove(previous);
+        fragmentTransaction.addToBackStack(null);
+
+        AppCompatDialogFragment dialogFragment = new RecipeSortOptionsDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("sortOption", sortOption);
+        bundle.putBoolean("asc", asc);
+        dialogFragment.setArguments(bundle);
+
+        dialogFragment.show(fragmentTransaction, "dialog");
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return false;
+        if (item.getItemId() == R.id.cookbook_search_filter) {
+            presenter.onFilterOptionSelected();
+        } else if (item.getItemId() == R.id.cookbook_search_sort) {
+            presenter.onSortOptionSelected();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.add_recipe)
     public void onAddRecipeClicked() {
         startActivity(RecipeManipulationActivity.newIntent(getContext()));
+    }
+
+    @Override
+    public void filterOptionsSelected(ArrayList<String> filterOptions) {
+        presenter.filterRecipesBy(filterOptions);
+    }
+
+    @Override
+    public void sortOptionSelected(String sortOption, boolean asc) {
+        presenter.sortRecipesBy(sortOption, asc);
     }
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeSearchResultViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.RecipeFilterOptionsDialog;
+import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -16,7 +18,9 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  */
 public interface CookbookContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter>,
+            RecipeFilterOptionsDialog.FilterOptionsSelectedDialogListener,
+            RecipeSortOptionsDialog.SortOptionSelectedDialogListener {
 
         void hideLoading();
 
@@ -42,6 +46,10 @@ public interface CookbookContract {
 
         void showQueryWithoutResultPlaceholder();
 
+        void openFilterOptionsDialog(ArrayList<String> filterOptions);
+
+        void openSortOptionsDialog(String sortOption, boolean asc);
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -54,5 +62,12 @@ public interface CookbookContract {
 
         void onDeleteRecipeConfirmed(int id);
 
+        void onFilterOptionSelected();
+
+        void onSortOptionSelected();
+
+        void filterRecipesBy(ArrayList<String> filterOptions);
+
+        void sortRecipesBy(String sortOption, boolean asc);
     }
 }

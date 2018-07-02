@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.adapter.viewHolder;
+package de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.karzek.diettracker.R;
-import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -18,33 +18,32 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
  * @version 1.0
  * @date 30.05.2018
  */
-public class MealViewHolder extends RecyclerView.ViewHolder {
+public class RecipeFilterOptionViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.checkbox) CheckBox meal;
+    @BindView(R.id.checkbox) CheckBox option;
 
     private final OnItemCheckedChangeListener onItemCheckedChangeListener;
 
-    public MealViewHolder(ViewGroup viewGroup,
-                          OnItemCheckedChangeListener onItemCheckedChangeListener) {
+    public RecipeFilterOptionViewHolder(ViewGroup viewGroup,
+                                        OnItemCheckedChangeListener onItemCheckedChangeListener) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_dialog_checkbox, viewGroup, false));
         ButterKnife.bind(this, itemView);
         this.onItemCheckedChangeListener = onItemCheckedChangeListener;
     }
 
-    public void bind(MealDisplayModel displayModel, boolean status) {
-        itemView.setTag(displayModel.getId());
-
-        meal.setText(displayModel.getName());
-        meal.setChecked(status);
+    public void bind(String value, boolean status) {
+        itemView.setTag(value);
+        option.setText(value);
+        option.setChecked(status);
     }
 
     @OnClick (R.id.checkbox) public void onCheckedChanged(){
-        onItemCheckedChangeListener.onItemCheckChanged((int) itemView.getTag(), meal.isChecked());
+        onItemCheckedChangeListener.onItemCheckChanged((String) itemView.getTag(), option.isChecked());
     }
 
     public interface OnItemCheckedChangeListener {
-        void onItemCheckChanged(int id, boolean checked);
+        void onItemCheckChanged(String option, boolean checked);
     }
 
 }

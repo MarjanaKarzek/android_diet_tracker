@@ -13,12 +13,12 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseDialog;
@@ -125,11 +125,15 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
         loadingView.setVisibility(View.GONE);
     }
 
+    @OnClick(R.id.reset_selection) void onResetSelectionClicked(){
+        presenter.onResetSelectionClicked();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.finish();
-        TrackerApplication.get(getContext()).releaseEditAllergensDialogComponent();
+        TrackerApplication.get(getContext()).releaseEditMealsDialogComponent();
     }
 
     public interface SaveMealsSelectionDialogListener {

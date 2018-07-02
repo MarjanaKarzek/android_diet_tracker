@@ -107,4 +107,12 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
 
         return selection;
     }
+
+    @Override
+    public void onResetSelectionClicked() {
+        for (Integer key : mealStatus.keySet()){
+            mealStatus.put(key, false);
+        }
+        view.updateRecyclerView(meals, mealStatus);
+    }
 }

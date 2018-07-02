@@ -1,12 +1,10 @@
 package de.karzek.diettracker.data.repository.datasource.local;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.karzek.diettracker.data.cache.interfaces.MealCache;
 import de.karzek.diettracker.data.cache.interfaces.RecipeCache;
-import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.RecipeEntity;
-import de.karzek.diettracker.data.repository.datasource.interfaces.MealDataSource;
 import de.karzek.diettracker.data.repository.datasource.interfaces.RecipeDataSource;
 import io.reactivex.Observable;
 
@@ -31,8 +29,8 @@ public class RecipeLocalDataSourceImpl implements RecipeDataSource {
     }
 
     @Override
-    public Observable<List<RecipeEntity>> getAllRecipes() {
-        return recipeCache.getAllRecipes();
+    public Observable<List<RecipeEntity>> getAllRecipes(ArrayList<String> filterOptions, String sortOption, boolean asc) {
+        return recipeCache.getAllRecipes(filterOptions, sortOption, asc);
     }
 
     @Override
@@ -51,8 +49,8 @@ public class RecipeLocalDataSourceImpl implements RecipeDataSource {
     }
 
     @Override
-    public Observable<List<RecipeEntity>> getAllRecipesMatching(String query) {
-        return recipeCache.getAllRecipesMatching(query);
+    public Observable<List<RecipeEntity>> getAllRecipesMatching(String query, ArrayList<String> filterOptions, String sortOption, boolean asc) {
+        return recipeCache.getAllRecipesMatching(query, filterOptions, sortOption, asc);
     }
 
 }

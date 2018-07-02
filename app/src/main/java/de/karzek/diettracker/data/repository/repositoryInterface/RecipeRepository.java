@@ -1,8 +1,8 @@
 package de.karzek.diettracker.data.repository.repositoryInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.model.RecipeDataModel;
 import io.reactivex.Observable;
 
@@ -17,7 +17,7 @@ public interface RecipeRepository {
 
     Observable<Boolean> putRecipe(RecipeDataModel recipe);
 
-    Observable<List<RecipeDataModel>> getAllRecipes();
+    Observable<List<RecipeDataModel>> getAllRecipes(ArrayList<String> filterOptions, String sortOption, boolean asc);
 
     Observable<RecipeDataModel> getRecipeById(int id);
 
@@ -25,6 +25,6 @@ public interface RecipeRepository {
 
     Observable<Boolean> deleteRecipe(int id);
 
-    Observable<List<RecipeDataModel>> getAllRecipesMatching(String query);
+    Observable<List<RecipeDataModel>> getAllRecipesMatching(String query, ArrayList<String> filterOptions, String sortOption, boolean asc);
 
 }

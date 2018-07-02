@@ -37,5 +37,7 @@ public interface EditAllergensDialogContract {
 
         void saveAllergenSelection();
 
+        void onResetSelectionClicked();
+
     }
 }

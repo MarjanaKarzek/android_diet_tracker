@@ -125,5 +125,15 @@
     <string name="dialog_action_delete_recipe">Löschen</string>
     <string name="recipe_details_ingredients_title">Zutaten für %1$s Portion/en</string>
     <string name="per_portion">pro Portion</string>
+    <string name="button_reset_checkboxes">Auswahl aufheben</string>
+
+    <string name="filter_options_dialog_title">Filtern nach …</string>
+    <string name="sort_options_dialog_title">Sortieren nach …</string>
+    <string name="radio_button_title_asc">Titel (A-Z)</string>
+    <string name="radio_button_title_desc">Titel (Z-A)</string>
+    <string name="radio_button_portions_asc">Portionen (Aufsteigend)</string>
+    <string name="radio_button_portions_desc">Portionen (Absteigend)</string>
+    <string name="radio_button_meals_asc">Mahlzeiten (A-Z)</string>
+    <string name="radio_button_meals_desc">Mahlzeiten (Z-A)</string>
 
 </resources>

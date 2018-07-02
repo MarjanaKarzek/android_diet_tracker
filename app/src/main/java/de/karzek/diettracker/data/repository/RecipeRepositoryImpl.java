@@ -1,14 +1,12 @@
 package de.karzek.diettracker.data.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.cache.interfaces.RecipeCache;
-import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.RecipeEntity;
 import de.karzek.diettracker.data.mapper.RecipeDataMapper;
-import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.model.RecipeDataModel;
-import de.karzek.diettracker.data.repository.datasource.local.MealLocalDataSourceImpl;
 import de.karzek.diettracker.data.repository.datasource.local.RecipeLocalDataSourceImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.RecipeRepository;
 import io.reactivex.Observable;
@@ -37,8 +35,8 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     }
 
     @Override
-    public Observable<List<RecipeDataModel>> getAllRecipes() {
-        return new RecipeLocalDataSourceImpl(recipeCache).getAllRecipes().map(new Function<List<RecipeEntity>, List<RecipeDataModel>>() {
+    public Observable<List<RecipeDataModel>> getAllRecipes(ArrayList<String> filterOptions, String sortOption, boolean asc) {
+        return new RecipeLocalDataSourceImpl(recipeCache).getAllRecipes(filterOptions, sortOption, asc).map(new Function<List<RecipeEntity>, List<RecipeDataModel>>() {
             @Override
             public List<RecipeDataModel> apply(List<RecipeEntity> recipeEntities) {
                 return mapper.transformAll(recipeEntities);
@@ -67,8 +65,8 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     }
 
     @Override
-    public Observable<List<RecipeDataModel>> getAllRecipesMatching(String query) {
-        return new RecipeLocalDataSourceImpl(recipeCache).getAllRecipesMatching(query).map(new Function<List<RecipeEntity>, List<RecipeDataModel>>() {
+    public Observable<List<RecipeDataModel>> getAllRecipesMatching(String query, ArrayList<String> filterOptions, String sortOption, boolean asc) {
+        return new RecipeLocalDataSourceImpl(recipeCache).getAllRecipesMatching(query, filterOptions, sortOption, asc).map(new Function<List<RecipeEntity>, List<RecipeDataModel>>() {
             @Override
             public List<RecipeDataModel> apply(List<RecipeEntity> recipeEntities) {
                 return mapper.transformAll(recipeEntities);
