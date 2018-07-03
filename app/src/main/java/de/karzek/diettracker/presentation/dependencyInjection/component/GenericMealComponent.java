@@ -2,6 +2,7 @@ package de.karzek.diettracker.presentation.dependencyInjection.component;
 
 import dagger.Subcomponent;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.MealModule;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 
 /**
@@ -11,7 +12,7 @@ import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
  * @version 1.0
  * @date 29.05.2018
  */
-@Subcomponent(modules = {GenericMealModule.class})
+@Subcomponent(modules = {GenericMealModule.class, MealModule.class})
 public interface GenericMealComponent {
 
     void inject(GenericMealFragment fragment);

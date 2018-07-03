@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
-import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryListAdapter;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.DiaryEntryListAdapter;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;

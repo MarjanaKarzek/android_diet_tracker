@@ -69,4 +69,14 @@ public class MealRepositoryImpl implements MealRepository {
     public Observable<Boolean> updateMealTime(int id, String startTime, String endTime) {
         return new MealLocalDataSourceImpl(mealCache).updateMealTime(id, startTime, endTime);
     }
+
+    @Override
+    public Observable<MealDataModel> getMealByName(String meal) {
+        return new MealLocalDataSourceImpl(mealCache).getMealByName(meal).map(new Function<MealEntity, MealDataModel>() {
+            @Override
+            public MealDataModel apply(MealEntity mealEntity) throws Exception {
+                return mapper.transform(mealEntity);
+            }
+        });
+    }
 }

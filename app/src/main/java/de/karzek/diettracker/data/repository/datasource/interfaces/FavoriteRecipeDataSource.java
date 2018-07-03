@@ -23,4 +23,6 @@ public interface FavoriteRecipeDataSource {
 
     Observable<Boolean> getFavoriteStateForRecipeById(int id);
 
+    Observable<List<FavoriteRecipeEntity>> getAllFavoriteRecipesForMeal(String meal);
+
 }

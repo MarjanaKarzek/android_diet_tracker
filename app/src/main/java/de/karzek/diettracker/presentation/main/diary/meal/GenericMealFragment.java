@@ -16,11 +16,8 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -30,12 +27,14 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
-import de.karzek.diettracker.presentation.main.diary.meal.adapter.DiaryEntryListAdapter;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.DiaryEntryListAdapter;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.FavoriteRecipeListAdapter;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
@@ -60,7 +59,8 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Inject
     GenericMealContract.Presenter presenter;
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.recycler_view_groceries) RecyclerView recyclerViewGroceries;
+    @BindView(R.id.recycler_view_favorites) RecyclerView recyclerViewRecipes;
     @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
     @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
     @BindView(R.id.grocery_list_placeholder) TextView placeholder;
@@ -76,7 +76,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
 
     private String meal;
     private String selectedDate;
-    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
 
     private HashMap<String, Long> maxValues;
     private ArrayList<MealDisplayModel> meals;
@@ -109,7 +108,8 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupRecyclerView();
+        setupGroceryRecyclerView();
+        setupRecipeRecyclerView();
 
         presenter.setView(this);
         presenter.setMeal(meal);
@@ -117,12 +117,20 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         presenter.start();
     }
 
-    private void setupRecyclerView() {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new DiaryEntryListAdapter(presenter,presenter,presenter,presenter));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-                ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation()));
+    private void setupGroceryRecyclerView() {
+        recyclerViewGroceries.setHasFixedSize(true);
+        recyclerViewGroceries.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewGroceries.setAdapter(new DiaryEntryListAdapter(presenter,presenter,presenter,presenter));
+        recyclerViewGroceries.addItemDecoration(new DividerItemDecoration(recyclerViewGroceries.getContext(),
+                ((LinearLayoutManager) recyclerViewGroceries.getLayoutManager()).getOrientation()));
+    }
+
+    private void setupRecipeRecyclerView() {
+        recyclerViewRecipes.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerViewRecipes.setLayoutManager(manager);
+        recyclerViewRecipes.setAdapter(new FavoriteRecipeListAdapter(presenter));
     }
 
     @Override
@@ -187,7 +195,12 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
 
     @Override
     public void updateGroceryList(ArrayList<DiaryEntryDisplayModel> diaryEntries) {
-        ((DiaryEntryListAdapter) recyclerView.getAdapter()).setList(diaryEntries);
+        ((DiaryEntryListAdapter) recyclerViewGroceries.getAdapter()).setList(diaryEntries);
+    }
+
+    @Override
+    public void updateRecipeList(ArrayList<RecipeDisplayModel> recipes) {
+        ((FavoriteRecipeListAdapter) recyclerViewRecipes.getAdapter()).setList(recipes);
     }
 
     @Override
@@ -198,7 +211,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void setSelectedDate(String date) {
         selectedDate = date;
-        presenter.updateDiaryEntries(selectedDate);
+        presenter.updateListItems(selectedDate);
     }
 
     @Override
@@ -213,7 +226,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
 
     @Override
     public void refreshRecyclerView() {
-        presenter.updateDiaryEntries(selectedDate);
+        presenter.updateListItems(selectedDate);
     }
 
     @Override
@@ -241,13 +254,23 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
-    public void showRecyclerView() {
-        recyclerView.setVisibility(View.VISIBLE);
+    public void showRecipeRecyclerView() {
+        recyclerViewRecipes.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideRecyclerView() {
-        recyclerView.setVisibility(View.GONE);
+    public void hideRecipeRecyclerView() {
+        recyclerViewRecipes.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showGroceryRecyclerView() {
+        recyclerViewGroceries.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideGroceryRecyclerView() {
+        recyclerViewGroceries.setVisibility(View.GONE);
     }
 
     @Override

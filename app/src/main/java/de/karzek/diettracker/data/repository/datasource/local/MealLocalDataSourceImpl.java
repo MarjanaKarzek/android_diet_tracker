@@ -50,4 +50,9 @@ public class MealLocalDataSourceImpl implements MealDataSource {
     public Observable<Boolean> updateMealTime(int id, String startTime, String endTime) {
         return mealCache.updateMealTime(id, startTime, endTime);
     }
+
+    @Override
+    public Observable<MealEntity> getMealByName(String meal) {
+        return mealCache.getMealByName(meal);
+    }
 }

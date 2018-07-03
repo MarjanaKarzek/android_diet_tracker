@@ -5,9 +5,8 @@ import java.util.HashMap;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
-import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
-import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.

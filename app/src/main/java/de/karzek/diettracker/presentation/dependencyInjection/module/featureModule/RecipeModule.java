@@ -6,13 +6,16 @@ import de.karzek.diettracker.data.cache.RecipeCacheImpl;
 import de.karzek.diettracker.data.cache.interfaces.RecipeCache;
 import de.karzek.diettracker.data.mapper.RecipeDataMapper;
 import de.karzek.diettracker.data.repository.RecipeRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.FavoriteRecipeRepository;
 import de.karzek.diettracker.data.repository.repositoryInterface.RecipeRepository;
+import de.karzek.diettracker.domain.interactor.useCase.favoriteRecipe.GetAllFavoriteRecipesForMealUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.DeleteRecipeByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetAllRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetMatchingRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetRecipeByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.PutRecipeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.UpdateRecipeUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetAllFavoriteRecipesForMealUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetMatchingRecipesUseCase;
@@ -84,6 +87,11 @@ public class RecipeModule {
     @Provides
     GetMatchingRecipesUseCase providesGetMatchingRecipesUseCase(RecipeRepository repository, RecipeDomainMapper mapper){
         return new GetMatchingRecipesUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    GetAllFavoriteRecipesForMealUseCase providesGetAllFavoriteRecipesForMealUseCase(FavoriteRecipeRepository repository, RecipeDomainMapper mapper){
+        return new GetAllFavoriteRecipesForMealUseCaseImpl(repository, mapper);
     }
 
     // presentation

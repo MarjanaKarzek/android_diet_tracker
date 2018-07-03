@@ -223,14 +223,14 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
     }
 
     @Override
-    public void onItemClicked(int id) {
+    public void onDiaryEntryClicked(int id) {
         view.showLoading();
         view.startEditMode(id);
         view.hideLoading();
     }
 
     @Override
-    public void onItemDelete(int id) {
+    public void onDiaryEntryDeleteClicked(int id) {
         view.showLoading();
         compositeDisposable.add(deleteDiaryEntryUseCase.get().execute(new DeleteDiaryEntryUseCase.Input(id))
                 .subscribeOn(Schedulers.io())
@@ -247,7 +247,7 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
     }
 
     @Override
-    public void onItemEdit(int id) {
+    public void onDiaryEntryEditClicked(int id) {
         view.showLoading();
         view.startEditMode(id);
         view.hideLoading();

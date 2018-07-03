@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.adapter.viewHolder.AllergenViewHolder;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
-import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.

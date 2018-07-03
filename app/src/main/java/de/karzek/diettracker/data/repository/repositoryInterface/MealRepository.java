@@ -5,6 +5,7 @@ import java.util.List;
 import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.model.UnitDataModel;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -24,4 +25,6 @@ public interface MealRepository {
     Observable<MealDataModel> getMealById(int id);
 
     Observable<Boolean> updateMealTime(int id, String startTime, String endTime);
+
+    Observable<MealDataModel> getMealByName(String meal);
 }

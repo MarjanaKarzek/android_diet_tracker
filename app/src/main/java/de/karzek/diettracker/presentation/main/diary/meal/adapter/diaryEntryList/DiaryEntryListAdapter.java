@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.main.diary.meal.adapter;
+package de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 
 /**

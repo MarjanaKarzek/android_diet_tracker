@@ -57,4 +57,14 @@ public class FavoriteRecipeRepositoryImpl implements FavoriteRecipeRepository {
     public Observable<Boolean> getFavoriteStateForRecipeById(int id) {
         return new FavoriteRecipeLocalDataSourceImpl(cache).getFavoriteStateForRecipeById(id);
     }
+
+    @Override
+    public Observable<List<FavoriteRecipeDataModel>> getAllFavoriteRecipesForMeal(String meal) {
+        return new FavoriteRecipeLocalDataSourceImpl(cache).getAllFavoriteRecipesForMeal(meal).map(new Function<List<FavoriteRecipeEntity>, List<FavoriteRecipeDataModel>>() {
+            @Override
+            public List<FavoriteRecipeDataModel> apply(List<FavoriteRecipeEntity> favoriteEntities) {
+                return mapper.transformAll(favoriteEntities);
+            }
+        });
+    }
 }

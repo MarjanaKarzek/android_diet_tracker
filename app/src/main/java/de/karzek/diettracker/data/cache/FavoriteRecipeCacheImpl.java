@@ -90,4 +90,11 @@ public class FavoriteRecipeCacheImpl implements FavoriteRecipeCache {
         else
             return Observable.just(true);
     }
+
+    @Override
+    public Observable<List<FavoriteRecipeEntity>> getAllFavoriteRecipesForMeal(String meal) {
+        Realm realm = Realm.getDefaultInstance();
+        List<FavoriteRecipeEntity> favorites = realm.copyFromRealm(realm.where(FavoriteRecipeEntity.class).contains("recipe.meals.name", meal).findAll());
+        return Observable.just(favorites);
+    }
 }

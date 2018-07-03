@@ -2,14 +2,15 @@ package de.karzek.diettracker.presentation.main.diary.meal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
-import de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder.DiaryEntryViewHolder;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.viewHolder.DiaryEntryViewHolder;
+import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.viewHolder.FavoriteRecipeViewHolder;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.
@@ -22,9 +23,9 @@ public interface GenericMealContract {
 
     interface View extends BaseView<Presenter>, MoveDiaryEntryDialog.MealSelectedInDialogListener {
 
-        void showRecyclerView();
+        void showGroceryRecyclerView();
 
-        void hideRecyclerView();
+        void hideGroceryRecyclerView();
 
         void showGroceryListPlaceholder();
 
@@ -40,6 +41,8 @@ public interface GenericMealContract {
 
         void setSelectedDate(String date);
 
+        void updateRecipeList(ArrayList<RecipeDisplayModel> recipes);
+
         String getSelectedDate();
 
         void showLoading();
@@ -51,18 +54,25 @@ public interface GenericMealContract {
         void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> allMeals, ArrayList<String> meals);
 
         void startEditMode(int id);
+
+        void showRecipeRecyclerView();
+
+        void hideRecipeRecyclerView();
+
     }
 
-    interface Presenter extends BasePresenter<View>, 
+    interface Presenter extends BasePresenter<View>,
             DiaryEntryViewHolder.OnDiaryEntryItemClickedListener,
             DiaryEntryViewHolder.OnDeleteDiaryEntryItemListener,
             DiaryEntryViewHolder.OnMoveDiaryEntryItemListener,
-            DiaryEntryViewHolder.OnEditDiaryEntryItemListener {
+            DiaryEntryViewHolder.OnEditDiaryEntryItemListener,
+            FavoriteRecipeViewHolder.OnFavoriteRecipeItemClickedListener {
 
         void setMeal(String meal);
 
-        void updateDiaryEntries(String date);
+        void updateListItems(String date);
 
         void moveDiaryItemToMeal(int id, MealDisplayModel meal);
+
     }
 }

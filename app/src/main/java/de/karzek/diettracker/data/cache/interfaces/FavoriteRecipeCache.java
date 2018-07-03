@@ -14,10 +14,14 @@ import io.reactivex.Observable;
  * @date 27.05.2018
  */
 public interface FavoriteRecipeCache {
+
     boolean isExpired();
     boolean isCached();
+
     Observable<List<FavoriteRecipeEntity>> getAllFavoriteRecipes();
     Observable<Boolean> putFavoriteRecipe(FavoriteRecipeEntity entity);
     Observable<Boolean> removeFavoriteRecipeByTitle(String title);
     Observable<Boolean> getFavoriteStateForRecipeById(int id);
+    Observable<List<FavoriteRecipeEntity>> getAllFavoriteRecipesForMeal(String meal);
+
 }

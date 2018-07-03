@@ -45,4 +45,9 @@ public class FavoriteRecipeLocalDataSourceImpl implements FavoriteRecipeDataSour
         return cache.getFavoriteStateForRecipeById(id);
     }
 
+    @Override
+    public Observable<List<FavoriteRecipeEntity>> getAllFavoriteRecipesForMeal(String meal) {
+        return cache.getAllFavoriteRecipesForMeal(meal);
+    }
+
 }

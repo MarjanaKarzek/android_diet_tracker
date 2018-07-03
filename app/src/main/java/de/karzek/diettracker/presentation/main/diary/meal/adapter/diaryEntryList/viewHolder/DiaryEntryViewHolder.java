@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.main.diary.meal.adapter.viewHolder;
+package de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
-import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
@@ -65,37 +64,37 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
     }
 
     @OnClick(R.id.grocery_summary) public void onItemClicked() {
-        onItemClickedListener.onItemClicked((int) itemView.getTag());
+        onItemClickedListener.onDiaryEntryClicked((int) itemView.getTag());
     }
 
     @OnClick(R.id.swipe_option_delete) public void onItemDeleteClicked(){
         swipeLayout.close(false);
-        onDeleteDiaryEntryItemListener.onItemDelete((int) itemView.getTag());
+        onDeleteDiaryEntryItemListener.onDiaryEntryDeleteClicked((int) itemView.getTag());
     }
 
     @OnClick(R.id.swipe_option_move) public void onItemMoveClicked(){
         swipeLayout.close();
-        onMoveDiaryEntryItemListener.onItemMove((int) itemView.getTag());
+        onMoveDiaryEntryItemListener.onDiaryEntryMoveClicked((int) itemView.getTag());
     }
 
     @OnClick(R.id.swipe_option_edit) public void onItemEditClicked(){
-        onEditDiaryEntryItemListener.onItemEdit((int) itemView.getTag());
+        onEditDiaryEntryItemListener.onDiaryEntryEditClicked((int) itemView.getTag());
     }
 
     public interface OnDiaryEntryItemClickedListener {
-        void onItemClicked(int id);
+        void onDiaryEntryClicked(int id);
     }
 
     public interface OnDeleteDiaryEntryItemListener {
-        void onItemDelete(int id);
+        void onDiaryEntryDeleteClicked(int id);
     }
 
     public interface OnMoveDiaryEntryItemListener {
-        void onItemMove(int id);
+        void onDiaryEntryMoveClicked(int id);
     }
 
     public interface OnEditDiaryEntryItemListener {
-        void onItemEdit(int id);
+        void onDiaryEntryEditClicked(int id);
     }
 
 }

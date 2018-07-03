@@ -22,4 +22,7 @@ public interface FavoriteRecipeRepository {
     Observable<Boolean> removeFavoriteRecipeByTitle(String title);
 
     Observable<Boolean> getFavoriteStateForRecipeById(int id);
+
+    Observable<List<FavoriteRecipeDataModel>> getAllFavoriteRecipesForMeal(String meal);
+
 }

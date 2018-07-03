@@ -37,7 +37,13 @@
             android:textColor="@color/textPrimary" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_groceries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_favorites"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp" />

@@ -91,4 +91,10 @@ public class MealCacheImpl implements MealCache {
 
         return Observable.just(true);
     }
+
+    @Override
+    public Observable<MealEntity> getMealByName(String meal) {
+        Realm realm = Realm.getDefaultInstance();
+        return Observable.just(realm.copyFromRealm(realm.where(MealEntity.class).equalTo("name", meal).findFirst()));
+    }
 }

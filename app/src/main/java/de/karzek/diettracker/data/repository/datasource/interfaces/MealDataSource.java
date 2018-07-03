@@ -25,4 +25,7 @@ public interface MealDataSource {
     Observable<MealEntity> getMealById(int id);
 
     Observable<Boolean> updateMealTime(int id, String startTime, String endTime);
+
+    Observable<MealEntity> getMealByName(String meal);
+
 }
