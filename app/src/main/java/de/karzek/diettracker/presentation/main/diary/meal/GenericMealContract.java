@@ -7,7 +7,7 @@ import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.viewHolder.DiaryEntryViewHolder;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.viewHolder.FavoriteRecipeViewHolder;
-import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
+import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
@@ -21,7 +21,7 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  */
 public interface GenericMealContract {
 
-    interface View extends BaseView<Presenter>, MoveDiaryEntryDialog.MealSelectedInDialogListener {
+    interface View extends BaseView<Presenter>, MealSelectorDialog.MealSelectedInDialogListener {
 
         void showGroceryRecyclerView();
 

@@ -22,8 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -38,6 +42,7 @@ import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDial
 import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
+import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -63,6 +68,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
     private String noRecipesPlaceholder;
     private String noResultsPlaceholder;
+
+    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
 
     @Override
     public void onResume() {
@@ -257,6 +264,29 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
+    public void showAddPortionForRecipeDialog(int id, ArrayList<String> meals) {
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        Fragment previous = getChildFragmentManager().findFragmentByTag("dialog");
+        if (previous != null)
+            fragmentTransaction.remove(previous);
+        fragmentTransaction.addToBackStack(null);
+
+        AppCompatDialogFragment dialogFragment = new MealSelectorDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", id);
+        bundle.putStringArrayList("meals", meals);
+        bundle.putString("instructions", getString(R.string.add_portion_to_diary_instructions));
+        dialogFragment.setArguments(bundle);
+
+        dialogFragment.show(fragmentTransaction, "dialog");
+    }
+
+    @Override
+    public void showRecipeAddedToast() {
+        Toast.makeText(getContext(), getString(R.string.success_message_portion_added), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.cookbook_search_filter) {
             presenter.onFilterOptionSelected();
@@ -279,5 +309,10 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @Override
     public void sortOptionSelected(String sortOption, boolean asc) {
         presenter.sortRecipesBy(sortOption, asc);
+    }
+
+    @Override
+    public void mealSelectedInDialog(int recipeId, int mealId) {
+        presenter.addPortionToDiary(recipeId, mealId, databaseDateFormat.format(Calendar.getInstance().getTime()));
     }
 }

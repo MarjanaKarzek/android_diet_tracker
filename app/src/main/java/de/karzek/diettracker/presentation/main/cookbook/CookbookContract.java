@@ -7,6 +7,7 @@ import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeSearchResultViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.RecipeFilterOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
+import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -20,7 +21,8 @@ public interface CookbookContract {
 
     interface View extends BaseView<Presenter>,
             RecipeFilterOptionsDialog.FilterOptionsSelectedDialogListener,
-            RecipeSortOptionsDialog.SortOptionSelectedDialogListener {
+            RecipeSortOptionsDialog.SortOptionSelectedDialogListener,
+            MealSelectorDialog.MealSelectedInDialogListener {
 
         void hideLoading();
 
@@ -50,6 +52,10 @@ public interface CookbookContract {
 
         void openSortOptionsDialog(String sortOption, boolean asc);
 
+        void showAddPortionForRecipeDialog(int id, ArrayList<String> meals);
+
+        void showRecipeAddedToast();
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -69,5 +75,8 @@ public interface CookbookContract {
         void filterRecipesBy(ArrayList<String> filterOptions);
 
         void sortRecipesBy(String sortOption, boolean asc);
+
+        void addPortionToDiary(int recipeId, int mealId, String date);
+
     }
 }

@@ -2,6 +2,7 @@ package de.karzek.diettracker.presentation.main.diary.meal;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,7 +30,7 @@ import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.diaryEntryList.DiaryEntryListAdapter;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.FavoriteRecipeListAdapter;
-import de.karzek.diettracker.presentation.main.diary.meal.dialog.MoveDiaryEntryDialog;
+import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryDetailsView;
 import de.karzek.diettracker.presentation.main.diary.meal.viewStub.CaloryMacroDetailsView;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
@@ -69,7 +70,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     OnRefreshViewPagerNeededListener callback;
 
     public interface OnRefreshViewPagerNeededListener {
-        public void onRefreshViewPagerNeeded();
+        void onRefreshViewPagerNeeded();
     }
 
     private CaloryDetailsView detailsView;
@@ -94,7 +95,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_generic_meal, container, false);
         ButterKnife.bind(this, view);
 
@@ -240,9 +241,9 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         }
         fragmentTransaction.addToBackStack(null);
 
-        AppCompatDialogFragment dialogFragment = new MoveDiaryEntryDialog();
+        AppCompatDialogFragment dialogFragment = new MealSelectorDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("diaryEntry", id);
+        bundle.putInt("id", id);
         bundle.putStringArrayList("meals", meals);
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction,"dialog");
@@ -274,7 +275,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
-    public void mealToMoveDiaryEntryToSelected(int diaryEntryId, int mealId) {
+    public void mealSelectedInDialog(int diaryEntryId, int mealId) {
         presenter.moveDiaryItemToMeal(diaryEntryId, meals.get(mealId));
         callback.onRefreshViewPagerNeeded();
     }
