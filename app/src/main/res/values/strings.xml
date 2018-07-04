@@ -140,5 +140,6 @@
     <string name="grocery_search_barcode_scan_title">Barcode_Scanner</string>
     <string name="menu_item_favorite">Favorite</string>
     <string name="menu_item_edit">Edit</string>
+    <string name="error_message_not_enough_ingredients_left">Eine Zutat muss im Rezept verbleiben</string>
 
 </resources>

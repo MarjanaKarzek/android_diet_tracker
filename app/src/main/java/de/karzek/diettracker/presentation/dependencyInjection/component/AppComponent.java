@@ -19,6 +19,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.MainModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeDetailsModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeEditDetailsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeManipulationModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeSearchModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.SplashModule;
@@ -36,6 +37,7 @@ import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
+import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.RecipeEditDetailsActivity;
 import de.karzek.diettracker.presentation.splash.SplashActivity;
 
 /**
@@ -56,6 +58,7 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         RecipeManipulationModule.class,
         RecipeDetailsModule.class,
         RecipeSearchModule.class,
+        RecipeEditDetailsModule.class,
         FavoriteRecipeModule.class,
         AllergenModule.class,
         RecipeModule.class,
@@ -96,5 +99,7 @@ public interface AppComponent {
     void inject(RecipeDetailsActivity activity);
 
     void inject(RecipeSearchActivity activity);
+
+    void inject(RecipeEditDetailsActivity activity);
 
 }

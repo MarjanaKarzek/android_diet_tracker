@@ -108,7 +108,7 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     }
 
     @Override
-    public void onFavoriteGroceryClicked(boolean checked) {
+    public void onFavoriteRecipeClicked(boolean checked) {
         if(checked){
             Disposable subs = putFavoriteRecipeUseCase.get().execute(new PutFavoriteRecipeUseCase.Input(new FavoriteRecipeDomainModel(-1, recipeMapper.transformToDomain(recipe))))
                     .subscribeOn(Schedulers.io())

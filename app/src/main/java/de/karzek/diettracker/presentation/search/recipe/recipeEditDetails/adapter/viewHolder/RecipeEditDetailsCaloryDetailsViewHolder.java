@@ -1,7 +1,8 @@
-package de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.viewHolder;
+package de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.adapter.viewHolder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,7 +11,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
-import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper;
+import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.adapter.itemWrapper.RecipeEditDetailsViewItemWrapper;
 import de.karzek.diettracker.presentation.util.Constants;
 
 /**
@@ -20,7 +21,7 @@ import de.karzek.diettracker.presentation.util.Constants;
  * @version 1.0
  * @date 30.05.2018
  */
-public class RecipeDetailsCaloryDetailsViewHolder extends RecyclerView.ViewHolder {
+public class RecipeEditDetailsCaloryDetailsViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.circle_progress_bar_calories)
     CircularProgressBar caloryProgressBar;
@@ -29,16 +30,21 @@ public class RecipeDetailsCaloryDetailsViewHolder extends RecyclerView.ViewHolde
     @BindView(R.id.circle_progress_bar_calories_value)
     TextView caloryProgressBarValue;
 
-    public RecipeDetailsCaloryDetailsViewHolder(ViewGroup viewGroup) {
+    @BindView(R.id.portions_hint)
+    TextView portionsHint;
+
+    public RecipeEditDetailsCaloryDetailsViewHolder(ViewGroup viewGroup) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.viewholder_recipe_calory_details, viewGroup, false));
         ButterKnife.bind(this, itemView);
     }
 
-    public void bind(RecipeDetailsViewItemWrapper item) {
+    public void bind(RecipeEditDetailsViewItemWrapper item) {
         caloryProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.calories));
         caloryProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.calories) * item.getValues().get(Constants.calories));
         caloryProgressBarValue.setText("" + (int) item.getValues().get(Constants.calories).floatValue());
+
+        portionsHint.setVisibility(View.GONE);
     }
 
 }

@@ -37,6 +37,7 @@ import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.Gro
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.search.recipe.adapter.RecipeSearchResultListAdapter;
+import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.RecipeEditDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
@@ -166,7 +167,7 @@ public class RecipeSearchActivity extends BaseActivity implements RecipeSearchCo
 
     @Override
     public void showRecipeDetails(int id) {
-        //startActivity(RecipeEditDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT));
+        startActivity(RecipeEditDetailsActivity.newIntent(this, id, selectedMeal, selectedDate));
     }
 
     @Override

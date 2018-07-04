@@ -62,9 +62,9 @@ public class RecipeDetailsViewItemWrapper {
         title = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        meals = new ArrayList<>();
-        maxValues = new HashMap<>();
-        values = new HashMap<>();
+        meals = null;
+        maxValues = null;
+        values = null;
     }
 
     public RecipeDetailsViewItemWrapper(@ItemType int type, HashMap<String, Long> maxValues, HashMap<String, Float> values) {
@@ -73,7 +73,7 @@ public class RecipeDetailsViewItemWrapper {
         title = null;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        meals = new ArrayList<>();
+        meals = null;
         this.maxValues = maxValues;
         this.values = values;
     }
@@ -84,9 +84,9 @@ public class RecipeDetailsViewItemWrapper {
         this.title = title;
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
-        meals = new ArrayList<>();
-        maxValues = new HashMap<>();
-        values = new HashMap<>();
+        meals = null;
+        maxValues = null;
+        values = null;
     }
 
     public RecipeDetailsViewItemWrapper(@ItemType int type, IngredientDisplayModel ingredientDisplayModel) {
@@ -95,9 +95,9 @@ public class RecipeDetailsViewItemWrapper {
         title = null;
         this.ingredientDisplayModel = ingredientDisplayModel;
         preparationStepDisplayModel = null;
-        meals = new ArrayList<>();
-        maxValues = new HashMap<>();
-        values = new HashMap<>();
+        meals = null;
+        maxValues = null;
+        values = null;
     }
 
     public RecipeDetailsViewItemWrapper(@ItemType int type, PreparationStepDisplayModel preparationStepDisplayModel) {
@@ -106,9 +106,9 @@ public class RecipeDetailsViewItemWrapper {
         title = null;
         ingredientDisplayModel = null;
         this.preparationStepDisplayModel = preparationStepDisplayModel;
-        meals = new ArrayList<>();
-        maxValues = new HashMap<>();
-        values = new HashMap<>();
+        meals = null;
+        maxValues = null;
+        values = null;
     }
 
     public RecipeDetailsViewItemWrapper(@ItemType int type, ArrayList<MealDisplayModel> meals) {
@@ -118,8 +118,8 @@ public class RecipeDetailsViewItemWrapper {
         ingredientDisplayModel = null;
         preparationStepDisplayModel = null;
         this.meals = meals;
-        maxValues = new HashMap<>();
-        values = new HashMap<>();
+        maxValues = null;
+        values = null;
     }
 
 }

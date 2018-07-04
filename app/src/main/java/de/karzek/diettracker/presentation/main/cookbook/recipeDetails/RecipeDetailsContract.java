@@ -36,7 +36,7 @@ public interface RecipeDetailsContract {
 
         void setRecipeId(int id);
 
-        void onFavoriteGroceryClicked(boolean checked);
+        void onFavoriteRecipeClicked(boolean checked);
 
     }
 

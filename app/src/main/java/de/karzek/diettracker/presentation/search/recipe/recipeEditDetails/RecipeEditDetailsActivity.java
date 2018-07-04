@@ -1,6 +1,7 @@
-package de.karzek.diettracker.presentation.main.cookbook.recipeDetails;
+package de.karzek.diettracker.presentation.search.recipe.recipeEditDetails;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -13,9 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -24,18 +29,19 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
-import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.RecipeDetailsViewListAdapter;
-import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper;
+import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
-import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
-import de.karzek.diettracker.presentation.util.StringUtils;
+import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.adapter.RecipeEditDetailsViewListAdapter;
+import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.adapter.itemWrapper.RecipeEditDetailsViewItemWrapper;
+import de.karzek.diettracker.presentation.util.Constants;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
-public class RecipeDetailsActivity extends BaseActivity implements RecipeDetailsContract.View {
+public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEditDetailsContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -46,13 +52,21 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
     private Menu menu;
     private int recipeId;
+    private int selectedMeal;
+    private String selectedDate;
+
+    private Calendar selectedDateCalendar = Calendar.getInstance();
+    private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Inject
-    RecipeDetailsContract.Presenter presenter;
+    RecipeEditDetailsContract.Presenter presenter;
 
-    public static Intent newIntent(Context context, int id) {
-        Intent intent = new Intent(context, RecipeDetailsActivity.class);
+    public static Intent newIntent(Context context, int id, int selectedMeal, String selectedDate) {
+        Intent intent = new Intent(context, RecipeEditDetailsActivity.class);
         intent.putExtra("recipeId", id);
+        intent.putExtra("selectedMeal", selectedMeal);
+        intent.putExtra("selectedDate", selectedDate);
 
         return intent;
     }
@@ -86,11 +100,16 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
         ButterKnife.bind(this);
 
         recipeId = getIntent().getExtras().getInt("recipeId");
+        selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+        selectedDate = getIntent().getExtras().getString("selectedDate");
+
         setupSupportActionBar();
         setupRecyclerView();
 
         presenter.setView(this);
         presenter.setRecipeId(recipeId);
+        presenter.setSelectedMeal(selectedMeal);
+        presenter.setSelectedDate(selectedDate);
         presenter.start();
     }
 
@@ -104,44 +123,39 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new RecipeDetailsViewListAdapter(presenter));
+        recyclerView.setAdapter(new RecipeEditDetailsViewListAdapter(presenter, presenter, presenter, presenter, presenter, presenter));
     }
 
     @SuppressLint("StringFormatInvalid")
     @Override
-    public void setupViewsInRecyclerView(RecipeDisplayModel displayModel, String nutritionDetails, boolean detailsExpanded, HashMap<String, Long> maxValues, HashMap<String, Float> values) {
+    public void setupViewsInRecyclerView(RecipeDisplayModel displayModel, float selectedPortions, String nutritionDetails, boolean detailsExpanded, HashMap<String, Long> maxValues, HashMap<String, Float> values, ArrayList<MealDisplayModel> meals) {
         getSupportActionBar().setTitle(displayModel.getTitle());
 
-        ArrayList<RecipeDetailsViewItemWrapper> views = new ArrayList<>();
+        ArrayList<RecipeEditDetailsViewItemWrapper> views = new ArrayList<>();
         if (displayModel.getPhoto() != null) {
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
+            views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.PHOTO_VIEW, BitmapFactory.decodeByteArray(displayModel.getPhoto(), 0, displayModel.getPhoto().length)));
         }
 
-        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, getString(R.string.recipe_details_ingredients_title, StringUtils.formatFloat(displayModel.getPortions()))));
+        views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, selectedPortions));
 
         if(nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
+            views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
         else if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS) && detailsExpanded)
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
+            views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
 
-        for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));
-        }
+        for (IngredientDisplayModel ingredient : displayModel.getIngredients())
+            views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient, selectedPortions));
 
-        if(displayModel.getSteps().size() > 0)
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_preparation_steps_title)));
-        for (PreparationStepDisplayModel step : displayModel.getSteps())
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));
+        views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.MEAL_SELECTOR_VIEW, meals, selectedMeal));
+        views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.DATE_SELECTOR_VIEW, selectedDate));
 
-        if(displayModel.getMeals().size() > 0)
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_meals_title)));
-        views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW, displayModel.getMeals()));
+        views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.ADD_VIEW));
 
-        ((RecipeDetailsViewListAdapter) recyclerView.getAdapter()).setList(views);
+        ((RecipeEditDetailsViewListAdapter) recyclerView.getAdapter()).setList(views);
     }
 
     @Override
-    public void setPresenter(RecipeDetailsContract.Presenter presenter) {
+    public void setPresenter(RecipeEditDetailsContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
@@ -181,6 +195,34 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
         } else {
             item.setIcon(getDrawable(R.drawable.ic_star_white));
         }
+    }
+
+    @Override
+    public void showErrorNotEnoughIngredientsLeft() {
+        Toast.makeText(this, getString(R.string.error_message_not_enough_ingredients_left), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void navigateToDiary() {
+        startActivity(MainActivity.newIntentToDiary(this));
+        finish();
+    }
+
+    @Override
+    public void openDateSelectorDialog() {
+        if (dateSetListener == null) {
+            dateSetListener = (view, year, monthOfYear, dayOfMonth) -> {
+                selectedDateCalendar.set(Calendar.YEAR, year);
+                selectedDateCalendar.set(Calendar.MONTH, monthOfYear);
+                selectedDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate = databaseDateFormat.format(selectedDateCalendar.getTime());
+                presenter.setSelectedDateFromDialog(selectedDate);
+            };
+        }
+
+        DatePickerDialog dialog = new DatePickerDialog(this, dateSetListener, selectedDateCalendar.get(Calendar.YEAR), selectedDateCalendar.get(Calendar.MONTH), selectedDateCalendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTime().getTime() + Constants.weekInMilliS);
+        dialog.show();
     }
 
     @Override

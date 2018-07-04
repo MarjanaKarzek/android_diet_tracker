@@ -3,7 +3,6 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adap
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -32,7 +31,7 @@ public class RecipeManipulationIngredientItemViewHolder extends RecyclerView.Vie
                                                       OnDeleteIngredientClickListener onDeleteIngredientClickListener,
                                                       OnIngredientClickListener onIngredientClickListener) {
         super(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.viewholder_recipe_man_ingredient, viewGroup, false));
+                .inflate(R.layout.viewholder_recipe_ingredient, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
         this.onDeleteIngredientClickListener = onDeleteIngredientClickListener;
