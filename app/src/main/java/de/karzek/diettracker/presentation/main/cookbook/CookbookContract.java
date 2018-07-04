@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
-import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeSearchResultViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeCookbookSearchResultViewHolder;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.RecipeFilterOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
@@ -59,10 +59,10 @@ public interface CookbookContract {
     }
 
     interface Presenter extends BasePresenter<View>,
-            RecipeSearchResultViewHolder.OnRecipeItemClickedListener,
-            RecipeSearchResultViewHolder.OnRecipeAddPortionClickedListener,
-            RecipeSearchResultViewHolder.OnRecipeEditClickedListener,
-            RecipeSearchResultViewHolder.OnRecipeDeleteClickedListener {
+            RecipeCookbookSearchResultViewHolder.OnRecipeItemClickedListener,
+            RecipeCookbookSearchResultViewHolder.OnRecipeAddPortionClickedListener,
+            RecipeCookbookSearchResultViewHolder.OnRecipeEditClickedListener,
+            RecipeCookbookSearchResultViewHolder.OnRecipeDeleteClickedListener {
 
         void getRecipesMatchingQuery(String query);
 

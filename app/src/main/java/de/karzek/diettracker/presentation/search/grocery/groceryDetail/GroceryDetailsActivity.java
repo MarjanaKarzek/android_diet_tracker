@@ -145,7 +145,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.grocery_details, menu);
+        inflater.inflate(R.menu.grocery_search_result_details, menu);
 
         this.menu = menu;
 

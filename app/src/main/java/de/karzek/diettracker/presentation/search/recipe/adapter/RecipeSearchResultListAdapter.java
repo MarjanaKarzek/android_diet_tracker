@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.main.cookbook.adapter;
+package de.karzek.diettracker.presentation.search.recipe.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -6,12 +6,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeSearchResultViewHolder;
+import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.RecipeCookbookSearchResultViewHolder;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
-import de.karzek.diettracker.presentation.search.grocery.GrocerySearchContract;
-import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
-import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchDrinkResultViewHolder;
-import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.GrocerySearchFoodResultViewHolder;
+import de.karzek.diettracker.presentation.search.recipe.adapter.viewHolder.RecipeSearchResultViewHolder;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -24,27 +21,21 @@ public class RecipeSearchResultListAdapter extends RecyclerView.Adapter<Recycler
 
     private RecipeSearchResultViewHolder.OnRecipeItemClickedListener onRecipeItemClickedListener;
     private RecipeSearchResultViewHolder.OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener;
-    private RecipeSearchResultViewHolder.OnRecipeEditClickedListener onRecipeEditClickedListener;
-    private RecipeSearchResultViewHolder.OnRecipeDeleteClickedListener onRecipeDeleteClickedListener;
 
     private ArrayList<RecipeDisplayModel> list;
 
     public RecipeSearchResultListAdapter(RecipeSearchResultViewHolder.OnRecipeItemClickedListener onRecipeItemClickedListener,
-            RecipeSearchResultViewHolder.OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener,
-            RecipeSearchResultViewHolder.OnRecipeEditClickedListener onRecipeEditClickedListener,
-            RecipeSearchResultViewHolder.OnRecipeDeleteClickedListener onRecipeDeleteClickedListener){
+                                         RecipeSearchResultViewHolder.OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener){
         list = new ArrayList<>();
 
         this.onRecipeItemClickedListener = onRecipeItemClickedListener;
         this.onRecipeAddPortionClickedListener = onRecipeAddPortionClickedListener;
-        this.onRecipeEditClickedListener = onRecipeEditClickedListener;
-        this.onRecipeDeleteClickedListener = onRecipeDeleteClickedListener;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RecipeSearchResultViewHolder(parent, onRecipeItemClickedListener, onRecipeAddPortionClickedListener, onRecipeEditClickedListener, onRecipeDeleteClickedListener);
+        return new RecipeSearchResultViewHolder(parent, onRecipeItemClickedListener, onRecipeAddPortionClickedListener);
     }
 
     @Override

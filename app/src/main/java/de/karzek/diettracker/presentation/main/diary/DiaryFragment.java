@@ -33,6 +33,7 @@ import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
+import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 
@@ -51,12 +52,18 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Inject
     DiaryContract.Presenter presenter;
 
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.view_pager) ViewPager viewPager;
-    @BindView(R.id.floating_action_button_menu) FloatingActionsMenu floatingActionsMenu;
-    @BindView(R.id.fab_overlay) FrameLayout overlay;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
-    @BindView(R.id.date_label) TextView selectedDate;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.floating_action_button_menu)
+    FloatingActionsMenu floatingActionsMenu;
+    @BindView(R.id.fab_overlay)
+    FrameLayout overlay;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
+    @BindView(R.id.date_label)
+    TextView selectedDate;
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
@@ -133,31 +140,38 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
         TrackerApplication.get(getContext()).releaseDiaryComponent();
     }
 
-    @OnClick(R.id.add_food) public void onAddFoodClicked() {
+    @OnClick(R.id.add_food)
+    public void onAddFoodClicked() {
         presenter.onAddFoodClicked();
     }
 
-    @OnClick(R.id.add_drink) public void onAddDrinkClicked() {
+    @OnClick(R.id.add_drink)
+    public void onAddDrinkClicked() {
         presenter.onAddDrinkClicked();
     }
 
-    @OnClick(R.id.add_recipe) public void onAddRecipeClicked() {
+    @OnClick(R.id.add_recipe)
+    public void onAddRecipeClicked() {
         presenter.onAddRecipeClicked();
     }
 
-    @OnClick(R.id.fab_overlay) public void onFabOverlayClicked() {
+    @OnClick(R.id.fab_overlay)
+    public void onFabOverlayClicked() {
         presenter.onFabOverlayClicked();
     }
 
-    @OnClick(R.id.date_label) public void onDateLabelClicked() {
+    @OnClick(R.id.date_label)
+    public void onDateLabelClicked() {
         presenter.onDateLabelClicked();
     }
 
-    @OnClick(R.id.previous_date) public void onPreviousDateClicked() {
+    @OnClick(R.id.previous_date)
+    public void onPreviousDateClicked() {
         presenter.onPreviousDateClicked();
     }
 
-    @OnClick(R.id.next_date) public void onNextDateClicked() {
+    @OnClick(R.id.next_date)
+    public void onNextDateClicked() {
         presenter.onNextDateClicked();
     }
 
@@ -188,23 +202,23 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
-    public String getSelectedDate(){
+    public String getSelectedDate() {
         return databaseDateFormat.format(datePickerCalendar.getTime());
     }
 
     @Override
     public void startFoodSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem(), false) );
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false));
     }
 
     @Override
     public void startDrinkSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()),viewPager.getCurrentItem(), false));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false));
     }
 
     @Override
     public void startRecipeSearchActivity() {
-
+        startActivity(RecipeSearchActivity.newIntent(getContext(), databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem()));
     }
 
     @Override
@@ -256,7 +270,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
-    public void refreshViewPager(){
+    public void refreshViewPager() {
         viewPager.getAdapter().notifyDataSetChanged();
     }
 }

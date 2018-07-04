@@ -82,11 +82,6 @@ public class SplashModule {
         return new GroceryDataMapper();
     }
 
-    @Provides
-    MealDataMapper provideMealDataMapper(){
-        return new MealDataMapper();
-    }
-
     //cache
 
     @Provides
@@ -104,11 +99,6 @@ public class SplashModule {
         return new GroceryCacheImpl();
     }
 
-    @Provides
-    MealCache provideMealCacheImpl(){
-        return new MealCacheImpl();
-    }
-
     //repository
 
     @Provides
@@ -124,11 +114,6 @@ public class SplashModule {
     @Provides
     GroceryRepository provideGroceryRepositoryImpl(GroceryCache groceryCache, GroceryDataMapper mapper){
         return new GroceryRepositoryImpl(groceryCache, mapper);
-    }
-
-    @Provides
-    MealRepository provideMealRepositoryImpl(MealCache mealCache, MealDataMapper mapper){
-        return new MealRepositoryImpl(mealCache, mapper);
     }
 
     //domain
@@ -150,11 +135,6 @@ public class SplashModule {
         return new GroceryDomainMapper();
     }
 
-    @Provides
-    MealDomainMapper provideMealDomainMapper(){
-        return new MealDomainMapper();
-    }
-
     //use case
 
     @Provides
@@ -170,11 +150,6 @@ public class SplashModule {
     @Provides
     PutAllGroceriesUseCase providePutAllGroceriesUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
         return new PutAllGroceriesUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    PutAllMealsUseCase providePutAllMealsUseCaseImpl(MealRepository repository, MealDomainMapper mapper){
-        return new PutAllMealsUseCaseImpl(repository, mapper);
     }
 
     @Provides
@@ -199,11 +174,6 @@ public class SplashModule {
     @Provides
     GroceryUIMapper provideGroceryUIMapper(){
         return new GroceryUIMapper();
-    }
-
-    @Provides
-    MealUIMapper provideMealUIMapper(){
-        return new MealUIMapper();
     }
 
     @Provides

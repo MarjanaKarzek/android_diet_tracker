@@ -5,8 +5,8 @@
     <item
         android:id="@+id/recipe_details_favorite"
         android:icon="@drawable/ic_star_white"
-        android:title="Favorite"
-        app:showAsAction="always"
+        android:title="@string/menu_item_favorite"
+        app:showAsAction="ifRoom"
         android:checkable="true"
         android:checked="false"
         />
@@ -14,8 +14,8 @@
     <item
         android:id="@+id/recipe_details_edit"
         android:icon="@drawable/ic_edit_white"
-        android:title="Edit"
-        app:showAsAction="always"
+        android:title="@string/menu_item_edit"
+        app:showAsAction="ifRoom"
         android:checkable="true"
         android:checked="false"
         />

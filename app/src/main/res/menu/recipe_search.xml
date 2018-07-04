@@ -3,16 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/grocery_search"
+        android:id="@+id/recipe_search"
         android:icon="@drawable/ic_search_white"
-        android:title="@string/food_search_title"
+        android:title="@string/recipe_search_title"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/grocery_search_barcode"
-        android:icon="@drawable/ic_barcode_white"
-        android:title="@string/grocery_search_barcode_scan_title"
-        app:showAsAction="always" />
 
 </menu>

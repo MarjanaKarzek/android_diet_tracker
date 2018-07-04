@@ -151,4 +151,10 @@ public class RecipeCacheImpl implements RecipeCache {
         return Observable.just(filteredResults);
     }
 
+    @Override
+    public Observable<List<RecipeEntity>> getAllRecipesMatching(String query) {
+        Realm realm = Realm.getDefaultInstance();
+        return Observable.just(realm.copyFromRealm(realm.where(RecipeEntity.class).contains("title", query, Case.INSENSITIVE).sort("title").findAll()));
+    }
+
 }

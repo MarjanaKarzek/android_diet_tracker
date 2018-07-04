@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/ic_home_white"
         android:title="@string/menu_home"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_diary"
         android:enabled="true"
         android:icon="@drawable/ic_book_closed_white"
         android:title="@string/menu_diary"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_cookbook"
         android:enabled="true"
         android:icon="@drawable/ic_chef_white"
         android:title="@string/menu_cookbook"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_settings"
         android:enabled="true"
         android:icon="@drawable/ic_settings_white"
         android:title="@string/menu_Settings"
         app:showAsAction="ifRoom" />
+
 </menu>

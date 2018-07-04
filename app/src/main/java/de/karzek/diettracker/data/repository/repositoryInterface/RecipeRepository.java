@@ -27,4 +27,5 @@ public interface RecipeRepository {
 
     Observable<List<RecipeDataModel>> getAllRecipesMatching(String query, ArrayList<String> filterOptions, String sortOption, boolean asc);
 
+    Observable<List<RecipeDataModel>> getAllRecipesMatching(String query);
 }

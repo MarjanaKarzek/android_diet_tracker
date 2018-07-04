@@ -29,4 +29,5 @@ public interface RecipeCache {
 
     Observable<List<RecipeEntity>> getAllRecipesMatching(String query, ArrayList<String> filterOptions, String sortOption, boolean asc);
 
+    Observable<List<RecipeEntity>> getAllRecipesMatching(String query);
 }

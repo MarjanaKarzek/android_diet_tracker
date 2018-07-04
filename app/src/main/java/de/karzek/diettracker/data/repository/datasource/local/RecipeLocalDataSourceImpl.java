@@ -53,4 +53,9 @@ public class RecipeLocalDataSourceImpl implements RecipeDataSource {
         return recipeCache.getAllRecipesMatching(query, filterOptions, sortOption, asc);
     }
 
+    @Override
+    public Observable<List<RecipeEntity>> getAllRecipesMatching(String query) {
+        return recipeCache.getAllRecipesMatching(query);
+    }
+
 }

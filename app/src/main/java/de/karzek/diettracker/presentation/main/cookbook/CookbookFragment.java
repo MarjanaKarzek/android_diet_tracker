@@ -37,7 +37,7 @@ import butterknife.OnClick;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
-import de.karzek.diettracker.presentation.main.cookbook.adapter.RecipeSearchResultListAdapter;
+import de.karzek.diettracker.presentation.main.cookbook.adapter.RecipeCookbookSearchResultListAdapter;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.RecipeFilterOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
@@ -138,7 +138,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new RecipeSearchResultListAdapter(presenter, presenter, presenter, presenter));
+        recyclerView.setAdapter(new RecipeCookbookSearchResultListAdapter(presenter, presenter, presenter, presenter));
     }
 
     @Override
@@ -176,7 +176,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
     @Override
     public void updateRecyclerView(ArrayList<RecipeDisplayModel> recipes) {
-        ((RecipeSearchResultListAdapter) recyclerView.getAdapter()).setList(recipes);
+        ((RecipeCookbookSearchResultListAdapter) recyclerView.getAdapter()).setList(recipes);
     }
 
     @Override

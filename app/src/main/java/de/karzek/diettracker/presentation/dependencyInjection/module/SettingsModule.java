@@ -28,18 +28,6 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 @Module
 public class SettingsModule {
 
-    //domain
-
-    @Provides
-    GetMealByIdUseCase providesGetMealByIdUseCase(MealRepository repository, MealDomainMapper mapper){
-        return new GetMealByIdUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    UpdateMealTimeUseCase providesUpdateMealTimeUseCase(MealRepository repository){
-        return new UpdateMealTimeUseCaseImpl(repository);
-    }
-
     //presentation
 
     @Provides

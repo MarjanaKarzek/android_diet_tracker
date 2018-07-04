@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/recipe_manipulation_camera"
+        android:checkable="true"
+        android:checked="false"
+        android:icon="@drawable/ic_camera_white"
+        android:title="@string/toolbar_photo_action_title"
+        app:showAsAction="always" />
+
+</menu>

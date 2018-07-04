@@ -29,13 +29,6 @@ import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 @Module
 public class CookbookModule {
 
-    //domain
-
-    @Provides
-    GetMealByIdUseCase providesGetMealByIdUseCase(MealRepository repository, MealDomainMapper mapper){
-        return new GetMealByIdUseCaseImpl(repository, mapper);
-    }
-
     //presentation
 
     @Provides

@@ -13,6 +13,7 @@ import de.karzek.diettracker.domain.interactor.useCase.recipe.DeleteRecipeByIdUs
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetAllRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetMatchingRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetRecipeByIdUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.recipe.GetRecipesMatchingQueryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.PutRecipeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.UpdateRecipeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetAllFavoriteRecipesForMealUseCase;
@@ -20,6 +21,7 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.D
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetMatchingRecipesUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipesMatchingQueryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.UpdateRecipeUseCase;
 import de.karzek.diettracker.domain.mapper.RecipeDomainMapper;
@@ -92,6 +94,11 @@ public class RecipeModule {
     @Provides
     GetAllFavoriteRecipesForMealUseCase providesGetAllFavoriteRecipesForMealUseCase(FavoriteRecipeRepository repository, RecipeDomainMapper mapper){
         return new GetAllFavoriteRecipesForMealUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    GetRecipesMatchingQueryUseCase providesGetRecipesMatchingQueryUseCase(RecipeRepository repository, RecipeDomainMapper mapper){
+        return new GetRecipesMatchingQueryUseCaseImpl(repository, mapper);
     }
 
     // presentation

@@ -137,5 +137,8 @@
     <string name="radio_button_meals_desc">Mahlzeiten (Z-A)</string>
     <string name="add_portion_to_diary_instructions">Portion hinzufügen zu</string>
     <string name="success_message_portion_added">Portion hinzugefügt</string>
+    <string name="grocery_search_barcode_scan_title">Barcode_Scanner</string>
+    <string name="menu_item_favorite">Favorite</string>
+    <string name="menu_item_edit">Edit</string>
 
 </resources>

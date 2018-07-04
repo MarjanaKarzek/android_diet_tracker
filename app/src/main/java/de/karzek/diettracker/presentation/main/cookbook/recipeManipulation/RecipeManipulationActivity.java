@@ -120,7 +120,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_recipe, menu);
+        inflater.inflate(R.menu.toolbar_recipe_man, menu);
 
         return true;
     }

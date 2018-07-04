@@ -26,7 +26,7 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  * @version 1.0
  * @date 30.05.2018
  */
-public class RecipeSearchResultViewHolder extends RecyclerView.ViewHolder {
+public class RecipeCookbookSearchResultViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.recipe_image) CircleImageView recipeImage;
     @BindView(R.id.recipe_title) TextView recipeTitle;
@@ -37,11 +37,11 @@ public class RecipeSearchResultViewHolder extends RecyclerView.ViewHolder {
     private final OnRecipeEditClickedListener onRecipeEditClickedListener;
     private final OnRecipeDeleteClickedListener onRecipeDeleteClickedListener;
 
-    public RecipeSearchResultViewHolder(ViewGroup viewGroup,
-                                        OnRecipeItemClickedListener onRecipeItemClickedListener,
-                                        OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener,
-                                        OnRecipeEditClickedListener onRecipeEditClickedListener,
-                                        OnRecipeDeleteClickedListener onRecipeDeleteClickedListener) {
+    public RecipeCookbookSearchResultViewHolder(ViewGroup viewGroup,
+                                                OnRecipeItemClickedListener onRecipeItemClickedListener,
+                                                OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener,
+                                                OnRecipeEditClickedListener onRecipeEditClickedListener,
+                                                OnRecipeDeleteClickedListener onRecipeDeleteClickedListener) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_cookbook_recipe, viewGroup, false));
         ButterKnife.bind(this, itemView);
