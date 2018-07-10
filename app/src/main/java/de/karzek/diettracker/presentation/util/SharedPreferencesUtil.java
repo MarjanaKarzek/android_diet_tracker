@@ -61,7 +61,7 @@ public class SharedPreferencesUtil {
                     .putFloat(KEY_BOTTLE_VOLUME, VALUE_BOTTLE_VOLUME)
                     .putFloat(KEY_GLASS_VOLUME, VALUE_GLASS_VOLUME)
                     .putFloat(KEY_REQUIREMENT_LIQUID_DAILY, VALUE_REQUIREMENT_LIQUID_DAILY)
-                    .putBoolean(KEY_START_SCREEN_RECIPE, VALUE_TRUE)
+                    .putBoolean(KEY_START_SCREEN_RECIPE, VALUE_FALSE)
                     .putBoolean(KEY_START_SCREEN_LIQUIDS, VALUE_TRUE)
                     .putString(KEY_ALLERGENS, VALUE_ALLERGENS)
                     .apply();

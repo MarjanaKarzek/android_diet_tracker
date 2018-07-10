@@ -74,6 +74,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @Override
     public void onResume() {
         super.onResume();
+        showLoading();
         presenter.start();
     }
 
@@ -122,8 +123,9 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ButterKnife.bind(this, view);
+
+        showLoading();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");

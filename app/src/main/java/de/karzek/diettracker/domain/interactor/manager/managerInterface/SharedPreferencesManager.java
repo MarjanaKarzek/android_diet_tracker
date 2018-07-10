@@ -47,4 +47,10 @@ public interface SharedPreferencesManager {
 
     boolean isStartScreenWithDrinksSet();
 
+    float getLiquidGoal();
+
+    float getVolumeForBottle();
+
+    float getVolumeForGlass();
+
 }

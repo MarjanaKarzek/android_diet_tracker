@@ -61,15 +61,26 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     @Inject
     GenericDrinkContract.Presenter presenter;
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
-    @BindView(R.id.circle_progress_bar_dinks_progress) CircularProgressBar liquidProgressBar;
-    @BindView(R.id.circle_progress_bar_drinks_value) EditText drinkStatus;
-    @BindView(R.id.expandable_details) ExpandableLayout expandableDetails;
-    @BindView(R.id.expandable_layout_action) ImageButton expandableLayoutAction;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
-    @BindView(R.id.drinks_placeholder) TextView placeholder;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.viewstub_calory_details)
+    ViewStub caloryDetails;
+    @BindView(R.id.viewstub_calory_makro_details)
+    ViewStub caloryMacroDetails;
+    @BindView(R.id.circle_progress_bar_dinks_progress)
+    CircularProgressBar liquidProgressBar;
+    @BindView(R.id.circle_progress_bar_drinks_value)
+    EditText drinkStatus;
+    @BindView(R.id.expandable_details)
+    ExpandableLayout expandableDetails;
+    @BindView(R.id.expandable_layout_action)
+    ImageButton expandableLayoutAction;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
+    @BindView(R.id.drinks_placeholder)
+    TextView placeholder;
+    @BindView(R.id.liquid_max_value)
+    TextView liquidMaxValue;
 
     private CaloryDetailsView detailsView;
 
@@ -80,7 +91,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_generic_drink, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -113,7 +124,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new DiaryEntryListAdapter(presenter,presenter,presenter,null));
+        recyclerView.setAdapter(new DiaryEntryListAdapter(presenter, presenter, presenter, null));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
                 ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation()));
     }
@@ -185,8 +196,8 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     @Override
     public void setLiquidStatus(DiaryEntryDisplayModel displayModel, float waterGoal) {
         drinkStatus.setText(StringUtils.formatFloat(displayModel.getAmount()));
-
         liquidProgressBar.setProgress(100.0f / waterGoal * displayModel.getAmount());
+        liquidMaxValue.setText(getString(R.string.generic_drinks_max_value, StringUtils.formatFloat(waterGoal)));
     }
 
     @Override
@@ -194,7 +205,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
         float currentValue = Float.valueOf(drinkStatus.getText().toString());
 
         float additionalValue = 0.0f;
-        for (DiaryEntryDisplayModel model:displayModels){
+        for (DiaryEntryDisplayModel model : displayModels) {
             additionalValue += model.getAmount();
         }
 
@@ -212,7 +223,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
         this.maxValues = maxValues;
         detailsView.getCaloryProgressBarMaxValue().setText("" + maxValues.get(Constants.CALORIES));
 
-        if (detailsView instanceof CaloryMacroDetailsView){
+        if (detailsView instanceof CaloryMacroDetailsView) {
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + maxValues.get(Constants.PROTEINS) + "g");
             ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + maxValues.get(Constants.CARBS) + "g");
             ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + maxValues.get(Constants.FATS) + "g");
@@ -222,9 +233,9 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     @Override
     public void updateNutritionDetails(HashMap<String, Float> values) {
         detailsView.getCaloryProgressBar().setProgress(100.0f / maxValues.get(Constants.CALORIES) * values.get(Constants.CALORIES));
-        detailsView.getCaloryProgressBarValue().setText("" + (int)values.get(Constants.CALORIES).floatValue());
+        detailsView.getCaloryProgressBarValue().setText("" + (int) values.get(Constants.CALORIES).floatValue());
 
-        if (detailsView instanceof CaloryMacroDetailsView){
+        if (detailsView instanceof CaloryMacroDetailsView) {
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100.0f / maxValues.get(Constants.PROTEINS) * values.get(Constants.PROTEINS));
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.PROTEINS)));
 
@@ -248,8 +259,9 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
         TrackerApplication.get(getContext()).releaseGenericDrinkComponent();
     }
 
-    @OnClick(R.id.expandable_layout_action) public void onExpandDetailsClicked(){
-        if(expandableDetails.isExpanded()){
+    @OnClick(R.id.expandable_layout_action)
+    public void onExpandDetailsClicked() {
+        if (expandableDetails.isExpanded()) {
             expandableLayoutAction.setImageDrawable(getContext().getDrawable(R.drawable.ic_expand_more_primary_text));
             expandableDetails.collapse(true);
         } else {
@@ -258,15 +270,18 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
         }
     }
 
-    @OnClick(R.id.add_bottle) public void onAddBottleWaterClicked(){
+    @OnClick(R.id.add_bottle)
+    public void onAddBottleWaterClicked() {
         presenter.addBottleWaterClicked(selectedDate);
     }
 
-    @OnClick(R.id.add_glass) public void onAddGlassWaterClicked(){
+    @OnClick(R.id.add_glass)
+    public void onAddGlassWaterClicked() {
         presenter.addGlassWaterClicked(selectedDate);
     }
 
-    @OnClick(R.id.add_favorite_drink) public void onAddFavoriteDrinkClicked(){
+    @OnClick(R.id.add_favorite_drink)
+    public void onAddFavoriteDrinkClicked() {
         presenter.addFavoriteDrinkClicked(selectedDate);
     }
 }

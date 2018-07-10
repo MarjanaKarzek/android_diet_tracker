@@ -2,26 +2,27 @@ package de.karzek.diettracker.domain.interactor.manager;
 
 import java.util.ArrayList;
 
-import dagger.Lazy;
-import de.karzek.diettracker.data.repository.repositoryInterface.AllergenRepository;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
-import de.karzek.diettracker.domain.mapper.AllergenDomainMapper;
-import de.karzek.diettracker.presentation.mapper.AllergenUIMapper;
-import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
-import io.reactivex.Observable;
 
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_BOTTLE_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_GLASS_VOLUME;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_CALORIES_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_CARBS_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_FATS_DAILY;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_PROTEINS_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_START_SCREEN_LIQUIDS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_START_SCREEN_RECIPE;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_BOTTLE_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_FALSE;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_GLASS_VOLUME;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_CALORIES_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_CARBS_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_FATS_DAILY;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_PROTEINS_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
@@ -112,12 +113,27 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
 
     @Override
     public boolean isStartScreenWithRecipesSet() {
-        return sharedPreferencesUtil.getBoolean(KEY_START_SCREEN_RECIPE, VALUE_TRUE);
+        return sharedPreferencesUtil.getBoolean(KEY_START_SCREEN_RECIPE, VALUE_FALSE);
     }
 
     @Override
     public boolean isStartScreenWithDrinksSet() {
         return sharedPreferencesUtil.getBoolean(KEY_START_SCREEN_LIQUIDS, VALUE_TRUE);
+    }
+
+    @Override
+    public float getLiquidGoal() {
+        return sharedPreferencesUtil.getFloat(KEY_REQUIREMENT_LIQUID_DAILY, VALUE_REQUIREMENT_LIQUID_DAILY);
+    }
+
+    @Override
+    public float getVolumeForBottle() {
+        return sharedPreferencesUtil.getFloat(KEY_BOTTLE_VOLUME, VALUE_BOTTLE_VOLUME);
+    }
+
+    @Override
+    public float getVolumeForGlass() {
+        return sharedPreferencesUtil.getFloat(KEY_GLASS_VOLUME, VALUE_GLASS_VOLUME);
     }
 
 }

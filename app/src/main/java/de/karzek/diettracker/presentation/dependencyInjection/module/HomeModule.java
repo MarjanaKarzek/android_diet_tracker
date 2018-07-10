@@ -5,8 +5,11 @@ import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.AddAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetAllDiaryEntriesMatchingUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetWaterStatusUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetAllFavoriteRecipesForMealUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
@@ -33,6 +36,9 @@ public class HomeModule {
                                                 GetAllFavoriteRecipesForMealUseCase getAllFavoriteRecipesForMealUseCase,
                                                 Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                                 GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase,
+                                                GetWaterStatusUseCase getWaterStatusUseCase,
+                                                Lazy<AddAmountOfWaterUseCase> addAmountOfWaterUseCase,
+                                                Lazy<UpdateAmountOfWaterUseCase> updateAmountOfWaterUseCase,
                                                 Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase,
                                                 NutritionManager nutritionManager,
                                                 SharedPreferencesManager sharedPreferencesManager,
@@ -43,6 +49,9 @@ public class HomeModule {
                 getAllFavoriteRecipesForMealUseCase,
                 getRecipeByIdUseCase,
                 getAllDiaryEntriesMatchingUseCase,
+                getWaterStatusUseCase,
+                addAmountOfWaterUseCase,
+                updateAmountOfWaterUseCase,
                 putDiaryEntryUseCase,
                 nutritionManager,
                 sharedPreferencesManager,

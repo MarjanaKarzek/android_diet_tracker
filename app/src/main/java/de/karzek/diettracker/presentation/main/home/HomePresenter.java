@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.AddAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetAllDiaryEntriesMatchingUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetWaterStatusUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetAllFavoriteRecipesForMealUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
@@ -25,6 +28,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_BOTTLE_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_GLASS_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_BOTTLE_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_GLASS_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY;
+
 /**
  * Created by MarjanaKarzek on 12.05.2018.
  *
@@ -40,6 +50,9 @@ public class HomePresenter implements HomeContract.Presenter {
     private GetAllFavoriteRecipesForMealUseCase getAllFavoriteRecipesForMealUseCase;
     private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
     private GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase;
+    private GetWaterStatusUseCase getWaterStatusUseCase;
+    private Lazy<AddAmountOfWaterUseCase> addAmountOfWaterUseCase;
+    private Lazy<UpdateAmountOfWaterUseCase> updateAmountOfWaterUseCase;
     private Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase;
 
     private NutritionManager nutritionManager;
@@ -53,10 +66,15 @@ public class HomePresenter implements HomeContract.Presenter {
     private int currentMealId;
     private String currentDate;
 
+    private float mlFromDiaryEntries = 0.0f;
+
     public HomePresenter(GetMealByIdUseCase getMealByIdUseCase,
                          GetAllFavoriteRecipesForMealUseCase getAllFavoriteRecipesForMealUseCase,
                          Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                          GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase,
+                         GetWaterStatusUseCase getWaterStatusUseCase,
+                         Lazy<AddAmountOfWaterUseCase> addAmountOfWaterUseCase,
+                         Lazy<UpdateAmountOfWaterUseCase> updateAmountOfWaterUseCase,
                          Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase,
                          NutritionManager nutritionManager,
                          SharedPreferencesManager sharedPreferencesManager,
@@ -67,6 +85,9 @@ public class HomePresenter implements HomeContract.Presenter {
         this.getAllFavoriteRecipesForMealUseCase = getAllFavoriteRecipesForMealUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.getAllDiaryEntriesMatchingUseCase = getAllDiaryEntriesMatchingUseCase;
+        this.getWaterStatusUseCase = getWaterStatusUseCase;
+        this.addAmountOfWaterUseCase = addAmountOfWaterUseCase;
+        this.updateAmountOfWaterUseCase = updateAmountOfWaterUseCase;
         this.putDiaryEntryUseCase = putDiaryEntryUseCase;
 
         this.nutritionManager = nutritionManager;
@@ -106,6 +127,10 @@ public class HomePresenter implements HomeContract.Presenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(output -> {
+                                for(DiaryEntryDisplayModel entry: diaryEntryMapper.transformAll(output.getDiaryEntries()))
+                                    if(entry.getMeal() == null)
+                                        mlFromDiaryEntries += entry.getAmount() * entry.getUnit().getMultiplier();
+
                                 if (sharedPreferencesManager.getNutritionDetailsSetting().equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
                                     view.setCaloryState(nutritionManager.getCaloriesSumForDiaryEntries(output.getDiaryEntries()), sharedPreferencesManager.getCaloriesGoal());
                                     view.hideNutritionState();
@@ -114,12 +139,23 @@ public class HomePresenter implements HomeContract.Presenter {
                             });
 
                     if (sharedPreferencesManager.isStartScreenWithDrinksSet()){
-
+                        updateLiquidStatus();
                     } else {
                         view.hideDrinksSection();
                     }
 
                     view.hideLoading();
+                }));
+    }
+
+    private void updateLiquidStatus() {
+        compositeDisposable.add(getWaterStatusUseCase.execute(new GetWaterStatusUseCase.Input(currentDate))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if (output.getStatus() == 0) {
+                        view.setLiquidStatus(diaryEntryMapper.transform(output.getWaterDiaryEntry()).getAmount() + mlFromDiaryEntries, sharedPreferencesManager.getLiquidGoal());
+                    }
                 }));
     }
 
@@ -161,6 +197,46 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void onFabOverlayClicked() {
         view.closeFabMenu();
+    }
+
+    @Override
+    public void addBottleWaterClicked() {
+        view.showLoading();
+        addAmountOfWater(sharedPreferencesManager.getVolumeForBottle());
+    }
+
+    @Override
+    public void addGlassWaterClicked() {
+        view.showLoading();
+        addAmountOfWater(sharedPreferencesManager.getVolumeForGlass());
+    }
+
+    public void addAmountOfWater(float amount) {
+        compositeDisposable.add(addAmountOfWaterUseCase.get().execute(new AddAmountOfWaterUseCase.Input(amount, currentDate))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if (output.getStatus() == 0) {
+                        updateLiquidStatus();
+                        view.hideLoading();
+                    } else {
+                        view.hideLoading();
+                    }
+                }));
+    }
+
+    @Override
+    public void updateAmountOfWater(float amount) {
+        view.showLoading();
+        compositeDisposable.add(updateAmountOfWaterUseCase.get().execute(new UpdateAmountOfWaterUseCase.Input(amount, currentDate))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    if (output.getStatus() == 0) {
+                        updateLiquidStatus();
+                        view.hideLoading();
+                    }
+                }));
     }
 
     @Override

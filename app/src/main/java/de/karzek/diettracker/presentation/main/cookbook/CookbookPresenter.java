@@ -77,7 +77,6 @@ public class CookbookPresenter implements CookbookContract.Presenter {
 
     @Override
     public void start() {
-        view.showLoading();
         getAllRecipes();
     }
 

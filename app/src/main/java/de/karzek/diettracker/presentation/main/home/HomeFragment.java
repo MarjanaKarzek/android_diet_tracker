@@ -1,13 +1,18 @@
 package de.karzek.diettracker.presentation.main.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +35,7 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.FavoriteRecipeListAdapter;
+import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
@@ -75,6 +81,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @BindView(R.id.drinks_section)
     CardView drinksSection;
+    @BindView(R.id.circle_progress_bar_dinks_progress)
+    CircularProgressBar drinksProgressBar;
+    @BindView(R.id.circle_progress_bar_drinks_value)
+    EditText drinksProgressBarValue;
+    @BindView(R.id.drinks_max_value)
+    TextView drinksMaxValue;
 
     @BindView(R.id.floating_action_button_menu)
     FloatingActionsMenu floatingActionsMenu;
@@ -124,6 +136,19 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
             }
         });
         ViewUtils.addElevationToFABMenuLabels(getContext(), floatingActionsMenu);
+
+        drinksProgressBarValue.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            drinksProgressBarValue.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(drinksProgressBarValue.getWindowToken(), 0);
+                            presenter.updateAmountOfWater(Float.valueOf(drinksProgressBarValue.getText().toString()));
+                        }
+                        return true;
+                    }
+                });
 
 
         presenter.setView(this);
@@ -258,6 +283,23 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void hideDrinksSection() {
         drinksSection.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setLiquidStatus(float sum, float liquidGoal) {
+        drinksProgressBar.setProgress(100.0f / liquidGoal * sum);
+        drinksProgressBarValue.setText(StringUtils.formatFloat(sum));
+        drinksMaxValue.setText(getString(R.string.generic_drinks_max_value, StringUtils.formatFloat(liquidGoal)));
+    }
+
+    @OnClick(R.id.add_bottle)
+    public void onAddBottleWaterClicked() {
+        presenter.addBottleWaterClicked();
+    }
+
+    @OnClick(R.id.add_glass)
+    public void onAddGlassWaterClicked() {
+        presenter.addGlassWaterClicked();
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.viewHolder.FavoriteRecipeViewHolder;
+import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -50,6 +51,9 @@ public interface HomeContract {
         void hideNutritionState();
 
         void hideDrinksSection();
+
+        void setLiquidStatus(float sum, float liquidGoal);
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -66,5 +70,11 @@ public interface HomeContract {
         void onAddRecipeClicked();
 
         void onFabOverlayClicked();
+
+        void addBottleWaterClicked();
+
+        void addGlassWaterClicked();
+
+        void updateAmountOfWater(float amount);
     }
 }
