@@ -33,28 +33,6 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 @Module
 public class GenericDrinkModule {
 
-    //domain
-
-    @Provides
-    GetAllDiaryEntriesMatchingUseCase providesGetAllDiaryEntriesMatchingUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper){
-        return new GetAllDiaryEntriesMatchingUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    GetWaterStatusUseCase providesGetWaterStatusUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper){
-        return new GetWaterStatusUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    AddAmountOfWaterUseCase AddAmountOfWaterUseCaseImpl(DiaryEntryRepository repository){
-        return new AddAmountOfWaterUseCaseImpl(repository);
-    }
-
-    @Provides
-    UpdateAmountOfWaterUseCase providesUpdateAmountOfWaterUseCaseImpl(DiaryEntryRepository repository){
-        return new UpdateAmountOfWaterUseCaseImpl(repository);
-    }
-
     //presentation
 
     @Provides

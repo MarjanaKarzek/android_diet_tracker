@@ -102,7 +102,6 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
         showLoading();
         tabLayout.setupWithViewPager(viewPager);
-        hideLoading();
 
         selectedDate.setText(simpleDateFormat.format(Calendar.getInstance().getTime()));
 

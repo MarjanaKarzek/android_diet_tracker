@@ -35,4 +35,11 @@ public interface SharedPreferencesManager {
 
     void setStartScreenLiquidsSetting(boolean checked);
 
+    int getCaloriesGoal();
+
+    int getProteinsGoal();
+
+    int getCarbsGoal();
+
+    int getFatsGoal();
 }

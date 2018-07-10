@@ -68,7 +68,10 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
     @Override
     public Observable<List<DiaryEntryEntity>> getAllDiaryEntriesMatching(String meal, String date) {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("meal.name", meal).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));
+        if (meal == null)
+            return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));
+        else
+            return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("meal.name", meal).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));
     }
 
     @Override

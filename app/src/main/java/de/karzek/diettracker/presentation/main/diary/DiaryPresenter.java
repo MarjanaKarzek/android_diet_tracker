@@ -32,7 +32,6 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 
     @Override
     public void start() {
-        view.showLoading();
         Disposable subs = getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

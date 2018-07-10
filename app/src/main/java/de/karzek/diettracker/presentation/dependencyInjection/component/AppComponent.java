@@ -27,6 +27,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModul
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditMealsDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.RecipeFilterOptionsDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.DiaryEntryModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.FavoriteRecipeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.MealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.RecipeModule;
@@ -62,7 +63,8 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         FavoriteRecipeModule.class,
         AllergenModule.class,
         RecipeModule.class,
-        MealModule.class
+        MealModule.class,
+        DiaryEntryModule.class
 })
 public interface AppComponent {
 

@@ -141,5 +141,9 @@
     <string name="menu_item_favorite">Favorite</string>
     <string name="menu_item_edit">Edit</string>
     <string name="error_message_not_enough_ingredients_left">Eine Zutat muss im Rezept verbleiben</string>
+    <string name="fab_add_food_generic">Lebensmittel erfassen</string>
+    <string name="fab_add_drink_generic">Getränk erfassen</string>
+    <string name="fab_add_recipe_generic">Rezept erfassen</string>
+    <string name="favorite_recipes_home_title">Deine Favoriten zum %1$s:</string>
 
 </resources>

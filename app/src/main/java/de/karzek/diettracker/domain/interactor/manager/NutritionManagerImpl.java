@@ -7,6 +7,7 @@ import java.util.List;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.domain.model.GroceryDomainModel;
+import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -201,6 +202,40 @@ public class NutritionManagerImpl implements NutritionManager {
         proteins = proteins / portions * selectedPortions;
         carbs = carbs / portions * selectedPortions;
         fats = fats / portions * selectedPortions;
+
+        values.put(Constants.calories, calories);
+        values.put(Constants.proteins, proteins);
+        values.put(Constants.carbs, carbs);
+        values.put(Constants.fats, fats);
+
+        return values;
+    }
+
+    @Override
+    public float getCaloriesSumForDiaryEntries(List<DiaryEntryDomainModel> displayModels) {
+        float caloriesSum = 0.0f;
+
+        for (DiaryEntryDomainModel entry: displayModels)
+            caloriesSum += entry.getAmount() * entry.getGrocery().getCalories_per_1U() * entry.getUnit().getMultiplier();
+
+        return caloriesSum;
+    }
+
+    @Override
+    public HashMap<String, Float> getNutritionSumsForDiaryEntries(List<DiaryEntryDomainModel> displayModels) {
+        HashMap<String, Float> values = new HashMap<>();
+
+        float calories = 0.0f;
+        float proteins = 0.0f;
+        float carbs = 0.0f;
+        float fats = 0.0f;
+
+        for (DiaryEntryDomainModel entry : displayModels) {
+            calories += entry.getGrocery().getCalories_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+            proteins += entry.getGrocery().getProteins_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+            carbs += entry.getGrocery().getCarbohydrates_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+            fats += entry.getGrocery().getFats_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
+        }
 
         values.put(Constants.calories, calories);
         values.put(Constants.proteins, proteins);

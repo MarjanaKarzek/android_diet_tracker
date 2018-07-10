@@ -64,30 +64,7 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 @Module
 public class FoodDetailsModule {
 
-    //data
-
-    @Provides
-    DiaryEntryDataMapper provideDiaryEntryDataMapper(){
-        return new DiaryEntryDataMapper();
-    }
-
-    @Provides
-    DiaryEntryCache provideDiaryEntryCacheImpl(){
-        return new DiaryEntryCacheImpl();
-    }
-
-    @Provides
-    DiaryEntryRepository provideDiaryEntryRepositoryImpl(DiaryEntryCache cache, DiaryEntryDataMapper diaryEntryMapper, MealDataMapper mealMapper){
-        return new DiaryEntryRepositoryImpl(cache, diaryEntryMapper, mealMapper);
-    }
-
     //domain
-
-    @Provides
-    DiaryEntryDomainMapper provideDiaryEntryDomainMapper(){
-        return new DiaryEntryDomainMapper();
-    }
-
 
     @Provides
     GetGroceryByIdUseCase provideGetGroceryByIdUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
@@ -97,21 +74,6 @@ public class FoodDetailsModule {
     @Provides
     GetAllDefaultUnitsUseCase provideGetAllDefaultUnitsUseCaseImpl(UnitRepository repository, UnitDomainMapper mapper){
         return new GetAllDefaultUnitsUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    GetAllMealsUseCase provideGetAllMealsUseCaseImpl(MealRepository repository, MealDomainMapper mapper){
-        return new GetAllMealsUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    PutDiaryEntryUseCase providePutDiaryEntryUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper){
-        return new PutDiaryEntryUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    GetMealCountUseCase provideGetMealCountUseCaseImpl(MealRepository repository){
-        return new GetMealCountUseCaseImpl(repository);
     }
 
     @Provides
@@ -125,26 +87,11 @@ public class FoodDetailsModule {
     }
 
     @Provides
-    GetDiaryEntryByIdUseCase provideGetDiaryEntryByIdUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper){
-        return new GetDiaryEntryByIdUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
     GetFavoriteStateForGroceryIdUseCase provideGetFavoriteStateForGroceryIdUseCaseImpl(FavoriteGroceryRepository repository){
         return new GetFavoriteStateForGroceryIdUseCaseImpl(repository);
     }
 
-    @Provides
-    DeleteDiaryEntryUseCase provideDeleteDiaryEntryUseCaseImpl(DiaryEntryRepository repository){
-        return new DeleteDiaryEntryUseCaseImpl(repository);
-    }
-
     //presentation
-
-    @Provides
-    DiaryEntryUIMapper provideDiaryEntryUIMapper(){
-        return new DiaryEntryUIMapper();
-    }
 
     @Provides
     GroceryDetailsContract.Presenter provideFoodDetailsPresenter(SharedPreferencesUtil sharedPreferencesUtil,

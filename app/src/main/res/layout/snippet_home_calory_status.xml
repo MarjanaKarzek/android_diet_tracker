@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@color/colorPrimary"
+    tools:layout_height="match_parent">
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/circle_progress_bar_calories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="25dp"
+        app:cpb_background_progressbar_color="@color/grey"
+        app:cpb_background_progressbar_width="3dp"
+        app:cpb_progress="0"
+        app:cpb_progressbar_color="@color/white"
+        app:cpb_progressbar_width="6dp" />
+
+    <TextView
+        android:id="@+id/circle_progress_bar_calories_value"
+        style="@style/Headline1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        tools:text="50" />
+
+</FrameLayout>

@@ -38,18 +38,6 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 @Module
 public class GenericMealModule {
 
-    //domain
-
-    @Provides
-    GetAllDiaryEntriesMatchingUseCase provideGetAllDiaryEntriesMatchingUseCaseImpl(DiaryEntryRepository repository, DiaryEntryDomainMapper mapper){
-        return new GetAllDiaryEntriesMatchingUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    UpdateMealOfDiaryEntryUseCase provideUpdateMealOfDiaryEntryUseCaseImpl(DiaryEntryRepository repository, MealDomainMapper mapper){
-        return new UpdateMealOfDiaryEntryUseCaseImpl(repository, mapper);
-    }
-
     //presentation
 
     @Provides
