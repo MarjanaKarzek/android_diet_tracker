@@ -22,6 +22,7 @@ import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -306,7 +307,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                                 RecipeDisplayModel recipe = recipeMapper.transform(recipeOutput.getRecipe());
 
                                 for(IngredientDisplayModel ingredient : recipe.getIngredients()) {
-                                    putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
+                                    putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(Constants.INVALID_ENTITY_ID,
                                             mealModel,
                                             ingredient.getAmount() / recipe.getPortions(),
                                             ingredient.getUnit(),

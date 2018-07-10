@@ -7,6 +7,7 @@ import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
 import de.karzek.diettracker.data.model.DiaryEntryDataModel;
 import de.karzek.diettracker.data.model.UnitDataModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -48,7 +49,7 @@ public class DiaryEntryDataMapper {
             startWriteTransaction();
             int id = dataModel.getId();
             if(realm.where(DiaryEntryEntity.class).equalTo("id", dataModel.getId()).findFirst() == null) {
-                if(dataModel.getId() == -1)
+                if(dataModel.getId() == Constants.INVALID_ENTITY_ID)
                     id = getNextId();
                 realm.createObject(DiaryEntryEntity.class, id);
             }

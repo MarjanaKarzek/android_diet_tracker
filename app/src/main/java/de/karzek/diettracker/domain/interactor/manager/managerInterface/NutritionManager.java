@@ -6,7 +6,6 @@ import java.util.List;
 
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.domain.model.GroceryDomainModel;
-import de.karzek.diettracker.domain.model.UnitDomainModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 
 /**
@@ -38,8 +37,8 @@ public interface NutritionManager {
 
     HashMap<String, Float> getDefaultValuesForTotalNutrition();
 
-    HashMap<String, Float> calculateTotalCaloriesForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions);
+    HashMap<String, Float> calculateTotalCaloriesForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions, float selectedPortions);
 
-    HashMap<String, Float> calculateTotalNutritionsForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions);
+    HashMap<String, Float> calculateTotalNutritionsForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions, float selectedPortions);
 
 }

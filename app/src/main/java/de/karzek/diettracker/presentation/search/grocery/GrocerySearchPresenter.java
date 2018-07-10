@@ -19,6 +19,7 @@ import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.FavoriteGroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -164,7 +165,7 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(
                                             output2 -> {
-                                                putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
+                                                putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(Constants.INVALID_ENTITY_ID,
                                                         sharedPreferencesUtil.getFloat(KEY_BOTTLE_VOLUME, 0.0f),
                                                         unitMapper.transform(output2.getUnit()),
                                                         groceryMapper.transform(output.getGrocery()),

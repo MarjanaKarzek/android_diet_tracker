@@ -1,7 +1,5 @@
 package de.karzek.diettracker.presentation.search.recipe.recipeEditDetails;
 
-import java.util.ArrayList;
-
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
@@ -11,7 +9,6 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favorite
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.RemoveFavoriteRecipeByTitleUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByNameUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.domain.model.FavoriteRecipeDomainModel;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
@@ -23,7 +20,6 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
@@ -110,9 +106,9 @@ public class RecipeEditDetailsPresenter implements RecipeEditDetailsContract.Pre
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mealOutput -> {
                     if (sharedPreferencesManager.getNutritionDetailsSetting().equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
-                        view.setupViewsInRecyclerView(recipe, selectedPortions, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY, detailsExpanded, nutritionManager.getCaloryMaxValueForDay(), nutritionManager.calculateTotalCaloriesForRecipe(recipe.getIngredients(), recipe.getPortions()), mealMapper.transformAll(mealOutput.getMealList()));
+                        view.setupViewsInRecyclerView(recipe, selectedPortions, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY, detailsExpanded, nutritionManager.getCaloryMaxValueForDay(), nutritionManager.calculateTotalCaloriesForRecipe(recipe.getIngredients(), recipe.getPortions(), selectedPortions), mealMapper.transformAll(mealOutput.getMealList()));
                     } else {
-                        view.setupViewsInRecyclerView(recipe, selectedPortions, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, nutritionManager.getNutritionMaxValuesForDay(), nutritionManager.calculateTotalNutritionsForRecipe(recipe.getIngredients(), recipe.getPortions()), mealMapper.transformAll(mealOutput.getMealList()));
+                        view.setupViewsInRecyclerView(recipe, selectedPortions, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS, detailsExpanded, nutritionManager.getNutritionMaxValuesForDay(), nutritionManager.calculateTotalNutritionsForRecipe(recipe.getIngredients(), recipe.getPortions(), selectedPortions), mealMapper.transformAll(mealOutput.getMealList()));
                     }
                     view.hideLoading();
                 }));

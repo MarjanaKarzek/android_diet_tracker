@@ -7,7 +7,6 @@ import java.util.List;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.domain.model.GroceryDomainModel;
-import de.karzek.diettracker.domain.model.UnitDomainModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -166,7 +165,7 @@ public class NutritionManagerImpl implements NutritionManager {
     }
 
     @Override
-    public HashMap<String, Float> calculateTotalCaloriesForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions) {
+    public HashMap<String, Float> calculateTotalCaloriesForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions, float selectedPortions) {
         HashMap<String, Float> values = new HashMap<>();
 
         float calories = 0.0f;
@@ -175,7 +174,7 @@ public class NutritionManagerImpl implements NutritionManager {
             calories += entry.getGrocery().getCalories_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
         }
 
-        calories = calories / portions;
+        calories = calories / portions * selectedPortions;
 
         values.put(Constants.calories, calories);
 
@@ -183,7 +182,7 @@ public class NutritionManagerImpl implements NutritionManager {
     }
 
     @Override
-    public HashMap<String, Float> calculateTotalNutritionsForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions) {
+    public HashMap<String, Float> calculateTotalNutritionsForRecipe(ArrayList<IngredientDisplayModel> ingredients, float portions, float selectedPortions) {
         HashMap<String, Float> values = new HashMap<>();
 
         float calories = 0.0f;
@@ -198,10 +197,10 @@ public class NutritionManagerImpl implements NutritionManager {
             fats += entry.getGrocery().getFats_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
         }
 
-        calories = calories / portions;
-        proteins = proteins / portions;
-        carbs = carbs / portions;
-        fats = fats / portions;
+        calories = calories / portions * selectedPortions;
+        proteins = proteins / portions * selectedPortions;
+        carbs = carbs / portions * selectedPortions;
+        fats = fats / portions * selectedPortions;
 
         values.put(Constants.calories, calories);
         values.put(Constants.proteins, proteins);

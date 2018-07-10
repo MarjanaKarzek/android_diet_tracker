@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
 /**
@@ -63,7 +64,7 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
             }
         });
 
-        if(manualIngredientId == -1)
+        if(manualIngredientId == Constants.INVALID_ENTITY_ID)
             addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -23,6 +23,7 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -86,7 +87,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void start() {
-        recipe = new RecipeDisplayModel(-1, "", null, 1.0f, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        recipe = new RecipeDisplayModel(Constants.INVALID_ENTITY_ID, "", null, 1.0f, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         view.setupViewsInRecyclerView(recipe);
     }
 
@@ -160,7 +161,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(unitOutput -> {
-                                recipe.getIngredients().add(new IngredientDisplayModel(-1, groceryMapper.transform(groceryOutput.getGrocery()), amount, unitMapper.transform(unitOutput.getUnit())));
+                                recipe.getIngredients().add(new IngredientDisplayModel(Constants.INVALID_ENTITY_ID, groceryMapper.transform(groceryOutput.getGrocery()), amount, unitMapper.transform(unitOutput.getUnit())));
                                 view.setupViewsInRecyclerView(recipe);
                                 view.hideLoading();
                             });
@@ -169,7 +170,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void addPreparationStep(String description) {
-        recipe.getSteps().add(new PreparationStepDisplayModel(-1, recipe.getSteps().size() + 1, description));
+        recipe.getSteps().add(new PreparationStepDisplayModel(Constants.INVALID_ENTITY_ID, recipe.getSteps().size() + 1, description));
         view.setupViewsInRecyclerView(recipe);
     }
 
