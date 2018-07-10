@@ -42,4 +42,9 @@ public interface SharedPreferencesManager {
     int getCarbsGoal();
 
     int getFatsGoal();
+
+    boolean isStartScreenWithRecipesSet();
+
+    boolean isStartScreenWithDrinksSet();
+
 }

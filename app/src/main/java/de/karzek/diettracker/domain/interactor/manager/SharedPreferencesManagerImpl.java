@@ -25,6 +25,7 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_PROTEINS_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_TRUE;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -107,6 +108,16 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
     @Override
     public int getFatsGoal() {
         return sharedPreferencesUtil.getInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY);
+    }
+
+    @Override
+    public boolean isStartScreenWithRecipesSet() {
+        return sharedPreferencesUtil.getBoolean(KEY_START_SCREEN_RECIPE, VALUE_TRUE);
+    }
+
+    @Override
+    public boolean isStartScreenWithDrinksSet() {
+        return sharedPreferencesUtil.getBoolean(KEY_START_SCREEN_LIQUIDS, VALUE_TRUE);
     }
 
 }

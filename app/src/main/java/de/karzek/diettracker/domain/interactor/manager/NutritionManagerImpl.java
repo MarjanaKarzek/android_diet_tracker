@@ -7,7 +7,6 @@ import java.util.List;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.model.DiaryEntryDomainModel;
 import de.karzek.diettracker.domain.model.GroceryDomainModel;
-import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -52,10 +51,10 @@ public class NutritionManagerImpl implements NutritionManager {
             fats += entry.getGrocery().getFats_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
         }
 
-        values.put(Constants.calories, calories);
-        values.put(Constants.proteins, proteins);
-        values.put(Constants.carbs, carbs);
-        values.put(Constants.fats, fats);
+        values.put(Constants.CALORIES, calories);
+        values.put(Constants.PROTEINS, proteins);
+        values.put(Constants.CARBS, carbs);
+        values.put(Constants.FATS, fats);
 
         return values;
     }
@@ -64,10 +63,10 @@ public class NutritionManagerImpl implements NutritionManager {
     public HashMap<String, Float> calculateTotalNutritionForGrocery(GroceryDomainModel grocery, float amount) {
         HashMap<String, Float> values = new HashMap<>();
 
-        values.put(Constants.calories, grocery.getCalories_per_1U() * amount);
-        values.put(Constants.proteins, grocery.getProteins_per_1U() * amount);
-        values.put(Constants.carbs, grocery.getCarbohydrates_per_1U() * amount);
-        values.put(Constants.fats, grocery.getFats_per_1U() * amount);
+        values.put(Constants.CALORIES, grocery.getCalories_per_1U() * amount);
+        values.put(Constants.PROTEINS, grocery.getProteins_per_1U() * amount);
+        values.put(Constants.CARBS, grocery.getCarbohydrates_per_1U() * amount);
+        values.put(Constants.FATS, grocery.getFats_per_1U() * amount);
 
         return values;
     }
@@ -82,7 +81,7 @@ public class NutritionManagerImpl implements NutritionManager {
             calories += entry.getGrocery().getCalories_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
         }
 
-        values.put(Constants.calories, calories);
+        values.put(Constants.CALORIES, calories);
 
         return values;
     }
@@ -91,7 +90,7 @@ public class NutritionManagerImpl implements NutritionManager {
     public HashMap<String, Float> calculateTotalCaloriesForGrocery(GroceryDomainModel grocery, float amount) {
         HashMap<String, Float> values = new HashMap<>();
 
-        values.put(Constants.calories, grocery.getCalories_per_1U() * amount);
+        values.put(Constants.CALORIES, grocery.getCalories_per_1U() * amount);
 
         return values;
     }
@@ -105,10 +104,10 @@ public class NutritionManagerImpl implements NutritionManager {
         long carbsMax = sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CARBS_DAILY, VALUE_REQUIREMENT_CARBS_DAILY) / mealsTotal;
         long fatsMax = sharedPreferencesUtil.getInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY) / mealsTotal;
 
-        maxValues.put(Constants.calories, caloriesMax);
-        maxValues.put(Constants.proteins, proteinsMax);
-        maxValues.put(Constants.carbs, carbsMax);
-        maxValues.put(Constants.fats, fatsMax);
+        maxValues.put(Constants.CALORIES, caloriesMax);
+        maxValues.put(Constants.PROTEINS, proteinsMax);
+        maxValues.put(Constants.CARBS, carbsMax);
+        maxValues.put(Constants.FATS, fatsMax);
 
         return maxValues;
     }
@@ -117,10 +116,10 @@ public class NutritionManagerImpl implements NutritionManager {
     public HashMap<String, Long> getNutritionMaxValuesForDay() {
         HashMap<String, Long> maxValues = new HashMap<>();
 
-        maxValues.put(Constants.calories, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY));
-        maxValues.put(Constants.proteins, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_PROTEINS_DAILY, VALUE_REQUIREMENT_PROTEINS_DAILY));
-        maxValues.put(Constants.carbs, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CARBS_DAILY, VALUE_REQUIREMENT_CARBS_DAILY));
-        maxValues.put(Constants.fats, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY));
+        maxValues.put(Constants.CALORIES, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY));
+        maxValues.put(Constants.PROTEINS, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_PROTEINS_DAILY, VALUE_REQUIREMENT_PROTEINS_DAILY));
+        maxValues.put(Constants.CARBS, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CARBS_DAILY, VALUE_REQUIREMENT_CARBS_DAILY));
+        maxValues.put(Constants.FATS, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_FATS_DAILY, VALUE_REQUIREMENT_FATS_DAILY));
 
         return maxValues;
     }
@@ -130,7 +129,7 @@ public class NutritionManagerImpl implements NutritionManager {
         HashMap<String, Long> maxValues = new HashMap<>();
 
         long caloriesMax = sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY) / mealsTotal;
-        maxValues.put(Constants.calories, caloriesMax);
+        maxValues.put(Constants.CALORIES, caloriesMax);
 
         return maxValues;
     }
@@ -139,7 +138,7 @@ public class NutritionManagerImpl implements NutritionManager {
     public HashMap<String, Long> getCaloryMaxValueForDay() {
         HashMap<String, Long> maxValues = new HashMap<>();
 
-        maxValues.put(Constants.calories, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY));
+        maxValues.put(Constants.CALORIES, (long)sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, VALUE_REQUIREMENT_CALORIES_DAILY));
 
         return maxValues;
     }
@@ -148,7 +147,7 @@ public class NutritionManagerImpl implements NutritionManager {
     public HashMap<String,Float> getDefaultValuesForTotalCalories() {
         HashMap<String, Float> defaultNutritionValues = new HashMap<>();
 
-        defaultNutritionValues.put(Constants.calories, 0.0f);
+        defaultNutritionValues.put(Constants.CALORIES, 0.0f);
 
         return defaultNutritionValues;
     }
@@ -157,10 +156,10 @@ public class NutritionManagerImpl implements NutritionManager {
     public HashMap<String,Float> getDefaultValuesForTotalNutrition() {
         HashMap<String, Float> defaultNutritionValues = new HashMap<>();
 
-        defaultNutritionValues.put(Constants.calories, 0.0f);
-        defaultNutritionValues.put(Constants.proteins, 0.0f);
-        defaultNutritionValues.put(Constants.carbs, 0.0f);
-        defaultNutritionValues.put(Constants.fats, 0.0f);
+        defaultNutritionValues.put(Constants.CALORIES, 0.0f);
+        defaultNutritionValues.put(Constants.PROTEINS, 0.0f);
+        defaultNutritionValues.put(Constants.CARBS, 0.0f);
+        defaultNutritionValues.put(Constants.FATS, 0.0f);
 
         return defaultNutritionValues;
     }
@@ -177,7 +176,7 @@ public class NutritionManagerImpl implements NutritionManager {
 
         calories = calories / portions * selectedPortions;
 
-        values.put(Constants.calories, calories);
+        values.put(Constants.CALORIES, calories);
 
         return values;
     }
@@ -203,10 +202,10 @@ public class NutritionManagerImpl implements NutritionManager {
         carbs = carbs / portions * selectedPortions;
         fats = fats / portions * selectedPortions;
 
-        values.put(Constants.calories, calories);
-        values.put(Constants.proteins, proteins);
-        values.put(Constants.carbs, carbs);
-        values.put(Constants.fats, fats);
+        values.put(Constants.CALORIES, calories);
+        values.put(Constants.PROTEINS, proteins);
+        values.put(Constants.CARBS, carbs);
+        values.put(Constants.FATS, fats);
 
         return values;
     }
@@ -237,10 +236,10 @@ public class NutritionManagerImpl implements NutritionManager {
             fats += entry.getGrocery().getFats_per_1U() * entry.getAmount() * entry.getUnit().getMultiplier();
         }
 
-        values.put(Constants.calories, calories);
-        values.put(Constants.proteins, proteins);
-        values.put(Constants.carbs, carbs);
-        values.put(Constants.fats, fats);
+        values.put(Constants.CALORIES, calories);
+        values.put(Constants.PROTEINS, proteins);
+        values.put(Constants.CARBS, carbs);
+        values.put(Constants.FATS, fats);
 
         return values;
     }

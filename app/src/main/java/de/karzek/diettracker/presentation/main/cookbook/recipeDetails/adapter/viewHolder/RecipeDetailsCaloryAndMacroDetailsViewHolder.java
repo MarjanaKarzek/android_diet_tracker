@@ -57,21 +57,21 @@ public class RecipeDetailsCaloryAndMacroDetailsViewHolder extends RecyclerView.V
     }
 
     public void bind(RecipeDetailsViewItemWrapper item) {
-        caloryProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.calories));
-        caloryProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.calories) * item.getValues().get(Constants.calories));
-        caloryProgressBarValue.setText("" + (int) item.getValues().get(Constants.calories).floatValue());
+        caloryProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.CALORIES));
+        caloryProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.CALORIES) * item.getValues().get(Constants.CALORIES));
+        caloryProgressBarValue.setText("" + (int) item.getValues().get(Constants.CALORIES).floatValue());
 
-        proteinProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.proteins));
-        proteinProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.proteins) * item.getValues().get(Constants.proteins));
-        proteinProgressBarValue.setText("" + (int) item.getValues().get(Constants.proteins).floatValue());
+        proteinProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.PROTEINS));
+        proteinProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.PROTEINS) * item.getValues().get(Constants.PROTEINS));
+        proteinProgressBarValue.setText("" + (int) item.getValues().get(Constants.PROTEINS).floatValue());
 
-        carbsProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.carbs));
-        carbsProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.carbs) * item.getValues().get(Constants.carbs));
-        carbsProgressBarValue.setText("" + (int) item.getValues().get(Constants.carbs).floatValue());
+        carbsProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.CARBS));
+        carbsProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.CARBS) * item.getValues().get(Constants.CARBS));
+        carbsProgressBarValue.setText("" + (int) item.getValues().get(Constants.CARBS).floatValue());
 
-        fatsProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.fats));
-        fatsProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.fats) * item.getValues().get(Constants.fats));
-        fatsProgressBarValue.setText("" + (int) item.getValues().get(Constants.fats).floatValue());
+        fatsProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.FATS));
+        fatsProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.FATS) * item.getValues().get(Constants.FATS));
+        fatsProgressBarValue.setText("" + (int) item.getValues().get(Constants.FATS).floatValue());
     }
 
 }

@@ -10,10 +10,10 @@ package de.karzek.diettracker.presentation.util;
 public class Constants {
     public static final long weekInMilliS = 1000 * 60 * 60 * 24 * 7;
 
-    public static final String calories = "calories";
-    public static final String proteins = "proteins";
-    public static final String carbs = "carbs";
-    public static final String fats = "fats";
+    public static final String CALORIES = "CALORIES";
+    public static final String PROTEINS = "PROTEINS";
+    public static final String CARBS = "CARBS";
+    public static final String FATS = "FATS";
 
     public static final String SHARED_PREFERENCES_SPLIT_ARRAY_CHAR = ";";
     public static final int INVALID_ENTITY_ID = -1;

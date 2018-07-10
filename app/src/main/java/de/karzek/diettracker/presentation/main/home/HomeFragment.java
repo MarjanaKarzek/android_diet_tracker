@@ -2,6 +2,7 @@ package de.karzek.diettracker.presentation.main.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipe
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 
@@ -63,11 +65,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     CircularProgressBar fatsProgressBar;
     @BindView(R.id.circle_progress_bar_fats_value)
     TextView fatsProgressBarValue;
+    @BindView(R.id.nutrition_state)
+    CardView nutritionState;
 
     @BindView(R.id.favorite_recipe_title)
     TextView favoriteText;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.drinks_section)
+    CardView drinksSection;
 
     @BindView(R.id.floating_action_button_menu)
     FloatingActionsMenu floatingActionsMenu;
@@ -86,6 +93,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
+        showLoading();
         presenter.start();
     }
 
@@ -229,17 +237,27 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void setNutritionState(HashMap<String, Float> sums, int caloriesGoal, int proteinsGoal, int carbsGoal, int fatsGoal) {
-        caloriesProgressBar.setProgress(100.0f / caloriesGoal * sums.get("calories"));
-        caloriesProgressBarValue.setText(StringUtils.formatFloat(caloriesGoal - sums.get("calories")));
+        caloriesProgressBar.setProgress(100.0f / caloriesGoal * sums.get(Constants.CALORIES));
+        caloriesProgressBarValue.setText(StringUtils.formatFloat(caloriesGoal - sums.get(Constants.CALORIES)));
 
-        proteinsProgressBar.setProgress(100.0f / proteinsGoal * sums.get("proteins"));
-        proteinsProgressBarValue.setText(StringUtils.formatFloat(proteinsGoal - sums.get("proteins")));
+        proteinsProgressBar.setProgress(100.0f / proteinsGoal * sums.get(Constants.PROTEINS));
+        proteinsProgressBarValue.setText(StringUtils.formatFloat(proteinsGoal - sums.get(Constants.PROTEINS)));
 
-        carbsProgressBar.setProgress(100.0f / carbsGoal * sums.get("carbs"));
-        carbsProgressBarValue.setText(StringUtils.formatFloat(carbsGoal - sums.get("carbs")));
+        carbsProgressBar.setProgress(100.0f / carbsGoal * sums.get(Constants.CARBS));
+        carbsProgressBarValue.setText(StringUtils.formatFloat(carbsGoal - sums.get(Constants.CARBS)));
 
-        fatsProgressBar.setProgress(100.0f / fatsGoal * sums.get("fats"));
-        fatsProgressBarValue.setText(StringUtils.formatFloat(fatsGoal - sums.get("fats")));
+        fatsProgressBar.setProgress(100.0f / fatsGoal * sums.get(Constants.FATS));
+        fatsProgressBarValue.setText(StringUtils.formatFloat(fatsGoal - sums.get(Constants.FATS)));
+    }
+
+    @Override
+    public void hideNutritionState() {
+        nutritionState.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideDrinksSection() {
+        drinksSection.setVisibility(View.GONE);
     }
 
     @Override

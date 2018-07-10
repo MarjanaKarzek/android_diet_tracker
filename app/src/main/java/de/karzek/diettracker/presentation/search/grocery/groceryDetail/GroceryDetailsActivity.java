@@ -286,29 +286,29 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     @Override
     public void setNutritionMaxValues(HashMap<String, Long> values) {
         maxValues = values;
-        detailsView.getCaloryProgressBarMaxValue().setText("" + values.get(Constants.calories));
+        detailsView.getCaloryProgressBarMaxValue().setText("" + values.get(Constants.CALORIES));
 
         if (detailsView instanceof CaloryMacroDetailsView) {
-            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + values.get(Constants.proteins) + "g");
-            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + values.get(Constants.carbs) + "g");
-            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + values.get(Constants.fats) + "g");
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + values.get(Constants.PROTEINS) + "g");
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + values.get(Constants.CARBS) + "g");
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + values.get(Constants.FATS) + "g");
         }
     }
 
     @Override
     public void updateNutritionDetails(HashMap<String, Float> values) {
-        detailsView.getCaloryProgressBar().setProgress(100.0f / maxValues.get(Constants.calories) * values.get(Constants.calories));
-        detailsView.getCaloryProgressBarValue().setText("" + (int) values.get(Constants.calories).floatValue());
+        detailsView.getCaloryProgressBar().setProgress(100.0f / maxValues.get(Constants.CALORIES) * values.get(Constants.CALORIES));
+        detailsView.getCaloryProgressBarValue().setText("" + (int) values.get(Constants.CALORIES).floatValue());
 
         if (detailsView instanceof CaloryMacroDetailsView) {
-            ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100.0f / maxValues.get(Constants.proteins) * values.get(Constants.proteins));
-            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.proteins)));
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100.0f / maxValues.get(Constants.PROTEINS) * values.get(Constants.PROTEINS));
+            ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.PROTEINS)));
 
-            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBar().setProgress(100.0f / maxValues.get(Constants.carbs) * values.get(Constants.carbs));
-            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.carbs)));
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBar().setProgress(100.0f / maxValues.get(Constants.CARBS) * values.get(Constants.CARBS));
+            ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.CARBS)));
 
-            ((CaloryMacroDetailsView) detailsView).getFatsProgressBar().setProgress(100.0f / maxValues.get(Constants.fats) * values.get(Constants.fats));
-            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.fats)));
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBar().setProgress(100.0f / maxValues.get(Constants.FATS) * values.get(Constants.FATS));
+            ((CaloryMacroDetailsView) detailsView).getFatsProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.FATS)));
         }
     }
 

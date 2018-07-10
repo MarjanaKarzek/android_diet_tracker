@@ -47,6 +47,9 @@ public interface HomeContract {
 
         void setNutritionState(HashMap<String, Float> nutritionSumsForDiaryEntries, int caloriesGoal, int proteinsGoal, int carbsGoal, int fatsGoal);
 
+        void hideNutritionState();
+
+        void hideDrinksSection();
     }
 
     interface Presenter extends BasePresenter<View>,

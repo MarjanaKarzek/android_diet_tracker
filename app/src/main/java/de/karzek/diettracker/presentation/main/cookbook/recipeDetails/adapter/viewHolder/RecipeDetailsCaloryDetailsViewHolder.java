@@ -36,9 +36,9 @@ public class RecipeDetailsCaloryDetailsViewHolder extends RecyclerView.ViewHolde
     }
 
     public void bind(RecipeDetailsViewItemWrapper item) {
-        caloryProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.calories));
-        caloryProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.calories) * item.getValues().get(Constants.calories));
-        caloryProgressBarValue.setText("" + (int) item.getValues().get(Constants.calories).floatValue());
+        caloryProgressBarMaxValue.setText("" + item.getMaxValues().get(Constants.CALORIES));
+        caloryProgressBar.setProgress(100.0f / item.getMaxValues().get(Constants.CALORIES) * item.getValues().get(Constants.CALORIES));
+        caloryProgressBarValue.setText("" + (int) item.getValues().get(Constants.CALORIES).floatValue());
     }
 
 }

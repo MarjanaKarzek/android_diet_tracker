@@ -62,7 +62,7 @@ public class HomePresenter implements HomeContract.Presenter {
                          SharedPreferencesManager sharedPreferencesManager,
                          MealUIMapper mealMapper,
                          RecipeUIMapper recipeMapper,
-                         DiaryEntryUIMapper diaryEntryMapper){
+                         DiaryEntryUIMapper diaryEntryMapper) {
         this.getMealByIdUseCase = getMealByIdUseCase;
         this.getAllFavoriteRecipesForMealUseCase = getAllFavoriteRecipesForMealUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
@@ -85,30 +85,41 @@ public class HomePresenter implements HomeContract.Presenter {
                 .subscribe(mealOutput -> {
                     MealDisplayModel mealModel = mealMapper.transform(mealOutput.getMeal());
 
-                    getAllFavoriteRecipesForMealUseCase.execute(new GetAllFavoriteRecipesForMealUseCase.Input(mealModel.getName()))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(output -> {
-                                if (output.getFavoriteRecipes().size() > 0) {
-                                    view.showFavoriteText(mealModel.getName());
-                                    view.updateRecyclerView(recipeMapper.transformAll(output.getFavoriteRecipes()));
-                                    view.showRecyclerView();
-                                } else {
-                                    view.hideFavoriteText();
-                                    view.hideRecyclerView();
-                                }
-                                view.hideLoading();
-                            });
+                    if (sharedPreferencesManager.isStartScreenWithRecipesSet())
+                        getAllFavoriteRecipesForMealUseCase.execute(new GetAllFavoriteRecipesForMealUseCase.Input(mealModel.getName()))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(output -> {
+                                    if (output.getFavoriteRecipes().size() > 0) {
+                                        view.showFavoriteText(mealModel.getName());
+                                        view.updateRecyclerView(recipeMapper.transformAll(output.getFavoriteRecipes()));
+                                        view.showRecyclerView();
+                                    } else {
+                                        view.hideFavoriteText();
+                                        view.hideRecyclerView();
+                                    }
+                                });
+                    else
+                        view.hideFavoriteText();
 
                     getAllDiaryEntriesMatchingUseCase.execute(new GetAllDiaryEntriesMatchingUseCase.Input(null, currentDate))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(output -> {
-                                if(sharedPreferencesManager.getNutritionDetailsSetting().equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY))
+                                if (sharedPreferencesManager.getNutritionDetailsSetting().equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
                                     view.setCaloryState(nutritionManager.getCaloriesSumForDiaryEntries(output.getDiaryEntries()), sharedPreferencesManager.getCaloriesGoal());
-                                else
+                                    view.hideNutritionState();
+                                } else
                                     view.setNutritionState(nutritionManager.getNutritionSumsForDiaryEntries(output.getDiaryEntries()), sharedPreferencesManager.getCaloriesGoal(), sharedPreferencesManager.getProteinsGoal(), sharedPreferencesManager.getCarbsGoal(), sharedPreferencesManager.getFatsGoal());
                             });
+
+                    if (sharedPreferencesManager.isStartScreenWithDrinksSet()){
+
+                    } else {
+                        view.hideDrinksSection();
+                    }
+
+                    view.hideLoading();
                 }));
     }
 
@@ -118,12 +129,12 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void setCurrentMealId(int currentMealId){
+    public void setCurrentMealId(int currentMealId) {
         this.currentMealId = currentMealId;
     }
 
     @Override
-    public void setCurrentDate(String currentDate){
+    public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
     }
 
@@ -167,7 +178,7 @@ public class HomePresenter implements HomeContract.Presenter {
                             .subscribe(recipeOutput -> {
                                 RecipeDisplayModel recipe = recipeMapper.transform(recipeOutput.getRecipe());
 
-                                for(IngredientDisplayModel ingredient : recipe.getIngredients()) {
+                                for (IngredientDisplayModel ingredient : recipe.getIngredients()) {
                                     putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(Constants.INVALID_ENTITY_ID,
                                             mealModel,
                                             ingredient.getAmount() / recipe.getPortions(),
