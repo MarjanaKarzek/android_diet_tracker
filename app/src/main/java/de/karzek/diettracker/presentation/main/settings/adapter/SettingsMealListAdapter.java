@@ -18,19 +18,16 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
  */
 public class SettingsMealListAdapter extends RecyclerView.Adapter<SettingsMealViewHolder> {
 
-    private final SettingsMealViewHolder.OnMealNameChangedListener onMealNameChangedListener;
-    private final SettingsMealViewHolder.OnMealEditTimeClickedListener onMealEditTimeClickedListener;
+    private final SettingsMealViewHolder.OnEditMealClickedListener onEditMealClickedListener;
     private final SettingsMealViewHolder.OnDeleteMealClickedListener onDeleteMealClickedListener;
 
     private ArrayList<MealDisplayModel> list;
 
-    public SettingsMealListAdapter(SettingsMealViewHolder.OnMealNameChangedListener onMealNameChangedListener,
-                                   SettingsMealViewHolder.OnMealEditTimeClickedListener onMealEditTimeClickedListener,
+    public SettingsMealListAdapter(SettingsMealViewHolder.OnEditMealClickedListener onEditMealClickedListener,
                                    SettingsMealViewHolder.OnDeleteMealClickedListener onDeleteMealClickedListener) {
         list = new ArrayList<>();
 
-        this.onMealNameChangedListener = onMealNameChangedListener;
-        this.onMealEditTimeClickedListener = onMealEditTimeClickedListener;
+        this.onEditMealClickedListener = onEditMealClickedListener;
         this.onDeleteMealClickedListener = onDeleteMealClickedListener;
     }
 
@@ -38,7 +35,7 @@ public class SettingsMealListAdapter extends RecyclerView.Adapter<SettingsMealVi
     @Override
     public SettingsMealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         boolean lastItem = list.size() == 1;
-        return new SettingsMealViewHolder(parent, onMealNameChangedListener, onMealEditTimeClickedListener, onDeleteMealClickedListener, lastItem);
+        return new SettingsMealViewHolder(parent, onEditMealClickedListener, onDeleteMealClickedListener, lastItem);
     }
 
     @Override

@@ -3,10 +3,12 @@ package de.karzek.diettracker.data.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
 import de.karzek.diettracker.data.model.MealDataModel;
 import de.karzek.diettracker.data.model.UnitDataModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -19,52 +21,55 @@ import io.realm.RealmList;
  */
 public class MealDataMapper {
 
-    public MealDataModel transform(MealEntity mealEntity){
-        MealDataModel mealDataModel = null;
-        if(mealEntity != null){
-            mealDataModel = new MealDataModel(mealEntity.getId(),
-                    mealEntity.getName(),
-                    mealEntity.getStartTime(),
-                    mealEntity.getEndTime()
+    public MealDataModel transform(MealEntity entity){
+        MealDataModel dataModel = null;
+        if(entity != null){
+            dataModel = new MealDataModel(entity.getId(),
+                    entity.getName(),
+                    entity.getStartTime(),
+                    entity.getEndTime()
             );
         }
-        return mealDataModel;
+        return dataModel;
     }
 
-    public ArrayList<MealDataModel> transformAll(List<MealEntity> mealEntities){
-        ArrayList<MealDataModel> mealDataModels = new ArrayList<>();
-        for (MealEntity entity: mealEntities){
-            mealDataModels.add(transform(entity));
+    public ArrayList<MealDataModel> transformAll(List<MealEntity> entities){
+        ArrayList<MealDataModel> dataModels = new ArrayList<>();
+        for (MealEntity entity: entities){
+            dataModels.add(transform(entity));
         }
-        return mealDataModels;
+        return dataModels;
     }
 
-    public MealEntity transformToEntity(MealDataModel mealDataModel){
+    public MealEntity transformToEntity(MealDataModel dataModel){
         Realm realm = Realm.getDefaultInstance();
-        MealEntity mealEntity = null;
-        if(mealDataModel != null){
+        MealEntity entity = null;
+        if(dataModel != null){
             startWriteTransaction();
-            if(realm.where(MealEntity.class).equalTo("id", mealDataModel.getId()).findFirst() == null) {
-                realm.createObject(MealEntity.class, mealDataModel.getId());
+            int id = dataModel.getId();
+
+            if(realm.where(MealEntity.class).equalTo("id", dataModel.getId()).findFirst() == null) {
+                if(dataModel.getId() == Constants.INVALID_ENTITY_ID)
+                    id = getNextId();
+                realm.createObject(MealEntity.class, id);
             }
 
-            startWriteTransaction();
-            mealEntity = realm.copyFromRealm(realm.where(MealEntity.class).equalTo("id", mealDataModel.getId()).findFirst());
+            entity = realm.copyFromRealm(realm.where(MealEntity.class).equalTo("id", id).findFirst());
 
-            mealEntity.setName(mealDataModel.getName());
-            mealEntity.setStartTime(mealDataModel.getStartTime());
-            mealEntity.setEndTime(mealDataModel.getEndTime());
+            entity.setName(dataModel.getName());
+            entity.setStartTime(dataModel.getStartTime());
+            entity.setEndTime(dataModel.getEndTime());
         }
-        return mealEntity;
+        return entity;
     }
 
-    public RealmList<MealEntity> transformAllToEntity(List<MealDataModel> mealDataModels) {
-        RealmList<MealEntity> mealEntities = new RealmList<>();
+    public RealmList<MealEntity> transformAllToEntity(List<MealDataModel> dataModels) {
+        RealmList<MealEntity> entities = new RealmList<>();
         startWriteTransaction();
-        for (MealDataModel data: mealDataModels){
-            mealEntities.add(transformToEntity(data));
+        for (MealDataModel data: dataModels){
+            entities.add(transformToEntity(data));
         }
-        return mealEntities;
+        return entities;
     }
 
     private void startWriteTransaction(){
@@ -72,5 +77,16 @@ public class MealDataMapper {
         if(!realm.isInTransaction()){
             realm.beginTransaction();
         }
+    }
+
+    private int getNextId(){
+        Number currentIdNum = Realm.getDefaultInstance().where(MealEntity.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
+        return nextId;
     }
 }

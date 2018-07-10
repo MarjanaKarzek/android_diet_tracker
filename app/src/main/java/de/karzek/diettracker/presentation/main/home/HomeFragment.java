@@ -287,7 +287,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void setLiquidStatus(float sum, float liquidGoal) {
-        drinksProgressBar.setProgress(100.0f / liquidGoal * sum);
+        drinksProgressBar.setProgress(100.0f / sum);
         drinksProgressBarValue.setText(StringUtils.formatFloat(sum));
         drinksMaxValue.setText(getString(R.string.generic_drinks_max_value, StringUtils.formatFloat(liquidGoal)));
     }

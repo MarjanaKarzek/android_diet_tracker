@@ -34,8 +34,8 @@ import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.settings.adapter.SettingsMealListAdapter;
+import de.karzek.diettracker.presentation.main.settings.dialog.manipulateMeal.ManipulateMealDialog;
 import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.EditAllergensDialog;
-import de.karzek.diettracker.presentation.main.settings.dialog.editMealTime.EditMealTimeDialog;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
@@ -269,7 +269,7 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
 
     @Override
     public void setupMealRecyclerView(ArrayList<MealDisplayModel> meals) {
-        SettingsMealListAdapter adapter = new SettingsMealListAdapter(presenter, presenter, presenter);
+        SettingsMealListAdapter adapter = new SettingsMealListAdapter(presenter, presenter);
         adapter.setList(meals);
         recyclerViewMeals.setAdapter(adapter);
         recyclerViewMeals.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -328,16 +328,17 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
-    public void showMealEditTimeDialog(MealDisplayModel mealDisplayModel) {
+    public void showEditMealDialog(MealDisplayModel mealDisplayModel) {
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         Fragment previous = getFragmentManager().findFragmentByTag("dialog");
         if (previous != null)
             fragmentTransaction.remove(previous);
         fragmentTransaction.addToBackStack(null);
 
-        AppCompatDialogFragment dialogFragment = new EditMealTimeDialog();
+        AppCompatDialogFragment dialogFragment = new ManipulateMealDialog();
         Bundle bundle = new Bundle();
         bundle.putInt("mealId", mealDisplayModel.getId());
+        bundle.putString("mealTitle", mealDisplayModel.getName());
         bundle.putString("startTime", mealDisplayModel.getStartTime());
         bundle.putString("endTime", mealDisplayModel.getEndTime());
         dialogFragment.setArguments(bundle);
@@ -443,8 +444,16 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     public void onAddMealClicked() {
         if (recyclerViewMeals.getAdapter().getItemCount() >= 10)
             Toast.makeText(getContext(), R.string.error_message_only_ten_supported_meals, Toast.LENGTH_LONG).show();
-        else
-            ((SettingsMealListAdapter) recyclerViewMeals.getAdapter()).addItem(new MealDisplayModel(-1, "", "", ""));
+        else {
+            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+            Fragment previous = getFragmentManager().findFragmentByTag("dialog");
+            if (previous != null)
+                fragmentTransaction.remove(previous);
+            fragmentTransaction.addToBackStack(null);
+
+            AppCompatDialogFragment dialogFragment = new ManipulateMealDialog();
+            dialogFragment.show(fragmentTransaction, "dialog");
+        }
     }
 
     @OnClick(R.id.text_allergies)
@@ -463,12 +472,17 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
-    public void saveMealTime(int id, String startTime, String endTime) {
-        presenter.updateMealTime(id, startTime, endTime);
+    public void updateAllergens() {
+        presenter.updateAllergens();
     }
 
     @Override
-    public void updateAllergens() {
-        presenter.updateAllergens();
+    public void addMealInDialogClicked(String name, String startTime, String endTime) {
+        presenter.onAddMealInDialogClicked(name, startTime, endTime);
+    }
+
+    @Override
+    public void saveMealInDialogClicked(int id, String name, String startTime, String endTime) {
+        presenter.onSaveMealInDialogClicked(id, name, startTime, endTime);
     }
 }

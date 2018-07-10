@@ -1,18 +1,12 @@
 package de.karzek.diettracker.presentation.main.settings.dialog.editAllergen;
 
-import android.widget.EditText;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
-import de.karzek.diettracker.presentation.main.settings.adapter.viewHolder.SettingsMealViewHolder;
 import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.adapter.viewHolder.AllergenViewHolder;
-import de.karzek.diettracker.presentation.main.settings.dialog.editMealTime.EditMealTimeDialog;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
-import de.karzek.diettracker.presentation.model.MealDisplayModel;
-import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.

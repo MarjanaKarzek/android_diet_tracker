@@ -10,6 +10,7 @@ import de.karzek.diettracker.data.cache.model.MealEntity;
 import de.karzek.diettracker.data.cache.model.UnitEntity;
 import de.karzek.diettracker.data.model.DiaryEntryDataModel;
 import de.karzek.diettracker.data.model.MealDataModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -68,7 +69,7 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
     @Override
     public Observable<List<DiaryEntryEntity>> getAllDiaryEntriesMatching(String meal, String date) {
         Realm realm = Realm.getDefaultInstance();
-        if (meal == null)
+        if (meal == Constants.ALL_MEALS)
             return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));
         else
             return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("meal.name", meal).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));

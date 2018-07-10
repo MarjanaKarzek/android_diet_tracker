@@ -8,6 +8,7 @@ import de.karzek.diettracker.data.cache.model.UnitEntity;
 import de.karzek.diettracker.data.model.MealDataModel;
 import io.reactivex.Observable;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -79,22 +80,48 @@ public class MealCacheImpl implements MealCache {
     }
 
     @Override
-    public Observable<Boolean> updateMealTime(int id, String startTime, String endTime) {
+    public Observable<MealEntity> getMealByName(String meal) {
         Realm realm = Realm.getDefaultInstance();
-        MealEntity entity = realm.copyFromRealm(realm.where(MealEntity.class).equalTo("id",id).findFirst());
+        return Observable.just(realm.copyFromRealm(realm.where(MealEntity.class).equalTo("name", meal).findFirst()));
+    }
 
-        entity.setStartTime(startTime);
-        entity.setEndTime(endTime);
-        realm.copyToRealmOrUpdate(entity);
+    @Override
+    public Observable<Boolean> putMeal(MealEntity meal) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.copyToRealmOrUpdate(meal);
         realm.commitTransaction();
         realm.close();
-
         return Observable.just(true);
     }
 
     @Override
-    public Observable<MealEntity> getMealByName(String meal) {
+    public Observable<Boolean> deleteMealById(int id) {
         Realm realm = Realm.getDefaultInstance();
-        return Observable.just(realm.copyFromRealm(realm.where(MealEntity.class).equalTo("name", meal).findFirst()));
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<MealEntity> result = realm.where(MealEntity.class).equalTo("id", id).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
+        return Observable.just(true);
+    }
+
+    @Override
+    public Observable<Boolean> updateMeal(MealEntity meal) {
+        Realm realm = Realm.getDefaultInstance();
+        MealEntity entity = realm.copyFromRealm(realm.where(MealEntity.class).equalTo("id", meal.getId()).findFirst());
+
+        if (entity == null)
+            return Observable.just(false);
+
+        entity.setName(meal.getName());
+        entity.setStartTime(meal.getStartTime());
+        entity.setEndTime(meal.getEndTime());
+
+        realm.copyToRealmOrUpdate(entity);
+        realm.commitTransaction();
+        realm.close();
+        return Observable.just(true);
     }
 }

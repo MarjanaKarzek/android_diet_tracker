@@ -123,7 +123,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     else
                         view.hideFavoriteText();
 
-                    getAllDiaryEntriesMatchingUseCase.execute(new GetAllDiaryEntriesMatchingUseCase.Input(null, currentDate))
+                    getAllDiaryEntriesMatchingUseCase.execute(new GetAllDiaryEntriesMatchingUseCase.Input(Constants.ALL_MEALS, currentDate))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(output -> {

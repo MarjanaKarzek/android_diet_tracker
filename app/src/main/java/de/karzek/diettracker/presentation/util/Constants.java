@@ -29,4 +29,5 @@ public class Constants {
     public static final int ADD_INGREDIENT_INTENT_RESULT = 2003;
     public static final int EDIT_INGREDIENT_INTENT_RESULT = 2004;
 
+    public static final String ALL_MEALS = "ALL_MEALS";
 }

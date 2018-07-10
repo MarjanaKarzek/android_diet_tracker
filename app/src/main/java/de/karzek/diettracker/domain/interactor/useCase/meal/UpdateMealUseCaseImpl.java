@@ -1,8 +1,7 @@
 package de.karzek.diettracker.domain.interactor.useCase.meal;
 
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.PutAllMealsUseCase;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.UpdateMealTimeUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.UpdateMealUseCase;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
 import io.reactivex.Observable;
 
@@ -13,17 +12,19 @@ import io.reactivex.Observable;
  * @version 1.0
  * @date 27.05.2018
  */
-public class UpdateMealTimeUseCaseImpl implements UpdateMealTimeUseCase {
+public class UpdateMealUseCaseImpl implements UpdateMealUseCase {
 
     private final MealRepository repository;
+    private final MealDomainMapper mapper;
 
-    public UpdateMealTimeUseCaseImpl(MealRepository repository) {
+    public UpdateMealUseCaseImpl(MealRepository repository, MealDomainMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
     public Observable<Output> execute(Input input) {
-        return repository.updateMealTime(input.getId(), input.getStartTime(), input.getEndTime()).map(output -> {
+        return repository.updateMeal(mapper.transformToData(input.getMeal())).map(output -> {
             if (output) {
                 return new Output(Output.SUCCESS);
             } else {

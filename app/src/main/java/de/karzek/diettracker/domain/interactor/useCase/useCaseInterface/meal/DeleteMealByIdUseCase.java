@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 
 import de.karzek.diettracker.domain.common.BaseObservableUseCase;
 import de.karzek.diettracker.domain.common.BaseUseCase;
+import de.karzek.diettracker.domain.model.MealDomainModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,15 +15,13 @@ import lombok.Data;
  * @version 1.0
  * @date 27.05.2018
  */
-public interface UpdateMealTimeUseCase extends BaseObservableUseCase<UpdateMealTimeUseCase.Input, UpdateMealTimeUseCase.Output> {
+public interface DeleteMealByIdUseCase extends BaseObservableUseCase<DeleteMealByIdUseCase.Input, DeleteMealByIdUseCase.Output> {
 
     @AllArgsConstructor
     @Data
     class Input implements BaseUseCase.Input {
 
         int id;
-        String startTime;
-        String endTime;
 
     }
 
@@ -30,7 +29,7 @@ public interface UpdateMealTimeUseCase extends BaseObservableUseCase<UpdateMealT
     @Data
     class Output implements BaseUseCase.Output {
 
-        @MealUpdateStatus
+        @DeleteMealByIdUseCaseStatus
         int status;
         public static final int SUCCESS = 0;
         public static final int ERROR_NO_DATA = 1;
@@ -39,7 +38,7 @@ public interface UpdateMealTimeUseCase extends BaseObservableUseCase<UpdateMealT
 
         @IntDef({SUCCESS, ERROR_NO_DATA, ERROR_NETWORK_PROBLEM, ERROR_UNKNOWN_PROBLEM})
 
-        private @interface MealUpdateStatus {
+        private @interface DeleteMealByIdUseCaseStatus {
 
         }
     }

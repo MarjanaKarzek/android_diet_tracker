@@ -1,0 +1,145 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/meal_title"
+        style="@style/Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/dialog_add_meal_title_hint"
+        android:inputType="text"
+        android:textColor="@color/textPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Body2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="@string/beginning"
+            android:textColor="@color/textPrimary" />
+
+        <EditText
+            android:id="@+id/dialog_start_hour"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/_00"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <TextView
+            style="@style/Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/double_point"
+            android:textColor="@color/textPrimary" />
+
+        <EditText
+            android:id="@+id/dialog_start_minute"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/_00"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <TextView
+            style="@style/Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/o_clock"
+            android:textColor="@color/textPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Body2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="@string/end"
+            android:textColor="@color/textPrimary" />
+
+        <EditText
+            android:id="@+id/dialog_end_hour"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/_00"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <TextView
+            style="@style/Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/double_point"
+            android:textColor="@color/textPrimary" />
+
+        <EditText
+            android:id="@+id/dialog_end_minute"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/_00"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <TextView
+            style="@style/Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/o_clock"
+            android:textColor="@color/textPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_action_dismiss"
+            style="@style/TransparentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:text="@string/dialog_action_dismiss"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/dialog_action_save"
+            style="@style/TransparentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:text="@string/dialog_action_save"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
+
+</LinearLayout>

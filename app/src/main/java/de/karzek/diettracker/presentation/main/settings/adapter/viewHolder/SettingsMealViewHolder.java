@@ -1,14 +1,9 @@
 package de.karzek.diettracker.presentation.main.settings.adapter.viewHolder;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -27,26 +22,23 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
  */
 public class SettingsMealViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.meal_name) EditText mealName;
+    @BindView(R.id.meal_name) TextView mealName;
     @BindView(R.id.action_delete_meal) ImageButton deleteMeal;
 
-    private final OnMealNameChangedListener onMealNameChangedListener;
-    private final OnMealEditTimeClickedListener onMealEditTimeClickedListener;
+    private final OnEditMealClickedListener onEditMealClickedListener;
     private final OnDeleteMealClickedListener onDeleteMealClickedListener;
 
     private boolean lastItem;
 
     public SettingsMealViewHolder(ViewGroup viewGroup,
-                                  OnMealNameChangedListener onMealNameChangedListener,
-                                  OnMealEditTimeClickedListener onMealEditTimeClickedListener,
+                                  OnEditMealClickedListener onEditMealClickedListener,
                                   OnDeleteMealClickedListener onDeleteMealClickedListener,
                                   boolean lastItem) {
         super(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_settings_meal, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
-        this.onMealNameChangedListener = onMealNameChangedListener;
-        this.onMealEditTimeClickedListener = onMealEditTimeClickedListener;
+        this.onEditMealClickedListener = onEditMealClickedListener;
         this.onDeleteMealClickedListener = onDeleteMealClickedListener;
 
         this.lastItem = lastItem;
@@ -54,21 +46,6 @@ public class SettingsMealViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(MealDisplayModel meal) {
         mealName.setText(meal.getName());
-        mealName.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    onMealNameChangedListener.onItemNameChanged(meal.getId(), mealName);
-                }
-                return true;
-            }
-        });
-        mealName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                onMealNameChangedListener.onItemNameChanged(meal.getId(), mealName);
-            }
-        });
 
         if (lastItem) {
             deleteMeal.setVisibility(View.GONE);
@@ -78,23 +55,19 @@ public class SettingsMealViewHolder extends RecyclerView.ViewHolder {
     }
 
     @OnClick(R.id.action_meal_time) public void onItemEditMealTimeClicked() {
-        onMealEditTimeClickedListener.onItemEditTimeClicked((int) itemView.getTag());
+        onEditMealClickedListener.onEditMealItemClicked((int) itemView.getTag());
     }
 
     @OnClick(R.id.action_delete_meal) public void onItemDeleteClicked(){
-        onDeleteMealClickedListener.onItemDelete((int) itemView.getTag());
+        onDeleteMealClickedListener.onMealItemDelete((int) itemView.getTag());
     }
 
-    public interface OnMealNameChangedListener {
-        void onItemNameChanged(int id, EditText view);
-    }
-
-    public interface OnMealEditTimeClickedListener {
-        void onItemEditTimeClicked(int id);
+    public interface OnEditMealClickedListener {
+        void onEditMealItemClicked(int id);
     }
 
     public interface OnDeleteMealClickedListener {
-        void onItemDelete(int id);
+        void onMealItemDelete(int id);
     }
 
 }

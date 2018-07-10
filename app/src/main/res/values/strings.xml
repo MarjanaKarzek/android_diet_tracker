@@ -146,5 +146,8 @@
     <string name="fab_add_recipe_generic">Rezept erfassen</string>
     <string name="favorite_recipes_home_title">Deine Favoriten zum %1$s:</string>
     <string name="generic_drinks_max_value">von %1$s ml</string>
+    <string name="dialog_add_meal_title_hint">Name der Mahlzeit</string>
+    <string name="error_message_missing_meal_title">Bitte gib einen Namen für die Mahlzeit an</string>
+    <string name="error_message_invalid_start_end_time">Die Startzeit muss vor der Endzeit liegen</string>
 
 </resources>

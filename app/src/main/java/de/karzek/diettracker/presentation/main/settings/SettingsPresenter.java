@@ -1,18 +1,20 @@
 package de.karzek.diettracker.presentation.main.settings;
 
-import android.widget.EditText;
-
 import java.util.ArrayList;
 
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllergenByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.DeleteMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.UpdateMealTimeUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.PutMealUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.UpdateMealUseCase;
 import de.karzek.diettracker.presentation.mapper.AllergenUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +36,9 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     private GetAllergenByIdUseCase getAllergenByIdUseCase;
     private SharedPreferencesManager sharedPreferencesManager;
     private Lazy<GetMealByIdUseCase> getMealByIdUseCase;
-    private Lazy<UpdateMealTimeUseCase> updateMealTimeUseCase;
+    private Lazy<UpdateMealUseCase> updateMealUseCase;
+    private Lazy<PutMealUseCase> putMealUseCase;
+    private Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase;
 
     private MealUIMapper mealMapper;
     private AllergenUIMapper allergenMapper;
@@ -47,7 +51,9 @@ public class SettingsPresenter implements SettingsContract.Presenter {
                              GetAllergenByIdUseCase getAllergenByIdUseCase,
                              SharedPreferencesManager sharedPreferencesManager,
                              Lazy<GetMealByIdUseCase> getMealByIdUseCase,
-                             Lazy<UpdateMealTimeUseCase> updateMealTimeUseCase,
+                             Lazy<UpdateMealUseCase> updateMealUseCase,
+                             Lazy<PutMealUseCase> putMealUseCase,
+                             Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase,
                              MealUIMapper mealMapper,
                              AllergenUIMapper allergenMapper) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
@@ -56,7 +62,10 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         this.getAllergenByIdUseCase = getAllergenByIdUseCase;
         this.sharedPreferencesManager = sharedPreferencesManager;
         this.getMealByIdUseCase = getMealByIdUseCase;
-        this.updateMealTimeUseCase = updateMealTimeUseCase;
+        this.updateMealUseCase = updateMealUseCase;
+        this.putMealUseCase = putMealUseCase;
+        this.deleteMealByIdUseCase = deleteMealByIdUseCase;
+
         this.mealMapper = mealMapper;
         this.allergenMapper = allergenMapper;
     }
@@ -66,14 +75,17 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         view.fillSettingsOptions(sharedPreferencesUtil);
         view.setupCheckboxListeners();
 
+        getAllMeals();
+        updateAllergens();
+    }
+
+    private void getAllMeals(){
         compositeDisposable.add(getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output ->
                         view.setupMealRecyclerView(mealMapper.transformAll(output.getMealList()))
                 ));
-
-        updateAllergens();
     }
 
     @Override
@@ -94,18 +106,6 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     @Override
     public void updateSharedPreferenceFloatValue(String key, Float value) {
         sharedPreferencesUtil.setFloat(key, value);
-    }
-
-    @Override
-    public void updateMealTime(int id, String startTime, String endTime) {
-        compositeDisposable.add(updateMealTimeUseCase.get().execute(new UpdateMealTimeUseCase.Input(id, startTime, endTime))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(output -> {
-                    if (output.getStatus() != 0) {
-                        //todo error handling
-                    }
-                }));
     }
 
     @Override
@@ -148,24 +148,42 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     }
 
     @Override
-    public void onItemNameChanged(int id, EditText editTextView) {
-
-        view.clearFocusOfView(editTextView);
-    }
-
-    @Override
-    public void onItemEditTimeClicked(int id) {
-        compositeDisposable.add(getMealByIdUseCase.get().execute(new GetMealByIdUseCase.Input(id))
+    public void onAddMealInDialogClicked(String name, String startTime, String endTime) {
+        compositeDisposable.add(putMealUseCase.get().execute(new PutMealUseCase.Input(mealMapper.transformToDomain(new MealDisplayModel(Constants.INVALID_ENTITY_ID, name, startTime, endTime))))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    view.showMealEditTimeDialog(mealMapper.transform(output.getMeal()));
+                    getAllMeals();
                 }));
     }
 
     @Override
-    public void onItemDelete(int id) {
+    public void onSaveMealInDialogClicked(int id, String name, String startTime, String endTime) {
+        compositeDisposable.add(updateMealUseCase.get().execute(new UpdateMealUseCase.Input(mealMapper.transformToDomain(new MealDisplayModel(id, name, startTime, endTime))))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    getAllMeals();
+                }));
+    }
 
-        view.updateRecyclerView();
+    @Override
+    public void onEditMealItemClicked(int id) {
+        compositeDisposable.add(getMealByIdUseCase.get().execute(new GetMealByIdUseCase.Input(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    view.showEditMealDialog(mealMapper.transform(output.getMeal()));
+                }));
+    }
+
+    @Override
+    public void onMealItemDelete(int id) {
+        compositeDisposable.add(deleteMealByIdUseCase.get().execute(new DeleteMealByIdUseCase.Input(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    getAllMeals();
+                }));
     }
 }
