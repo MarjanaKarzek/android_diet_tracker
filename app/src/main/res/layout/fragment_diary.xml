@@ -23,7 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabMode="scrollable"
-                app:tabTextAppearance="@style/AppTabTextAppearance" />
+                app:tabTextAppearance="@style/AppTabTextAppearance"
+                android:background="@color/colorPrimary"/>
 
             <LinearLayout
                 android:id="@+id/date"

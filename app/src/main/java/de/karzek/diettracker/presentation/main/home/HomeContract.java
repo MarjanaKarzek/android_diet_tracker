@@ -20,11 +20,11 @@ public interface HomeContract {
 
     interface View extends BaseView<Presenter> {
 
-        void startFoodSearchActivity();
+        void startFoodSearchActivity(int currentMealId);
 
-        void startDrinkSearchActivity();
+        void startDrinkSearchActivity(int currentMealId);
 
-        void startRecipeSearchActivity();
+        void startRecipeSearchActivity(int currentMealId);
 
         void closeFabMenu();
 
@@ -58,8 +58,6 @@ public interface HomeContract {
 
     interface Presenter extends BasePresenter<View>,
             FavoriteRecipeViewHolder.OnFavoriteRecipeItemClickedListener {
-
-        void setCurrentMealId(int currentMealId);
 
         void setCurrentDate(String currentDate);
 

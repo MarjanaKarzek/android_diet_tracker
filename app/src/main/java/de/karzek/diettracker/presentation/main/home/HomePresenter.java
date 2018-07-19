@@ -1,7 +1,5 @@
 package de.karzek.diettracker.presentation.main.home;
 
-import java.util.ArrayList;
-
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
@@ -11,29 +9,21 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEnt
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetAllFavoriteRecipesForMealUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetCurrentlyActiveMealByTimeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
 import de.karzek.diettracker.presentation.mapper.RecipeUIMapper;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
-import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
-import de.karzek.diettracker.presentation.util.StringUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_BOTTLE_VOLUME;
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_GLASS_VOLUME;
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY;
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_BOTTLE_VOLUME;
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_GLASS_VOLUME;
-import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -47,6 +37,7 @@ public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View view;
 
     private GetMealByIdUseCase getMealByIdUseCase;
+    private GetCurrentlyActiveMealByTimeUseCase getCurrentlyActiveMealByTimeUseCase;
     private GetAllFavoriteRecipesForMealUseCase getAllFavoriteRecipesForMealUseCase;
     private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
     private GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase;
@@ -69,6 +60,7 @@ public class HomePresenter implements HomeContract.Presenter {
     private float mlFromDiaryEntries = 0.0f;
 
     public HomePresenter(GetMealByIdUseCase getMealByIdUseCase,
+                         GetCurrentlyActiveMealByTimeUseCase getCurrentlyActiveMealByTimeUseCase,
                          GetAllFavoriteRecipesForMealUseCase getAllFavoriteRecipesForMealUseCase,
                          Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                          GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase,
@@ -82,6 +74,7 @@ public class HomePresenter implements HomeContract.Presenter {
                          RecipeUIMapper recipeMapper,
                          DiaryEntryUIMapper diaryEntryMapper) {
         this.getMealByIdUseCase = getMealByIdUseCase;
+        this.getCurrentlyActiveMealByTimeUseCase = getCurrentlyActiveMealByTimeUseCase;
         this.getAllFavoriteRecipesForMealUseCase = getAllFavoriteRecipesForMealUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.getAllDiaryEntriesMatchingUseCase = getAllDiaryEntriesMatchingUseCase;
@@ -100,11 +93,12 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void start() {
-        compositeDisposable.add(getMealByIdUseCase.execute(new GetMealByIdUseCase.Input(currentMealId))
+        compositeDisposable.add(getCurrentlyActiveMealByTimeUseCase.execute(new GetCurrentlyActiveMealByTimeUseCase.Input(currentDate))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mealOutput -> {
                     MealDisplayModel mealModel = mealMapper.transform(mealOutput.getMeal());
+                    currentMealId = mealModel.getId();
 
                     if (sharedPreferencesManager.isStartScreenWithRecipesSet())
                         getAllFavoriteRecipesForMealUseCase.execute(new GetAllFavoriteRecipesForMealUseCase.Input(mealModel.getName()))
@@ -165,11 +159,6 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void setCurrentMealId(int currentMealId) {
-        this.currentMealId = currentMealId;
-    }
-
-    @Override
     public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
     }
@@ -181,17 +170,17 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void onAddFoodClicked() {
-        view.startFoodSearchActivity();
+        view.startFoodSearchActivity(currentMealId);
     }
 
     @Override
     public void onAddDrinkClicked() {
-        view.startDrinkSearchActivity();
+        view.startDrinkSearchActivity(currentMealId);
     }
 
     @Override
     public void onAddRecipeClicked() {
-        view.startRecipeSearchActivity();
+        view.startRecipeSearchActivity(currentMealId);
     }
 
     @Override

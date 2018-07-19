@@ -9,6 +9,7 @@ import de.karzek.diettracker.data.repository.MealRepositoryImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.domain.interactor.useCase.meal.DeleteMealByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.meal.GetCurrentlyActiveMealByTimeUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealByNameUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
@@ -17,6 +18,7 @@ import de.karzek.diettracker.domain.interactor.useCase.meal.PutMealUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.UpdateMealUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.DeleteMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetCurrentlyActiveMealByTimeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByNameUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
@@ -98,6 +100,11 @@ public class MealModule {
     @Provides
     DeleteMealByIdUseCase provideDeleteMealByIdUseCase(MealRepository repository, MealDomainMapper mapper){
         return new DeleteMealByIdUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    GetCurrentlyActiveMealByTimeUseCase provideGetCurrentlyActiveMealByTimeUseCase(MealRepository repository, MealDomainMapper mapper){
+        return new GetCurrentlyActiveMealByTimeUseCaseImpl(repository, mapper);
     }
 
     //presentation

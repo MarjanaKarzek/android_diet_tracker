@@ -11,6 +11,7 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEnt
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.UpdateAmountOfWaterUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.favoriteRecipe.GetAllFavoriteRecipesForMealUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetCurrentlyActiveMealByTimeUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
 import de.karzek.diettracker.presentation.main.home.HomeContract;
@@ -33,6 +34,7 @@ public class HomeModule {
 
     @Provides
     HomeContract.Presenter provideHomePresenter(GetMealByIdUseCase getMealByIdUseCase,
+                                                GetCurrentlyActiveMealByTimeUseCase getCurrentlyActiveMealByTimeUseCase,
                                                 GetAllFavoriteRecipesForMealUseCase getAllFavoriteRecipesForMealUseCase,
                                                 Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                                 GetAllDiaryEntriesMatchingUseCase getAllDiaryEntriesMatchingUseCase,
@@ -46,6 +48,7 @@ public class HomeModule {
                                                 RecipeUIMapper recipeMapper,
                                                 DiaryEntryUIMapper diaryEntryMapper) {
         return new HomePresenter(getMealByIdUseCase,
+                getCurrentlyActiveMealByTimeUseCase,
                 getAllFavoriteRecipesForMealUseCase,
                 getRecipeByIdUseCase,
                 getAllDiaryEntriesMatchingUseCase,

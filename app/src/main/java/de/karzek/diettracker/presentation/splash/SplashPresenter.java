@@ -169,12 +169,30 @@ public class SplashPresenter implements SplashContract.Presenter {
         groceries.add(new GroceryDisplayModel(4, "0", "Coca Cola", 0.42f, 0.0f, 0.106f, 0.0f, TYPE_DRINK, TYPE_LIQUID, colaAllergens, new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(5, "29065806", "Tilsiter (Hofburger)", 3.52f, 0.25f, 0.001f, 0.28f, TYPE_FOOD, TYPE_SOLID, tilsiterAllergens, new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(6, "20462321", "Tex Mex (EL TEQUITO)", 1.31f, 0.04f, 0.15f, 0.05f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(7, "0", "Apfel", 0.54f, 0.003f, 0.144f, 0.001f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(8, "0", "Butter", 7.41f, 0.007f, 0.006f, 0.83f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(9, "0", "Zucker", 4.0f, 0.f, 1.f, 0.f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(10, "0", "Vanillezucker", 4.05f, 0.f, 0.998f, 0.f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(11, "0", "Salz", 0.f, 0.f, 0.f, 0.f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(12, "0", "Zitronen Aroma", 7.7f, 0.f, 0.f, 0.855f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(13, "0", "Ei (Huhn)", 1.37f, 0.119f, 0.015f, 0.093f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(14, "0", "Weizenmehl", 3.48f, 0.1f, 0.723f, 0.001f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(15, "0", "Backpulver", 1.f, 0.001f, 0.25f, 0.f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(16, "0", "Milch (1,5% Fett)", 0.47f, 0.034f, 0.049f, 0.015f, TYPE_DRINK, TYPE_LIQUID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(17, "0", "Haferflocken (kernig)", 3.7f, 0.135f, 0.587f, 0.07f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(18, "0", "Cashewkerne", 5.71f, 0.172f, 0.305f, 0.422f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(19, "0", "Mandeln", 6.11f, 0.24f, 0.057f, 0.53f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(20, "0", "Ahornsirup", 2.66f, 0.f, 0.664f, 0.f, TYPE_FOOD, TYPE_LIQUID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(21, "0", "Joghurt (3,5% Fett)", 0.7f, 0.041f, 0.048f, 0.036f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(22, "0", "Himbeeren", 0.43f, 0.013f, 0.048f, 0.003f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(23, "0", "Weizenbrötchen", 0.24f, 0.074f, 0.486f, 0.013f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(24, "0", "Salami", 3.97f, 0.203f, 0.04f, 0.356f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
 
         // meals
-        meals.add(new MealDisplayModel(0, "Frühstück", "", ""));
-        meals.add(new MealDisplayModel(1, "Mittagessen", "", ""));
-        meals.add(new MealDisplayModel(2, "Abendessen", "", ""));
-        meals.add(new MealDisplayModel(3, "Snack", "", ""));
+        meals.add(new MealDisplayModel(0, "Frühstück", "08:00:00", "10:00:00"));
+        meals.add(new MealDisplayModel(1, "Mittagessen", "12:00:00", "13:00:00"));
+        meals.add(new MealDisplayModel(2, "Abendessen", "18:00:00", "20:00:00"));
+        meals.add(new MealDisplayModel(3, "Snack", "16:00:00", "18:00:00"));
     }
 
     @Override

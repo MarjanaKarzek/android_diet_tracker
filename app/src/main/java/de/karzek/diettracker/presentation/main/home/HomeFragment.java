@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,7 +101,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
     private Calendar date = Calendar.getInstance();
-    private int currentMealId = 0;
 
     @Override
     public void onResume() {
@@ -152,14 +152,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
 
         presenter.setView(this);
-        presenter.setCurrentMealId(currentMealId);
         presenter.setCurrentDate(databaseDateFormat.format(date.getTime()));
         presenter.start();
     }
 
     private void setupRecyclerView() {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(new FavoriteRecipeListAdapter(presenter));
     }
 
@@ -194,17 +195,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     @Override
-    public void startFoodSearchActivity() {
+    public void startFoodSearchActivity(int currentMealId) {
         startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId, false));
     }
 
     @Override
-    public void startDrinkSearchActivity() {
+    public void startDrinkSearchActivity(int currentMealId) {
         startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(date.getTime()), currentMealId, false));
     }
 
     @Override
-    public void startRecipeSearchActivity() {
+    public void startRecipeSearchActivity(int currentMealId) {
         startActivity(RecipeSearchActivity.newIntent(getContext(), databaseDateFormat.format(date.getTime()), currentMealId));
     }
 
@@ -287,7 +288,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void setLiquidStatus(float sum, float liquidGoal) {
-        drinksProgressBar.setProgress(100.0f / sum);
+        drinksProgressBar.setProgress(100.0f / liquidGoal * sum);
         drinksProgressBarValue.setText(StringUtils.formatFloat(sum));
         drinksMaxValue.setText(getString(R.string.generic_drinks_max_value, StringUtils.formatFloat(liquidGoal)));
     }

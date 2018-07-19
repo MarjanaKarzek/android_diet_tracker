@@ -72,9 +72,6 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.16.20"
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
 
-    //Swipe Layout
-    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
-
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
@@ -83,6 +80,9 @@ dependencies {
     //RXJava2
     implementation "io.reactivex.rxjava2:rxjava:2.1.12"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    //Swipe Layout
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.0'
