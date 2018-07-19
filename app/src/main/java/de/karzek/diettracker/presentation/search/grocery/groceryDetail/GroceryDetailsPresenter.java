@@ -13,6 +13,7 @@ import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUse
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetMatchingAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetDiaryEntryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
@@ -24,6 +25,7 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.Get
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealCountUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.unit.GetAllDefaultUnitsUseCase;
 import de.karzek.diettracker.domain.model.FavoriteGroceryDomainModel;
+import de.karzek.diettracker.presentation.mapper.AllergenUIMapper;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
@@ -65,11 +67,13 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     private Lazy<PutFavoriteGroceryUseCase> putFavoriteGroceryUseCase;
     private Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase;
     private Lazy<RemoveFavoriteGroceryByNameUseCase> removeFavoriteGroceryByNameUseCase;
+    private Lazy<GetMatchingAllergensUseCase> getMatchingAllergensUseCase;
 
     private GroceryUIMapper groceryMapper;
     private UnitUIMapper unitMapper;
     private MealUIMapper mealMapper;
     private DiaryEntryUIMapper diaryEntryMapper;
+    private AllergenUIMapper allergenMapper;
 
     private NutritionManager nutritionManager;
 
@@ -86,10 +90,12 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                                    Lazy<PutFavoriteGroceryUseCase> putFavoriteGroceryUseCase,
                                    Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase,
                                    Lazy<RemoveFavoriteGroceryByNameUseCase> removeFavoriteGroceryByNameUseCase,
+                                   Lazy<GetMatchingAllergensUseCase> getMatchingAllergensUseCase,
                                    GroceryUIMapper groceryMapper,
                                    UnitUIMapper unitMapper,
                                    MealUIMapper mealMapper,
                                    DiaryEntryUIMapper diaryEntryMapper,
+                                   AllergenUIMapper allergenMapper,
                                    NutritionManager nutritionManager) {
         this.sharedPreferencesUtil = sharedPreferencesUtil;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
@@ -102,11 +108,13 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
         this.putFavoriteGroceryUseCase = putFavoriteGroceryUseCase;
         this.deleteDiaryEntryUseCase = deleteDiaryEntryUseCase;
         this.removeFavoriteGroceryByNameUseCase = removeFavoriteGroceryByNameUseCase;
+        this.getMatchingAllergensUseCase = getMatchingAllergensUseCase;
 
         this.groceryMapper = groceryMapper;
         this.unitMapper = unitMapper;
         this.mealMapper = mealMapper;
         this.diaryEntryMapper = diaryEntryMapper;
+        this.allergenMapper = allergenMapper;
 
         this.nutritionManager = nutritionManager;
     }
@@ -127,7 +135,12 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                     view.fillGroceryDetails(grocery);
 
                     if (grocery.getAllergens().size() > 0)
-                        view.setupAllergenWarning(grocery.getAllergens());
+                        getMatchingAllergensUseCase.get().execute(new GetMatchingAllergensUseCase.Input(allergenMapper.transformAllToDomain(grocery.getAllergens()))).subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(output3 -> {
+                                    if(output3.getAllergens().size() > 0)
+                                        view.setupAllergenWarning(allergenMapper.transformAll(output3.getAllergens()));
+                                });
 
                     getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
                             .subscribeOn(Schedulers.io())

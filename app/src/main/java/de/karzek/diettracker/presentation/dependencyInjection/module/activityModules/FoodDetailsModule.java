@@ -31,6 +31,7 @@ import de.karzek.diettracker.domain.interactor.useCase.grocery.GetGroceryByIdUse
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealCountUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetAllDefaultUnitsUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetMatchingAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetDiaryEntryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
@@ -46,6 +47,7 @@ import de.karzek.diettracker.domain.mapper.FavoriteGroceryDomainMapper;
 import de.karzek.diettracker.domain.mapper.GroceryDomainMapper;
 import de.karzek.diettracker.domain.mapper.MealDomainMapper;
 import de.karzek.diettracker.domain.mapper.UnitDomainMapper;
+import de.karzek.diettracker.presentation.mapper.AllergenUIMapper;
 import de.karzek.diettracker.presentation.mapper.DiaryEntryUIMapper;
 import de.karzek.diettracker.presentation.mapper.GroceryUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
@@ -105,10 +107,12 @@ public class FoodDetailsModule {
                                                                  Lazy<PutFavoriteGroceryUseCase> putFavoriteGroceryUseCase,
                                                                  Lazy<DeleteDiaryEntryUseCase> deleteDiaryEntryUseCase,
                                                                  Lazy<RemoveFavoriteGroceryByNameUseCase> removeFavoriteGroceryByNameUseCase,
+                                                                 Lazy<GetMatchingAllergensUseCase> getMatchingAllergensUseCase,
                                                                  GroceryUIMapper groceryMapper,
                                                                  UnitUIMapper unitMapper,
                                                                  MealUIMapper mealMapper,
                                                                  DiaryEntryUIMapper diaryEntryMapper,
+                                                                 AllergenUIMapper allergenMapper,
                                                                  NutritionManager nutritionManager) {
         return new GroceryDetailsPresenter(sharedPreferencesUtil,
                 getGroceryByIdUseCase,
@@ -121,10 +125,12 @@ public class FoodDetailsModule {
                 putFavoriteGroceryUseCase,
                 deleteDiaryEntryUseCase,
                 removeFavoriteGroceryByNameUseCase,
+                getMatchingAllergensUseCase,
                 groceryMapper,
                 unitMapper,
                 mealMapper,
                 diaryEntryMapper,
+                allergenMapper,
                 nutritionManager);
     }
 }

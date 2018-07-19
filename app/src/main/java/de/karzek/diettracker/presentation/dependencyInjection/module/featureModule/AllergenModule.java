@@ -12,12 +12,15 @@ import de.karzek.diettracker.data.repository.AllergenRepositoryImpl;
 import de.karzek.diettracker.data.repository.RecipeRepositoryImpl;
 import de.karzek.diettracker.data.repository.repositoryInterface.AllergenRepository;
 import de.karzek.diettracker.data.repository.repositoryInterface.RecipeRepository;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.allergen.GetAllAllergensUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.allergen.GetAllergenByIdUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.allergen.GetMatchingAllergensUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.allergen.PutAllAllergensUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.recipe.GetAllRecipesUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllergenByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetMatchingAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.PutAllAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetAllRecipesUseCase;
 import de.karzek.diettracker.domain.mapper.AllergenDomainMapper;
@@ -72,6 +75,11 @@ public class AllergenModule {
     @Provides
     GetAllAllergensUseCase provideGetAllAllergensUseCase(AllergenRepository repository, AllergenDomainMapper mapper){
         return new GetAllAllergensUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    GetMatchingAllergensUseCase provideGetMatchingAllergensUseCase(SharedPreferencesManager sharedPreferencesManager){
+        return new GetMatchingAllergensUseCaseImpl(sharedPreferencesManager);
     }
 
     // presentation
