@@ -3,6 +3,7 @@ package de.karzek.diettracker.presentation.main.cookbook;
 import java.util.ArrayList;
 
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
@@ -21,6 +22,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_SLIDE_OPTIONS;
+
 /**
  * Created by MarjanaKarzek on 12.05.2018.
  *
@@ -33,6 +36,7 @@ public class CookbookPresenter implements CookbookContract.Presenter {
     private CookbookContract.View view;
 
     private GetAllRecipesUseCase getAllRecipesUseCase;
+    private SharedPreferencesManager sharedPreferencesManager;
     private Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase;
     private Lazy<GetAllMealsUseCase> getAllMealsUseCase;
     private Lazy<GetMealByIdUseCase> getMealByIdUseCase;
@@ -53,6 +57,7 @@ public class CookbookPresenter implements CookbookContract.Presenter {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public CookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase,
+                             SharedPreferencesManager sharedPreferencesManager,
                              Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                              Lazy<GetAllMealsUseCase> getAllMealsUseCase,
                              Lazy<GetMealByIdUseCase> getMealByIdUseCase,
@@ -63,6 +68,7 @@ public class CookbookPresenter implements CookbookContract.Presenter {
                              RecipeUIMapper recipeMapper,
                              DiaryEntryUIMapper diaryEntryMapper) {
         this.getAllRecipesUseCase = getAllRecipesUseCase;
+        this.sharedPreferencesManager = sharedPreferencesManager;
         this.deleteRecipeByIdUseCase = deleteRecipeByIdUseCase;
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.getMealByIdUseCase = getMealByIdUseCase;
@@ -226,6 +232,12 @@ public class CookbookPresenter implements CookbookContract.Presenter {
                                 view.showRecipeAddedToast();
                             });
                 }));
+    }
+
+    @Override
+    public void checkForOnboardingView() {
+        if(!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_SLIDE_OPTIONS))
+            view.showOnboardingScreen(ONBOARDING_SLIDE_OPTIONS);
     }
 
 }

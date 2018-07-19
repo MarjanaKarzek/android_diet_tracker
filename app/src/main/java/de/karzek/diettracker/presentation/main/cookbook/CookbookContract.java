@@ -56,6 +56,7 @@ public interface CookbookContract {
 
         void showRecipeAddedToast();
 
+        void showOnboardingScreen(int onboardingTag);
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -78,5 +79,6 @@ public interface CookbookContract {
 
         void addPortionToDiary(int recipeId, int mealId, String date);
 
+        void checkForOnboardingView();
     }
 }

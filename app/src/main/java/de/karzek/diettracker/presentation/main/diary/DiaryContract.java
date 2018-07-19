@@ -41,6 +41,9 @@ public interface DiaryContract {
         void showNextDate();
 
         void refreshViewPager();
+
+        void showOnboardingScreen(int onboardingSupportOptions);
+
     }
 
     interface Presenter extends BasePresenter<View> {

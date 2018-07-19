@@ -21,6 +21,8 @@ public interface MainContract {
         int FRAGMENT_COOKBOOK = 2;
         int FRAGMENT_SETTINGS = 3;
 
+        void showOnboardingScreen(int onboardingTag);
+
         @IntDef({FRAGMENT_HOME, FRAGMENT_DIARY, FRAGMENT_COOKBOOK, FRAGMENT_SETTINGS})
         @interface FragmentIndex {
         }

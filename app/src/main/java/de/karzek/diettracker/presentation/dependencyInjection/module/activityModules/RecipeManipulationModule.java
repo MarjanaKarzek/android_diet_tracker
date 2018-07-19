@@ -4,6 +4,7 @@ import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.repository.repositoryInterface.UnitRepository;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.unit.GetUnitByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
@@ -37,7 +38,8 @@ public class RecipeManipulationModule {
     //presentation
 
     @Provides
-    RecipeManipulationContract.Presenter provideRecipeManipulationPresenter(Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
+    RecipeManipulationContract.Presenter provideRecipeManipulationPresenter(SharedPreferencesManager sharedPreferencesManager,
+                                                                            Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
                                                                             Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                                                             Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
                                                                             Lazy<PutRecipeUseCase> putRecipeUseCase,
@@ -47,7 +49,8 @@ public class RecipeManipulationModule {
                                                                             UnitUIMapper unitMapper,
                                                                             GroceryUIMapper groceryMapper,
                                                                             RecipeUIMapper recipeMapper) {
-        return new RecipeManipulationPresenter(getAllDefaultUnitsUseCase,
+        return new RecipeManipulationPresenter(sharedPreferencesManager,
+                getAllDefaultUnitsUseCase,
                 getGroceryByIdUseCase,
                 getUnitByIdUseCase,
                 putRecipeUseCase,

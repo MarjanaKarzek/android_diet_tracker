@@ -10,6 +10,11 @@
         <item name="searchViewStyle">@style/searchViewStyle</item>
     </style>
 
+    <style name="AppTheme.Transparent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/bg_fab_transparent</item>
+    </style>
+
     <!--Splash Screen-->
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>

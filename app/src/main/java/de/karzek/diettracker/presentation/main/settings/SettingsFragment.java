@@ -38,6 +38,7 @@ import de.karzek.diettracker.presentation.main.settings.dialog.manipulateMeal.Ma
 import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.EditAllergensDialog;
 import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import de.karzek.diettracker.presentation.util.StringUtils;
 
@@ -125,6 +126,7 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        //TODO implement unbind of view in ondestroyview
         ButterKnife.bind(this, view);
         return view;
     }
@@ -379,6 +381,11 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
                 presenter.setStartScreenLiquidsSetting(checked);
             }
         });
+    }
+
+    @Override
+    public void showOnboardingScreen(int onboardingTag) {
+        startActivity(OnboardingActivity.newIntent(getContext(), onboardingTag));
     }
 
     @OnClick(R.id.expandable_diet_action)

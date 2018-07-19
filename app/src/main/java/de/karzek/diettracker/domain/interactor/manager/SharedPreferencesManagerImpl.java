@@ -6,8 +6,18 @@ import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPr
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_DISPLAY_SETTINGS;
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_INGREDIENT_SEARCH;
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_SLIDE_OPTIONS;
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_SUPPORT_OPTIONS;
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_WELCOME;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_BOTTLE_VOLUME;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_GLASS_VOLUME;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_ONBOARDING_DISPLAY_SETTINGS_STATUS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_ONBOARDING_SLIDE_OPTIONS_STATUS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_ONBOARDING_SUPPORT_OPTIONS_STATUS;
+import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_ONBOARDING_WELCOME_STATUS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_CALORIES_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_CARBS_DAILY;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_REQUIREMENT_FATS_DAILY;
@@ -134,6 +144,46 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
     @Override
     public float getVolumeForGlass() {
         return sharedPreferencesUtil.getFloat(KEY_GLASS_VOLUME, VALUE_GLASS_VOLUME);
+    }
+
+    @Override
+    public boolean getOnboardingViewed(int onboardingTag) {
+        switch (onboardingTag){
+            case ONBOARDING_INGREDIENT_SEARCH:
+                return sharedPreferencesUtil.getBoolean(KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS, VALUE_FALSE);
+            case ONBOARDING_DISPLAY_SETTINGS:
+                return sharedPreferencesUtil.getBoolean(KEY_ONBOARDING_DISPLAY_SETTINGS_STATUS, VALUE_FALSE);
+            case ONBOARDING_SUPPORT_OPTIONS:
+                return sharedPreferencesUtil.getBoolean(KEY_ONBOARDING_SUPPORT_OPTIONS_STATUS, VALUE_FALSE);
+            case ONBOARDING_SLIDE_OPTIONS:
+                return sharedPreferencesUtil.getBoolean(KEY_ONBOARDING_SLIDE_OPTIONS_STATUS, VALUE_FALSE);
+            case ONBOARDING_WELCOME:
+                return sharedPreferencesUtil.getBoolean(KEY_ONBOARDING_WELCOME_STATUS, VALUE_FALSE);
+            default:
+                return VALUE_FALSE;
+        }
+    }
+
+    @Override
+    public void setOnboardingToViewed(int onboardingTag) {
+        //todo change to true
+        switch (onboardingTag){
+            case ONBOARDING_INGREDIENT_SEARCH:
+                sharedPreferencesUtil.setBoolean(KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS, VALUE_TRUE);
+                break;
+            case ONBOARDING_DISPLAY_SETTINGS:
+                sharedPreferencesUtil.setBoolean(KEY_ONBOARDING_DISPLAY_SETTINGS_STATUS, VALUE_TRUE);
+                break;
+            case ONBOARDING_SUPPORT_OPTIONS:
+                sharedPreferencesUtil.setBoolean(KEY_ONBOARDING_SUPPORT_OPTIONS_STATUS, VALUE_TRUE);
+                break;
+            case ONBOARDING_SLIDE_OPTIONS:
+                sharedPreferencesUtil.setBoolean(KEY_ONBOARDING_SLIDE_OPTIONS_STATUS, VALUE_TRUE);
+                break;
+            case ONBOARDING_WELCOME:
+                sharedPreferencesUtil.setBoolean(KEY_ONBOARDING_WELCOME_STATUS, VALUE_TRUE);
+                break;
+        }
     }
 
 }

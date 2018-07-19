@@ -43,6 +43,7 @@ public interface SettingsContract {
 
         void setupCheckboxListeners();
 
+        void showOnboardingScreen(int onboardingTag);
     }
 
     interface Presenter extends BasePresenter<View>,

@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import dagger.Lazy;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.GetRecipeByIdUseCase;
@@ -32,6 +33,7 @@ import io.reactivex.schedulers.Schedulers;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_LIQUID;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_SOLID;
 import static de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase.Output.SUCCESS;
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_INGREDIENT_SEARCH;
 
 /**
  * Created by MarjanaKarzek on 16.06.2018.
@@ -44,6 +46,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     private RecipeManipulationContract.View view;
 
+    private SharedPreferencesManager sharedPreferencesManager;
     private Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase;
     private Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase;
     private Lazy<GetUnitByIdUseCase> getUnitByIdUseCase;
@@ -62,7 +65,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     private ArrayList<UnitDisplayModel> units;
 
-    public RecipeManipulationPresenter(Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
+    public RecipeManipulationPresenter(SharedPreferencesManager sharedPreferencesManager,
+                                       Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
                                        Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                        Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
                                        Lazy<PutRecipeUseCase> putRecipeUseCase,
@@ -72,6 +76,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                                        UnitUIMapper unitMapper,
                                        GroceryUIMapper groceryMapper,
                                        RecipeUIMapper recipeMapper) {
+        this.sharedPreferencesManager = sharedPreferencesManager;
         this.getAllDefaultUnitsUseCase = getAllDefaultUnitsUseCase;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getUnitByIdUseCase = getUnitByIdUseCase;
@@ -89,6 +94,8 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     public void start() {
         recipe = new RecipeDisplayModel(Constants.INVALID_ENTITY_ID, "", null, 1.0f, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         view.setupViewsInRecyclerView(recipe);
+        if(!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_INGREDIENT_SEARCH))
+            view.showOnboardingScreen(ONBOARDING_INGREDIENT_SEARCH);
     }
 
     @Override

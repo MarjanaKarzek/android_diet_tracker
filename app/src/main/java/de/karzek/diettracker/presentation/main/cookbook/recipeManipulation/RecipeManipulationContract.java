@@ -87,6 +87,8 @@ public interface RecipeManipulationContract {
         int MODE_ADD_RECIPE = 0;
         int MODE_EDIT_RECIPE = 1;
 
+        void showOnboardingScreen(int onboardingTag);
+
         @IntDef({MODE_ADD_RECIPE, MODE_EDIT_RECIPE})
         @interface RecipeManipulationMode {
         }

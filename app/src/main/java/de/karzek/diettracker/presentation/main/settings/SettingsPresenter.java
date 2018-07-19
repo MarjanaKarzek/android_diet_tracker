@@ -21,6 +21,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_DISPLAY_SETTINGS;
+
 /**
  * Created by MarjanaKarzek on 12.05.2018.
  *
@@ -43,6 +45,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     private MealUIMapper mealMapper;
     private AllergenUIMapper allergenMapper;
 
+    //Todo use sharedpreferencesmanagaer
     private SharedPreferencesUtil sharedPreferencesUtil;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -77,6 +80,9 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
         getAllMeals();
         updateAllergens();
+
+        if(!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_DISPLAY_SETTINGS))
+            view.showOnboardingScreen(ONBOARDING_DISPLAY_SETTINGS);
     }
 
     private void getAllMeals() {

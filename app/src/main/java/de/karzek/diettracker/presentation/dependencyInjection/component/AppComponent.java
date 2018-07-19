@@ -18,6 +18,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.activityMod
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodSearchModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.MainModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.OnboardingModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeDetailsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeEditDetailsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.RecipeManipulationModule;
@@ -34,6 +35,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.featureModu
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
+import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
@@ -60,6 +62,7 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         RecipeDetailsModule.class,
         RecipeSearchModule.class,
         RecipeEditDetailsModule.class,
+        OnboardingModule.class,
         FavoriteRecipeModule.class,
         AllergenModule.class,
         RecipeModule.class,
@@ -86,6 +89,8 @@ public interface AppComponent {
 
     RecipeFilterOptionsDialogComponent plus(RecipeFilterOptionsDialogModule module);
 
+    //TODO move inject methods to activity components
+
     void inject(SplashActivity activity);
 
     void inject(MainActivity activity);
@@ -103,5 +108,7 @@ public interface AppComponent {
     void inject(RecipeSearchActivity activity);
 
     void inject(RecipeEditDetailsActivity activity);
+
+    void inject(OnboardingActivity activity);
 
 }

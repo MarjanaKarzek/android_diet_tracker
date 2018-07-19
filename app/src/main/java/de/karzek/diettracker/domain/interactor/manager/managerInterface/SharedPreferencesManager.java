@@ -53,4 +53,7 @@ public interface SharedPreferencesManager {
 
     float getVolumeForGlass();
 
+    boolean getOnboardingViewed(int onboardingTag);
+
+    void setOnboardingToViewed(int onboardingTag);
 }

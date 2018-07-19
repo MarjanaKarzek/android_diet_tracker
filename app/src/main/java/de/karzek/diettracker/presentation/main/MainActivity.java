@@ -20,6 +20,7 @@ import de.karzek.diettracker.presentation.main.cookbook.CookbookFragment;
 import de.karzek.diettracker.presentation.custom.CustomBottomNavigationView;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.home.HomeFragment;
@@ -151,4 +152,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
     }
 
 
+    @Override
+    public void showOnboardingScreen(int onboardingTag) {
+        startActivity(OnboardingActivity.newIntent(this, onboardingTag));
+    }
 }

@@ -32,6 +32,7 @@ import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapt
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.GenericMealFragment;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
+import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
 import de.karzek.diettracker.presentation.util.Constants;
@@ -266,5 +267,10 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public void refreshViewPager() {
         viewPager.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void showOnboardingScreen(int onboardingTag) {
+        startActivity(OnboardingActivity.newIntent(getContext(), onboardingTag));
     }
 }

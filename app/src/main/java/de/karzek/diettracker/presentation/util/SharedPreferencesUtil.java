@@ -41,6 +41,12 @@ public class SharedPreferencesUtil {
     public static final String KEY_ALLERGENS = "KEY_ALLERGENS";
     private static final String VALUE_ALLERGENS = "";
 
+    public static final String KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS = "KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS";
+    public static final String KEY_ONBOARDING_DISPLAY_SETTINGS_STATUS = "KEY_ONBOARDING_DISPLAY_SETTINGS_STATUS";
+    public static final String KEY_ONBOARDING_SUPPORT_OPTIONS_STATUS = "KEY_ONBOARDING_SUPPORT_OPTIONS_STATUS";
+    public static final String KEY_ONBOARDING_SLIDE_OPTIONS_STATUS = "KEY_ONBOARDING_SLIDE_OPTIONS_STATUS";
+    public static final String KEY_ONBOARDING_WELCOME_STATUS = "KEY_ONBOARDING_WELCOME_STATUS";
+
     public static final boolean VALUE_TRUE = true;
     public static final boolean VALUE_FALSE = false;
 
@@ -64,6 +70,11 @@ public class SharedPreferencesUtil {
                     .putBoolean(KEY_START_SCREEN_RECIPE, VALUE_FALSE)
                     .putBoolean(KEY_START_SCREEN_LIQUIDS, VALUE_TRUE)
                     .putString(KEY_ALLERGENS, VALUE_ALLERGENS)
+                    .putBoolean(KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS, VALUE_FALSE)
+                    .putBoolean(KEY_ONBOARDING_DISPLAY_SETTINGS_STATUS, VALUE_FALSE)
+                    .putBoolean(KEY_ONBOARDING_SUPPORT_OPTIONS_STATUS, VALUE_FALSE)
+                    .putBoolean(KEY_ONBOARDING_SLIDE_OPTIONS_STATUS, VALUE_FALSE)
+                    .putBoolean(KEY_ONBOARDING_WELCOME_STATUS, VALUE_FALSE)
                     .apply();
             return true;
         } catch (Exception e) {

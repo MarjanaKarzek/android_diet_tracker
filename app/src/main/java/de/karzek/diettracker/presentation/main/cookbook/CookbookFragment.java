@@ -44,6 +44,7 @@ import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDeta
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
+import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -135,6 +136,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
         presenter.setView(this);
         presenter.start();
+        presenter.checkForOnboardingView();
     }
 
     private void setupRecyclerView() {
@@ -281,6 +283,11 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @Override
     public void showRecipeAddedToast() {
         Toast.makeText(getContext(), getString(R.string.success_message_portion_added), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showOnboardingScreen(int onboardingTag) {
+        startActivity(OnboardingActivity.newIntent(getContext(), onboardingTag));
     }
 
     @Override

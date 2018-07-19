@@ -1,5 +1,6 @@
 package de.karzek.diettracker.presentation.main.diary;
 
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
@@ -7,6 +8,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_SUPPORT_OPTIONS;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -19,27 +22,31 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 
     private DiaryContract.View view;
 
+    private SharedPreferencesManager sharedPreferencesManager;
     private GetAllMealsUseCase getAllMealsUseCase;
     private MealUIMapper mapper;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public DiaryPresenter(GetAllMealsUseCase getAllMealsUseCase,
+    public DiaryPresenter(SharedPreferencesManager sharedPreferencesManager,
+                          GetAllMealsUseCase getAllMealsUseCase,
                           MealUIMapper mapper) {
+        this.sharedPreferencesManager = sharedPreferencesManager;
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.mapper = mapper;
     }
 
     @Override
     public void start() {
-        Disposable subs = getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
+        compositeDisposable.add(getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     view.setupViewPager(mapper.transformAll(output.getMealList()));
                     view.hideLoading();
-                });
-        compositeDisposable.add(subs);
+                }));
+        if(!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_SUPPORT_OPTIONS))
+            view.showOnboardingScreen(ONBOARDING_SUPPORT_OPTIONS);
     }
 
     @Override

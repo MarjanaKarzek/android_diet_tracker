@@ -56,6 +56,7 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.model.UnitDisplayModel;
+import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
@@ -398,6 +399,11 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public void navigateToCookbook() {
         startActivity(MainActivity.newIntentToCookbook(this));
         finish();
+    }
+
+    @Override
+    public void showOnboardingScreen(int onboardingTag) {
+        startActivity(OnboardingActivity.newIntent(this, onboardingTag));
     }
 
     @Override

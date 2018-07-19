@@ -4,6 +4,7 @@ import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetMealByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.PutDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
@@ -33,6 +34,7 @@ public class CookbookModule {
 
     @Provides
     CookbookContract.Presenter provideCookbookPresenter(GetAllRecipesUseCase getAllRecipesUseCase,
+                                                        SharedPreferencesManager sharedPreferencesManager,
                                                         Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                                                         Lazy<GetAllMealsUseCase> getAllMealsUseCase,
                                                         Lazy<GetMealByIdUseCase> getMealByIdUseCase,
@@ -43,6 +45,7 @@ public class CookbookModule {
                                                         RecipeUIMapper recipeMapper,
                                                         DiaryEntryUIMapper diaryEntryMapper) {
         return new CookbookPresenter(getAllRecipesUseCase,
+                sharedPreferencesManager,
                 deleteRecipeByIdUseCase,
                 getAllMealsUseCase,
                 getMealByIdUseCase,

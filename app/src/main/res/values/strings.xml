@@ -149,5 +149,12 @@
     <string name="dialog_add_meal_title_hint">Name der Mahlzeit</string>
     <string name="error_message_missing_meal_title">Bitte gib einen Namen für die Mahlzeit an</string>
     <string name="error_message_invalid_start_end_time">Die Startzeit muss vor der Endzeit liegen</string>
+    <string name="button_close_text">Schließen</string>
+    <string name="onboarding_text_ingredient_search" >Über den Button +Hinzufügen, kannst Du, ohne lange zu Suchen, Zutaten und Mengen angeben.\n\nDie tatsächlichen Produkte werden nach dem Speichern aus der Datenbank automatisch gelesen!</string>
+    <string name="onboarding_text_display_settings">Mach diesen Tracker zu Deinem Tracker.\n\nLege Deinen Tagesbedarf fest und bestimme selbst, welche Informationen zu Deiner Ernährung angezeigt werden sollen.</string>
+    <string name="onboarding_text_support_options">Du willst, dass diese App für Dich mitdenkt?\n\nTrage Deine Allergien ein und lege Deine favorisierten Rezepte fest, um mehr aus Deinem Tracker zu machen.</string>
+    <string name="onboarding_text_slide_options">Wische über Einträge nach links um weitere Optionen auswählen zu können.</string>
+    <string name="onboarding_text_welcome">Hallo,\n\nschön, dass Du da bist!\n\nLass uns gemeinsam Deine Ernährung gestalten.</string>
+    <string name="lets_go_button">Los geht\'s!</string>
 
 </resources>
