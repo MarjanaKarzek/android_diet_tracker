@@ -101,7 +101,7 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
         Iterator iterator = keySet.iterator();
         while (iterator.hasNext()) {
             Integer current = (Integer) iterator.next();
-            if(mealStatus.get(current))
+            if (mealStatus.get(current))
                 selection.add(meals.get(current));
         }
 
@@ -110,7 +110,7 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
 
     @Override
     public void onResetSelectionClicked() {
-        for (Integer key : mealStatus.keySet()){
+        for (Integer key : mealStatus.keySet()) {
             mealStatus.put(key, false);
         }
         view.updateRecyclerView(meals, mealStatus);

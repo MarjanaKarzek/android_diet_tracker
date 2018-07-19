@@ -16,7 +16,7 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  * @version 1.0
  * @date 30.05.2018
  */
-public class RecipeCookbookSearchResultListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class RecipeCookbookSearchResultListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private RecipeCookbookSearchResultViewHolder.OnRecipeItemClickedListener onRecipeItemClickedListener;
     private RecipeCookbookSearchResultViewHolder.OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener;
@@ -28,7 +28,7 @@ public class RecipeCookbookSearchResultListAdapter extends RecyclerView.Adapter<
     public RecipeCookbookSearchResultListAdapter(RecipeCookbookSearchResultViewHolder.OnRecipeItemClickedListener onRecipeItemClickedListener,
                                                  RecipeCookbookSearchResultViewHolder.OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener,
                                                  RecipeCookbookSearchResultViewHolder.OnRecipeEditClickedListener onRecipeEditClickedListener,
-                                                 RecipeCookbookSearchResultViewHolder.OnRecipeDeleteClickedListener onRecipeDeleteClickedListener){
+                                                 RecipeCookbookSearchResultViewHolder.OnRecipeDeleteClickedListener onRecipeDeleteClickedListener) {
         list = new ArrayList<>();
 
         this.onRecipeItemClickedListener = onRecipeItemClickedListener;
@@ -53,7 +53,7 @@ public class RecipeCookbookSearchResultListAdapter extends RecyclerView.Adapter<
         return list.size();
     }
 
-    public void setList(ArrayList<RecipeDisplayModel> list){
+    public void setList(ArrayList<RecipeDisplayModel> list) {
         this.list = list;
         notifyDataSetChanged();
     }

@@ -34,13 +34,18 @@ import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
  */
 public class EditAllergensDialog extends BaseDialog implements EditAllergensDialogContract.View {
 
-    @Inject EditAllergensDialogContract.Presenter presenter;
+    @Inject
+    EditAllergensDialogContract.Presenter presenter;
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
-    @BindView(R.id.dialog_action_dismiss) Button dismiss;
-    @BindView(R.id.dialog_action_save) Button save;
+    @BindView(R.id.dialog_action_dismiss)
+    Button dismiss;
+    @BindView(R.id.dialog_action_save)
+    Button save;
 
     private View view;
 
@@ -99,26 +104,22 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
     }
 
     @Override
-    public void setPresenter(EditAllergensDialogContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void updateRecyclerView(ArrayList<AllergenDisplayModel> allergens, HashMap<Integer, Boolean> allergenStatus) {
         ((EditAllergensListAdapter) recyclerView.getAdapter()).setAllergens(allergens, allergenStatus);
     }
 
     @Override
-    public void showLoading(){
+    public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideLoading(){
+    public void hideLoading() {
         loadingView.setVisibility(View.GONE);
     }
 
-    @OnClick(R.id.reset_selection) void onResetSelectionClicked(){
+    @OnClick(R.id.reset_selection)
+    void onResetSelectionClicked() {
         presenter.onResetSelectionClicked();
     }
 

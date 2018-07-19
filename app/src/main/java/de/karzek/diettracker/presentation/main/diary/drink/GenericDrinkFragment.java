@@ -139,11 +139,6 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     }
 
     @Override
-    public void setPresenter(GenericDrinkContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
     }

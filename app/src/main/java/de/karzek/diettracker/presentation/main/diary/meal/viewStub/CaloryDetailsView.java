@@ -19,11 +19,16 @@ import lombok.Data;
  */
 @Data
 public class CaloryDetailsView {
-    @BindView(R.id.circle_progress_bar_calories) CircularProgressBar caloryProgressBar;
-    @BindView(R.id.circle_progress_bar_calories_value) TextView caloryProgressBarValue;
-    @BindView(R.id.circle_progress_bar_calories_max_value) TextView caloryProgressBarMaxValue;
 
-    public CaloryDetailsView(View view){
+    @BindView(R.id.circle_progress_bar_calories)
+    CircularProgressBar caloryProgressBar;
+    @BindView(R.id.circle_progress_bar_calories_value)
+    TextView caloryProgressBarValue;
+    @BindView(R.id.circle_progress_bar_calories_max_value)
+    TextView caloryProgressBarMaxValue;
+
+    public CaloryDetailsView(View view) {
         ButterKnife.bind(this, view);
     }
+
 }

@@ -27,8 +27,10 @@ import de.karzek.diettracker.presentation.main.settings.SettingsFragment;
 
 public class MainActivity extends BaseActivity implements MainContract.View, DiaryFragment.OnDateSelectedListener, GenericMealFragment.OnRefreshViewPagerNeededListener {
 
-    @BindView(R.id.random_quote_view) TextView randomQuoteView;
-    @BindView(R.id.bottom_navigation_view) CustomBottomNavigationView navigationView;
+    @BindView(R.id.random_quote_view)
+    TextView randomQuoteView;
+    @BindView(R.id.bottom_navigation_view)
+    CustomBottomNavigationView navigationView;
 
     @Inject
     MainContract.Presenter presenter;
@@ -103,7 +105,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
 
     private void setupNavigationListener() {
         navigationView.setOnNavigationItemSelectedListener(item -> {
-            switch(item.getItemId()) {
+            switch (item.getItemId()) {
                 case R.id.action_home:
                     navigateToFragment(new HomeFragment(), "HomeFragment");
                     break;
@@ -126,11 +128,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
                 .beginTransaction()
                 .replace(R.id.container, fragment, tag)
                 .commit();
-    }
-
-    @Override
-    public void setPresenter(MainContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override

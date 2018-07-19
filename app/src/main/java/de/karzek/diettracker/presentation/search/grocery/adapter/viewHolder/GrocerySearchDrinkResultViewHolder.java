@@ -20,7 +20,8 @@ import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
  */
 public class GrocerySearchDrinkResultViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.grocery_name) TextView groceryName;
+    @BindView(R.id.grocery_name)
+    TextView groceryName;
 
     private final OnGrocerySearchDrinkResultItemClickedListener onItemClickedListener;
     private final OnGrocerySearchDrinkResultAddBottleClickedListener onAddBottleClickedListener;
@@ -44,15 +45,18 @@ public class GrocerySearchDrinkResultViewHolder extends RecyclerView.ViewHolder 
         itemView.setTag(foodSearchResultItem.getId());
     }
 
-    @OnClick(R.id.grocery_search_drink_item) public void onItemClicked() {
+    @OnClick(R.id.grocery_search_drink_item)
+    public void onItemClicked() {
         onItemClickedListener.onItemClicked((int) itemView.getTag());
     }
 
-    @OnClick(R.id.action_add_bottle) public void onAddBottleClicked() {
+    @OnClick(R.id.action_add_bottle)
+    public void onAddBottleClicked() {
         onAddBottleClickedListener.onAddBottleClicked((int) itemView.getTag());
     }
 
-    @OnClick(R.id.action_add_glass) public void onAddGlassClicked() {
+    @OnClick(R.id.action_add_glass)
+    public void onAddGlassClicked() {
         onAddGlassClickedListener.onAddGlassClicked((int) itemView.getTag());
     }
 

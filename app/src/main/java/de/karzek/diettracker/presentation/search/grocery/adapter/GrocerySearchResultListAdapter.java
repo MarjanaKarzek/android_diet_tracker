@@ -19,7 +19,7 @@ import de.karzek.diettracker.presentation.search.grocery.adapter.viewHolder.Groc
  * @version 1.0
  * @date 30.05.2018
  */
-public class GrocerySearchResultListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class GrocerySearchResultListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private GrocerySearchContract.Presenter itemOnClickListener;
     private GrocerySearchContract.Presenter onAddBottleClickListener;
@@ -29,7 +29,7 @@ public class GrocerySearchResultListAdapter extends RecyclerView.Adapter<Recycle
 
     public GrocerySearchResultListAdapter(GrocerySearchContract.Presenter itemOnClickListener,
                                           GrocerySearchContract.Presenter onAddBottleClickListener,
-                                          GrocerySearchContract.Presenter onAddGlassClickListener){
+                                          GrocerySearchContract.Presenter onAddGlassClickListener) {
         list = new ArrayList<>();
         this.itemOnClickListener = itemOnClickListener;
         this.onAddBottleClickListener = onAddBottleClickListener;
@@ -39,10 +39,10 @@ public class GrocerySearchResultListAdapter extends RecyclerView.Adapter<Recycle
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == GrocerySearchResultItemWrapper.ItemType.FOOD)
+        if (viewType == GrocerySearchResultItemWrapper.ItemType.FOOD)
             return new GrocerySearchFoodResultViewHolder(parent, itemOnClickListener);
         else
-            return new GrocerySearchDrinkResultViewHolder(parent,itemOnClickListener,onAddBottleClickListener,onAddGlassClickListener);
+            return new GrocerySearchDrinkResultViewHolder(parent, itemOnClickListener, onAddBottleClickListener, onAddGlassClickListener);
     }
 
     @Override
@@ -59,12 +59,13 @@ public class GrocerySearchResultListAdapter extends RecyclerView.Adapter<Recycle
         return list.size();
     }
 
-    public void setList(ArrayList<GrocerySearchResultItemWrapper> list){
+    public void setList(ArrayList<GrocerySearchResultItemWrapper> list) {
         this.list = list;
         notifyDataSetChanged();
     }
 
-    @Override public int getItemViewType(int position) {
+    @Override
+    public int getItemViewType(int position) {
         return list.get(position).getType();
     }
 }

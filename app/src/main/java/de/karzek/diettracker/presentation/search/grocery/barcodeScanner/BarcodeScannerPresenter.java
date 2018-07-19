@@ -24,7 +24,7 @@ public class BarcodeScannerPresenter implements BarcodeScannerContract.Presenter
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public BarcodeScannerPresenter(Lazy<GetGroceryByBarcodeUseCase> getGroceryByBarcodeUseCase){
+    public BarcodeScannerPresenter(Lazy<GetGroceryByBarcodeUseCase> getGroceryByBarcodeUseCase) {
         this.getGroceryByBarcodeUseCase = getGroceryByBarcodeUseCase;
     }
 

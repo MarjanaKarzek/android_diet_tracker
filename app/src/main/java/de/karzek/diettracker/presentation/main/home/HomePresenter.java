@@ -121,8 +121,8 @@ public class HomePresenter implements HomeContract.Presenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(output -> {
-                                for(DiaryEntryDisplayModel entry: diaryEntryMapper.transformAll(output.getDiaryEntries()))
-                                    if(entry.getMeal() == null)
+                                for (DiaryEntryDisplayModel entry : diaryEntryMapper.transformAll(output.getDiaryEntries()))
+                                    if (entry.getMeal() == null)
                                         mlFromDiaryEntries += entry.getAmount() * entry.getUnit().getMultiplier();
 
                                 if (sharedPreferencesManager.getNutritionDetailsSetting().equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
@@ -132,7 +132,7 @@ public class HomePresenter implements HomeContract.Presenter {
                                     view.setNutritionState(nutritionManager.getNutritionSumsForDiaryEntries(output.getDiaryEntries()), sharedPreferencesManager.getCaloriesGoal(), sharedPreferencesManager.getProteinsGoal(), sharedPreferencesManager.getCarbsGoal(), sharedPreferencesManager.getFatsGoal());
                             });
 
-                    if (sharedPreferencesManager.isStartScreenWithDrinksSet()){
+                    if (sharedPreferencesManager.isStartScreenWithDrinksSet()) {
                         updateLiquidStatus();
                     } else {
                         view.hideDrinksSection();

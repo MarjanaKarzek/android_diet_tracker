@@ -119,7 +119,7 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
         views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, getString(R.string.recipe_details_ingredients_title, StringUtils.formatFloat(displayModel.getPortions()))));
 
-        if(nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
+        if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
         else if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS) && detailsExpanded)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
@@ -128,21 +128,16 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));
         }
 
-        if(displayModel.getSteps().size() > 0)
+        if (displayModel.getSteps().size() > 0)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_preparation_steps_title)));
         for (PreparationStepDisplayModel step : displayModel.getSteps())
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.PREPARATION_STEP_VIEW, step));
 
-        if(displayModel.getMeals().size() > 0)
+        if (displayModel.getMeals().size() > 0)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW, getString(R.string.recipe_meals_title)));
         views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.MEALS_VIEW, displayModel.getMeals()));
 
         ((RecipeDetailsViewListAdapter) recyclerView.getAdapter()).setList(views);
-    }
-
-    @Override
-    public void setPresenter(RecipeDetailsContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override
@@ -167,7 +162,7 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
                 item.setIcon(getDrawable(R.drawable.ic_star_white));
             }
             presenter.onFavoriteRecipeClicked(item.isChecked());
-        } else if (item.getItemId() == R.id.recipe_details_edit){
+        } else if (item.getItemId() == R.id.recipe_details_edit) {
             startActivity(RecipeManipulationActivity.newEditRecipeIntent(this, recipeId));
         }
         return super.onOptionsItemSelected(item);

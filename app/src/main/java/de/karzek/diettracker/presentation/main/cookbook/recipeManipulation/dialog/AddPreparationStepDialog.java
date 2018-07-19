@@ -27,10 +27,13 @@ import de.karzek.diettracker.R;
  */
 public class AddPreparationStepDialog extends AppCompatDialogFragment {
 
-    @BindView(R.id.preparation_step_description) EditText description;
+    @BindView(R.id.preparation_step_description)
+    EditText description;
 
-    @BindView(R.id.dialog_action_dismiss) Button dismiss;
-    @BindView(R.id.dialog_action_add) Button add;
+    @BindView(R.id.dialog_action_dismiss)
+    Button dismiss;
+    @BindView(R.id.dialog_action_add)
+    Button add;
 
     private OnAddPreparationStepClickedInDialogListener listener;
 

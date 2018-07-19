@@ -113,11 +113,6 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
-    public void setPresenter(RecipeManipulationContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_recipe_man, menu);
@@ -252,7 +247,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_LIST, displayModel.getMeals()));
 
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_SAVE_VIEW));
-        if(mode == MODE_EDIT_RECIPE)
+        if (mode == MODE_EDIT_RECIPE)
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));
 
         ((RecipeManipulationViewListAdapter) recyclerView.getAdapter()).setList(views);
@@ -409,7 +404,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(data != null) {
+        if (data != null) {
             switch (requestCode) {
                 case GET_IMAGE_FROM_GALLERY_RESULT:
                     if (data != null) {

@@ -196,7 +196,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void updateTitle(String text) {
-        if(recipe != null)
+        if (recipe != null)
             recipe.setTitle(text);
     }
 
@@ -353,7 +353,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                         }
                     })
             );
-        } else if(validRecipe && editMode){
+        } else if (validRecipe && editMode) {
             view.showLoading();
             compositeDisposable.add(updateRecipeUseCase.get().execute(new UpdateRecipeUseCase.Input(recipeMapper.transformToDomain(recipe)))
                     .subscribeOn(Schedulers.io())

@@ -296,11 +296,6 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
-    public void setPresenter(SettingsContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.finish();

@@ -82,7 +82,7 @@ public class GrocerySearchPresenter implements GrocerySearchContract.Presenter {
     }
 
     @Override
-    public void getFavoriteGroceries(int type){
+    public void getFavoriteGroceries(int type) {
         view.showLoading();
         Disposable subs = getFavoriteGroceriesUseCase.execute(new GetFavoriteGroceriesUseCase.Input(type))
                 .subscribeOn(Schedulers.io())

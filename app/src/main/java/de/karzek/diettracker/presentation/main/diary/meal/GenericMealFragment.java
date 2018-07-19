@@ -60,12 +60,18 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Inject
     GenericMealContract.Presenter presenter;
 
-    @BindView(R.id.recycler_view_groceries) RecyclerView recyclerViewGroceries;
-    @BindView(R.id.recycler_view_favorites) RecyclerView recyclerViewRecipes;
-    @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
-    @BindView(R.id.grocery_list_placeholder) TextView placeholder;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.recycler_view_groceries)
+    RecyclerView recyclerViewGroceries;
+    @BindView(R.id.recycler_view_favorites)
+    RecyclerView recyclerViewRecipes;
+    @BindView(R.id.viewstub_calory_details)
+    ViewStub caloryDetails;
+    @BindView(R.id.viewstub_calory_makro_details)
+    ViewStub caloryMacroDetails;
+    @BindView(R.id.grocery_list_placeholder)
+    TextView placeholder;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
     OnRefreshViewPagerNeededListener callback;
 
@@ -121,7 +127,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     private void setupGroceryRecyclerView() {
         recyclerViewGroceries.setHasFixedSize(true);
         recyclerViewGroceries.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewGroceries.setAdapter(new DiaryEntryListAdapter(presenter,presenter,presenter,presenter));
+        recyclerViewGroceries.setAdapter(new DiaryEntryListAdapter(presenter, presenter, presenter, presenter));
         recyclerViewGroceries.addItemDecoration(new DividerItemDecoration(recyclerViewGroceries.getContext(),
                 ((LinearLayoutManager) recyclerViewGroceries.getLayoutManager()).getOrientation()));
     }
@@ -132,11 +138,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewRecipes.setLayoutManager(manager);
         recyclerViewRecipes.setAdapter(new FavoriteRecipeListAdapter(presenter));
-    }
-
-    @Override
-    public void setPresenter(GenericMealContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override
@@ -170,7 +171,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         maxValues = values;
         detailsView.getCaloryProgressBarMaxValue().setText("" + values.get(Constants.CALORIES));
 
-        if (detailsView instanceof CaloryMacroDetailsView){
+        if (detailsView instanceof CaloryMacroDetailsView) {
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBarMaxValue().setText("von\n" + values.get(Constants.PROTEINS) + "g");
             ((CaloryMacroDetailsView) detailsView).getCarbsProgressBarMaxValue().setText("von\n" + values.get(Constants.CARBS) + "g");
             ((CaloryMacroDetailsView) detailsView).getFatsProgressBarMaxValue().setText("von\n" + values.get(Constants.FATS) + "g");
@@ -180,9 +181,9 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public void updateNutritionDetails(HashMap<String, Float> values) {
         detailsView.getCaloryProgressBar().setProgress(100.0f / maxValues.get(Constants.CALORIES) * values.get(Constants.CALORIES));
-        detailsView.getCaloryProgressBarValue().setText("" + (int)values.get(Constants.CALORIES).floatValue());
+        detailsView.getCaloryProgressBarValue().setText("" + (int) values.get(Constants.CALORIES).floatValue());
 
-        if (detailsView instanceof CaloryMacroDetailsView){
+        if (detailsView instanceof CaloryMacroDetailsView) {
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBar().setProgress(100.0f / maxValues.get(Constants.PROTEINS) * values.get(Constants.PROTEINS));
             ((CaloryMacroDetailsView) detailsView).getProteinProgressBarValue().setText("" + StringUtils.formatFloat(values.get(Constants.PROTEINS)));
 
@@ -236,7 +237,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
 
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         Fragment previous = getFragmentManager().findFragmentByTag("dialog");
-        if (previous != null){
+        if (previous != null) {
             fragmentTransaction.remove(previous);
         }
         fragmentTransaction.addToBackStack(null);
@@ -246,7 +247,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         bundle.putInt("id", id);
         bundle.putStringArrayList("meals", meals);
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction,"dialog");
+        dialogFragment.show(fragmentTransaction, "dialog");
     }
 
     @Override

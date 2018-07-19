@@ -22,20 +22,31 @@ import lombok.Value;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class CaloryMacroDetailsView extends CaloryDetailsView {
-    @BindView(R.id.circle_progress_bar_protein) CircularProgressBar proteinProgressBar;
-    @BindView(R.id.circle_progress_bar_protein_value) TextView proteinProgressBarValue;
-    @BindView(R.id.circle_progress_bar_protein_max_value) TextView proteinProgressBarMaxValue;
 
-    @BindView(R.id.circle_progress_bar_carbs) CircularProgressBar carbsProgressBar;
-    @BindView(R.id.circle_progress_bar_carbs_value) TextView carbsProgressBarValue;
-    @BindView(R.id.circle_progress_bar_carbs_max_value) TextView carbsProgressBarMaxValue;
+    @BindView(R.id.circle_progress_bar_protein)
+    CircularProgressBar proteinProgressBar;
+    @BindView(R.id.circle_progress_bar_protein_value)
+    TextView proteinProgressBarValue;
+    @BindView(R.id.circle_progress_bar_protein_max_value)
+    TextView proteinProgressBarMaxValue;
 
-    @BindView(R.id.circle_progress_bar_fats) CircularProgressBar fatsProgressBar;
-    @BindView(R.id.circle_progress_bar_fats_value) TextView fatsProgressBarValue;
-    @BindView(R.id.circle_progress_bar_fats_max_value) TextView fatsProgressBarMaxValue;
+    @BindView(R.id.circle_progress_bar_carbs)
+    CircularProgressBar carbsProgressBar;
+    @BindView(R.id.circle_progress_bar_carbs_value)
+    TextView carbsProgressBarValue;
+    @BindView(R.id.circle_progress_bar_carbs_max_value)
+    TextView carbsProgressBarMaxValue;
 
-    public CaloryMacroDetailsView(View view){
+    @BindView(R.id.circle_progress_bar_fats)
+    CircularProgressBar fatsProgressBar;
+    @BindView(R.id.circle_progress_bar_fats_value)
+    TextView fatsProgressBarValue;
+    @BindView(R.id.circle_progress_bar_fats_max_value)
+    TextView fatsProgressBarMaxValue;
+
+    public CaloryMacroDetailsView(View view) {
         super(view);
         ButterKnife.bind(this, view);
     }
+
 }

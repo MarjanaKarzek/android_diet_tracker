@@ -111,11 +111,6 @@ public class RecipeFilterOptionsDialog extends BaseDialog implements RecipeFilte
     }
 
     @Override
-    public void setPresenter(RecipeFilterOptionsDialogContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void updateRecyclerView(ArrayList<String> options, HashMap<String, Boolean> optionStatus) {
         ((RecipeFilterOptionsListAdapter) recyclerView.getAdapter()).setList(options, optionStatus);
     }

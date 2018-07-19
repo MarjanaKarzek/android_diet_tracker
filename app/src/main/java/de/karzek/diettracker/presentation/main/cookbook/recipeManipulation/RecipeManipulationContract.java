@@ -88,7 +88,8 @@ public interface RecipeManipulationContract {
         int MODE_EDIT_RECIPE = 1;
 
         @IntDef({MODE_ADD_RECIPE, MODE_EDIT_RECIPE})
-        @interface RecipeManipulationMode {}
+        @interface RecipeManipulationMode {
+        }
     }
 
     interface Presenter extends BasePresenter<View>,

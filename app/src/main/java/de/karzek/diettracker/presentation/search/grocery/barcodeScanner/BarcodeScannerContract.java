@@ -24,7 +24,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public interface BarcodeScannerContract {
 
     interface View extends BaseView<Presenter>,
-            ZXingScannerView.ResultHandler{
+            ZXingScannerView.ResultHandler {
 
         void startDetailsActivity(int id);
 

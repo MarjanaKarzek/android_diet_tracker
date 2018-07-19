@@ -51,12 +51,14 @@ public class ImageSelectorBottomSheetDialogFragment extends BottomSheetDialogFra
         }
     }
 
-    @OnClick(R.id.image_source_camera) void onOpenCameraClicked(){
+    @OnClick(R.id.image_source_camera)
+    void onOpenCameraClicked() {
         cameraClickListener.onOpenCameraClickedInBottomSheet();
         this.dismiss();
     }
 
-    @OnClick(R.id.image_source_gallery) void onOpenGalleryClicked(){
+    @OnClick(R.id.image_source_gallery)
+    void onOpenGalleryClicked() {
         galleryClickListener.onOpenGalleryClickedInBottomSheet();
         this.dismiss();
     }

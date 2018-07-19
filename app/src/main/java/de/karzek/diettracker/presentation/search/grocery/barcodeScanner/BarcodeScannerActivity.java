@@ -32,13 +32,15 @@ import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.Gr
  * @version 1.0
  * @date 08.06.2018
  */
-public class BarcodeScannerActivity extends BaseActivity implements BarcodeScannerContract.View{
+public class BarcodeScannerActivity extends BaseActivity implements BarcodeScannerContract.View {
 
     @Inject
     BarcodeScannerContract.Presenter presenter;
 
-    @BindView(R.id.loading_view) FrameLayout loadingView;
-    @BindView(R.id.barcode_scanner_view) ZXingScannerView scannerView;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
+    @BindView(R.id.barcode_scanner_view)
+    ZXingScannerView scannerView;
 
     private String selectedDate;
     private int selectedMeal;
@@ -48,7 +50,7 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
         intent.putExtra("mode", mode);
 
-        if(mode != MODE_ADD_INGREDIENT) {
+        if (mode != MODE_ADD_INGREDIENT) {
             intent.putExtra("selectedDate", selectedDate);
             intent.putExtra("selectedMeal", selectedMeal);
         }
@@ -86,8 +88,8 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
     }
 
     @Override
-    public void startDetailsActivity(int id){
-        if(mode == MODE_ADD_INGREDIENT)
+    public void startDetailsActivity(int id) {
+        if (mode == MODE_ADD_INGREDIENT)
             startActivityForResult(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
         else
             startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT));
@@ -115,11 +117,6 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
             }
         });
         builder.create().show();
-    }
-
-    @Override
-    public void setPresenter(BarcodeScannerContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override

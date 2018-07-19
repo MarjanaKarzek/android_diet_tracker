@@ -54,7 +54,7 @@ public class TrackerApplication extends Application {
     private RefWatcher refwatcher;
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
 
         new ConfigurationManager(this);

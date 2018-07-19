@@ -29,12 +29,17 @@ import de.karzek.diettracker.presentation.util.StringUtils;
  */
 public class AddIngredientDialog extends AppCompatDialogFragment {
 
-    @BindView(R.id.ingredient_amount) EditText amount;
-    @BindView(R.id.spinner_unit) Spinner spinner;
-    @BindView(R.id.ingredient_product_name) EditText groceryQuery;
+    @BindView(R.id.ingredient_amount)
+    EditText amount;
+    @BindView(R.id.spinner_unit)
+    Spinner spinner;
+    @BindView(R.id.ingredient_product_name)
+    EditText groceryQuery;
 
-    @BindView(R.id.dialog_action_dismiss) Button dismiss;
-    @BindView(R.id.dialog_action_add_ingredient) Button addIngredient;
+    @BindView(R.id.dialog_action_dismiss)
+    Button dismiss;
+    @BindView(R.id.dialog_action_add_ingredient)
+    Button addIngredient;
 
     private View view;
     private ArrayList<String> units;
@@ -64,22 +69,22 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
             }
         });
 
-        if(manualIngredientId == Constants.INVALID_ENTITY_ID)
+        if (manualIngredientId == Constants.INVALID_ENTITY_ID)
             addIngredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (inputFieldsValid()) {
-                    int selectedUnitId = spinner.getSelectedItemPosition();
-                    dismiss();
-                    if (amount.getText().toString().equals(""))
-                        addListener.onAddManualIngredientClicked(Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
-                    else
-                        addListener.onAddManualIngredientClicked(Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
-                } else {
-                    showInvalidFieldsError();
+                @Override
+                public void onClick(View view) {
+                    if (inputFieldsValid()) {
+                        int selectedUnitId = spinner.getSelectedItemPosition();
+                        dismiss();
+                        if (amount.getText().toString().equals(""))
+                            addListener.onAddManualIngredientClicked(Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
+                        else
+                            addListener.onAddManualIngredientClicked(Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
+                    } else {
+                        showInvalidFieldsError();
+                    }
                 }
-            }
-        });
+            });
         else {
             addIngredient.setText(R.string.save_button);
             addIngredient.setOnClickListener(new View.OnClickListener() {

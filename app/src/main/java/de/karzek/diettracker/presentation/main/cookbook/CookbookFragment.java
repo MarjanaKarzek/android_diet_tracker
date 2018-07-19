@@ -149,11 +149,6 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
-    public void setPresenter(CookbookContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.finish();

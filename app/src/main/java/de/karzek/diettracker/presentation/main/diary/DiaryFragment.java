@@ -128,11 +128,6 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
-    public void setPresenter(DiaryContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.finish();

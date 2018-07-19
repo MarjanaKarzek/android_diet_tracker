@@ -51,7 +51,7 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
                                   Lazy<PutFavoriteRecipeUseCase> putFavoriteRecipeUseCase,
                                   Lazy<RemoveFavoriteRecipeByTitleUseCase> removeFavoriteRecipeByTitleUseCase,
                                   Lazy<GetFavoriteStateForRecipeByIdUseCase> getFavoriteStateForRecipeByIdUseCase,
-                                  RecipeUIMapper recipeMapper){
+                                  RecipeUIMapper recipeMapper) {
         this.sharedPreferencesManager = sharedPreferencesManager;
         this.nutritionManager = nutritionManager;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
@@ -100,13 +100,13 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     }
 
     @Override
-    public void setRecipeId(int id){
+    public void setRecipeId(int id) {
         this.recipeId = id;
     }
 
     @Override
     public void onFavoriteRecipeClicked(boolean checked) {
-        if(checked){
+        if (checked) {
             Disposable subs = putFavoriteRecipeUseCase.get().execute(new PutFavoriteRecipeUseCase.Input(new FavoriteRecipeDomainModel(Constants.INVALID_ENTITY_ID, recipeMapper.transformToDomain(recipe))))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

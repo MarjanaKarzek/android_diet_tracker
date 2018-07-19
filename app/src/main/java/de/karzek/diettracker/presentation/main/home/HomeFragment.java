@@ -138,17 +138,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         ViewUtils.addElevationToFABMenuLabels(getContext(), floatingActionsMenu);
 
         drinksProgressBarValue.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            drinksProgressBarValue.clearFocus();
-                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(drinksProgressBarValue.getWindowToken(), 0);
-                            presenter.updateAmountOfWater(Float.valueOf(drinksProgressBarValue.getText().toString()));
-                        }
-                        return true;
-                    }
-                });
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    drinksProgressBarValue.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(drinksProgressBarValue.getWindowToken(), 0);
+                    presenter.updateAmountOfWater(Float.valueOf(drinksProgressBarValue.getText().toString()));
+                }
+                return true;
+            }
+        });
 
 
         presenter.setView(this);
@@ -167,11 +167,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     protected void setupFragmentComponent() {
         TrackerApplication.get(getContext()).createHomeComponent().inject(this);
-    }
-
-    @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @OnClick(R.id.add_food)

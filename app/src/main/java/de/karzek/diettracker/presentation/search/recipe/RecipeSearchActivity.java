@@ -161,11 +161,6 @@ public class RecipeSearchActivity extends BaseActivity implements RecipeSearchCo
     }
 
     @Override
-    public void setPresenter(RecipeSearchContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void showRecipeDetails(int id) {
         startActivity(RecipeEditDetailsActivity.newIntent(this, id, selectedMeal, selectedDate));
     }

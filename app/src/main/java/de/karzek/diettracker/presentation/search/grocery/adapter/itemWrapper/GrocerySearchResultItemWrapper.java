@@ -17,8 +17,8 @@ public class GrocerySearchResultItemWrapper {
 
     @IntDef({ItemType.FOOD, ItemType.DRINK})
     public @interface ItemType {
-        public static final int FOOD = 0;
-        public static final int DRINK = 1;
+        int FOOD = 0;
+        int DRINK = 1;
     }
 
     @ItemType

@@ -105,12 +105,12 @@ public class RecipeSearchPresenter implements RecipeSearchContract.Presenter {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(recipeOutput -> {
-                                if (recipeOutput.getFavoriteRecipes().size() > 0){
+                                if (recipeOutput.getFavoriteRecipes().size() > 0) {
                                     view.showRecyclerView();
                                     view.updateRecipeSearchResultList(recipeMapper.transformAll(recipeOutput.getFavoriteRecipes()));
                                     view.hidePlaceholder();
                                     view.hideLoading();
-                                } else{
+                                } else {
                                     view.hideRecyclerView();
                                     view.showPlaceholder();
                                     view.hideLoading();
@@ -127,7 +127,7 @@ public class RecipeSearchPresenter implements RecipeSearchContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(recipeOutput -> {
-                    if(recipeOutput.getRecipes().size() > 0) {
+                    if (recipeOutput.getRecipes().size() > 0) {
                         view.showRecyclerView();
                         view.updateRecipeSearchResultList(recipeMapper.transformAll(recipeOutput.getRecipes()));
                         view.hidePlaceholder();
@@ -160,7 +160,7 @@ public class RecipeSearchPresenter implements RecipeSearchContract.Presenter {
                             .subscribe(recipeOutput -> {
                                 RecipeDisplayModel recipe = recipeMapper.transform(recipeOutput.getRecipe());
 
-                                for(IngredientDisplayModel ingredient : recipe.getIngredients()) {
+                                for (IngredientDisplayModel ingredient : recipe.getIngredients()) {
                                     putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
                                             mealModel,
                                             ingredient.getAmount() / recipe.getPortions(),

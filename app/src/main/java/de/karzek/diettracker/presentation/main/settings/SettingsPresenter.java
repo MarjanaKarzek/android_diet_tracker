@@ -79,7 +79,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         updateAllergens();
     }
 
-    private void getAllMeals(){
+    private void getAllMeals() {
         compositeDisposable.add(getAllMealsUseCase.execute(new GetAllMealsUseCase.Input())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

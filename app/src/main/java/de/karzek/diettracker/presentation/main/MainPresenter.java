@@ -27,7 +27,8 @@ public class MainPresenter implements MainContract.Presenter {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
-    public void start() { }
+    public void start() {
+    }
 
     @Override
     public void setView(MainContract.View view) {

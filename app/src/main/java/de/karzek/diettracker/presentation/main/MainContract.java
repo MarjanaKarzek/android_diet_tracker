@@ -22,7 +22,8 @@ public interface MainContract {
         int FRAGMENT_SETTINGS = 3;
 
         @IntDef({FRAGMENT_HOME, FRAGMENT_DIARY, FRAGMENT_COOKBOOK, FRAGMENT_SETTINGS})
-        @interface FragmentIndex {}
+        @interface FragmentIndex {
+        }
     }
 
     interface Presenter extends BasePresenter<View> {

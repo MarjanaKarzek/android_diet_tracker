@@ -93,11 +93,11 @@ public class EditAllergensDialogPresenter implements EditAllergensDialogContract
         Iterator iterator = keySet.iterator();
         while (iterator.hasNext()) {
             Integer current = (Integer) iterator.next();
-            if(allergenStatus.get(current))
+            if (allergenStatus.get(current))
                 allergenSelection += current + Constants.SHARED_PREFERENCES_SPLIT_ARRAY_CHAR;
         }
 
-        if(allergenSelection.length() > 0)
+        if (allergenSelection.length() > 0)
             sharedPreferencesManager.putAllergenIds(allergenSelection.substring(0, allergenSelection.length() - 1));
         else
             sharedPreferencesManager.putAllergenIds(allergenSelection);
@@ -105,7 +105,7 @@ public class EditAllergensDialogPresenter implements EditAllergensDialogContract
 
     @Override
     public void onResetSelectionClicked() {
-        for (Integer key : allergenStatus.keySet()){
+        for (Integer key : allergenStatus.keySet()) {
             allergenStatus.put(key, false);
         }
         view.updateRecyclerView(allergens, allergenStatus);

@@ -28,9 +28,12 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
  */
 public class RecipeCookbookSearchResultViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.recipe_image) CircleImageView recipeImage;
-    @BindView(R.id.recipe_title) TextView recipeTitle;
-    @BindView(R.id.swipe_layout) SwipeLayout swipeLayout;
+    @BindView(R.id.recipe_image)
+    CircleImageView recipeImage;
+    @BindView(R.id.recipe_title)
+    TextView recipeTitle;
+    @BindView(R.id.swipe_layout)
+    SwipeLayout swipeLayout;
 
     private final OnRecipeItemClickedListener onRecipeItemClickedListener;
     private final OnRecipeAddPortionClickedListener onRecipeAddPortionClickedListener;
@@ -59,21 +62,25 @@ public class RecipeCookbookSearchResultViewHolder extends RecyclerView.ViewHolde
         itemView.setTag(recipe.getId());
     }
 
-    @OnClick(R.id.item_layout) public void onItemClicked() {
+    @OnClick(R.id.item_layout)
+    public void onItemClicked() {
         swipeLayout.close();
         onRecipeItemClickedListener.onItemClicked((int) itemView.getTag());
     }
 
-    @OnClick(R.id.swipe_option_portion) public void onAddPortionClicked() {
+    @OnClick(R.id.swipe_option_portion)
+    public void onAddPortionClicked() {
         onRecipeAddPortionClickedListener.onAddPortionClicked((int) itemView.getTag());
     }
 
-    @OnClick(R.id.swipe_option_edit) public void onEditRecipeClicked() {
+    @OnClick(R.id.swipe_option_edit)
+    public void onEditRecipeClicked() {
         swipeLayout.close();
         onRecipeEditClickedListener.onEditRecipeClicked((int) itemView.getTag());
     }
 
-    @OnClick(R.id.swipe_option_delete) public void onDeleteRecipeClicked() {
+    @OnClick(R.id.swipe_option_delete)
+    public void onDeleteRecipeClicked() {
         swipeLayout.close();
         onRecipeDeleteClickedListener.onDeleteRecipeClicked((int) itemView.getTag());
     }

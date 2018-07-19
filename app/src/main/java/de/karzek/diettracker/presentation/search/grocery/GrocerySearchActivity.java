@@ -56,10 +56,14 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     @Inject
     GrocerySearchContract.Presenter presenter;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.food_search_placeholder) TextView placeholder;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.food_search_placeholder)
+    TextView placeholder;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
     private int groceryType;
     private String noResultsPlaceholder;
@@ -138,7 +142,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         ButterKnife.bind(this);
 
         groceryType = getIntent().getExtras().getInt("groceryType", 0);
-        if (groceryType != TYPE_COMBINED){
+        if (groceryType != TYPE_COMBINED) {
             groceryType = getIntent().getExtras().getInt("groceryType", 0);
             selectedDate = getIntent().getExtras().getString("selectedDate", "");
             selectedMeal = getIntent().getExtras().getInt("selectedMeal", 0);
@@ -152,7 +156,6 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         setupRecyclerView();
 
         presenter.setView(this);
-        setPresenter(presenter);
         presenter.start();
         presenter.getFavoriteGroceries(groceryType);
     }
@@ -180,13 +183,8 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     }
 
     @Override
-    public void setPresenter(GrocerySearchContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void showGroceryDetails(int id) {
-        if(ingredientSearch)
+        if (ingredientSearch)
             startActivityForResult(GroceryDetailsActivity.newIntent(this, id, null, null, null, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
         else
             startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT));

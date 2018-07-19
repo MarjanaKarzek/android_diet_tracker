@@ -244,7 +244,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    if(output.getStatus() == 0){
+                    if (output.getStatus() == 0) {
                         view.refreshRecyclerView();
                         view.hideLoading();
                     } else {
@@ -262,7 +262,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                     ArrayList<MealDisplayModel> meals = mealMapper.transformAll(output.getMealList());
                     ArrayList<String> mealTitles = new ArrayList<>();
 
-                    for (MealDisplayModel meal: meals)
+                    for (MealDisplayModel meal : meals)
                         mealTitles.add(meal.getName());
 
                     view.showMoveDiaryEntryDialog(id, meals, mealTitles);
@@ -276,7 +276,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    if(output.getStatus() == 0){
+                    if (output.getStatus() == 0) {
                         view.hideLoading();
                     } else {
                         view.hideLoading();
@@ -306,7 +306,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                             .subscribe(recipeOutput -> {
                                 RecipeDisplayModel recipe = recipeMapper.transform(recipeOutput.getRecipe());
 
-                                for(IngredientDisplayModel ingredient : recipe.getIngredients()) {
+                                for (IngredientDisplayModel ingredient : recipe.getIngredients()) {
                                     putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(Constants.INVALID_ENTITY_ID,
                                             mealModel,
                                             ingredient.getAmount() / recipe.getPortions(),

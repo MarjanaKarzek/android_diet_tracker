@@ -19,11 +19,13 @@ import de.karzek.diettracker.presentation.main.MainActivity;
  * @version 1.0
  * @date 31.05.2018
  */
-public class SplashActivity extends BaseActivity implements SplashContract.View{
+public class SplashActivity extends BaseActivity implements SplashContract.View {
 
-    @Inject SplashContract.Presenter presenter;
+    @Inject
+    SplashContract.Presenter presenter;
 
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @Override
     protected void setupActivityComponents() {
@@ -46,8 +48,4 @@ public class SplashActivity extends BaseActivity implements SplashContract.View{
         startActivity(MainActivity.newIntent(this));
     }
 
-    @Override
-    public void setPresenter(SplashContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
 }

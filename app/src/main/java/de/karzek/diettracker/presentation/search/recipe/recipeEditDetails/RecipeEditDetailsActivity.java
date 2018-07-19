@@ -138,7 +138,7 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
 
         views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.INGREDIENTS_TITLE_VIEW, selectedPortions));
 
-        if(nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
+        if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
             views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
         else if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS) && detailsExpanded)
             views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
@@ -152,11 +152,6 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
         views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.ADD_VIEW));
 
         ((RecipeEditDetailsViewListAdapter) recyclerView.getAdapter()).setList(views);
-    }
-
-    @Override
-    public void setPresenter(RecipeEditDetailsContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override
@@ -181,7 +176,7 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
                 item.setIcon(getDrawable(R.drawable.ic_star_white));
             }
             presenter.onFavoriteRecipeClicked(item.isChecked());
-        } else if (item.getItemId() == R.id.recipe_details_edit){
+        } else if (item.getItemId() == R.id.recipe_details_edit) {
             startActivity(RecipeManipulationActivity.newEditRecipeIntent(this, recipeId));
         }
         return super.onOptionsItemSelected(item);

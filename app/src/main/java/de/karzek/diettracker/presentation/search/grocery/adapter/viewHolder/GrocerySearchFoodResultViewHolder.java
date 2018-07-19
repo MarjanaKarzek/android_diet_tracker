@@ -20,7 +20,8 @@ import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
  */
 public class GrocerySearchFoodResultViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.grocery_name) TextView groceryName;
+    @BindView(R.id.grocery_name)
+    TextView groceryName;
 
     private final OnFoodSearchResultItemClickedListener onItemClickedListener;
 
@@ -36,7 +37,8 @@ public class GrocerySearchFoodResultViewHolder extends RecyclerView.ViewHolder {
         itemView.setTag(foodSearchResultItem.getId());
     }
 
-    @OnClick(R.id.grocery_search_food_item) public void onItemClicked() {
+    @OnClick(R.id.grocery_search_food_item)
+    public void onItemClicked() {
         onItemClickedListener.onItemClicked((int) itemView.getTag());
     }
 

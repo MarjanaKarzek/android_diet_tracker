@@ -68,22 +68,34 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  */
 public class GroceryDetailsActivity extends BaseActivity implements GroceryDetailsContract.View {
 
-    @Inject GroceryDetailsContract.Presenter presenter;
+    @Inject
+    GroceryDetailsContract.Presenter presenter;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    @BindView(R.id.viewstub_allergen_info) ViewStub allergenViewStub;
-    @BindView(R.id.viewstub_calory_details) ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details) ViewStub caloryMacroDetails;
+    @BindView(R.id.viewstub_allergen_info)
+    ViewStub allergenViewStub;
+    @BindView(R.id.viewstub_calory_details)
+    ViewStub caloryDetails;
+    @BindView(R.id.viewstub_calory_makro_details)
+    ViewStub caloryMacroDetails;
 
-    @BindView(R.id.spinner_serving) Spinner spinnerServing;
-    @BindView(R.id.spinner_meal) Spinner spinnerMeal;
-    @BindView(R.id.edittext_amount) EditText editTextAmount;
-    @BindView(R.id.date_label) TextView selectedDateLabel;
-    @BindView(R.id.add_grocery) Button addButton;
-    @BindView(R.id.delete_diary_entry) Button deleteButton;
+    @BindView(R.id.spinner_serving)
+    Spinner spinnerServing;
+    @BindView(R.id.spinner_meal)
+    Spinner spinnerMeal;
+    @BindView(R.id.edittext_amount)
+    EditText editTextAmount;
+    @BindView(R.id.date_label)
+    TextView selectedDateLabel;
+    @BindView(R.id.add_grocery)
+    Button addButton;
+    @BindView(R.id.delete_diary_entry)
+    Button deleteButton;
 
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
     private AllergenView allergenView;
     private CaloryDetailsView detailsView;
@@ -242,11 +254,6 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     @Override
     protected void setupActivityComponents() {
         TrackerApplication.get(this).getAppComponent().inject(this);
-    }
-
-    @Override
-    public void setPresenter(GroceryDetailsContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override
@@ -505,7 +512,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
             setResult(Constants.ADD_INGREDIENT_INTENT_RESULT, intent);
             finish();
             return;
-        } else if(mode == MODE_EDIT_INGREDIENT){
+        } else if (mode == MODE_EDIT_INGREDIENT) {
             Intent intent = new Intent();
             intent.putExtra("ingredientId", ingredientId);
             intent.putExtra("amount", amount);

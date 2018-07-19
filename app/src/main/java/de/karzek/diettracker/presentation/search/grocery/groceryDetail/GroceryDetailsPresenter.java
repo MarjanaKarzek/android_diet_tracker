@@ -126,7 +126,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                     GroceryDisplayModel grocery = groceryMapper.transform(output.getGrocery());
                     view.fillGroceryDetails(grocery);
 
-                    if(grocery.getAllergens().size() > 0)
+                    if (grocery.getAllergens().size() > 0)
                         view.setupAllergenWarning(grocery.getAllergens());
 
                     getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
@@ -162,7 +162,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                     GroceryDisplayModel grocery = diaryEntry.getGrocery();
                     view.fillGroceryDetails(grocery);
 
-                    if(grocery.getAllergens().size() > 0)
+                    if (grocery.getAllergens().size() > 0)
                         view.setupAllergenWarning(grocery.getAllergens());
 
                     getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
@@ -197,7 +197,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                     GroceryDisplayModel grocery = groceryMapper.transform(output.getGrocery());
                     view.fillGroceryDetails(grocery);
 
-                    if(grocery.getAllergens().size() > 0)
+                    if (grocery.getAllergens().size() > 0)
                         view.setupAllergenWarning(grocery.getAllergens());
 
                     getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
@@ -218,7 +218,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     }
 
     @Override
-    public void startAddIngredientMode(int groceryId){
+    public void startAddIngredientMode(int groceryId) {
         if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
             view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
         } else {
@@ -226,24 +226,24 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
         }
 
         compositeDisposable.add(getGroceryByIdUseCase.execute(new GetGroceryByIdUseCase.Input(groceryId))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(output -> {
-                            GroceryDisplayModel grocery = groceryMapper.transform(output.getGrocery());
-                            view.fillGroceryDetails(grocery);
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(output -> {
+                    GroceryDisplayModel grocery = groceryMapper.transform(output.getGrocery());
+                    view.fillGroceryDetails(grocery);
 
-                            if(grocery.getAllergens().size() > 0)
-                                view.setupAllergenWarning(grocery.getAllergens());
+                    if (grocery.getAllergens().size() > 0)
+                        view.setupAllergenWarning(grocery.getAllergens());
 
-                            getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(output2 -> {
-                                        view.initializeServingsSpinner(unitMapper.transformAll(output2.getUnitList()), grocery.getServings());
-                                        view.refreshNutritionDetails();
-                                        view.prepareAddIngredientMode();
-                                    });
-                        }));
+                    getDefaultUnitsUseCase.execute(new GetAllDefaultUnitsUseCase.Input(grocery.getUnit_type()))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(output2 -> {
+                                view.initializeServingsSpinner(unitMapper.transformAll(output2.getUnitList()), grocery.getServings());
+                                view.refreshNutritionDetails();
+                                view.prepareAddIngredientMode();
+                            });
+                }));
     }
 
     @Override
@@ -263,7 +263,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                             if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
-                                if(grocery.getType() == TYPE_FOOD) {
+                                if (grocery.getType() == TYPE_FOOD) {
                                     compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForMeal(output.getCount()))
                                             .subscribeOn(Schedulers.computation())
                                             .observeOn(AndroidSchedulers.mainThread())
@@ -293,7 +293,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                                             ));
                                 }
                             } else {
-                                if(grocery.getType() == TYPE_FOOD) {
+                                if (grocery.getType() == TYPE_FOOD) {
                                     compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForMeal(output.getCount()))
                                             .subscribeOn(Schedulers.computation())
                                             .observeOn(AndroidSchedulers.mainThread())
@@ -360,12 +360,12 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
 
     @Override
     public void onFavoriteGroceryClicked(boolean checked, GroceryDisplayModel grocery) {
-        if(checked){
+        if (checked) {
             Disposable subs = putFavoriteGroceryUseCase.get().execute(new PutFavoriteGroceryUseCase.Input(new FavoriteGroceryDomainModel(-1, groceryMapper.transformToDomain(grocery))))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output -> {
-                            //todo error handling
+                        //todo error handling
                     });
             compositeDisposable.add(subs);
         } else {
@@ -390,8 +390,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     }
 
 
-
-    private void putDiaryEntry(DiaryEntryDisplayModel diaryEntry){
+    private void putDiaryEntry(DiaryEntryDisplayModel diaryEntry) {
         view.showLoading();
         compositeDisposable.add(putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(diaryEntry)))
                 .subscribeOn(Schedulers.io())

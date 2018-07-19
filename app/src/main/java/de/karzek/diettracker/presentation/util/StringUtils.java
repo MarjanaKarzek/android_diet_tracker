@@ -18,8 +18,8 @@ import de.karzek.diettracker.presentation.custom.CustomBottomNavigationView;
  */
 public class StringUtils {
     public static String formatFloat(float value) {
-        if(value % 1 == 0){
-            return "" + (int)value;
+        if (value % 1 == 0) {
+            return "" + (int) value;
         } else
             return String.format("%.1f", value);
     }

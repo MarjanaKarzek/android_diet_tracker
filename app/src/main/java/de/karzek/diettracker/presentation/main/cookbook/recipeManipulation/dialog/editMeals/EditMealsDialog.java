@@ -34,13 +34,18 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
  */
 public class EditMealsDialog extends BaseDialog implements EditMealsDialogContract.View {
 
-    @Inject EditMealsDialogContract.Presenter presenter;
+    @Inject
+    EditMealsDialogContract.Presenter presenter;
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.loading_view) FrameLayout loadingView;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.loading_view)
+    FrameLayout loadingView;
 
-    @BindView(R.id.dialog_action_dismiss) Button dismiss;
-    @BindView(R.id.dialog_action_save) Button save;
+    @BindView(R.id.dialog_action_dismiss)
+    Button dismiss;
+    @BindView(R.id.dialog_action_save)
+    Button save;
 
     private View view;
 
@@ -106,26 +111,22 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
     }
 
     @Override
-    public void setPresenter(EditMealsDialogContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void updateRecyclerView(ArrayList<MealDisplayModel> meals, HashMap<Integer, Boolean> mealStatus) {
         ((EditMealsListAdapter) recyclerView.getAdapter()).setMeals(meals, mealStatus);
     }
 
     @Override
-    public void showLoading(){
+    public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideLoading(){
+    public void hideLoading() {
         loadingView.setVisibility(View.GONE);
     }
 
-    @OnClick(R.id.reset_selection) void onResetSelectionClicked(){
+    @OnClick(R.id.reset_selection)
+    void onResetSelectionClicked() {
         presenter.onResetSelectionClicked();
     }
 

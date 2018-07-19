@@ -77,7 +77,7 @@ public class RecipeSortOptionsDialog extends AppCompatDialogFragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int viewId) {
-                switch (viewId){
+                switch (viewId) {
                     case R.id.title_asc:
                         selectedOption = "title";
                         asc = true;

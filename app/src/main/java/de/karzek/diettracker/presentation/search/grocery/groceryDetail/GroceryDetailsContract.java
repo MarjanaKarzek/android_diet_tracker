@@ -83,7 +83,7 @@ public interface GroceryDetailsContract {
         void onDeleteDiaryEntryClicked(int diaryEntryId);
 
         void startEditIngredientMode(float amount);
-        
+
     }
 
     @DetailsMode
@@ -93,6 +93,6 @@ public interface GroceryDetailsContract {
     int MODE_ADD_INGREDIENT = 3;
 
     @IntDef({MODE_SEARCH_RESULT, MODE_EDIT_DIARY_ENTRY, MODE_EDIT_INGREDIENT, MODE_ADD_INGREDIENT})
-
-    @interface DetailsMode { }
+    @interface DetailsMode {
+    }
 }

@@ -19,9 +19,12 @@ import lombok.Data;
  */
 @Data
 public class AllergenView {
-    @BindView(R.id.allergen_warning) TextView allergenWarning;
 
-    public AllergenView(View view){
+    @BindView(R.id.allergen_warning)
+    TextView allergenWarning;
+
+    public AllergenView(View view) {
         ButterKnife.bind(this, view);
     }
+
 }
