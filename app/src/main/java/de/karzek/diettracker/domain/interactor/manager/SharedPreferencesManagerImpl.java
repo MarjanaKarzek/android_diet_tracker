@@ -166,7 +166,6 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
 
     @Override
     public void setOnboardingToViewed(int onboardingTag) {
-        //todo change to true
         switch (onboardingTag){
             case ONBOARDING_INGREDIENT_SEARCH:
                 sharedPreferencesUtil.setBoolean(KEY_ONBOARDING_INGREDIENT_SEARCH_STATUS, VALUE_TRUE);

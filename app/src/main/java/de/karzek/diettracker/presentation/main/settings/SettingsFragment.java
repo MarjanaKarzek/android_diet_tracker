@@ -1,10 +1,12 @@
 package de.karzek.diettracker.presentation.main.settings;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -386,6 +388,20 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     @Override
     public void showOnboardingScreen(int onboardingTag) {
         startActivity(OnboardingActivity.newIntent(getContext(), onboardingTag));
+    }
+
+    @Override
+    public void showDeleteMealConfirmDialog(int id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setMessage(getString(R.string.dialog_message_confirm_meal_deletion));
+        builder.setPositiveButton(getString(R.string.dialog_action_delete), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                presenter.onMealItemDeleteConfirmed(id);
+            }
+        });
+        builder.create().show();
     }
 
     @OnClick(R.id.expandable_diet_action)

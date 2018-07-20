@@ -122,7 +122,9 @@
     <string name="error_message_missing_ingredient">Bitte füge mindestens eine Zutat hinzu</string>
     <string name="error_message_unknown_error">Ein unbekannter Fehler inst aufgetreten</string>
     <string name="dialog_message_confirm_recipe_deletion">Bist Du Dir sicher, dass Du dieses Rezept löschen möchtest?</string>
-    <string name="dialog_action_delete_recipe">Löschen</string>
+    <string name="dialog_message_confirm_meal_deletion">Bist Du Dir sicher, dass Du diese Mahlzeit löschen möchtest?</string>
+    <string name="dialog_action_delete">Löschen</string>
+
     <string name="recipe_details_ingredients_title">Zutaten für %1$s Portion/en</string>
     <string name="per_portion">pro Portion</string>
     <string name="button_reset_checkboxes">Auswahl aufheben</string>
@@ -152,9 +154,16 @@
     <string name="button_close_text">Schließen</string>
     <string name="onboarding_text_ingredient_search" >Über den Button +Hinzufügen, kannst Du, ohne lange zu Suchen, Zutaten und Mengen angeben.\n\nDie tatsächlichen Produkte werden nach dem Speichern aus der Datenbank automatisch gelesen!</string>
     <string name="onboarding_text_display_settings">Mach diesen Tracker zu Deinem Tracker.\n\nLege Deinen Tagesbedarf fest und bestimme selbst, welche Informationen zu Deiner Ernährung angezeigt werden sollen.</string>
-    <string name="onboarding_text_support_options">Du willst, dass diese App für Dich mitdenkt?\n\nTrage Deine Allergien ein und lege Deine favorisierten Rezepte fest, um mehr aus Deinem Tracker zu machen.</string>
+    <string name="onboarding_text_support_options">Du willst, dass diese App für Dich mitdenkt?\n\nTrage Deine Allergien in den Einstellungen ein und lege Deine favorisierten Rezepte im Kochbuch fest, um weitere Informationen im Tagebuch zu erhalten.</string>
     <string name="onboarding_text_slide_options">Wische über Einträge nach links um weitere Optionen auswählen zu können.</string>
     <string name="onboarding_text_welcome">Hallo,\n\nschön, dass Du da bist!\n\nLass uns gemeinsam Deine Ernährung gestalten.</string>
     <string name="lets_go_button">Los geht\'s!</string>
+    <string name="save_changes_button">Änderungen annehmen</string>
+    <string name="automated_ingredient_search_title">Zutatenerkennung</string>
+    <string name="dialog_message_automated_ingredient_search_success">Das Rezept wurde erfolgreich angelegt</string>
+    <string name="dialog_action_ok">ok</string>
+    <string name="fail_reason_description_wrong_unit">Diese Einheit ist für das gefundene Lebensmittel nicht verfügbar</string>
+    <string name="fail_reason_description_grocery_not_found">Kein Lebensmittel mit diesem Namen gefunden</string>
+    <string name="dialog_message_automated_ingredient_search_unsuccess">Nicht alle Zutaten konnten automatisch erkannt werden</string>
 
 </resources>

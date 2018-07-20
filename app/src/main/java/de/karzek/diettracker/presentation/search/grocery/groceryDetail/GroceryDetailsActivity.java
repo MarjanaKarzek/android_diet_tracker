@@ -109,6 +109,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     private int diaryEntryId;
     private int ingredientId;
     private int mode;
+    private int index;
 
     private Calendar selectedDateCalendar = Calendar.getInstance();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
@@ -122,7 +123,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     private HashMap<String, Long> maxValues;
 
     //todo split into several intents
-    public static Intent newIntent(Context context, @Nullable Integer groceryId, String selectedDate, @Nullable Integer selectedMeal, @Nullable Integer diaryEntryId, int mode) {
+    public static Intent newIntent(Context context, @Nullable Integer groceryId, String selectedDate, @Nullable Integer selectedMeal, @Nullable Integer diaryEntryId, int mode, int index) {
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
         intent.putExtra("mode", mode);
 
@@ -137,6 +138,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
                 break;
             case MODE_ADD_INGREDIENT:
                 intent.putExtra("groceryId", groceryId.intValue());
+                intent.putExtra("index", index);
                 break;
         }
 
@@ -223,6 +225,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
                 break;
             case MODE_ADD_INGREDIENT:
                 mode = MODE_ADD_INGREDIENT;
+                index = getIntent().getExtras().getInt("index");
                 ingredientId = getIntent().getExtras().getInt("ingredientId");
                 groceryId = getIntent().getExtras().getInt("groceryId");
                 presenter.startAddIngredientMode(groceryId);
@@ -506,6 +509,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
         if (mode == MODE_ADD_INGREDIENT) {
             Intent intent = new Intent();
+            intent.putExtra("index", index);
             intent.putExtra("groceryId", groceryDisplayModel.getId());
             intent.putExtra("amount", amount);
             intent.putExtra("unitId", defaultUnits.get(0).getId());

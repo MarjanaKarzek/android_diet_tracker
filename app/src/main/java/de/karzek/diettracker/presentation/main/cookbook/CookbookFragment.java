@@ -204,7 +204,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder.setMessage(getString(R.string.dialog_message_confirm_recipe_deletion));
-        builder.setPositiveButton(getString(R.string.dialog_action_delete_recipe), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dialog_action_delete), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 presenter.onDeleteRecipeConfirmed(id);

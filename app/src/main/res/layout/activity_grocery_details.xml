@@ -112,15 +112,15 @@
         android:layout_gravity="bottom">
 
         <Button
+            style="@style/Button"
             android:id="@+id/add_grocery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/button_add"
-            android:textColor="@color/textOnPrimary" />
+            android:text="@string/button_add" />
 
         <Button
+            style="@style/Button"
             android:id="@+id/delete_diary_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +130,6 @@
             android:layout_marginBottom="16dp"
             android:background="@color/delete"
             android:text="@string/button_delete"
-            android:textColor="@color/textOnPrimary"
             android:visibility="gone"/>
 
     </LinearLayout>

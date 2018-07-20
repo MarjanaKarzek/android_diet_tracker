@@ -44,6 +44,9 @@ public interface SettingsContract {
         void setupCheckboxListeners();
 
         void showOnboardingScreen(int onboardingTag);
+
+        void showDeleteMealConfirmDialog(int id);
+
     }
 
     interface Presenter extends BasePresenter<View>,
@@ -67,5 +70,7 @@ public interface SettingsContract {
         void onAddMealInDialogClicked(String name, String startTime, String endTime);
 
         void onSaveMealInDialogClicked(int id, String name, String startTime, String endTime);
+
+        void onMealItemDeleteConfirmed(int id);
     }
 }

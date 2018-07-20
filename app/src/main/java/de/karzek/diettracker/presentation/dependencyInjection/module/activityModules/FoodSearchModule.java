@@ -73,11 +73,6 @@ public class FoodSearchModule {
     }
 
     @Provides
-    GetMatchingGroceriesUseCase provideGetMatchingGroceriesUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
-        return new GetMatchingGroceriesUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
     GetUnitByNameUseCase provideGetUnitByNameUseCaseImpl(UnitRepository repository, UnitDomainMapper mapper){
         return new GetUnitByNameUseCaseImpl(repository, mapper);
     }

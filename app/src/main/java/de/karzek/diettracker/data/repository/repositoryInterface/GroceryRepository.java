@@ -22,4 +22,6 @@ public interface GroceryRepository {
     Observable<GroceryDataModel> getGroceryByName(String name);
 
     Observable<Boolean> putAllGroceries(List<GroceryDataModel> groceryDataModels);
+
+    Observable<List<GroceryDataModel>> getAllGroceriesExactlyMatching(String query);
 }

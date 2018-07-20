@@ -40,9 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@null"
-            android:text="@string/dialog_action_dismiss"
-            android:textColor="@color/colorAccent" />
+            android:text="@string/dialog_action_dismiss" />
 
         <Button
             android:id="@+id/dialog_action_move"
@@ -50,9 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@null"
-            android:text="@string/dialog_action_move"
-            android:textColor="@color/colorAccent"/>
+            android:text="@string/dialog_action_move" />
 
     </LinearLayout>
 

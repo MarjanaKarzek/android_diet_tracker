@@ -1,7 +1,10 @@
 package de.karzek.diettracker.presentation.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.ScrollView;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,20 +17,39 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class PreparationStepDisplayModel {
+@AllArgsConstructor
+public class PreparationStepDisplayModel implements Parcelable {
     private int id;
     private int stepNo;
     private String description;
 
-    public PreparationStepDisplayModel() {
-        id = -1;
-        stepNo = -1;
-        description = "";
+    private PreparationStepDisplayModel(Parcel in) {
+        id = in.readInt();
+        stepNo = in.readInt();
+        description = in.readString();
     }
 
-    public PreparationStepDisplayModel(int id, int stepNo, String description){
-        this.id = id;
-        this.stepNo = stepNo;
-        this.description = description;
+    @Override
+    public int describeContents() {
+        return hashCode();
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(stepNo);
+        dest.writeString(description);
+    }
+
+    public static final Parcelable.Creator<PreparationStepDisplayModel> CREATOR = new Parcelable.Creator<PreparationStepDisplayModel>() {
+        @Override
+        public PreparationStepDisplayModel createFromParcel(Parcel in) {
+            return new PreparationStepDisplayModel(in);
+        }
+
+        @Override
+        public PreparationStepDisplayModel[] newArray(int size) {
+            return new PreparationStepDisplayModel[size];
+        }
+    };
 }

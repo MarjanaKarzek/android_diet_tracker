@@ -124,9 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@null"
-            android:text="@string/dialog_action_dismiss"
-            android:textColor="@color/colorAccent" />
+            android:text="@string/dialog_action_dismiss" />
 
         <Button
             android:id="@+id/dialog_action_save"
@@ -134,9 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@null"
-            android:text="@string/dialog_action_save"
-            android:textColor="@color/colorAccent" />
+            android:text="@string/dialog_action_save" />
 
     </LinearLayout>
 

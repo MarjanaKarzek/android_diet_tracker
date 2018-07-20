@@ -18,6 +18,7 @@ public interface GroceryCache {
 
     Observable<List<GroceryEntity>> getAllGroceries();
     Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query);
+    Observable<List<GroceryEntity>> getAllGroceriesExactlyMatching(String query);
 
     Observable<GroceryEntity> getGroceryByID(int id);
     Observable<GroceryEntity> getGroceryByBarcode(String barcode);

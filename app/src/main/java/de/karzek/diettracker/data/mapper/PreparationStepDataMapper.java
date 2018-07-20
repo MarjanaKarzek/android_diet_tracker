@@ -74,7 +74,7 @@ public class PreparationStepDataMapper {
     }
 
     private int getNextId(){
-        Number currentIdNum = Realm.getDefaultInstance().where(IngredientEntity.class).max("id");
+        Number currentIdNum = Realm.getDefaultInstance().where(PreparationStepEntity.class).max("id");
         int nextId;
         if(currentIdNum == null) {
             nextId = 1;

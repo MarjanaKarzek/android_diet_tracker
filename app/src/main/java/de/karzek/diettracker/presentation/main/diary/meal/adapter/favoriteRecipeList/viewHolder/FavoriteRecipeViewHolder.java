@@ -1,5 +1,6 @@
 package de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.viewHolder;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,11 +33,10 @@ public class FavoriteRecipeViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.favorite_recipe_image)
     CircleImageView imageView;
-
     @BindView(R.id.favorite_recipe_title)
     TextView title;
 
-
+    private Context context;
     private final OnFavoriteRecipeItemClickedListener onItemClickedListener;
 
     public FavoriteRecipeViewHolder(ViewGroup viewGroup,
@@ -45,11 +45,15 @@ public class FavoriteRecipeViewHolder extends RecyclerView.ViewHolder {
                 .inflate(R.layout.item_diary_favorite_recipe, viewGroup, false));
         ButterKnife.bind(this, itemView);
 
+        context = viewGroup.getContext();
         this.onItemClickedListener = onItemClickedListener;
     }
 
     public void bind(RecipeDisplayModel entry) {
-        imageView.setImageBitmap(BitmapFactory.decodeByteArray(entry.getPhoto(), 0, entry.getPhoto().length));
+        if(entry.getPhoto() != null)
+            imageView.setImageBitmap(BitmapFactory.decodeByteArray(entry.getPhoto(), 0, entry.getPhoto().length));
+        else
+            imageView.setImageDrawable(context.getDrawable(R.drawable.ic_chef_accent_dark));
         title.setText(entry.getTitle());
 
         itemView.setTag(entry.getId());

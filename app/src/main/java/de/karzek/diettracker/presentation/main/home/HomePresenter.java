@@ -56,6 +56,7 @@ public class HomePresenter implements HomeContract.Presenter {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private int currentMealId;
     private String currentDate;
+    private String currentTime;
 
     private float mlFromDiaryEntries = 0.0f;
 
@@ -93,7 +94,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void start() {
-        compositeDisposable.add(getCurrentlyActiveMealByTimeUseCase.execute(new GetCurrentlyActiveMealByTimeUseCase.Input(currentDate))
+        compositeDisposable.add(getCurrentlyActiveMealByTimeUseCase.execute(new GetCurrentlyActiveMealByTimeUseCase.Input(currentTime))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mealOutput -> {
@@ -161,6 +162,11 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
+    }
+
+    @Override
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
     }
 
     @Override

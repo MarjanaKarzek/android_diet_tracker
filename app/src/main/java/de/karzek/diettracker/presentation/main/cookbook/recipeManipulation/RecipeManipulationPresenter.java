@@ -50,8 +50,6 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase;
     private Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase;
     private Lazy<GetUnitByIdUseCase> getUnitByIdUseCase;
-    private Lazy<PutRecipeUseCase> putRecipeUseCase;
-    private Lazy<UpdateRecipeUseCase> updateRecipeUseCase;
     private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
     private Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase;
 
@@ -59,7 +57,6 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     private GroceryUIMapper groceryMapper;
     private RecipeUIMapper recipeMapper;
 
-    private boolean editMode = false;
     private RecipeDisplayModel recipe;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -69,8 +66,6 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                                        Lazy<GetAllDefaultUnitsUseCase> getAllDefaultUnitsUseCase,
                                        Lazy<GetGroceryByIdUseCase> getGroceryByIdUseCase,
                                        Lazy<GetUnitByIdUseCase> getUnitByIdUseCase,
-                                       Lazy<PutRecipeUseCase> putRecipeUseCase,
-                                       Lazy<UpdateRecipeUseCase> updateRecipeUseCase,
                                        Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                                        Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                                        UnitUIMapper unitMapper,
@@ -80,8 +75,6 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
         this.getAllDefaultUnitsUseCase = getAllDefaultUnitsUseCase;
         this.getGroceryByIdUseCase = getGroceryByIdUseCase;
         this.getUnitByIdUseCase = getUnitByIdUseCase;
-        this.putRecipeUseCase = putRecipeUseCase;
-        this.updateRecipeUseCase = updateRecipeUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.deleteRecipeByIdUseCase = deleteRecipeByIdUseCase;
 
@@ -100,7 +93,6 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void startEditMode(int recipeId) {
-        editMode = true;
         compositeDisposable.add(getRecipeByIdUseCase.get().execute(new GetRecipeByIdUseCase.Input(recipeId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -335,6 +327,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onSaveRecipeClicked() {
+        view.showLoading();
         boolean validRecipe = true;
         if (recipe.getTitle().equals("")) {
             view.showMissingTitleError();
@@ -346,34 +339,9 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
             validRecipe = false;
         }
 
-        if (validRecipe && !editMode) {
-            view.showLoading();
-            compositeDisposable.add(putRecipeUseCase.get().execute(new PutRecipeUseCase.Input(recipeMapper.transformToDomain(recipe)))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        if (output.getStatus() == SUCCESS) {
-                            view.finishActivity();
-                        } else {
-                            view.hideLoading();
-                            view.showErrorWhileSavingRecipe();
-                        }
-                    })
-            );
-        } else if (validRecipe && editMode) {
-            view.showLoading();
-            compositeDisposable.add(updateRecipeUseCase.get().execute(new UpdateRecipeUseCase.Input(recipeMapper.transformToDomain(recipe)))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        if (output.getStatus() == SUCCESS) {
-                            view.finishActivity();
-                        } else {
-                            view.hideLoading();
-                            view.showErrorWhileSavingRecipe();
-                        }
-                    })
-            );
+        if (validRecipe) {
+            view.navigateToAutomatedIngredientSearch(recipe);
+            view.hideLoading();
         }
     }
 

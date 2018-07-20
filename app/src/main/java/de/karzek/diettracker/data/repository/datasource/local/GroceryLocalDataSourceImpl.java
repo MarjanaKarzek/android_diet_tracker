@@ -51,4 +51,9 @@ public class GroceryLocalDataSourceImpl implements GroceryDataSource {
     public Observable<Boolean> putAllGroceries(List<GroceryEntity> groceryEntities) {
         return groceryCache.putAllGroceries(groceryEntities);
     }
+
+    @Override
+    public Observable<List<GroceryEntity>> getAllGroceriesExactlyMatching(String query) {
+        return groceryCache.getAllGroceriesExactlyMatching(query);
+    }
 }

@@ -23,4 +23,5 @@ public interface GroceryDataSource {
 
     Observable<Boolean> putAllGroceries(List<GroceryEntity> groceryEntities);
 
+    Observable<List<GroceryEntity>> getAllGroceriesExactlyMatching(String query);
 }

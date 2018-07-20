@@ -77,11 +77,6 @@ public class SplashModule {
         return new ServingDataMapper();
     }
 
-    @Provides
-    GroceryDataMapper provideGroceryDataMapper(){
-        return new GroceryDataMapper();
-    }
-
     //cache
 
     @Provides
@@ -94,11 +89,6 @@ public class SplashModule {
         return new ServingCacheImpl();
     }
 
-    @Provides
-    GroceryCache provideGroceryCacheImpl(){
-        return new GroceryCacheImpl();
-    }
-
     //repository
 
     @Provides
@@ -109,11 +99,6 @@ public class SplashModule {
     @Provides
     ServingRepository provideServingRepositoryImpl(ServingCache servingCache, ServingDataMapper mapper){
         return new ServingRepositoryImpl(servingCache, mapper);
-    }
-
-    @Provides
-    GroceryRepository provideGroceryRepositoryImpl(GroceryCache groceryCache, GroceryDataMapper mapper){
-        return new GroceryRepositoryImpl(groceryCache, mapper);
     }
 
     //domain
@@ -130,30 +115,20 @@ public class SplashModule {
         return new ServingDomainMapper();
     }
 
-    @Provides
-    GroceryDomainMapper provideGroceryDomainMapper(){
-        return new GroceryDomainMapper();
-    }
-
     //use case
 
     @Provides
-    PutAllUnitsUseCase providePutAllUnitsUseCaseImpl(UnitRepository repository, UnitDomainMapper mapper){
+    PutAllUnitsUseCase providePutAllUnitsUseCase(UnitRepository repository, UnitDomainMapper mapper){
         return new PutAllUnitsUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    PutAllServingsUseCase providePutAllServingsUseCaseImpl(ServingRepository repository, ServingDomainMapper mapper){
+    PutAllServingsUseCase providePutAllServingsUseCase(ServingRepository repository, ServingDomainMapper mapper){
         return new PutAllServingsUseCaseImpl(repository, mapper);
     }
 
     @Provides
-    PutAllGroceriesUseCase providePutAllGroceriesUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
-        return new PutAllGroceriesUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    SharedPreferencesManager provideInitializeSharedPreferencesUseCaseImpl(SharedPreferencesUtil sharedPreferencesUtil){
+    SharedPreferencesManager provideSharedPreferencesManager(SharedPreferencesUtil sharedPreferencesUtil){
         return new SharedPreferencesManagerImpl(sharedPreferencesUtil);
     }
 
@@ -169,11 +144,6 @@ public class SplashModule {
     @Provides
     ServingUIMapper provideServingUIMapper(){
         return new ServingUIMapper();
-    }
-
-    @Provides
-    GroceryUIMapper provideGroceryUIMapper(){
-        return new GroceryUIMapper();
     }
 
     @Provides

@@ -25,13 +25,6 @@ import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeS
 @Module
 public class BarcodeScannerModule {
 
-    //domain
-
-    @Provides
-    GetGroceryByBarcodeUseCase provideGetGroceryByBarcodeUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper) {
-        return new GetGroceryByBarcodeUseCaseImpl(repository, mapper);
-    }
-
     //presentation
 
     @Provides

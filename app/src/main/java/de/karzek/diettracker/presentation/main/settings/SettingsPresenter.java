@@ -185,6 +185,11 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void onMealItemDelete(int id) {
+        view.showDeleteMealConfirmDialog(id);
+    }
+
+    @Override
+    public void onMealItemDeleteConfirmed(int id) {
         compositeDisposable.add(deleteMealByIdUseCase.get().execute(new DeleteMealByIdUseCase.Input(id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

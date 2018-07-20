@@ -61,6 +61,8 @@ public interface HomeContract {
 
         void setCurrentDate(String currentDate);
 
+        void setCurrentTime(String currentTime);
+
         void onAddFoodClicked();
 
         void onAddDrinkClicked();

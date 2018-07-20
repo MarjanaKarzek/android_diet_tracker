@@ -1,10 +1,10 @@
 package de.karzek.diettracker.presentation.model;
 
-import de.karzek.diettracker.domain.model.GroceryDomainModel;
-import de.karzek.diettracker.domain.model.UnitDomainModel;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Value;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -15,7 +15,7 @@ import lombok.Value;
  */
 @Data
 @AllArgsConstructor
-public class IngredientDisplayModel {
+public class IngredientDisplayModel implements Parcelable {
     private int id;
     private GroceryDisplayModel grocery;
     private float amount;
@@ -27,4 +27,40 @@ public class IngredientDisplayModel {
         amount = 0;
         unit = null;
     }
+
+    protected IngredientDisplayModel(Parcel in) {
+        readInFromParcel(in);
+    }
+
+    protected void readInFromParcel(Parcel in) {
+        id = in.readInt();
+        grocery = (GroceryDisplayModel) in.readValue(GroceryDisplayModel.class.getClassLoader());
+        amount = in.readFloat();
+        unit = (UnitDisplayModel) in.readValue(UnitDisplayModel.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeValue(grocery);
+        dest.writeFloat(amount);
+        dest.writeValue(unit);
+    }
+
+    public static final Parcelable.Creator<IngredientDisplayModel> CREATOR = new Parcelable.Creator<IngredientDisplayModel>() {
+        @Override
+        public IngredientDisplayModel createFromParcel(Parcel in) {
+            return new IngredientDisplayModel(in);
+        }
+
+        @Override
+        public IngredientDisplayModel[] newArray(int size) {
+            return new IngredientDisplayModel[size];
+        }
+    };
 }

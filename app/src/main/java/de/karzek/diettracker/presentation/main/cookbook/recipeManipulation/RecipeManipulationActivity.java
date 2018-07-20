@@ -46,6 +46,7 @@ import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.RecipeManipulationViewListAdapter;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.adapter.itemWrapper.RecipeManipulationViewItemWrapper;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.automatedIngredientSearch.AutomatedIngredientSearchActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddIngredientDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.AddPreparationStepDialog;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.bottomSheet.ImageSelectorBottomSheetDialogFragment;
@@ -256,12 +257,12 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void startBarcodeScan() {
-        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, INVALID_ENTITY_ID, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, INVALID_ENTITY_ID, MODE_ADD_INGREDIENT, INVALID_ENTITY_ID), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
     public void startGrocerySearch() {
-        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, INVALID_ENTITY_ID, true), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, INVALID_ENTITY_ID, true, INVALID_ENTITY_ID), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -386,7 +387,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(getString(R.string.dialog_message_confirm_recipe_deletion));
-        builder.setPositiveButton(getString(R.string.dialog_action_delete_recipe), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dialog_action_delete), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 presenter.onDeleteRecipeConfirmed();
@@ -407,20 +408,23 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
+    public void navigateToAutomatedIngredientSearch(RecipeDisplayModel recipe) {
+        startActivityForResult(AutomatedIngredientSearchActivity.newIntent(this, recipe), Constants.CLOSE_SELF_RESULT);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data != null) {
             switch (requestCode) {
                 case GET_IMAGE_FROM_GALLERY_RESULT:
-                    if (data != null) {
-                        Uri contentURI = data.getData();
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                            presenter.addPhotoToRecipe(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    Uri contentURI = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                        presenter.addPhotoToRecipe(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case GET_IMAGE_FROM_CAMERA_RESULT:
@@ -438,7 +442,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                             data.getFloatExtra("amount", 0.0f));
                     break;
             }
-        }
+        } else if(requestCode == Constants.CLOSE_SELF_RESULT)
+            finish();
     }
 
     @Override

@@ -42,6 +42,7 @@ import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
 import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_SEARCH_RESULT;
+import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 import static de.karzek.diettracker.presentation.util.Constants.ZXING_CAMERA_PERMISSION;
 
 /**
@@ -71,8 +72,9 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     private String selectedDate;
     private int selectedMeal;
     private boolean ingredientSearch;
+    private int index;
 
-    public static Intent newIntent(Context context, int groceryType, String selectedDate, int selectedMeal, boolean ingredientSearch) {
+    public static Intent newIntent(Context context, int groceryType, String selectedDate, int selectedMeal, boolean ingredientSearch, int index) {
         Intent intent = new Intent(context, GrocerySearchActivity.class);
         if (!ingredientSearch) {
             intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
@@ -80,6 +82,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         }
         intent.putExtra("groceryType", groceryType);
         intent.putExtra("ingredientSearch", ingredientSearch);
+        intent.putExtra("index", index);
 
         return intent;
     }
@@ -148,6 +151,8 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
             selectedMeal = getIntent().getExtras().getInt("selectedMeal", 0);
         } else {
             ingredientSearch = true;
+            if(getIntent().getExtras().getInt("index", 0) != Constants.INVALID_ENTITY_ID)
+                index = getIntent().getExtras().getInt("index", 0);
         }
 
         initializePlaceholders(groceryType);
@@ -185,9 +190,9 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     @Override
     public void showGroceryDetails(int id) {
         if (ingredientSearch)
-            startActivityForResult(GroceryDetailsActivity.newIntent(this, id, null, null, null, MODE_ADD_INGREDIENT), Constants.ADD_INGREDIENT_INTENT_RESULT);
+            startActivityForResult(GroceryDetailsActivity.newIntent(this, id, null, null, null, MODE_ADD_INGREDIENT, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
         else
-            startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT));
+            startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT, INVALID_ENTITY_ID));
     }
 
     @Override
@@ -260,7 +265,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
         } else {
-            startActivity(BarcodeScannerActivity.newIntent(this, selectedDate, selectedMeal, MODE_SEARCH_RESULT));
+            startActivity(BarcodeScannerActivity.newIntent(this, selectedDate, selectedMeal, MODE_SEARCH_RESULT, INVALID_ENTITY_ID));
         }
     }
 
@@ -289,7 +294,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         switch (requestCode) {
             case ZXING_CAMERA_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    startActivity(BarcodeScannerActivity.newIntent(this, selectedDate, selectedMeal, MODE_SEARCH_RESULT));
+                    startActivity(BarcodeScannerActivity.newIntent(this, selectedDate, selectedMeal, MODE_SEARCH_RESULT, INVALID_ENTITY_ID));
                 else
                     Toast.makeText(this, getString(R.string.permission_grand_camera_for_barcode_scanner), Toast.LENGTH_SHORT).show();
         }
@@ -300,6 +305,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constants.ADD_INGREDIENT_INTENT_RESULT) {
             Intent intent = new Intent();
+            intent.putExtra("index", data.getIntExtra("index", Constants.INVALID_ENTITY_ID));
             intent.putExtra("groceryId", data.getIntExtra("groceryId", 0));
             intent.putExtra("amount", data.getFloatExtra("amount", 0.0f));
             intent.putExtra("unitId", data.getIntExtra("unitId", 0));

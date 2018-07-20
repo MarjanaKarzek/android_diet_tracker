@@ -46,6 +46,7 @@ import de.karzek.diettracker.presentation.util.ViewUtils;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
+import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -100,6 +101,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     HomeContract.Presenter presenter;
 
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("hh:mm:ss", Locale.GERMANY);
     private Calendar date = Calendar.getInstance();
 
     @Override
@@ -153,6 +155,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
         presenter.setView(this);
         presenter.setCurrentDate(databaseDateFormat.format(date.getTime()));
+        presenter.setCurrentTime(databaseTimeFormat.format(date.getTime()));
         presenter.start();
     }
 
@@ -191,12 +194,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void startFoodSearchActivity(int currentMealId) {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId, false));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId, false, INVALID_ENTITY_ID));
     }
 
     @Override
     public void startDrinkSearchActivity(int currentMealId) {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(date.getTime()), currentMealId, false));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(date.getTime()), currentMealId, false, INVALID_ENTITY_ID));
     }
 
     @Override

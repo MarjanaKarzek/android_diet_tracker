@@ -6,6 +6,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import timber.log.Timber;
 
 /**
  * Created by MarjanaKarzek on 20.04.2018.
@@ -18,8 +19,13 @@ import io.realm.RealmConfiguration;
 public class ConfigurationManager {
 
     public ConfigurationManager(Application application) {
+        initializeTimber();
         initializeLeakCanary(application);
         initializeRealmDatabase(application);
+    }
+
+    private static void initializeTimber() {
+        Timber.plant(new Timber.DebugTree());
     }
 
     private static void initializeLeakCanary(Application application) {

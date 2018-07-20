@@ -13,6 +13,7 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.DiaryModule
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrinkModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.GenericMealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.AutomatedIngredientSearchModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.BarcodeScannerModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodDetailsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.activityModules.FoodSearchModule;
@@ -30,11 +31,13 @@ import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModul
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.DiaryEntryModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.FavoriteRecipeModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.GroceryModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.MealModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.RecipeModule;
 import de.karzek.diettracker.presentation.main.MainActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
+import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.automatedIngredientSearch.AutomatedIngredientSearchActivity;
 import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
@@ -62,9 +65,11 @@ import de.karzek.diettracker.presentation.splash.SplashActivity;
         RecipeDetailsModule.class,
         RecipeSearchModule.class,
         RecipeEditDetailsModule.class,
+        AutomatedIngredientSearchModule.class,
         OnboardingModule.class,
         FavoriteRecipeModule.class,
         AllergenModule.class,
+        GroceryModule.class,
         RecipeModule.class,
         MealModule.class,
         DiaryEntryModule.class
@@ -108,6 +113,8 @@ public interface AppComponent {
     void inject(RecipeSearchActivity activity);
 
     void inject(RecipeEditDetailsActivity activity);
+
+    void inject(AutomatedIngredientSearchActivity activity);
 
     void inject(OnboardingActivity activity);
 

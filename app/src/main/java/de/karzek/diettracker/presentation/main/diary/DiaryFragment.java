@@ -40,6 +40,7 @@ import de.karzek.diettracker.presentation.util.ViewUtils;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
+import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 /**
  * Created by MarjanaKarzek on 12.05.2018.
@@ -203,12 +204,12 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void startFoodSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false, INVALID_ENTITY_ID));
     }
 
     @Override
     public void startDrinkSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false, INVALID_ENTITY_ID));
     }
 
     @Override

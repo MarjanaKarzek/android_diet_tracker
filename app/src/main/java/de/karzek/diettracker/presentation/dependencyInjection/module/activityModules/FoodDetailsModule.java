@@ -69,11 +69,6 @@ public class FoodDetailsModule {
     //domain
 
     @Provides
-    GetGroceryByIdUseCase provideGetGroceryByIdUseCaseImpl(GroceryRepository repository, GroceryDomainMapper mapper){
-        return new GetGroceryByIdUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
     GetAllDefaultUnitsUseCase provideGetAllDefaultUnitsUseCaseImpl(UnitRepository repository, UnitDomainMapper mapper){
         return new GetAllDefaultUnitsUseCaseImpl(repository, mapper);
     }
