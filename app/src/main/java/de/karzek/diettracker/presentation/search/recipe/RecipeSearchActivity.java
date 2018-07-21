@@ -76,7 +76,7 @@ public class RecipeSearchActivity extends BaseActivity implements RecipeSearchCo
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createRecipeSearchComponent().inject(this);
     }
 
     @Override
@@ -143,8 +143,9 @@ public class RecipeSearchActivity extends BaseActivity implements RecipeSearchCo
 
     @Override
     protected void onDestroy() {
-        presenter.finish();
         super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseRecipeSearchComponent();
     }
 
     @Override

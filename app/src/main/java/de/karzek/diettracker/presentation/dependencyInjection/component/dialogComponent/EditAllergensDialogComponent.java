@@ -1,10 +1,8 @@
 package de.karzek.diettracker.presentation.dependencyInjection.component.dialogComponent;
 
 import dagger.Subcomponent;
-import de.karzek.diettracker.presentation.dependencyInjection.module.HomeModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.dialogModules.EditAllergensDialogModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
-import de.karzek.diettracker.presentation.main.home.HomeFragment;
 import de.karzek.diettracker.presentation.main.settings.dialog.editAllergen.EditAllergensDialog;
 
 /**

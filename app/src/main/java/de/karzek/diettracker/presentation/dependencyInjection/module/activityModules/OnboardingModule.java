@@ -52,8 +52,11 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 @Module
 public class OnboardingModule {
 
+    //presentation
+
     @Provides
     OnboardingContract.Presenter provideOnboardingPresenter(SharedPreferencesManager sharedPreferencesManager) {
         return new OnboardingPresenter(sharedPreferencesManager);
     }
+
 }

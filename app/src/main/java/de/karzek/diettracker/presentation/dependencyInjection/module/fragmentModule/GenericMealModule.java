@@ -1,4 +1,4 @@
-package de.karzek.diettracker.presentation.dependencyInjection.module;
+package de.karzek.diettracker.presentation.dependencyInjection.module.fragmentModule;
 
 import dagger.Lazy;
 import dagger.Module;

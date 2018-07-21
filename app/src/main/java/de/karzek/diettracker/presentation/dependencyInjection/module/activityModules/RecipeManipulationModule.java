@@ -30,11 +30,6 @@ import de.karzek.diettracker.presentation.mapper.UnitUIMapper;
 @Module
 public class RecipeManipulationModule {
 
-    @Provides
-    GetUnitByIdUseCase provideGetUnitByIdUseCase(UnitRepository repository, UnitDomainMapper mapper){
-        return new GetUnitByIdUseCaseImpl(repository, mapper);
-    }
-
     //presentation
 
     @Provides

@@ -29,7 +29,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createSplashComponent().inject(this);
     }
 
     @Override
@@ -48,4 +48,9 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         startActivity(MainActivity.newIntent(this));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TrackerApplication.get(this).releaseSplashComponent();
+    }
 }

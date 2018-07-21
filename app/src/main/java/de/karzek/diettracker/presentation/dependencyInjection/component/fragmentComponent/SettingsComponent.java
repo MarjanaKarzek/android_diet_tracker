@@ -1,7 +1,7 @@
-package de.karzek.diettracker.presentation.dependencyInjection.component;
+package de.karzek.diettracker.presentation.dependencyInjection.component.fragmentComponent;
 
 import dagger.Subcomponent;
-import de.karzek.diettracker.presentation.dependencyInjection.module.SettingsModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.fragmentModule.SettingsModule;
 import de.karzek.diettracker.presentation.dependencyInjection.module.featureModule.AllergenModule;
 import de.karzek.diettracker.presentation.main.settings.SettingsFragment;
 

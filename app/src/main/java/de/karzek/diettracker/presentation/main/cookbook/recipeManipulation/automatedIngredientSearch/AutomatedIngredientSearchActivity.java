@@ -60,7 +60,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createAutomatedIngredientSearchComponent().inject(this);
     }
 
     @Override
@@ -237,6 +237,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
     protected void onDestroy() {
         super.onDestroy();
         presenter.finish();
+        TrackerApplication.get(this).releaseAutomatedIngredientSearchComponent();
     }
 
 }

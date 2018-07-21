@@ -71,7 +71,7 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createBarcodeScannerComponent().inject(this);
     }
 
     @Override
@@ -146,9 +146,10 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
 
     @Override
     protected void onDestroy() {
-        presenter.finish();
-        scannerView.stopCamera();
         super.onDestroy();
+        scannerView.stopCamera();
+        presenter.finish();
+        TrackerApplication.get(this).releaseBarcodeScannerComponent();
     }
 
     @Override

@@ -112,7 +112,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createRecipeManipulationComponent().inject(this);
     }
 
     @Override
@@ -486,4 +486,10 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         presenter.onOpenGalleryClicked();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseRecipeManipulationComponent();
+    }
 }

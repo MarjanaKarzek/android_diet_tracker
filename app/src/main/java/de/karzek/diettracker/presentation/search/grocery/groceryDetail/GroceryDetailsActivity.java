@@ -272,7 +272,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createGroceryDetailsComponent().inject(this);
     }
 
     @Override
@@ -567,4 +567,10 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         presenter.onDeleteDiaryEntryClicked(diaryEntryId);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseGroceryDetailsComponent();
+    }
 }

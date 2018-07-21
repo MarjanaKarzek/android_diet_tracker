@@ -64,29 +64,7 @@ import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
  * @date 29.05.2018
  */
 @Module
-public class FoodDetailsModule {
-
-    //domain
-
-    @Provides
-    GetAllDefaultUnitsUseCase provideGetAllDefaultUnitsUseCaseImpl(UnitRepository repository, UnitDomainMapper mapper){
-        return new GetAllDefaultUnitsUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    PutFavoriteGroceryUseCase providePutFavoriteGroceryUseCaseImpl(FavoriteGroceryRepository repository, FavoriteGroceryDomainMapper mapper){
-        return new PutFavoriteGroceryUseCaseImpl(repository, mapper);
-    }
-
-    @Provides
-    RemoveFavoriteGroceryByNameUseCase provideRemoveFavoriteGroceryByNameUseCaseImpl(FavoriteGroceryRepository repository){
-        return new RemoveFavoriteGroceryByNameUseCaseImpl(repository);
-    }
-
-    @Provides
-    GetFavoriteStateForGroceryIdUseCase provideGetFavoriteStateForGroceryIdUseCaseImpl(FavoriteGroceryRepository repository){
-        return new GetFavoriteStateForGroceryIdUseCaseImpl(repository);
-    }
+public class GroceryDetailsModule {
 
     //presentation
 

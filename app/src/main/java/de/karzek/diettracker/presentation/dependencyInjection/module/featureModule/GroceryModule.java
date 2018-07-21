@@ -103,7 +103,6 @@ public class GroceryModule {
         return new GetMatchingGroceriesUseCaseImpl(repository, mapper);
     }
 
-
     // presentation
 
     @Provides

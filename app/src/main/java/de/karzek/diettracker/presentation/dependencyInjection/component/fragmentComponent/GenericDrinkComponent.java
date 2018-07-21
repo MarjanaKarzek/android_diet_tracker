@@ -1,7 +1,7 @@
-package de.karzek.diettracker.presentation.dependencyInjection.component;
+package de.karzek.diettracker.presentation.dependencyInjection.component.fragmentComponent;
 
 import dagger.Subcomponent;
-import de.karzek.diettracker.presentation.dependencyInjection.module.GenericDrinkModule;
+import de.karzek.diettracker.presentation.dependencyInjection.module.fragmentModule.GenericDrinkModule;
 import de.karzek.diettracker.presentation.main.diary.drink.GenericDrinkFragment;
 
 /**

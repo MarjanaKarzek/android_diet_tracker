@@ -73,7 +73,7 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createRecipeEditDetailsComponent().inject(this);
     }
 
     @Override
@@ -222,8 +222,9 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
 
     @Override
     protected void onDestroy() {
-        presenter.finish();
         super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseRecipeEditDetailsComponent();
     }
 
 }

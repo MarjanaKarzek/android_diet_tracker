@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createMainComponent().inject(this);
     }
 
     @Override
@@ -133,8 +133,9 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
 
     @Override
     protected void onDestroy() {
-        presenter.finish();
         super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseMainComponent();
     }
 
     @Override
@@ -156,4 +157,5 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
     public void showOnboardingScreen(int onboardingTag) {
         startActivity(OnboardingActivity.newIntent(this, onboardingTag));
     }
+
 }

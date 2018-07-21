@@ -59,7 +59,7 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createRecipeDetailsComponent().inject(this);
     }
 
     @Override
@@ -180,8 +180,9 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
 
     @Override
     protected void onDestroy() {
-        presenter.finish();
         super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseRecipeDetailsComponent();
     }
 
 }

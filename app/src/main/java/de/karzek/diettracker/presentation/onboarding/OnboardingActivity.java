@@ -56,7 +56,7 @@ public class OnboardingActivity extends BaseActivity implements OnboardingContra
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createOnboardingComponent().inject(this);
     }
 
     @Override
@@ -114,5 +114,12 @@ public class OnboardingActivity extends BaseActivity implements OnboardingContra
     @Override
     public void finishSelf() {
         this.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.finish();
+        TrackerApplication.get(this).releaseOnboardingComponent();
     }
 }

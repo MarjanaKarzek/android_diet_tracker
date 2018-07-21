@@ -104,7 +104,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
 
     @Override
     protected void setupActivityComponents() {
-        TrackerApplication.get(this).getAppComponent().inject(this);
+        TrackerApplication.get(this).createGrocerySearchComponent().inject(this);
     }
 
     @Override
@@ -200,6 +200,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     protected void onDestroy() {
         presenter.finish();
         super.onDestroy();
+        TrackerApplication.get(this).releaseGrocerySearchComponent();
     }
 
     @Override
