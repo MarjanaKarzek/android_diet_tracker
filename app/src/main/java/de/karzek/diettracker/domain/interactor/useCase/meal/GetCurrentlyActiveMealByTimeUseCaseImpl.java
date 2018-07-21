@@ -29,7 +29,7 @@ public class GetCurrentlyActiveMealByTimeUseCaseImpl implements GetCurrentlyActi
     private final MealRepository repository;
     private final MealDomainMapper mapper;
 
-    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("mm:hh:00", Locale.GERMANY);
+    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.GERMANY);
 
     public GetCurrentlyActiveMealByTimeUseCaseImpl(MealRepository repository, MealDomainMapper mapper) {
         this.repository = repository;
@@ -49,8 +49,12 @@ public class GetCurrentlyActiveMealByTimeUseCaseImpl implements GetCurrentlyActi
                     Calendar currentTime = Calendar.getInstance();
 
                     try {
-                        currentTime.setTime(databaseTimeFormat.parse(input.getCurrentTime()));
-                    } catch (ParseException e) {
+                        String[] split = input.getCurrentTime().split(":");
+
+                        currentTime.set(Calendar.HOUR_OF_DAY, Integer.valueOf(split[0]));
+                        currentTime.set(Calendar.MINUTE, Integer.valueOf(split[1]));
+                        currentTime.set(Calendar.SECOND, 0);
+                    } catch (Exception e) {
                         e.printStackTrace();
                         currentlyActiveMeal = meals.get(0);
                         return new Output(mapper.transform(currentlyActiveMeal), Output.SUCCESS);
@@ -63,9 +67,17 @@ public class GetCurrentlyActiveMealByTimeUseCaseImpl implements GetCurrentlyActi
                         Calendar endTime = Calendar.getInstance();
 
                         try {
-                            startTime.setTime(databaseTimeFormat.parse(meals.get(i).getStartTime()));
-                            endTime.setTime(databaseTimeFormat.parse(meals.get(i).getEndTime()));
-                        } catch (ParseException e) {
+                            String[] split = meals.get(i).getStartTime().split(":");
+
+                            startTime.set(Calendar.HOUR_OF_DAY, Integer.valueOf(split[0]));
+                            startTime.set(Calendar.MINUTE, Integer.valueOf(split[1]));
+                            startTime.set(Calendar.SECOND, 0);
+
+                            split = meals.get(i).getEndTime().split(":");
+                            endTime.set(Calendar.HOUR_OF_DAY, Integer.valueOf(split[0]));
+                            endTime.set(Calendar.MINUTE, Integer.valueOf(split[1]));
+                            endTime.set(Calendar.SECOND, 0);
+                        } catch (Exception e) {
                             e.printStackTrace();
                             currentlyActiveMeal = meals.get(0);
                             return new Output(mapper.transform(currentlyActiveMeal), Output.SUCCESS);
@@ -78,14 +90,15 @@ public class GetCurrentlyActiveMealByTimeUseCaseImpl implements GetCurrentlyActi
                             long distanceStartTime = startTime.getTimeInMillis() - currentTime.getTimeInMillis();
                             if(distanceStartTime < 0)
                                 distanceStartTime = distanceStartTime * -1;
+
                             long distanceEndTime = endTime.getTimeInMillis() - currentTime.getTimeInMillis();
                             if(distanceEndTime < 0)
-                                distanceEndTime = distanceStartTime * -1;
+                                distanceEndTime = distanceEndTime * -1;
 
                             if(distanceEndTime < distanceStartTime)
                                 ranking.put(i, distanceEndTime);
                             else
-                                ranking.put(i, distanceEndTime);
+                                ranking.put(i, distanceStartTime);
                         }
                     }
 

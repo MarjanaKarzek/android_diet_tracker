@@ -101,7 +101,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     HomeContract.Presenter presenter;
 
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
-    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("hh:mm:ss", Locale.GERMANY);
+    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.GERMANY);
     private Calendar date = Calendar.getInstance();
 
     @Override

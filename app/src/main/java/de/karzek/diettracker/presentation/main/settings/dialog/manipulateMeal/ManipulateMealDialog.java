@@ -61,7 +61,7 @@ public class ManipulateMealDialog extends AppCompatDialogFragment {
     private Calendar startTimeCalendar = Calendar.getInstance();
     private Calendar endTimeCalendar = Calendar.getInstance();
 
-    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("mm:hh:00", Locale.GERMANY);
+    private SimpleDateFormat databaseTimeFormat = new SimpleDateFormat("HH:mm:ss", Locale.GERMANY);
 
     private AddMealFromDialogListener addListener;
     private SaveMealFromDialogListener saveListener;

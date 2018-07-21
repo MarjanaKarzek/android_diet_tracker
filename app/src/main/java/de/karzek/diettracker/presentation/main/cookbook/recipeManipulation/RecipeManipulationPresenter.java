@@ -314,7 +314,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(output2 -> {
-                                                    units.addAll(unitMapper.transformAll(output.getUnitList()));
+                                                    units.addAll(unitMapper.transformAll(output2.getUnitList()));
                                                     view.openEditManualIngredient(id, (ManualIngredientDisplayModel) recipe.getIngredients().get(id), units);
                                                 }
                                         );
