@@ -22,8 +22,6 @@ import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDe
 import de.karzek.diettracker.presentation.util.Constants;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
-import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_SEARCH_RESULT;
 import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 /**
@@ -46,19 +44,28 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
     private String selectedDate;
     private int selectedMeal;
     private int mode;
-    private int index;
+    private int ingredientIndex;
 
-    //todo split into multiple newAddIntent methods
-    public static Intent newIntent(Context context, String selectedDate, int selectedMeal, int mode, int index) {
+    public static Intent newGrocerySearchIntent(Context context, String selectedDate, int selectedMeal){
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
-        intent.putExtra("mode", mode);
-        intent.putExtra("index", index);
 
-        if (mode != MODE_ADD_INGREDIENT) {
-            intent.putExtra("selectedDate", selectedDate);
-            intent.putExtra("selectedMeal", selectedMeal);
-        }
+        intent.putExtra("mode", SearchMode.MODE_GROCERY_SEARCH);
+        intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
+        intent.putExtra("selectedMeal", selectedMeal);
 
+        return intent;
+    }
+
+    public static Intent newIngredientSearchIntent(Context context){
+        Intent intent = new Intent(context, BarcodeScannerActivity.class);
+        intent.putExtra("mode", SearchMode.MODE_INGREDIENT_SEARCH);
+        return intent;
+    }
+
+    public static Intent newReplaceIngredientSearchIntent(Context context, int ingredientIndex){
+        Intent intent = new Intent(context, BarcodeScannerActivity.class);
+        intent.putExtra("mode", SearchMode.MODE_REPLACE_INGREDIENT_SEARCH);
+        intent.putExtra("ingredientIndex", ingredientIndex);
         return intent;
     }
 
@@ -74,10 +81,16 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
         ButterKnife.bind(this);
 
         mode = getIntent().getExtras().getInt("mode");
-        index = getIntent().getExtras().getInt("index");
-        if (mode != MODE_ADD_INGREDIENT) {
-            selectedDate = getIntent().getExtras().getString("selectedDate");
-            selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+        switch (mode){
+            case SearchMode.MODE_GROCERY_SEARCH:
+                selectedDate = getIntent().getExtras().getString("selectedDate");
+                selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+                break;
+            case SearchMode.MODE_INGREDIENT_SEARCH:
+                break;
+            case SearchMode.MODE_REPLACE_INGREDIENT_SEARCH:
+                ingredientIndex = getIntent().getExtras().getInt("ingredientIndex");
+                break;
         }
 
         scannerView.setResultHandler(this);
@@ -94,10 +107,17 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
 
     @Override
     public void startDetailsActivity(int id) {
-        if (mode == MODE_ADD_INGREDIENT)
-            startActivityForResult(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_ADD_INGREDIENT, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
-        else
-            startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT, index));
+        switch (mode){
+            case SearchMode.MODE_GROCERY_SEARCH:
+                startActivity(GroceryDetailsActivity.newGrocerySearchIntent(this, id, selectedDate, selectedMeal));
+                break;
+            case SearchMode.MODE_INGREDIENT_SEARCH:
+                startActivityForResult(GroceryDetailsActivity.newIngredientSearchIntent(this, id), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
+                break;
+            case SearchMode.MODE_REPLACE_INGREDIENT_SEARCH:
+                startActivityForResult(GroceryDetailsActivity.newReplaceIngredientSearchIntent(this, id, ingredientIndex), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
+                break;
+        }
     }
 
     @Override
@@ -134,13 +154,13 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Constants.ADD_INGREDIENT_INTENT_RESULT) {
+        if (resultCode == Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT) {
             Intent intent = new Intent();
-            intent.putExtra("index", data.getIntExtra("index", INVALID_ENTITY_ID));
+            intent.putExtra("ingredientIndex", data.getIntExtra("ingredientIndex", INVALID_ENTITY_ID));
             intent.putExtra("groceryId", data.getIntExtra("groceryId", 0));
             intent.putExtra("amount", data.getFloatExtra("amount", 0.0f));
             intent.putExtra("unitId", data.getIntExtra("unitId", 0));
-            setResult(Constants.ADD_INGREDIENT_INTENT_RESULT, intent);
+            setResult(Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT, intent);
             finish();
         }
     }

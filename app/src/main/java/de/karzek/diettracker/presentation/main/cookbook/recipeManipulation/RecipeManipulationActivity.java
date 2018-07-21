@@ -64,7 +64,6 @@ import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDe
 import de.karzek.diettracker.presentation.util.Constants;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
-import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
 import static de.karzek.diettracker.presentation.util.Constants.CAMERA_PERMISSION;
 import static de.karzek.diettracker.presentation.util.Constants.GET_IMAGE_FROM_CAMERA_RESULT;
 import static de.karzek.diettracker.presentation.util.Constants.GET_IMAGE_FROM_GALLERY_RESULT;
@@ -97,7 +96,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     public static Intent newAddIntent(Context context) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
-        intent.putExtra("mode", MODE_ADD_RECIPE);
+        intent.putExtra("mode", RecipeManipulationMode.MODE_ADD_RECIPE);
 
         return intent;
     }
@@ -105,7 +104,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public static Intent newEditIntent(Context context, int recipeId) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
 
-        intent.putExtra("mode", MODE_EDIT_RECIPE);
+        intent.putExtra("mode", RecipeManipulationMode.MODE_EDIT_RECIPE);
         intent.putExtra("recipeId", recipeId);
 
         return intent;
@@ -136,9 +135,9 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         setupTitleSetListener();
 
         mode = getIntent().getExtras().getInt("mode");
-        if (mode == MODE_ADD_RECIPE) {
+        if (mode == RecipeManipulationMode.MODE_ADD_RECIPE) {
             presenter.start();
-        } else if (mode == MODE_EDIT_RECIPE) {
+        } else if (mode == RecipeManipulationMode.MODE_EDIT_RECIPE) {
             presenter.startEditMode(getIntent().getExtras().getInt("recipeId"));
         }
     }
@@ -252,7 +251,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.MEAL_LIST, displayModel.getMeals()));
 
         views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_SAVE_VIEW));
-        if (mode == MODE_EDIT_RECIPE)
+        if (mode == RecipeManipulationMode.MODE_EDIT_RECIPE)
             views.add(new RecipeManipulationViewItemWrapper(RecipeManipulationViewItemWrapper.ItemType.RECIPE_DELETE_VIEW));
 
         ((RecipeManipulationViewListAdapter) recyclerView.getAdapter()).setList(views);
@@ -260,12 +259,12 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void startBarcodeScan() {
-        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, INVALID_ENTITY_ID, MODE_ADD_INGREDIENT, INVALID_ENTITY_ID), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(BarcodeScannerActivity.newIngredientSearchIntent(this), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
     public void startGrocerySearch() {
-        startActivityForResult(GrocerySearchActivity.newIngredientSearchIntent(this, TYPE_COMBINED), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIngredientSearchIntent(this, TYPE_COMBINED), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -356,8 +355,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
-    public void openEditIngredient(IngredientDisplayModel displayModel) {
-        startActivityForResult(GroceryDetailsActivity.newEditIngredientIntent(this, displayModel), Constants.EDIT_INGREDIENT_INTENT_RESULT);
+    public void openEditIngredient(int index, IngredientDisplayModel displayModel) {
+        startActivityForResult(GroceryDetailsActivity.newEditIngredientIntent(this, index, displayModel), Constants.EDIT_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -438,7 +437,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                     presenter.addPhotoToRecipe(bitmap);
                 }
                 break;
-            case Constants.ADD_INGREDIENT_INTENT_RESULT:
+            case Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT:
                 if (data != null) {
                     presenter.addIngredient(data.getIntExtra("groceryId", 0),
                             data.getFloatExtra("amount", 0.0f),

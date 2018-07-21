@@ -287,7 +287,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onIngredientClicked(int id) {
-        view.openEditIngredient(recipe.getIngredients().get(id));
+        view.openEditIngredient(id, recipe.getIngredients().get(id));
     }
 
     @Override

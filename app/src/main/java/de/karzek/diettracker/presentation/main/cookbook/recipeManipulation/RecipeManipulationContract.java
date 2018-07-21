@@ -68,7 +68,7 @@ public interface RecipeManipulationContract {
 
         void openEditManualIngredient(int id, ManualIngredientDisplayModel displayModel, ArrayList<UnitDisplayModel> units);
 
-        void openEditIngredient(IngredientDisplayModel displayModel);
+        void openEditIngredient(int index, IngredientDisplayModel displayModel);
 
         void showMissingTitleError();
 
@@ -86,11 +86,11 @@ public interface RecipeManipulationContract {
 
         void navigateToAutomatedIngredientSearch(RecipeDisplayModel recipe);
 
-        int MODE_ADD_RECIPE = 0;
-        int MODE_EDIT_RECIPE = 1;
-
-        @IntDef({MODE_ADD_RECIPE, MODE_EDIT_RECIPE})
+        @IntDef({RecipeManipulationMode.MODE_ADD_RECIPE,
+                RecipeManipulationMode.MODE_EDIT_RECIPE})
         @interface RecipeManipulationMode {
+            int MODE_ADD_RECIPE = 0;
+            int MODE_EDIT_RECIPE = 1;
         }
     }
 

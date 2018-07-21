@@ -35,7 +35,6 @@ import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeS
 import de.karzek.diettracker.presentation.util.Constants;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
-import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
 import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 public class AutomatedIngredientSearchActivity extends BaseActivity implements AutomatedIngredientSearchContract.View {
@@ -135,12 +134,12 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
 
     @Override
     public void startGrocerySearch(int index) {
-        startActivityForResult(GrocerySearchActivity.newIngredientReplaceIntent(this, TYPE_COMBINED, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIngredientReplaceIntent(this, TYPE_COMBINED, index), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
     public void startBarcodeScan(int index) {
-        startActivityForResult(BarcodeScannerActivity.newIntent(this, null, INVALID_ENTITY_ID, MODE_ADD_INGREDIENT, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(BarcodeScannerActivity.newReplaceIngredientSearchIntent(this, index), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -224,7 +223,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
 
         if (data != null) {
             switch (requestCode) {
-                case Constants.ADD_INGREDIENT_INTENT_RESULT:
+                case Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT:
                     presenter.replaceIngredient(data.getIntExtra("index", 0),
                             data.getIntExtra("groceryId", 0),
                             data.getFloatExtra("amount", 0.0f),

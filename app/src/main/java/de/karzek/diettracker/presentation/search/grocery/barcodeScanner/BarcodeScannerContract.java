@@ -1,5 +1,7 @@
 package de.karzek.diettracker.presentation.search.grocery.barcodeScanner;
 
+import android.support.annotation.IntDef;
+
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
@@ -33,6 +35,15 @@ public interface BarcodeScannerContract {
         void hideLoading();
 
         void showNoResultsDialog();
+
+        @IntDef({SearchMode.MODE_GROCERY_SEARCH,
+                SearchMode.MODE_INGREDIENT_SEARCH,
+                SearchMode.MODE_REPLACE_INGREDIENT_SEARCH})
+        @interface SearchMode {
+            int MODE_GROCERY_SEARCH = 0;
+            int MODE_INGREDIENT_SEARCH = 1;
+            int MODE_REPLACE_INGREDIENT_SEARCH = 2;
+        }
     }
 
     interface Presenter extends BasePresenter<View> {

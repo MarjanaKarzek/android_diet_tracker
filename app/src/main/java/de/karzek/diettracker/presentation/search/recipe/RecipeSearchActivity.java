@@ -30,22 +30,9 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
-import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
-import de.karzek.diettracker.presentation.search.grocery.adapter.GrocerySearchResultListAdapter;
-import de.karzek.diettracker.presentation.search.grocery.adapter.itemWrapper.GrocerySearchResultItemWrapper;
-import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
-import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.search.recipe.adapter.RecipeSearchResultListAdapter;
 import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.RecipeEditDetailsActivity;
-import de.karzek.diettracker.presentation.util.Constants;
-
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
-import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_ADD_INGREDIENT;
-import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.MODE_SEARCH_RESULT;
-import static de.karzek.diettracker.presentation.util.Constants.ZXING_CAMERA_PERMISSION;
 
 /**
  * Created by MarjanaKarzek on 29.05.2018.

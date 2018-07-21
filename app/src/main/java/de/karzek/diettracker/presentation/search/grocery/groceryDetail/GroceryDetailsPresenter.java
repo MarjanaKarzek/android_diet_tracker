@@ -160,7 +160,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     }
 
     @Override
-    public void startEditMode(int diaryEntryId) {
+    public void startEditDiaryEntryMode(int diaryEntryId) {
         if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
             view.showNutritionDetails(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY);
         } else {

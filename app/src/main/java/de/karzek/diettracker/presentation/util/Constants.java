@@ -26,7 +26,7 @@ public class Constants {
     public static final int GET_IMAGE_FROM_GALLERY_RESULT = 2001;
     public static final int GET_IMAGE_FROM_CAMERA_RESULT = 2002;
 
-    public static final int ADD_INGREDIENT_INTENT_RESULT = 2003;
+    public static final int ADD_REPLACE_INGREDIENT_INTENT_RESULT = 2003;
     public static final int EDIT_INGREDIENT_INTENT_RESULT = 2004;
 
     public static final int CLOSE_SELF_RESULT = 2005;

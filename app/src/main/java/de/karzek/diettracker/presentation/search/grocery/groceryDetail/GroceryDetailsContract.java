@@ -58,6 +58,19 @@ public interface GroceryDetailsContract {
         void finishView();
 
         void prepareEditIngredientMode(float amount);
+
+        @IntDef({DetailsMode.MODE_GROCERY_SEARCH,
+                DetailsMode.MODE_INGREDIENT_SEARCH,
+                DetailsMode.MODE_REPLACE_INGREDIENT_SEARCH,
+                DetailsMode.MODE_EDIT_DIARY_ENTRY,
+                DetailsMode.MODE_EDIT_INGREDIENT })
+        @interface DetailsMode {
+            int MODE_GROCERY_SEARCH = 0;
+            int MODE_INGREDIENT_SEARCH = 1;
+            int MODE_REPLACE_INGREDIENT_SEARCH = 2;
+            int MODE_EDIT_DIARY_ENTRY = 3;
+            int MODE_EDIT_INGREDIENT = 4;
+        }
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -76,7 +89,7 @@ public interface GroceryDetailsContract {
 
         void checkFavoriteState(int groceryId);
 
-        void startEditMode(int diaryEntryId);
+        void startEditDiaryEntryMode(int diaryEntryId);
 
         void startAddIngredientMode(int groceryId);
 
@@ -84,15 +97,5 @@ public interface GroceryDetailsContract {
 
         void startEditIngredientMode(float amount);
 
-    }
-
-    @DetailsMode
-    int MODE_SEARCH_RESULT = 0;
-    int MODE_EDIT_DIARY_ENTRY = 1;
-    int MODE_EDIT_INGREDIENT = 2;
-    int MODE_ADD_INGREDIENT = 3;
-
-    @IntDef({MODE_SEARCH_RESULT, MODE_EDIT_DIARY_ENTRY, MODE_EDIT_INGREDIENT, MODE_ADD_INGREDIENT})
-    @interface DetailsMode {
     }
 }
