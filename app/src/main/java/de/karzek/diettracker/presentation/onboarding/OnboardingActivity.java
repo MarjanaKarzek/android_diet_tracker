@@ -50,6 +50,7 @@ public class OnboardingActivity extends BaseActivity implements OnboardingContra
     public static Intent newIntent(Context context, int onboardingTag) {
         Intent intent = new Intent(context, OnboardingActivity.class);
         intent.putExtra("onboardingTag", onboardingTag);
+
         return intent;
     }
 
@@ -64,7 +65,7 @@ public class OnboardingActivity extends BaseActivity implements OnboardingContra
         setContentView(R.layout.activity_onboarding);
         ButterKnife.bind(this);
 
-        onboardingTag = getIntent().getIntExtra("onboardingTag", 0);
+        onboardingTag = getIntent().getIntExtra("onboardingTag", ONBOARDING_WELCOME);
         setupInformation();
 
         presenter.setView(this);

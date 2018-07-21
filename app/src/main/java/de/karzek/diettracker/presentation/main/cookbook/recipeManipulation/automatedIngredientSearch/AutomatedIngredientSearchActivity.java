@@ -135,7 +135,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
 
     @Override
     public void startGrocerySearch(int index) {
-        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, INVALID_ENTITY_ID, true, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIngredientReplaceIntent(this, TYPE_COMBINED, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override

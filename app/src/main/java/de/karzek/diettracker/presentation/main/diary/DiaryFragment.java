@@ -208,14 +208,14 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public void startFoodSearchActivity() {
         if(viewPager.getCurrentItem() < meals.size())
-            startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(viewPager.getCurrentItem()).getId(), false, INVALID_ENTITY_ID));
+            startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(viewPager.getCurrentItem()).getId()));
         else
-            startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(0).getId(), false, INVALID_ENTITY_ID));
+            startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(0).getId()));
     }
 
     @Override
     public void startDrinkSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), INVALID_ENTITY_ID, false, INVALID_ENTITY_ID));
+        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), INVALID_ENTITY_ID));
     }
 
     @Override

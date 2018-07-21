@@ -97,7 +97,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     public static Intent newAddIntent(Context context) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
-        intent.putExtra("mode", MODE_EDIT_RECIPE);
+        intent.putExtra("mode", MODE_ADD_RECIPE);
 
         return intent;
     }
@@ -265,7 +265,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void startGrocerySearch() {
-        startActivityForResult(GrocerySearchActivity.newIntent(this, TYPE_COMBINED, null, INVALID_ENTITY_ID, true, INVALID_ENTITY_ID), Constants.ADD_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIngredientSearchIntent(this, TYPE_COMBINED), Constants.ADD_INGREDIENT_INTENT_RESULT);
     }
 
     @Override

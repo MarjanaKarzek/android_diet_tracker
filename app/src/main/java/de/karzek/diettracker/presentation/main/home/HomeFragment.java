@@ -194,12 +194,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void startFoodSearchActivity(int currentMealId) {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId, false, INVALID_ENTITY_ID));
+        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId));
     }
 
     @Override
     public void startDrinkSearchActivity(int currentMealId) {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(date.getTime()), currentMealId, false, INVALID_ENTITY_ID));
+        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(date.getTime()), INVALID_ENTITY_ID));
     }
 
     @Override

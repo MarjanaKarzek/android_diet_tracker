@@ -71,10 +71,36 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     private String noFavoritesPlaceholder;
     private String selectedDate;
     private int selectedMeal;
-    private boolean ingredientSearch;
-    private int index;
+    private int ingredientIndex;
+    private int mode;
 
-    public static Intent newIntent(Context context, int groceryType, String selectedDate, int selectedMeal, boolean ingredientSearch, int index) {
+    public static Intent newGrocerySearchIntent(Context context, int groceryType, String selectedDate, int selectedMeal){
+        Intent intent = new Intent(context, GrocerySearchActivity.class);
+
+        intent.putExtra("mode", SearchMode.MODE_GROCERY_SEARCH);
+        intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
+        intent.putExtra("selectedMeal", selectedMeal);
+        intent.putExtra("groceryType", groceryType);
+
+        return intent;
+    }
+
+    public static Intent newIngredientSearchIntent(Context context, int groceryType){
+        Intent intent = new Intent(context, GrocerySearchActivity.class);
+        intent.putExtra("mode", SearchMode.MODE_INGREDIENT_SEARCH);
+        intent.putExtra("groceryType", groceryType);
+        return intent;
+    }
+
+    public static Intent newIngredientReplaceIntent(Context context, int groceryType, int ingredientIndex){
+        Intent intent = new Intent(context, GrocerySearchActivity.class);
+        intent.putExtra("mode", SearchMode.MODE_REPLACE_INGREDIENT_SEARCH);
+        intent.putExtra("groceryType", groceryType);
+        intent.putExtra("ingredientIndex", ingredientIndex);
+        return intent;
+    }
+
+    /*public static Intent newIntent(Context context, int groceryType, String selectedDate, int selectedMeal, boolean ingredientSearch, int index) {
         Intent intent = new Intent(context, GrocerySearchActivity.class);
         if (!ingredientSearch) {
             intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
@@ -85,7 +111,7 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         intent.putExtra("index", index);
 
         return intent;
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -144,15 +170,21 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         setContentView(R.layout.activity_grocery_search);
         ButterKnife.bind(this);
 
-        groceryType = getIntent().getExtras().getInt("groceryType", 0);
-        if (groceryType != TYPE_COMBINED) {
-            groceryType = getIntent().getExtras().getInt("groceryType", 0);
-            selectedDate = getIntent().getExtras().getString("selectedDate", "");
-            selectedMeal = getIntent().getExtras().getInt("selectedMeal", 0);
-        } else {
-            ingredientSearch = true;
-            if(getIntent().getExtras().getInt("index", 0) != Constants.INVALID_ENTITY_ID)
-                index = getIntent().getExtras().getInt("index", 0);
+        mode = getIntent().getExtras().getInt("mode", SearchMode.MODE_GROCERY_SEARCH);
+
+        switch (mode){
+            case SearchMode.MODE_GROCERY_SEARCH:
+                selectedDate = getIntent().getExtras().getString("selectedDate");
+                selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+                groceryType = getIntent().getExtras().getInt("groceryType");
+                break;
+            case SearchMode.MODE_INGREDIENT_SEARCH:
+                groceryType = getIntent().getExtras().getInt("groceryType");
+                break;
+            case SearchMode.MODE_REPLACE_INGREDIENT_SEARCH:
+                groceryType = getIntent().getExtras().getInt("groceryType");
+                ingredientIndex = getIntent().getExtras().getInt("ingredientIndex");
+                break;
         }
 
         initializePlaceholders(groceryType);
@@ -189,10 +221,17 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
 
     @Override
     public void showGroceryDetails(int id) {
-        if (ingredientSearch)
-            startActivityForResult(GroceryDetailsActivity.newIntent(this, id, null, null, null, MODE_ADD_INGREDIENT, index), Constants.ADD_INGREDIENT_INTENT_RESULT);
-        else
-            startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT, INVALID_ENTITY_ID));
+        switch (mode){
+            case SearchMode.MODE_GROCERY_SEARCH:
+                startActivity(GroceryDetailsActivity.newIntent(this, id, selectedDate, selectedMeal, null, MODE_SEARCH_RESULT, INVALID_ENTITY_ID));
+                break;
+            case SearchMode.MODE_INGREDIENT_SEARCH:
+                startActivityForResult(GroceryDetailsActivity.newIntent(this, id, null, null, null, MODE_ADD_INGREDIENT, ingredientIndex), Constants.ADD_INGREDIENT_INTENT_RESULT);
+                break;
+            case SearchMode.MODE_REPLACE_INGREDIENT_SEARCH:
+                startActivityForResult(GroceryDetailsActivity.newIntent(this, id, null, null, null, MODE_ADD_INGREDIENT, ingredientIndex), Constants.ADD_INGREDIENT_INTENT_RESULT);
+                break;
+        }
     }
 
     @Override
