@@ -111,15 +111,26 @@ public class SplashPresenter implements SplashContract.Presenter {
         //servings
         ServingDisplayModel brokkoli_0 = new ServingDisplayModel(0, "kleiner Kopf", 150, unit_g);
         ServingDisplayModel paprika_0 = new ServingDisplayModel(1, "kleine Paprika", 100, unit_g);
+        ServingDisplayModel apple_0 = new ServingDisplayModel(2, "kleiner Apfel", 100, unit_g);
+        ServingDisplayModel apple_1 = new ServingDisplayModel(3, "großer Apfel", 200, unit_g);
+        ServingDisplayModel apple_2 = new ServingDisplayModel(4, "halber Apfel", 65, unit_g);
 
         servings.add(brokkoli_0);
         servings.add(paprika_0);
+        servings.add(apple_0);
+        servings.add(apple_1);
+        servings.add(apple_2);
 
         ArrayList<ServingDisplayModel> brokkoliServings = new ArrayList<>();
         brokkoliServings.add(brokkoli_0);
 
         ArrayList<ServingDisplayModel> paprikaServings = new ArrayList<>();
         paprikaServings.add(paprika_0);
+
+        ArrayList<ServingDisplayModel> appleServings = new ArrayList<>();
+        appleServings.add(apple_0);
+        appleServings.add(apple_1);
+        appleServings.add(apple_2);
 
         //allergens
         AllergenDisplayModel eggs = new AllergenDisplayModel(0, "Eier");
@@ -157,6 +168,9 @@ public class SplashPresenter implements SplashContract.Presenter {
         ArrayList<AllergenDisplayModel> colaAllergens = new ArrayList<>();
         colaAllergens.add(fructose);
 
+        ArrayList<AllergenDisplayModel> appleAllergens = new ArrayList<>();
+        appleAllergens.add(fructose);
+
         ArrayList<AllergenDisplayModel> tilsiterAllergens = new ArrayList<>();
         tilsiterAllergens.add(lactose);
 
@@ -169,7 +183,7 @@ public class SplashPresenter implements SplashContract.Presenter {
         groceries.add(new GroceryDisplayModel(4, "0", "Coca Cola", 0.42f, 0.0f, 0.106f, 0.0f, TYPE_DRINK, TYPE_LIQUID, colaAllergens, new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(5, "29065806", "Tilsiter (Hofburger)", 3.52f, 0.25f, 0.001f, 0.28f, TYPE_FOOD, TYPE_SOLID, tilsiterAllergens, new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(6, "20462321", "Tex Mex (EL TEQUITO)", 1.31f, 0.04f, 0.15f, 0.05f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
-        groceries.add(new GroceryDisplayModel(7, "0", "Apfel", 0.54f, 0.003f, 0.144f, 0.001f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
+        groceries.add(new GroceryDisplayModel(7, "0", "Apfel", 0.54f, 0.003f, 0.144f, 0.001f, TYPE_FOOD, TYPE_SOLID, appleAllergens, appleServings));
         groceries.add(new GroceryDisplayModel(8, "0", "Butter", 7.41f, 0.007f, 0.006f, 0.83f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(9, "0", "Zucker", 4.0f, 0.f, 1.f, 0.f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));
         groceries.add(new GroceryDisplayModel(10, "0", "Vanillezucker", 4.05f, 0.f, 0.998f, 0.f, TYPE_FOOD, TYPE_SOLID, new ArrayList<>(), new ArrayList<>()));

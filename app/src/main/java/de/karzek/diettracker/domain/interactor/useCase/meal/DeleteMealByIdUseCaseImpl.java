@@ -16,11 +16,9 @@ import io.reactivex.Observable;
 public class DeleteMealByIdUseCaseImpl implements DeleteMealByIdUseCase {
 
     private final MealRepository repository;
-    private final MealDomainMapper mapper;
 
-    public DeleteMealByIdUseCaseImpl(MealRepository repository, MealDomainMapper mapper) {
+    public DeleteMealByIdUseCaseImpl(MealRepository repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     @Override

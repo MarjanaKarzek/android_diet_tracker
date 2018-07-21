@@ -24,7 +24,7 @@
             android:background="@drawable/bg_button_accent"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
-            android:src="@drawable/ic_move_white" />
+            android:src="@drawable/ic_book_closed_white" />
 
         <ImageButton
             android:id="@+id/swipe_option_edit"

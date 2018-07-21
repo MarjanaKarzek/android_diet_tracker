@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
  * Created by MarjanaKarzek on 07.06.2018.
@@ -38,7 +39,8 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
 
     private View view;
     private int id;
-    private ArrayList<String> meals;
+    private ArrayList<MealDisplayModel> meals;
+    private ArrayList<String> mealNames = new ArrayList<>();
 
     private MealSelectedInDialogListener listener;
 
@@ -52,9 +54,15 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             id = bundle.getInt("id");
-            meals = bundle.getStringArrayList("meals");
-            if (bundle.getString("instructions") != null)
+            meals = bundle.getParcelableArrayList("meals");
+
+            for(MealDisplayModel meal: meals)
+                mealNames.add(meal.getName());
+
+            if (bundle.getString("instructions") != null) {
                 instructions.setText(bundle.getString("instructions"));
+                move.setText(getString(R.string.dialog_action_add));
+            }
             initializeSpinner();
         }
 
@@ -68,9 +76,8 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
         move.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int selectedMealId = spinner.getSelectedItemPosition();
                 dismiss();
-                listener.mealSelectedInDialog(id, selectedMealId);
+                listener.mealSelectedInDialog(id, meals.get(spinner.getSelectedItemPosition()));
             }
         });
 
@@ -78,7 +85,7 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
     }
 
     private void initializeSpinner() {
-        ArrayAdapter<String> mealAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, meals);
+        ArrayAdapter<String> mealAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, mealNames);
         mealAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(mealAdapter);
     }
@@ -95,6 +102,6 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
     }
 
     public interface MealSelectedInDialogListener {
-        void mealSelectedInDialog(int id, int mealId);
+        void mealSelectedInDialog(int id, MealDisplayModel meal);
     }
 }

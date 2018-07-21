@@ -51,7 +51,7 @@ public interface GenericMealContract {
 
         void refreshRecyclerView();
 
-        void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> allMeals, ArrayList<String> meals);
+        void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> meals);
 
         void startEditMode(int id);
 

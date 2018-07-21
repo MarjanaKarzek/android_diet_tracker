@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import dagger.Lazy;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllergenByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteAllDiaryEntriesMatchingMealIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.DeleteMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
@@ -40,6 +42,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     private Lazy<GetMealByIdUseCase> getMealByIdUseCase;
     private Lazy<UpdateMealUseCase> updateMealUseCase;
     private Lazy<PutMealUseCase> putMealUseCase;
+    private Lazy<DeleteAllDiaryEntriesMatchingMealIdUseCase> deleteAllDiaryEntriesMatchingMealIdUseCase;
     private Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase;
 
     private MealUIMapper mealMapper;
@@ -56,6 +59,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
                              Lazy<GetMealByIdUseCase> getMealByIdUseCase,
                              Lazy<UpdateMealUseCase> updateMealUseCase,
                              Lazy<PutMealUseCase> putMealUseCase,
+                             Lazy<DeleteAllDiaryEntriesMatchingMealIdUseCase> deleteAllDiaryEntriesMatchingMealIdUseCase,
                              Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase,
                              MealUIMapper mealMapper,
                              AllergenUIMapper allergenMapper) {
@@ -67,6 +71,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         this.getMealByIdUseCase = getMealByIdUseCase;
         this.updateMealUseCase = updateMealUseCase;
         this.putMealUseCase = putMealUseCase;
+        this.deleteAllDiaryEntriesMatchingMealIdUseCase = deleteAllDiaryEntriesMatchingMealIdUseCase;
         this.deleteMealByIdUseCase = deleteMealByIdUseCase;
 
         this.mealMapper = mealMapper;
@@ -81,7 +86,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         getAllMeals();
         updateAllergens();
 
-        if(!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_DISPLAY_SETTINGS))
+        if (!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_DISPLAY_SETTINGS))
             view.showOnboardingScreen(ONBOARDING_DISPLAY_SETTINGS);
     }
 
@@ -190,11 +195,17 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void onMealItemDeleteConfirmed(int id) {
-        compositeDisposable.add(deleteMealByIdUseCase.get().execute(new DeleteMealByIdUseCase.Input(id))
+        compositeDisposable.add(deleteAllDiaryEntriesMatchingMealIdUseCase.get().execute(new DeleteAllDiaryEntriesMatchingMealIdUseCase.Input(id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-                    getAllMeals();
+                    deleteMealByIdUseCase.get().execute(new DeleteMealByIdUseCase.Input(id))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(output2 -> {
+                                        getAllMeals();
+                                    }
+                            );
                 }));
     }
 }

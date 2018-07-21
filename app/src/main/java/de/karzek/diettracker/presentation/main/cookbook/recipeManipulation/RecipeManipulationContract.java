@@ -64,7 +64,7 @@ public interface RecipeManipulationContract {
 
         void showAddPreparationStepDialog();
 
-        void openEditMealsDialog(ArrayList<Integer> selectedMeals);
+        void openEditMealsDialog(ArrayList<MealDisplayModel> selectedMeals);
 
         void openEditManualIngredient(int id, ManualIngredientDisplayModel displayModel, ArrayList<UnitDisplayModel> units);
 
@@ -75,8 +75,6 @@ public interface RecipeManipulationContract {
         void showMissingIngredientsError();
 
         void finishActivity();
-
-        void showErrorWhileSavingRecipe();
 
         void setRecipeTitle(String title);
 

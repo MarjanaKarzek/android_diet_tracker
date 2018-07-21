@@ -74,6 +74,8 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     OnDateSelectedListener callback;
 
+    private ArrayList<MealDisplayModel> meals;
+
     public interface OnDateSelectedListener {
         void onDateSelected(String databaseDateFormat);
     }
@@ -173,6 +175,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void setupViewPager(ArrayList<MealDisplayModel> meals) {
+        this.meals = meals;
         DiaryViewPagerAdapter adapter = new DiaryViewPagerAdapter(getFragmentManager());
 
         for (MealDisplayModel meal : meals) {
@@ -204,12 +207,15 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
 
     @Override
     public void startFoodSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false, INVALID_ENTITY_ID));
+        if(viewPager.getCurrentItem() < meals.size())
+            startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(viewPager.getCurrentItem()).getId(), false, INVALID_ENTITY_ID));
+        else
+            startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(0).getId(), false, INVALID_ENTITY_ID));
     }
 
     @Override
     public void startDrinkSearchActivity() {
-        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), viewPager.getCurrentItem(), false, INVALID_ENTITY_ID));
+        startActivity(GrocerySearchActivity.newIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), INVALID_ENTITY_ID, false, INVALID_ENTITY_ID));
     }
 
     @Override

@@ -3,17 +3,11 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dial
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
-import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
-import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
-import de.karzek.diettracker.presentation.mapper.AllergenUIMapper;
 import de.karzek.diettracker.presentation.mapper.MealUIMapper;
-import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
-import de.karzek.diettracker.presentation.util.Constants;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -32,7 +26,7 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
     private EditMealsDialogContract.View view;
 
     private ArrayList<MealDisplayModel> meals = new ArrayList<>();
-    private ArrayList<Integer> selectedMeals = new ArrayList<>();
+    private ArrayList<MealDisplayModel> selectedMeals = new ArrayList<>();
     private HashMap<Integer, Boolean> mealStatus = new HashMap<>();
 
     private GetAllMealsUseCase getAllMealsUseCase;
@@ -59,7 +53,7 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
 
                     Observable.fromArray(selectedMeals.toArray())
                             .concatMap(item -> {
-                                mealStatus.put((Integer) item, true);
+                                mealStatus.put(((MealDisplayModel)item).getId(), true);
                                 return Observable.just(item);
                             })
                             .toList()
@@ -88,7 +82,7 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
     }
 
     @Override
-    public void setSelectedMealList(ArrayList<Integer> mealList) {
+    public void setSelectedMealList(ArrayList<MealDisplayModel> mealList) {
         selectedMeals = mealList;
     }
 

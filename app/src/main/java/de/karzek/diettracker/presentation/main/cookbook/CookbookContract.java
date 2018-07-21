@@ -8,6 +8,7 @@ import de.karzek.diettracker.presentation.main.cookbook.adapter.viewHolder.Recip
 import de.karzek.diettracker.presentation.main.cookbook.dialog.filterOptionsDialog.RecipeFilterOptionsDialog;
 import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog.RecipeSortOptionsDialog;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 /**
@@ -52,7 +53,7 @@ public interface CookbookContract {
 
         void openSortOptionsDialog(String sortOption, boolean asc);
 
-        void showAddPortionForRecipeDialog(int id, ArrayList<String> meals);
+        void showAddPortionForRecipeDialog(int id, ArrayList<MealDisplayModel> meals);
 
         void showRecipeAddedToast();
 
@@ -77,7 +78,7 @@ public interface CookbookContract {
 
         void sortRecipesBy(String sortOption, boolean asc);
 
-        void addPortionToDiary(int recipeId, int mealId, String date);
+        void addPortionToDiary(int recipeId, MealDisplayModel meal, String date);
 
         void checkForOnboardingView();
     }

@@ -370,14 +370,18 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         this.meals = mealDisplayModels;
 
         ArrayList<String> mealNames = new ArrayList<>();
-        for (MealDisplayModel meal : mealDisplayModels)
+        int selectedMealIndex = 0;
+        for (MealDisplayModel meal : mealDisplayModels) {
             mealNames.add(meal.getName());
+            if(meal.getId() == selectedMeal)
+                selectedMealIndex = meals.indexOf(meal);
+        }
 
         ArrayAdapter<String> mealAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mealNames);
         mealAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerMeal.setAdapter(mealAdapter);
-        spinnerMeal.setSelection(selectedMeal);
+        spinnerMeal.setSelection(selectedMealIndex);
     }
 
     @Override

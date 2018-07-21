@@ -39,7 +39,6 @@ public class CookbookPresenter implements CookbookContract.Presenter {
     private SharedPreferencesManager sharedPreferencesManager;
     private Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase;
     private Lazy<GetAllMealsUseCase> getAllMealsUseCase;
-    private Lazy<GetMealByIdUseCase> getMealByIdUseCase;
     private Lazy<GetMatchingRecipesUseCase> getMatchingRecipesUseCase;
     private Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase;
     private Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase;
@@ -60,7 +59,6 @@ public class CookbookPresenter implements CookbookContract.Presenter {
                              SharedPreferencesManager sharedPreferencesManager,
                              Lazy<DeleteRecipeByIdUseCase> deleteRecipeByIdUseCase,
                              Lazy<GetAllMealsUseCase> getAllMealsUseCase,
-                             Lazy<GetMealByIdUseCase> getMealByIdUseCase,
                              Lazy<GetMatchingRecipesUseCase> getMatchingRecipesUseCase,
                              Lazy<GetRecipeByIdUseCase> getRecipeByIdUseCase,
                              Lazy<PutDiaryEntryUseCase> putDiaryEntryUseCase,
@@ -71,7 +69,6 @@ public class CookbookPresenter implements CookbookContract.Presenter {
         this.sharedPreferencesManager = sharedPreferencesManager;
         this.deleteRecipeByIdUseCase = deleteRecipeByIdUseCase;
         this.getAllMealsUseCase = getAllMealsUseCase;
-        this.getMealByIdUseCase = getMealByIdUseCase;
         this.getMatchingRecipesUseCase = getMatchingRecipesUseCase;
         this.getRecipeByIdUseCase = getRecipeByIdUseCase;
         this.putDiaryEntryUseCase = putDiaryEntryUseCase;
@@ -148,12 +145,7 @@ public class CookbookPresenter implements CookbookContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
-
-                    ArrayList<String> meals = new ArrayList<>();
-                    for (MealDisplayModel meal : mealMapper.transformAll(output.getMealList()))
-                        meals.add(meal.getName());
-
-                    view.showAddPortionForRecipeDialog(id, meals);
+                    view.showAddPortionForRecipeDialog(id, mealMapper.transformAll(output.getMealList()));
                 })
         );
     }
@@ -205,38 +197,31 @@ public class CookbookPresenter implements CookbookContract.Presenter {
     }
 
     @Override
-    public void addPortionToDiary(int recipeId, int mealId, String date) {
+    public void addPortionToDiary(int recipeId, MealDisplayModel meal, String date) {
         view.showLoading();
-        compositeDisposable.add(getMealByIdUseCase.get().execute(new GetMealByIdUseCase.Input(mealId))
+        compositeDisposable.add(getRecipeByIdUseCase.get().execute(new GetRecipeByIdUseCase.Input(recipeId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mealOutput -> {
-                    MealDisplayModel mealModel = mealMapper.transform(mealOutput.getMeal());
+                .subscribe(recipeOutput -> {
+                    RecipeDisplayModel recipe = recipeMapper.transform(recipeOutput.getRecipe());
 
-                    getRecipeByIdUseCase.get().execute(new GetRecipeByIdUseCase.Input(recipeId))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(recipeOutput -> {
-                                RecipeDisplayModel recipe = recipeMapper.transform(recipeOutput.getRecipe());
+                    for (IngredientDisplayModel ingredient : recipe.getIngredients()) {
+                        putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
+                                meal,
+                                ingredient.getAmount() / recipe.getPortions(),
+                                ingredient.getUnit(),
+                                ingredient.getGrocery(),
+                                date))));
+                    }
 
-                                for (IngredientDisplayModel ingredient : recipe.getIngredients()) {
-                                    putDiaryEntryUseCase.get().execute(new PutDiaryEntryUseCase.Input(diaryEntryMapper.transformToDomain(new DiaryEntryDisplayModel(-1,
-                                            mealModel,
-                                            ingredient.getAmount() / recipe.getPortions(),
-                                            ingredient.getUnit(),
-                                            ingredient.getGrocery(),
-                                            date))));
-                                }
-
-                                view.hideLoading();
-                                view.showRecipeAddedToast();
-                            });
+                    view.hideLoading();
+                    view.showRecipeAddedToast();
                 }));
     }
 
     @Override
     public void checkForOnboardingView() {
-        if(!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_SLIDE_OPTIONS))
+        if (!sharedPreferencesManager.getOnboardingViewed(ONBOARDING_SLIDE_OPTIONS))
             view.showOnboardingScreen(ONBOARDING_SLIDE_OPTIONS);
     }
 

@@ -260,12 +260,7 @@ public class GenericMealPresenter implements GenericMealContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                     ArrayList<MealDisplayModel> meals = mealMapper.transformAll(output.getMealList());
-                    ArrayList<String> mealTitles = new ArrayList<>();
-
-                    for (MealDisplayModel meal : meals)
-                        mealTitles.add(meal.getName());
-
-                    view.showMoveDiaryEntryDialog(id, meals, mealTitles);
+                    view.showMoveDiaryEntryDialog(id, meals);
                 }));
     }
 

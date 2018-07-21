@@ -91,19 +91,21 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @BindView(R.id.loading_view)
     FrameLayout loadingView;
 
-    private static int mode;
+    private int mode;
 
     private ArrayList<UnitDisplayModel> units;
 
-    public static Intent newIntent(Context context) {
-        mode = MODE_ADD_RECIPE;
-        return new Intent(context, RecipeManipulationActivity.class);
+    public static Intent newAddIntent(Context context) {
+        Intent intent = new Intent(context, RecipeManipulationActivity.class);
+        intent.putExtra("mode", MODE_EDIT_RECIPE);
+
+        return intent;
     }
 
-    public static Intent newEditRecipeIntent(Context context, int recipeId) {
+    public static Intent newEditIntent(Context context, int recipeId) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
 
-        mode = MODE_EDIT_RECIPE;
+        intent.putExtra("mode", MODE_EDIT_RECIPE);
         intent.putExtra("recipeId", recipeId);
 
         return intent;
@@ -133,6 +135,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         setupRecyclerView();
         setupTitleSetListener();
 
+        mode = getIntent().getExtras().getInt("mode");
         if (mode == MODE_ADD_RECIPE) {
             presenter.start();
         } else if (mode == MODE_EDIT_RECIPE) {
@@ -312,7 +315,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
-    public void openEditMealsDialog(ArrayList<Integer> selectedMeals) {
+    public void openEditMealsDialog(ArrayList<MealDisplayModel> selectedMeals) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
         if (previous != null)
@@ -321,7 +324,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
         AppCompatDialogFragment dialogFragment = new EditMealsDialog();
         Bundle bundle = new Bundle();
-        bundle.putIntegerArrayList("SelectedMeals", selectedMeals);
+        bundle.putParcelableArrayList("SelectedMeals", selectedMeals);
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, "dialog");
     }
@@ -373,11 +376,6 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
-    public void showErrorWhileSavingRecipe() {
-        Toast.makeText(this, getString(R.string.error_message_unknown_error), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void setRecipeTitle(String title) {
         titleView.setText(title);
     }
@@ -391,6 +389,12 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 presenter.onDeleteRecipeConfirmed();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.dialog_action_dismiss), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
             }
         });
         builder.create().show();
@@ -416,9 +420,9 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data != null) {
-            switch (requestCode) {
-                case GET_IMAGE_FROM_GALLERY_RESULT:
+        switch (requestCode) {
+            case GET_IMAGE_FROM_GALLERY_RESULT:
+                if (data != null) {
                     Uri contentURI = data.getData();
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
@@ -426,24 +430,31 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    break;
-                case GET_IMAGE_FROM_CAMERA_RESULT:
+                }
+                break;
+            case GET_IMAGE_FROM_CAMERA_RESULT:
+                if (data != null) {
                     Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                     presenter.addPhotoToRecipe(bitmap);
-                    break;
-                case Constants.ADD_INGREDIENT_INTENT_RESULT:
+                }
+                break;
+            case Constants.ADD_INGREDIENT_INTENT_RESULT:
+                if (data != null) {
                     presenter.addIngredient(data.getIntExtra("groceryId", 0),
                             data.getFloatExtra("amount", 0.0f),
                             data.getIntExtra("unitId", 0));
-                    break;
-                case Constants.EDIT_INGREDIENT_INTENT_RESULT:
+                }
+                break;
+            case Constants.EDIT_INGREDIENT_INTENT_RESULT:
+                if (data != null) {
                     presenter.editIngredient(
                             data.getIntExtra("ingredientId", 0),
                             data.getFloatExtra("amount", 0.0f));
-                    break;
-            }
-        } else if(requestCode == Constants.CLOSE_SELF_RESULT)
-            finish();
+                }
+                break;
+            case Constants.CLOSE_SELF_RESULT:
+                finish();
+        }
     }
 
     @Override

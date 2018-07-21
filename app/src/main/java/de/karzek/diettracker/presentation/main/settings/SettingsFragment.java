@@ -401,6 +401,12 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
                 presenter.onMealItemDeleteConfirmed(id);
             }
         });
+        builder.setNegativeButton(getString(R.string.dialog_action_dismiss), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
+            }
+        });
         builder.create().show();
     }
 

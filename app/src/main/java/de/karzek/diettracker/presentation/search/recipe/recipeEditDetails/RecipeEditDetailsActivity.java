@@ -177,7 +177,7 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
             }
             presenter.onFavoriteRecipeClicked(item.isChecked());
         } else if (item.getItemId() == R.id.recipe_details_edit) {
-            startActivity(RecipeManipulationActivity.newEditRecipeIntent(this, recipeId));
+            startActivity(RecipeManipulationActivity.newEditIntent(this, recipeId));
         }
         return super.onOptionsItemSelected(item);
     }

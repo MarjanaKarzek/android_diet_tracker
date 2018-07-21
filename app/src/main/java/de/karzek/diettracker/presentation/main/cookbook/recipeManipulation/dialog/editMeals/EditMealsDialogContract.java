@@ -2,12 +2,10 @@ package de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dial
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.dialog.editMeals.adapter.viewHolder.MealViewHolder;
-import de.karzek.diettracker.presentation.model.AllergenDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
 
 /**
@@ -31,7 +29,7 @@ public interface EditMealsDialogContract {
     interface Presenter extends BasePresenter<View>,
             MealViewHolder.OnItemCheckedChangeListener {
 
-        void setSelectedMealList(ArrayList<Integer> mealList);
+        void setSelectedMealList(ArrayList<MealDisplayModel> mealList);
 
         ArrayList<MealDisplayModel> getSelectedMeals();
 

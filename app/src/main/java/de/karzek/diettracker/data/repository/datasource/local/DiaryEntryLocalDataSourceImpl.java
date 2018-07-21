@@ -67,4 +67,9 @@ public class DiaryEntryLocalDataSourceImpl implements DiaryEntryDataSource {
     public Observable<DiaryEntryEntity> getDiaryEntryById(int id) {
         return diaryEntryCache.getDiaryEntryById(id);
     }
+
+    @Override
+    public Observable<Boolean> deleteAllDiaryEntriesMatchingMealId(int mealId) {
+        return diaryEntryCache.deleteAllDiaryEntriesMatchingMealId(mealId);
+    }
 }

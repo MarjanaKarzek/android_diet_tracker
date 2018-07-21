@@ -49,7 +49,7 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
 
     private View view;
 
-    private ArrayList<Integer> mealList = new ArrayList<>();
+    private ArrayList<MealDisplayModel> mealList = new ArrayList<>();
 
     private SaveMealsSelectionDialogListener listener;
 
@@ -66,7 +66,7 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            mealList = bundle.getIntegerArrayList("SelectedMeals");
+            mealList = bundle.getParcelableArrayList("SelectedMeals");
         }
         presenter.setSelectedMealList(mealList);
 

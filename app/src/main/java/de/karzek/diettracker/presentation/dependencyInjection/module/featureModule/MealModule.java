@@ -6,6 +6,7 @@ import de.karzek.diettracker.data.cache.MealCacheImpl;
 import de.karzek.diettracker.data.cache.interfaces.MealCache;
 import de.karzek.diettracker.data.mapper.MealDataMapper;
 import de.karzek.diettracker.data.repository.MealRepositoryImpl;
+import de.karzek.diettracker.data.repository.repositoryInterface.DiaryEntryRepository;
 import de.karzek.diettracker.data.repository.repositoryInterface.MealRepository;
 import de.karzek.diettracker.domain.interactor.useCase.meal.DeleteMealByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.meal.GetAllMealsUseCaseImpl;
@@ -98,8 +99,8 @@ public class MealModule {
     }
 
     @Provides
-    DeleteMealByIdUseCase provideDeleteMealByIdUseCase(MealRepository repository, MealDomainMapper mapper){
-        return new DeleteMealByIdUseCaseImpl(repository, mapper);
+    DeleteMealByIdUseCase provideDeleteMealByIdUseCase(MealRepository mealRepository){
+        return new DeleteMealByIdUseCaseImpl(mealRepository);
     }
 
     @Provides

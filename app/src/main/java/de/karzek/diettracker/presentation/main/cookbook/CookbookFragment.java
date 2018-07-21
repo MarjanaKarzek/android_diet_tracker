@@ -43,6 +43,7 @@ import de.karzek.diettracker.presentation.main.cookbook.dialog.sortOptionsDialog
 import de.karzek.diettracker.presentation.main.cookbook.recipeDetails.RecipeDetailsActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.RecipeManipulationActivity;
 import de.karzek.diettracker.presentation.main.diary.meal.dialog.MealSelectorDialog;
+import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 
@@ -196,7 +197,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
     @Override
     public void startEditRecipe(int id) {
-        startActivity(RecipeManipulationActivity.newEditRecipeIntent(getContext(), id));
+        startActivity(RecipeManipulationActivity.newEditIntent(getContext(), id));
     }
 
     @Override
@@ -208,6 +209,12 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 presenter.onDeleteRecipeConfirmed(id);
+            }
+        });
+        builder.setNegativeButton(getString(R.string.dialog_action_dismiss), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
             }
         });
         builder.create().show();
@@ -263,7 +270,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
-    public void showAddPortionForRecipeDialog(int id, ArrayList<String> meals) {
+    public void showAddPortionForRecipeDialog(int id, ArrayList<MealDisplayModel> meals) {
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         Fragment previous = getChildFragmentManager().findFragmentByTag("dialog");
         if (previous != null)
@@ -273,7 +280,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
         AppCompatDialogFragment dialogFragment = new MealSelectorDialog();
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
-        bundle.putStringArrayList("meals", meals);
+        bundle.putParcelableArrayList("meals", meals);
         bundle.putString("instructions", getString(R.string.add_portion_to_diary_instructions));
         dialogFragment.setArguments(bundle);
 
@@ -302,7 +309,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
 
     @OnClick(R.id.add_recipe)
     public void onAddRecipeClicked() {
-        startActivity(RecipeManipulationActivity.newIntent(getContext()));
+        startActivity(RecipeManipulationActivity.newAddIntent(getContext()));
     }
 
     @Override
@@ -316,7 +323,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
-    public void mealSelectedInDialog(int recipeId, int mealId) {
-        presenter.addPortionToDiary(recipeId, mealId, databaseDateFormat.format(Calendar.getInstance().getTime()));
+    public void mealSelectedInDialog(int recipeId, MealDisplayModel meal) {
+        presenter.addPortionToDiary(recipeId, meal, databaseDateFormat.format(Calendar.getInstance().getTime()));
     }
 }

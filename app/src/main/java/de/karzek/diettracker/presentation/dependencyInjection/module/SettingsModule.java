@@ -5,6 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllergenByIdUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteAllDiaryEntriesMatchingMealIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.DeleteMealByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetAllMealsUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.meal.GetMealByIdUseCase;
@@ -36,6 +37,7 @@ public class SettingsModule {
                                                         Lazy<GetMealByIdUseCase> getMealByIdUseCase,
                                                         Lazy<UpdateMealUseCase> updateMealTimeUseCase,
                                                         Lazy<PutMealUseCase> putMealUseCase,
+                                                        Lazy<DeleteAllDiaryEntriesMatchingMealIdUseCase> deleteAllDiaryEntriesMatchingMealIdUseCase,
                                                         Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase,
                                                         MealUIMapper mealMapper,
                                                         AllergenUIMapper allergenMapper) {
@@ -46,6 +48,7 @@ public class SettingsModule {
                 getMealByIdUseCase,
                 updateMealTimeUseCase,
                 putMealUseCase,
+                deleteAllDiaryEntriesMatchingMealIdUseCase,
                 deleteMealByIdUseCase,
                 mealMapper,
                 allergenMapper);

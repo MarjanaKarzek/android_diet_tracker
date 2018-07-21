@@ -69,7 +69,7 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
     @Override
     public Observable<List<DiaryEntryEntity>> getAllDiaryEntriesMatching(String meal, String date) {
         Realm realm = Realm.getDefaultInstance();
-        if (meal == Constants.ALL_MEALS)
+        if (meal != null && meal.equals(Constants.ALL_MEALS))
             return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));
         else
             return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("meal.name", meal).equalTo("date", date).notEqualTo("grocery.id",0).sort("id").findAll()));
@@ -158,6 +158,19 @@ public class DiaryEntryCacheImpl implements DiaryEntryCache {
         Realm realm = Realm.getDefaultInstance();
         return Observable.just(realm.copyFromRealm(realm.where(DiaryEntryEntity.class).equalTo("id", id).findFirst()));
 
+    }
+
+    @Override
+    public Observable<Boolean> deleteAllDiaryEntriesMatchingMealId(int mealId) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<DiaryEntryEntity> result = realm.where(DiaryEntryEntity.class).equalTo("meal.id", mealId).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
+        return Observable.just(true);
     }
 
     private void startWriteTransaction(){

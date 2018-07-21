@@ -17,6 +17,7 @@ import de.karzek.diettracker.domain.interactor.useCase.allergen.GetAllAllergensU
 import de.karzek.diettracker.domain.interactor.useCase.allergen.GetAllergenByIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.allergen.PutAllAllergensUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.AddAmountOfWaterUseCaseImpl;
+import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteAllDiaryEntriesMatchingMealIdUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetAllDiaryEntriesMatchingUseCaseImpl;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.GetDiaryEntryByIdUseCaseImpl;
@@ -28,6 +29,7 @@ import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.GetAllergenByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.allergen.PutAllAllergensUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.AddAmountOfWaterUseCase;
+import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteAllDiaryEntriesMatchingMealIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.DeleteDiaryEntryUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetAllDiaryEntriesMatchingUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.diaryEntry.GetDiaryEntryByIdUseCase;
@@ -113,6 +115,11 @@ public class DiaryEntryModule {
     @Provides
     UpdateMealOfDiaryEntryUseCase provideUpdateMealOfDiaryEntryUseCase(DiaryEntryRepository repository, MealDomainMapper mapper){
         return new UpdateMealOfDiaryEntryUseCaseImpl(repository, mapper);
+    }
+
+    @Provides
+    DeleteAllDiaryEntriesMatchingMealIdUseCase provideDeleteAllDiaryEntriesMatchingMealIdUseCase(DiaryEntryRepository repository){
+        return new DeleteAllDiaryEntriesMatchingMealIdUseCaseImpl(repository);
     }
 
     // presentation

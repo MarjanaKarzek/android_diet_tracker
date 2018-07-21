@@ -38,7 +38,7 @@ public class EditMealsListAdapter extends RecyclerView.Adapter<MealViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MealViewHolder holder, int position) {
-        holder.bind(list.get(position), status.get(position));
+        holder.bind(list.get(position), status.get(list.get(position).getId()));
     }
 
     @Override

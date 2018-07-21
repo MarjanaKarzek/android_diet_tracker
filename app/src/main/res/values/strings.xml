@@ -110,7 +110,7 @@
     <string name="add_ingredient_action">+ Hinzufügen</string>
     <string name="_100">100</string>
     <string name="add_ingredient_product_name">Produktname</string>
-    <string name="add_ingredient_dialog_action">Hinzufügen</string>
+    <string name="dialog_action_add">Hinzufügen</string>
     <string name="error_message_missing_product_name">Bitte Produkt Namen angeben</string>
     <string name="recipe_preparation_steps_title">Zubereitung</string>
     <string name="add_preparation_step_description">Beschreibung</string>

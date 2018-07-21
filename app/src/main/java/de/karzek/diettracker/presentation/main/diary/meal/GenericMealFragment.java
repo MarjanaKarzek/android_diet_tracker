@@ -86,7 +86,6 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     private String selectedDate;
 
     private HashMap<String, Long> maxValues;
-    private ArrayList<MealDisplayModel> meals;
 
     @Override
     public void onAttach(Activity activity) {
@@ -233,9 +232,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
-    public void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> allMeals, ArrayList<String> meals) {
-        this.meals = allMeals;
-
+    public void showMoveDiaryEntryDialog(int id, ArrayList<MealDisplayModel> meals) {
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         Fragment previous = getFragmentManager().findFragmentByTag("dialog");
         if (previous != null) {
@@ -246,7 +243,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
         AppCompatDialogFragment dialogFragment = new MealSelectorDialog();
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
-        bundle.putStringArrayList("meals", meals);
+        bundle.putParcelableArrayList("meals", meals);
         dialogFragment.setArguments(bundle);
         dialogFragment.show(fragmentTransaction, "dialog");
     }
@@ -277,8 +274,8 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
-    public void mealSelectedInDialog(int diaryEntryId, int mealId) {
-        presenter.moveDiaryItemToMeal(diaryEntryId, meals.get(mealId));
+    public void mealSelectedInDialog(int diaryEntryId, MealDisplayModel meal) {
+        presenter.moveDiaryItemToMeal(diaryEntryId, meal);
         callback.onRefreshViewPagerNeeded();
     }
 }

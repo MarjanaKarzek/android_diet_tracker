@@ -276,12 +276,7 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
 
     @Override
     public void onEditMealsClicked() {
-        ArrayList<Integer> selectedMeals = new ArrayList<>();
-
-        for (MealDisplayModel meals : recipe.getMeals())
-            selectedMeals.add(meals.getId());
-
-        view.openEditMealsDialog(selectedMeals);
+        view.openEditMealsDialog(recipe.getMeals());
     }
 
     @Override

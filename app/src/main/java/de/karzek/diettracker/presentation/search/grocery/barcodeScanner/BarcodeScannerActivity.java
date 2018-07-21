@@ -48,7 +48,7 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
     private int mode;
     private int index;
 
-    //todo split into multiple newIntent methods
+    //todo split into multiple newAddIntent methods
     public static Intent newIntent(Context context, String selectedDate, int selectedMeal, int mode, int index) {
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
         intent.putExtra("mode", mode);
