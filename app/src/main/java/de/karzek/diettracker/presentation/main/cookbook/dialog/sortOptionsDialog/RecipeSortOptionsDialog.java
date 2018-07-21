@@ -102,6 +102,7 @@ public class RecipeSortOptionsDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                listener = null;
             }
         });
 
@@ -110,6 +111,7 @@ public class RecipeSortOptionsDialog extends AppCompatDialogFragment {
             public void onClick(View view) {
                 dismiss();
                 listener.sortOptionSelected(selectedOption, asc);
+                listener = null;
             }
         });
 

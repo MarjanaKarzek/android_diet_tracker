@@ -66,6 +66,8 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                addListener = null;
+                saveListener = null;
             }
         });
 
@@ -80,6 +82,7 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
                             addListener.onAddManualIngredientClicked(Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
                         else
                             addListener.onAddManualIngredientClicked(Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
+                        addListener = null;
                     } else {
                         showInvalidFieldsError();
                     }
@@ -97,6 +100,7 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
                             saveListener.onSaveManualIngredientClicked(manualIngredientId, Float.valueOf(amount.getHint().toString()), selectedUnitId, groceryQuery.getText().toString());
                         else
                             saveListener.onSaveManualIngredientClicked(manualIngredientId, Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
+                        saveListener = null;
                     } else {
                         showInvalidFieldsError();
                     }

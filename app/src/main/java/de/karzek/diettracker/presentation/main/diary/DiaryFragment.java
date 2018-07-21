@@ -75,7 +75,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private Calendar datePickerCalendar = Calendar.getInstance();
 
-    OnDateSelectedListener callback;
+    private OnDateSelectedListener callback;
 
     private ArrayList<MealDisplayModel> meals;
 
@@ -145,6 +145,8 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     public void onDestroy() {
         super.onDestroy();
         TrackerApplication.get(getContext()).releaseDiaryComponent();
+        dateSetListener = null;
+        callback = null;
     }
 
     @OnClick(R.id.add_food)

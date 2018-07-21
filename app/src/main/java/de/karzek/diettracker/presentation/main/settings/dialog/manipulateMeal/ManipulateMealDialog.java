@@ -91,6 +91,8 @@ public class ManipulateMealDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                addListener = null;
+                saveListener = null;
             }
         });
 
@@ -103,6 +105,8 @@ public class ManipulateMealDialog extends AppCompatDialogFragment {
                         addListener.addMealInDialogClicked(mealTitle.getText().toString(), databaseTimeFormat.format(startTimeCalendar.getTime()), databaseTimeFormat.format(endTimeCalendar.getTime()));
                     else
                         saveListener.saveMealInDialogClicked(id, mealTitle.getText().toString(), databaseTimeFormat.format(startTimeCalendar.getTime()), databaseTimeFormat.format(endTimeCalendar.getTime()));
+                    addListener = null;
+                    saveListener = null;
                 } else {
                     showInvalidFieldsError();
                 }

@@ -70,6 +70,7 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                listener = null;
             }
         });
 
@@ -78,6 +79,7 @@ public class MealSelectorDialog extends AppCompatDialogFragment {
             public void onClick(View view) {
                 dismiss();
                 listener.mealSelectedInDialog(id, meals.get(spinner.getSelectedItemPosition()));
+                listener = null;
             }
         });
 

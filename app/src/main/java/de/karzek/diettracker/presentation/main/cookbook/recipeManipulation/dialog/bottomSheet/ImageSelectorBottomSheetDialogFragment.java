@@ -70,4 +70,11 @@ public class ImageSelectorBottomSheetDialogFragment extends BottomSheetDialogFra
     public interface OnOpenGalleryClickListener {
         void onOpenGalleryClickedInBottomSheet();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cameraClickListener = null;
+        galleryClickListener = null;
+    }
 }

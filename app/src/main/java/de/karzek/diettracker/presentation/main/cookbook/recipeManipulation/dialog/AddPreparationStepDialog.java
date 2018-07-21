@@ -48,6 +48,7 @@ public class AddPreparationStepDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                listener = null;
             }
         });
 
@@ -57,6 +58,7 @@ public class AddPreparationStepDialog extends AppCompatDialogFragment {
                 if (inputFieldsValid()) {
                     dismiss();
                     listener.onAddPreparationStepClicked(description.getText().toString());
+                    listener = null;
                 } else {
                     showInvalidFieldsError();
                 }

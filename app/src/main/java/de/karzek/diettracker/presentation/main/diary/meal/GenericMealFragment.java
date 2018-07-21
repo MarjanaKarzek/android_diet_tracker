@@ -153,6 +153,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     public void onDestroy() {
         super.onDestroy();
         TrackerApplication.get(getContext()).releaseGenericMealComponent();
+        callback = null;
     }
 
     @Override

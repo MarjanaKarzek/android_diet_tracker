@@ -53,7 +53,7 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
 
                     Observable.fromArray(selectedMeals.toArray())
                             .concatMap(item -> {
-                                mealStatus.put(((MealDisplayModel)item).getId(), true);
+                                mealStatus.put(((MealDisplayModel) item).getId(), true);
                                 return Observable.just(item);
                             })
                             .toList()
@@ -96,7 +96,12 @@ public class EditMealsDialogPresenter implements EditMealsDialogContract.Present
         while (iterator.hasNext()) {
             Integer current = (Integer) iterator.next();
             if (mealStatus.get(current))
-                selection.add(meals.get(current));
+                for (MealDisplayModel meal : meals) {
+                    if (meal.getId() == current) {
+                        selection.add(meal);
+                        break;
+                    }
+                }
         }
 
         return selection;

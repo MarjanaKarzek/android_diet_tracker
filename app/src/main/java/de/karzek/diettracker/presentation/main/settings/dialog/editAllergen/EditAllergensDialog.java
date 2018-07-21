@@ -68,6 +68,7 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
             @Override
             public void onClick(View view) {
                 dismiss();
+                listener = null;
             }
         });
 
@@ -77,6 +78,7 @@ public class EditAllergensDialog extends BaseDialog implements EditAllergensDial
                 dismiss();
                 presenter.saveAllergenSelection();
                 listener.updateAllergens();
+                listener = null;
             }
         });
 

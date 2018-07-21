@@ -225,6 +225,7 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
         super.onDestroy();
         presenter.finish();
         TrackerApplication.get(this).releaseRecipeEditDetailsComponent();
+        dateSetListener = null;
     }
 
 }

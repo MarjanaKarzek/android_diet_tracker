@@ -572,5 +572,6 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
         super.onDestroy();
         presenter.finish();
         TrackerApplication.get(this).releaseGroceryDetailsComponent();
+        dateSetListener = null;
     }
 }

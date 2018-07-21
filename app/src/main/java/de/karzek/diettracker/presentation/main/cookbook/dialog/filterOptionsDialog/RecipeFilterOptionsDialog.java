@@ -76,6 +76,7 @@ public class RecipeFilterOptionsDialog extends BaseDialog implements RecipeFilte
             @Override
             public void onClick(View view) {
                 dismiss();
+                listener = null;
             }
         });
 
@@ -84,6 +85,7 @@ public class RecipeFilterOptionsDialog extends BaseDialog implements RecipeFilte
             public void onClick(View view) {
                 dismiss();
                 listener.filterOptionsSelected(presenter.getSelectedFilterOptions());
+                listener = null;
             }
         });
 

@@ -76,6 +76,7 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
             @Override
             public void onClick(View view) {
                 dismiss();
+                listener = null;
             }
         });
 
@@ -84,6 +85,7 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
             public void onClick(View view) {
                 dismiss();
                 listener.updateMeals(presenter.getSelectedMeals());
+                listener = null;
             }
         });
 
