@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -124,12 +125,13 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     @BindView(R.id.settings_start_screen_liquids)
     CheckBox startScreenLiquids;
 
+    private Unbinder unbinder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        //TODO implement unbind of view in ondestroyview
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -300,9 +302,15 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.finish();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.finish();
         TrackerApplication.get(getContext()).releaseSettingsComponent();
     }
 

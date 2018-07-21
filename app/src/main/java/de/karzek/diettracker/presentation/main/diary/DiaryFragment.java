@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -67,6 +68,8 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @BindView(R.id.date_label)
     TextView selectedDate;
 
+    private Unbinder unbinder;
+
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d. MMM yyyy", Locale.GERMANY);
     private SimpleDateFormat databaseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -96,7 +99,7 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_diary, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -132,9 +135,15 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.finish();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.finish();
         TrackerApplication.get(getContext()).releaseDiaryComponent();
     }
 

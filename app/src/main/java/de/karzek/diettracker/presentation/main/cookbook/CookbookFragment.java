@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -67,6 +68,8 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     FrameLayout loadingView;
     @BindView(R.id.cookbook_placeholder)
     TextView placeholder;
+
+   private Unbinder unbinder;
 
     private String noRecipesPlaceholder;
     private String noResultsPlaceholder;
@@ -125,7 +128,7 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         showLoading();
 
@@ -152,9 +155,15 @@ public class CookbookFragment extends BaseFragment implements CookbookContract.V
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.finish();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.finish();
         TrackerApplication.get(getContext()).releaseCookbookComponent();
     }
 

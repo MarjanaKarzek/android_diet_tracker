@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -73,6 +74,8 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @BindView(R.id.loading_view)
     FrameLayout loadingView;
 
+    private Unbinder unbinder;
+
     OnRefreshViewPagerNeededListener callback;
 
     public interface OnRefreshViewPagerNeededListener {
@@ -102,7 +105,7 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_generic_meal, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         meal = getArguments().getString("meal");
         selectedDate = ((DiaryFragment) getActivity().getSupportFragmentManager().findFragmentByTag("DiaryFragment")).getSelectedDate();
@@ -140,9 +143,15 @@ public class GenericMealFragment extends BaseFragment implements GenericMealCont
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.finish();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.finish();
         TrackerApplication.get(getContext()).releaseGenericMealComponent();
     }
 

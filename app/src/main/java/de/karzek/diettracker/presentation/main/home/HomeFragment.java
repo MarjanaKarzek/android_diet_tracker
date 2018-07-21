@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -97,6 +98,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @BindView(R.id.loading_view)
     FrameLayout loadingView;
 
+    private Unbinder unbinder;
+
     @Inject
     HomeContract.Presenter presenter;
 
@@ -121,7 +124,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         showLoading();
 
@@ -302,9 +305,15 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.finish();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.finish();
         TrackerApplication.get(getContext()).releaseHomeComponent();
     }
 }

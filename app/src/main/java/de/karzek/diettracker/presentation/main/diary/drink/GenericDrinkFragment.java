@@ -30,6 +30,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
@@ -82,6 +83,8 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     @BindView(R.id.liquid_max_value)
     TextView liquidMaxValue;
 
+    private Unbinder unbinder;
+
     private CaloryDetailsView detailsView;
 
     private String selectedDate;
@@ -91,7 +94,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_generic_drink, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -248,9 +251,15 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.finish();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.finish();
         TrackerApplication.get(getContext()).releaseGenericDrinkComponent();
     }
 
