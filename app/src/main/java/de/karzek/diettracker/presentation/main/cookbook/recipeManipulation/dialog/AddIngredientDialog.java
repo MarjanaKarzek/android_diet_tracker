@@ -125,10 +125,16 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
         if (groceryQuery.getText().toString().equals("")) {
             showInvalidFieldsError();
             return false;
-        } else if(ValidationUtil.isValid(LOWER_BOUND_AMOUNT, UPPER_BOUND_AMOUNT, Float.valueOf(amount.getText().toString()), amount, getContext()))
-            return true;
-        else
-            return false;
+        } else {
+            if(!StringUtils.isNullOrEmpty(amount.getText().toString())) {
+                if (ValidationUtil.isValid(LOWER_BOUND_AMOUNT, UPPER_BOUND_AMOUNT, Float.valueOf(amount.getText().toString()), amount, getContext()))
+                    return true;
+                else
+                    return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     private void showInvalidFieldsError() {

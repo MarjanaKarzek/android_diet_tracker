@@ -27,4 +27,8 @@ public class StringUtils {
     public static String formatInt(int value) {
         return "" + value;
     }
+
+    public static boolean isNullOrEmpty(String string) {
+        return string == null || string.equals("");
+    }
 }

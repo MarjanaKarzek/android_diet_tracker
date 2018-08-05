@@ -113,8 +113,11 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
                             drinkStatus.clearFocus();
                             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(drinkStatus.getWindowToken(), 0);
-                            if(ValidationUtil.isValid(LOWER_BOUND_WATER_INPUT, UPPER_BOUND_WATER_INPUT, Float.valueOf(drinkStatus.getText().toString()), drinkStatus, getContext()))
-                                presenter.updateAmountOfWater(Float.valueOf(drinkStatus.getText().toString()), selectedDate);
+                            if (!StringUtils.isNullOrEmpty(drinkStatus.getText().toString())) {
+                                if (ValidationUtil.isValid(LOWER_BOUND_WATER_INPUT, UPPER_BOUND_WATER_INPUT, Float.valueOf(drinkStatus.getText().toString()), drinkStatus, getContext()))
+                                    presenter.updateAmountOfWater(Float.valueOf(drinkStatus.getText().toString()), selectedDate);
+                            } else
+                                drinkStatus.setText(StringUtils.formatFloat(LOWER_BOUND_WATER_INPUT));
                         }
                         return true;
                     }

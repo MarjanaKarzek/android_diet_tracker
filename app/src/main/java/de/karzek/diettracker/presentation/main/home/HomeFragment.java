@@ -150,8 +150,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                     drinksProgressBarValue.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(drinksProgressBarValue.getWindowToken(), 0);
-                    if(ValidationUtil.isValid(LOWER_BOUND_WATER_INPUT, UPPER_BOUND_WATER_INPUT, Float.valueOf(drinksProgressBarValue.getText().toString()), drinksProgressBarValue, getContext()))
-                        presenter.updateAmountOfWater(Float.valueOf(drinksProgressBarValue.getText().toString()));
+
+                    if (!StringUtils.isNullOrEmpty(drinksProgressBarValue.getText().toString())) {
+                        if (ValidationUtil.isValid(LOWER_BOUND_WATER_INPUT, UPPER_BOUND_WATER_INPUT, Float.valueOf(drinksProgressBarValue.getText().toString()), drinksProgressBarValue, getContext()))
+                            presenter.updateAmountOfWater(Float.valueOf(drinksProgressBarValue.getText().toString()));
+                    } else
+                        drinksProgressBarValue.setText(StringUtils.formatFloat(LOWER_BOUND_WATER_INPUT));
                 }
                 return true;
             }

@@ -69,7 +69,7 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  */
 public class GroceryDetailsActivity extends BaseActivity implements GroceryDetailsContract.View {
 
-    private static final float LOWER_BOUND_AMOUNT = 0.0f;
+    private static final float LOWER_BOUND_AMOUNT = 1.0f;
     private static final float UPPER_BOUND_AMOUNT = 2000.0f;
 
     public static final String EXTRA_MODE = "EXTRA_MODE";
@@ -219,8 +219,10 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
             @Override
             public void afterTextChanged(Editable editable) {
-                ValidationUtil.isValid(LOWER_BOUND_AMOUNT, UPPER_BOUND_AMOUNT, Float.valueOf(editTextAmount.getText().toString()), editTextAmount, context);
-                refreshNutritionDetails();
+                if(!StringUtils.isNullOrEmpty(editTextAmount.getText().toString())) {
+                    ValidationUtil.isValid(LOWER_BOUND_AMOUNT, UPPER_BOUND_AMOUNT, Float.valueOf(editTextAmount.getText().toString()), editTextAmount, context);
+                    refreshNutritionDetails();
+                }
             }
         });
 
