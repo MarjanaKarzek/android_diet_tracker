@@ -21,7 +21,6 @@ import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 
 public interface AutomatedIngredientSearchContract {
 
-    //todo implement intdefs correctly
     @IntDef({FailReasons.FAIL_REASON_WRONG_UNIT,
             FailReasons.FAIL_REASON_GROCERY_NOT_FOUND})
     @interface FailReasons {

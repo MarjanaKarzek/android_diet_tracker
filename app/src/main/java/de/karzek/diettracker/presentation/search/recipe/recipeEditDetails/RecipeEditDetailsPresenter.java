@@ -145,16 +145,12 @@ public class RecipeEditDetailsPresenter implements RecipeEditDetailsContract.Pre
             compositeDisposable.add(putFavoriteRecipeUseCase.get().execute(new PutFavoriteRecipeUseCase.Input(new FavoriteRecipeDomainModel(-1, recipeMapper.transformToDomain(recipe))))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        //todo error handling
-                    }));
+                    .subscribe(output -> { }));
         } else {
             compositeDisposable.add(removeFavoriteRecipeByTitleUseCase.get().execute(new RemoveFavoriteRecipeByTitleUseCase.Input(recipe.getTitle()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        //todo error handling
-                    }));
+                    .subscribe(output -> { }));
         }
     }
 

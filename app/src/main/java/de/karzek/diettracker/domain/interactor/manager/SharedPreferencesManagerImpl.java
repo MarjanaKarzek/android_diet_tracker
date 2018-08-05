@@ -185,4 +185,29 @@ public class SharedPreferencesManagerImpl implements SharedPreferencesManager {
         }
     }
 
+    @Override
+    public void setInt(String key, Integer value) {
+        sharedPreferencesUtil.setInt(key, value);
+    }
+
+    @Override
+    public void setFloat(String key, Float value) {
+        sharedPreferencesUtil.setFloat(key, value);
+    }
+
+    @Override
+    public int getInt(String key, int defaultValue) {
+        return sharedPreferencesUtil.getInt(key, defaultValue);
+    }
+
+    @Override
+    public float getFloat(String key, float defaultValue) {
+        return sharedPreferencesUtil.getFloat(key, defaultValue);
+    }
+
+    @Override
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return sharedPreferencesUtil.getBoolean(key, defaultValue);
+    }
+
 }

@@ -34,6 +34,7 @@ public interface GetAllAllergensUseCase extends BaseObservableUseCase<GetAllAlle
 
         @AllergenListStatus
         int status;
+
         public static final int SUCCESS = 0;
         public static final int ERROR_NO_DATA = 1;
         public static final int ERROR_NETWORK_PROBLEM = 2;

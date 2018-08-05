@@ -30,8 +30,7 @@ public class SettingsModule {
     //presentation
 
     @Provides
-    SettingsContract.Presenter provideSettingsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                                                        GetAllMealsUseCase getAllMealsUseCase,
+    SettingsContract.Presenter provideSettingsPresenter(GetAllMealsUseCase getAllMealsUseCase,
                                                         GetAllergenByIdUseCase getAllergenByIdUseCase,
                                                         SharedPreferencesManager sharedPreferencesManager,
                                                         Lazy<GetMealByIdUseCase> getMealByIdUseCase,
@@ -41,8 +40,7 @@ public class SettingsModule {
                                                         Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase,
                                                         MealUIMapper mealMapper,
                                                         AllergenUIMapper allergenMapper) {
-        return new SettingsPresenter(sharedPreferencesUtil,
-                getAllMealsUseCase,
+        return new SettingsPresenter(getAllMealsUseCase,
                 getAllergenByIdUseCase,
                 sharedPreferencesManager,
                 getMealByIdUseCase,

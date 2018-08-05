@@ -15,8 +15,6 @@ import io.reactivex.Observable;
  * @date 27.05.2018
  */
 public interface MealCache {
-    boolean isExpired();
-    boolean isCached();
 
     Observable<Boolean> putAllMeals(List<MealEntity> mealEntities);
 

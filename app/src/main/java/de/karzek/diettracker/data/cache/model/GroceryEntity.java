@@ -32,20 +32,19 @@ public class GroceryEntity extends RealmObject {
     private RealmList<AllergenEntity> allergens;
     private RealmList<ServingEntity> servings;
 
-    @GroceryEntityType
-    public static final int TYPE_FOOD = 0;
-    public static final int TYPE_DRINK = 1;
-    public static final int TYPE_COMBINED = 2;
+    @IntDef({GroceryEntityType.TYPE_FOOD,
+            GroceryEntityType.TYPE_DRINK,
+            GroceryEntityType.TYPE_COMBINED})
+    public @interface GroceryEntityType {
+        int TYPE_FOOD = 0;
+        int TYPE_DRINK = 1;
+        int TYPE_COMBINED = 2;
+    }
 
-    @IntDef({TYPE_FOOD, TYPE_DRINK, TYPE_COMBINED})
-
-    private @interface GroceryEntityType { }
-
-    @GroceryEntityUnitType
-    public static final int TYPE_SOLID = 0;
-    public static final int TYPE_LIQUID = 1;
-
-    @IntDef({TYPE_FOOD, TYPE_DRINK})
-
-    private @interface GroceryEntityUnitType { }
+    @IntDef({GroceryEntityUnitType.TYPE_SOLID,
+            GroceryEntityUnitType.TYPE_LIQUID})
+    public @interface GroceryEntityUnitType {
+        int TYPE_SOLID = 0;
+        int TYPE_LIQUID = 1;
+    }
 }

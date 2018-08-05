@@ -41,6 +41,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.MainActivity;
@@ -63,7 +64,6 @@ import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeS
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
 import static de.karzek.diettracker.presentation.util.Constants.CAMERA_PERMISSION;
 import static de.karzek.diettracker.presentation.util.Constants.GET_IMAGE_FROM_CAMERA_RESULT;
 import static de.karzek.diettracker.presentation.util.Constants.GET_IMAGE_FROM_GALLERY_RESULT;
@@ -84,6 +84,14 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
     public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
     public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+    public static final String EXTRA_DATA = "data";
+    public static final String EXTRA_MANUAL_INGREDIENT_ID = "EXTRA_MANUAL_INGREDIENT_ID";
+    public static final String EXTRA_UNITS = "EXTRA_UNITS";
+    public static final String EXTRA_GROCERY_QUERY = "EXTRA_GROCERY_QUERY";
+    public static final String EXTRA_SELECTED_MEALS = "EXTRA_SELECTED_MEALS";
+
+    public static final String TAG_DIALOG = "TAG_DIALOG";
+    public static final String TAG_IMAGE_SELECTOR = "TAG_IMAGE_SELECTOR";
 
     @Inject
     RecipeManipulationContract.Presenter presenter;
@@ -222,7 +230,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         ImageSelectorBottomSheetDialogFragment imageSelector =
                 ImageSelectorBottomSheetDialogFragment.newInstance();
         imageSelector.show(getSupportFragmentManager(),
-                "imageSelector");
+                TAG_IMAGE_SELECTOR);
     }
 
     @Override
@@ -271,7 +279,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     @Override
     public void startGrocerySearch() {
-        startActivityForResult(GrocerySearchActivity.newIngredientSearchIntent(this, TYPE_COMBINED), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIngredientSearchIntent(this, GroceryEntity.GroceryEntityType.TYPE_COMBINED), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
     }
 
     @Override
@@ -283,7 +291,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             unitStrings.add(unit.getName());
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(TAG_DIALOG);
         if (previous != null) {
             fragmentTransaction.remove(previous);
         }
@@ -291,10 +299,10 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
         AppCompatDialogFragment dialogFragment = new AddIngredientDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("manualIngredientId", INVALID_ENTITY_ID);
-        bundle.putStringArrayList("units", unitStrings);
+        bundle.putInt(EXTRA_MANUAL_INGREDIENT_ID, INVALID_ENTITY_ID);
+        bundle.putStringArrayList(EXTRA_UNITS, unitStrings);
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction, "dialog");
+        dialogFragment.show(fragmentTransaction, TAG_DIALOG);
     }
 
     @Override
@@ -310,29 +318,29 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     @Override
     public void showAddPreparationStepDialog() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(TAG_DIALOG);
         if (previous != null) {
             fragmentTransaction.remove(previous);
         }
         fragmentTransaction.addToBackStack(null);
 
         AppCompatDialogFragment dialogFragment = new AddPreparationStepDialog();
-        dialogFragment.show(fragmentTransaction, "dialog");
+        dialogFragment.show(fragmentTransaction, TAG_DIALOG);
     }
 
     @Override
     public void openEditMealsDialog(ArrayList<MealDisplayModel> selectedMeals) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(TAG_DIALOG);
         if (previous != null)
             fragmentTransaction.remove(previous);
         fragmentTransaction.addToBackStack(null);
 
         AppCompatDialogFragment dialogFragment = new EditMealsDialog();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("SelectedMeals", selectedMeals);
+        bundle.putParcelableArrayList(EXTRA_SELECTED_MEALS, selectedMeals);
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction, "dialog");
+        dialogFragment.show(fragmentTransaction, TAG_DIALOG);
     }
 
     @Override
@@ -344,7 +352,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
             unitStrings.add(unit.getName());
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment previous = getSupportFragmentManager().findFragmentByTag("dialog");
+        Fragment previous = getSupportFragmentManager().findFragmentByTag(TAG_DIALOG);
         if (previous != null) {
             fragmentTransaction.remove(previous);
         }
@@ -352,13 +360,13 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
         AppCompatDialogFragment dialogFragment = new AddIngredientDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("manualIngredientId", id);
-        bundle.putString("groceryQuery", displayModel.getGroceryQuery());
-        bundle.putFloat("amount", displayModel.getAmount());
-        bundle.putInt("unitId", displayModel.getUnit().getId());
-        bundle.putStringArrayList("units", unitStrings);
+        bundle.putInt(EXTRA_MANUAL_INGREDIENT_ID, id);
+        bundle.putString(EXTRA_GROCERY_QUERY, displayModel.getGroceryQuery());
+        bundle.putFloat(EXTRA_AMOUNT, displayModel.getAmount());
+        bundle.putInt(EXTRA_UNIT_ID, displayModel.getUnit().getId());
+        bundle.putStringArrayList(EXTRA_UNITS, unitStrings);
         dialogFragment.setArguments(bundle);
-        dialogFragment.show(fragmentTransaction, "dialog");
+        dialogFragment.show(fragmentTransaction, TAG_DIALOG);
     }
 
     @Override
@@ -445,7 +453,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                 break;
             case GET_IMAGE_FROM_CAMERA_RESULT:
                 if (data != null) {
-                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    Bitmap bitmap = (Bitmap) data.getExtras().get(EXTRA_DATA);
                     presenter.addPhotoToRecipe(bitmap);
                 }
                 break;

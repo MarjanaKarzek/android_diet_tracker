@@ -1,6 +1,7 @@
 package de.karzek.diettracker.presentation.search.grocery.groceryDetail;
 
 import dagger.Lazy;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.domain.interactor.manager.NutritionManagerImpl;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.NutritionManager;
 import de.karzek.diettracker.domain.interactor.useCase.diaryEntry.DeleteDiaryEntryUseCaseImpl;
@@ -39,7 +40,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
@@ -276,7 +276,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(output -> {
                             if (sharedPreferencesUtil.getString(KEY_SETTING_NUTRITION_DETAILS, VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY).equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY)) {
-                                if (grocery.getType() == TYPE_FOOD) {
+                                if (grocery.getType() == GroceryEntity.GroceryEntityType.TYPE_FOOD) {
                                     compositeDisposable.add(Observable.just(nutritionManager.getCaloryMaxValueForMeal(output.getCount()))
                                             .subscribeOn(Schedulers.computation())
                                             .observeOn(AndroidSchedulers.mainThread())
@@ -306,7 +306,7 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
                                             ));
                                 }
                             } else {
-                                if (grocery.getType() == TYPE_FOOD) {
+                                if (grocery.getType() == GroceryEntity.GroceryEntityType.TYPE_FOOD) {
                                     compositeDisposable.add(Observable.just(nutritionManager.getNutritionMaxValuesForMeal(output.getCount()))
                                             .subscribeOn(Schedulers.computation())
                                             .observeOn(AndroidSchedulers.mainThread())
@@ -374,21 +374,15 @@ public class GroceryDetailsPresenter implements GroceryDetailsContract.Presenter
     @Override
     public void onFavoriteGroceryClicked(boolean checked, GroceryDisplayModel grocery) {
         if (checked) {
-            Disposable subs = putFavoriteGroceryUseCase.get().execute(new PutFavoriteGroceryUseCase.Input(new FavoriteGroceryDomainModel(-1, groceryMapper.transformToDomain(grocery))))
+            compositeDisposable.add(putFavoriteGroceryUseCase.get().execute(new PutFavoriteGroceryUseCase.Input(new FavoriteGroceryDomainModel(-1, groceryMapper.transformToDomain(grocery))))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        //todo error handling
-                    });
-            compositeDisposable.add(subs);
+                    .subscribe(output -> { }));
         } else {
-            Disposable subs = removeFavoriteGroceryByNameUseCase.get().execute(new RemoveFavoriteGroceryByNameUseCase.Input(grocery.getName()))
+            compositeDisposable.add(removeFavoriteGroceryByNameUseCase.get().execute(new RemoveFavoriteGroceryByNameUseCase.Input(grocery.getName()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        //todo error handling
-                    });
-            compositeDisposable.add(subs);
+                    .subscribe(output -> { }));
         }
     }
 

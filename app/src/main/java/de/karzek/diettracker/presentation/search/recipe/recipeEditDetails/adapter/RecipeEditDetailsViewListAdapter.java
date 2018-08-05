@@ -62,7 +62,7 @@ public class RecipeEditDetailsViewListAdapter extends RecyclerView.Adapter<Recyc
                 return new RecipeEditDetailsIngredientsAndPortionsTitleViewHolder(parent, onPortionChangedListener, onExpandNutritionDetailsViewClickListener);
             case RecipeEditDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW:
                 return new RecipeEditDetailsCaloryDetailsViewHolder(parent);
-            case RecipeEditDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW:
+            case RecipeEditDetailsViewItemWrapper.ItemType.CALORIES_AND_MACROS_DETAILS_VIEW:
                 return new RecipeEditDetailsCaloryAndMacroDetailsViewHolder(parent);
             case RecipeEditDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW:
                 return new RecipeEditDetailsIngredientViewHolder(parent, onDeleteIngredientClickListener);

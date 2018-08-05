@@ -122,7 +122,7 @@ public class RecipeDetailsActivity extends BaseActivity implements RecipeDetails
         if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
         else if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS) && detailsExpanded)
-            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
+            views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MACROS_DETAILS_VIEW, maxValues, values));
 
         for (IngredientDisplayModel ingredient : displayModel.getIngredients()) {
             views.add(new RecipeDetailsViewItemWrapper(RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient));

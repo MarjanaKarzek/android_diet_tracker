@@ -43,7 +43,6 @@ import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 import de.karzek.diettracker.presentation.util.ValidationUtil;
 
-import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
 
 /**
@@ -70,7 +69,7 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
     RecyclerView recyclerView;
     @BindView(R.id.viewstub_calory_details)
     ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details)
+    @BindView(R.id.viewstub_calory_macro_details)
     ViewStub caloryMacroDetails;
     @BindView(R.id.circle_progress_bar_dinks_progress)
     CircularProgressBar liquidProgressBar;

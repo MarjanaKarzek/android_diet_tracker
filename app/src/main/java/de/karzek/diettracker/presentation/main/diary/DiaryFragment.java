@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.adapter.DiaryViewPagerAdapter;
@@ -38,9 +39,6 @@ import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.ViewUtils;
-
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 /**
@@ -219,14 +217,14 @@ public class DiaryFragment extends BaseFragment implements DiaryContract.View {
     @Override
     public void startFoodSearchActivity() {
         if(viewPager.getCurrentItem() < meals.size())
-            startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(viewPager.getCurrentItem()).getId()));
+            startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), GroceryEntity.GroceryEntityType.TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(viewPager.getCurrentItem()).getId()));
         else
-            startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(0).getId()));
+            startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), GroceryEntity.GroceryEntityType.TYPE_FOOD, databaseDateFormat.format(datePickerCalendar.getTime()), meals.get(0).getId()));
     }
 
     @Override
     public void startDrinkSearchActivity() {
-        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), INVALID_ENTITY_ID));
+        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), GroceryEntity.GroceryEntityType.TYPE_DRINK, databaseDateFormat.format(datePickerCalendar.getTime()), INVALID_ENTITY_ID));
     }
 
     @Override

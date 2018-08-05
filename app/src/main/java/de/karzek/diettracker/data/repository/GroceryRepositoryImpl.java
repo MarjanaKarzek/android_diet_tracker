@@ -31,16 +31,12 @@ public class GroceryRepositoryImpl implements GroceryRepository {
 
     @Override
     public Observable<List<GroceryDataModel>> getAllGroceries() {
-        if(!groceryCache.isExpired() && groceryCache.isCached()){
-            return new GroceryLocalDataSourceImpl(groceryCache).getAllGroceries().map(new Function<List<GroceryEntity>, List<GroceryDataModel>>() {
-                @Override
-                public List<GroceryDataModel> apply(List<GroceryEntity> groceryEntities) {
-                    return mapper.transformAll(groceryEntities);
-                }
-            });
-        }else{
-            return null;//new GroceryLocalDataSourceImpl(groceryCache);
-        }
+        return new GroceryLocalDataSourceImpl(groceryCache).getAllGroceries().map(new Function<List<GroceryEntity>, List<GroceryDataModel>>() {
+            @Override
+            public List<GroceryDataModel> apply(List<GroceryEntity> groceryEntities) {
+                return mapper.transformAll(groceryEntities);
+            }
+        });
     }
 
     @Override
@@ -55,45 +51,32 @@ public class GroceryRepositoryImpl implements GroceryRepository {
 
     @Override
     public Observable<GroceryDataModel> getGroceryByID(int id) {
-        //todo remove cache check
-        if(!groceryCache.isExpired() && groceryCache.isCached()){
-            return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByID(id).map(new Function<GroceryEntity, GroceryDataModel>() {
-                @Override
-                public GroceryDataModel apply(GroceryEntity groceryEntity) {
-                    return mapper.transform(groceryEntity);
-                }
-            });
-        }else{
-            return null;//new GroceryLocalDataSourceImpl(groceryCache);
-        }
+        return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByID(id).map(new Function<GroceryEntity, GroceryDataModel>() {
+            @Override
+            public GroceryDataModel apply(GroceryEntity groceryEntity) {
+                return mapper.transform(groceryEntity);
+            }
+        });
     }
 
     @Override
     public Observable<GroceryDataModel> getGroceryByBarcode(String barcode) {
-        if(!groceryCache.isExpired() && groceryCache.isCached()){
-            return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByBarcode(barcode).map(new Function<GroceryEntity, GroceryDataModel>() {
-                @Override
-                public GroceryDataModel apply(GroceryEntity groceryEntity) {
-                    return mapper.transform(groceryEntity);
-                }
-            });
-        }else{
-            return null;//new GroceryLocalDataSourceImpl(groceryCache);
-        }
+        return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByBarcode(barcode).map(new Function<GroceryEntity, GroceryDataModel>() {
+            @Override
+            public GroceryDataModel apply(GroceryEntity groceryEntity) {
+                return mapper.transform(groceryEntity);
+            }
+        });
     }
 
     @Override
     public Observable<GroceryDataModel> getGroceryByName(String name) {
-        if(!groceryCache.isExpired() && groceryCache.isCached()){
-            return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByName(name).map(new Function<GroceryEntity, GroceryDataModel>() {
-                @Override
-                public GroceryDataModel apply(GroceryEntity groceryEntity) {
-                    return mapper.transform(groceryEntity);
-                }
-            });
-        }else{
-            return null;//new GroceryLocalDataSourceImpl(groceryCache);
-        }
+        return new GroceryLocalDataSourceImpl(groceryCache).getGroceryByName(name).map(new Function<GroceryEntity, GroceryDataModel>() {
+            @Override
+            public GroceryDataModel apply(GroceryEntity groceryEntity) {
+                return mapper.transform(groceryEntity);
+            }
+        });
     }
 
     @Override

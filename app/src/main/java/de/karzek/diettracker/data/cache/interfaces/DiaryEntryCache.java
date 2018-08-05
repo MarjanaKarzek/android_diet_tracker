@@ -17,8 +17,6 @@ import io.reactivex.Observable;
  * @date 27.05.2018
  */
 public interface DiaryEntryCache {
-    boolean isExpired();
-    boolean isCached();
 
     Observable<Boolean> putDiaryEntry(DiaryEntryEntity diaryEntryEntity);
 

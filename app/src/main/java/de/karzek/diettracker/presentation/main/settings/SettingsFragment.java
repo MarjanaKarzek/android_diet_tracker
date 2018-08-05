@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.settings.adapter.SettingsMealListAdapter;
@@ -345,23 +346,23 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
     }
 
     @Override
-    public void fillSettingsOptions(SharedPreferencesUtil sharedPreferencesUtil) {
-        amountCalories.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(KEY_REQUIREMENT_CALORIES_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_CALORIES_DAILY)));
-        amountProteins.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_PROTEINS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_PROTEINS_DAILY)));
-        amountCarbs.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_CARBS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_CARBS_DAILY)));
-        amountFats.setText(StringUtils.formatInt(sharedPreferencesUtil.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_FATS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_FATS_DAILY)));
+    public void fillSettingsOptions(SharedPreferencesManager sharedPreferencesManager) {
+        amountCalories.setText(StringUtils.formatInt(sharedPreferencesManager.getInt(KEY_REQUIREMENT_CALORIES_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_CALORIES_DAILY)));
+        amountProteins.setText(StringUtils.formatInt(sharedPreferencesManager.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_PROTEINS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_PROTEINS_DAILY)));
+        amountCarbs.setText(StringUtils.formatInt(sharedPreferencesManager.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_CARBS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_CARBS_DAILY)));
+        amountFats.setText(StringUtils.formatInt(sharedPreferencesManager.getInt(SharedPreferencesUtil.KEY_REQUIREMENT_FATS_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_FATS_DAILY)));
 
-        amountLiquids.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY)));
-        volumeBottle.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_BOTTLE_VOLUME, SharedPreferencesUtil.VALUE_BOTTLE_VOLUME)));
-        volumeGlass.setText(StringUtils.formatFloat(sharedPreferencesUtil.getFloat(SharedPreferencesUtil.KEY_GLASS_VOLUME, SharedPreferencesUtil.VALUE_GLASS_VOLUME)));
+        amountLiquids.setText(StringUtils.formatFloat(sharedPreferencesManager.getFloat(SharedPreferencesUtil.KEY_REQUIREMENT_LIQUID_DAILY, SharedPreferencesUtil.VALUE_REQUIREMENT_LIQUID_DAILY)));
+        volumeBottle.setText(StringUtils.formatFloat(sharedPreferencesManager.getFloat(SharedPreferencesUtil.KEY_BOTTLE_VOLUME, SharedPreferencesUtil.VALUE_BOTTLE_VOLUME)));
+        volumeGlass.setText(StringUtils.formatFloat(sharedPreferencesManager.getFloat(SharedPreferencesUtil.KEY_GLASS_VOLUME, SharedPreferencesUtil.VALUE_GLASS_VOLUME)));
 
-        if (sharedPreferencesUtil.getString(SharedPreferencesUtil.KEY_SETTING_NUTRITION_DETAILS, SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS).equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS))
+        if (sharedPreferencesManager.getNutritionDetailsSetting().equals(SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS))
             dataDisplayMacro.setChecked(true);
         else
             dataDisplayMacro.setChecked(false);
 
-        startScreenRecipes.setChecked(sharedPreferencesUtil.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_RECIPE, SharedPreferencesUtil.VALUE_TRUE));
-        startScreenLiquids.setChecked(sharedPreferencesUtil.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_LIQUIDS, SharedPreferencesUtil.VALUE_TRUE));
+        startScreenRecipes.setChecked(sharedPreferencesManager.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_RECIPE, SharedPreferencesUtil.VALUE_TRUE));
+        startScreenLiquids.setChecked(sharedPreferencesManager.getBoolean(SharedPreferencesUtil.KEY_START_SCREEN_LIQUIDS, SharedPreferencesUtil.VALUE_TRUE));
     }
 
     @Override

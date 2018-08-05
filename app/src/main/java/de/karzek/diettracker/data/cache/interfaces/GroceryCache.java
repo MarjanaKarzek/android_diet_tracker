@@ -13,8 +13,6 @@ import io.reactivex.Observable;
  * @date 27.05.2018
  */
 public interface GroceryCache {
-    boolean isExpired();
-    boolean isCached();
 
     Observable<List<GroceryEntity>> getAllGroceries();
     Observable<List<GroceryEntity>> getAllGroceriesMatching(int type, String query);

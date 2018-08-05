@@ -107,21 +107,15 @@ public class RecipeDetailsPresenter implements RecipeDetailsContract.Presenter {
     @Override
     public void onFavoriteRecipeClicked(boolean checked) {
         if (checked) {
-            Disposable subs = putFavoriteRecipeUseCase.get().execute(new PutFavoriteRecipeUseCase.Input(new FavoriteRecipeDomainModel(Constants.INVALID_ENTITY_ID, recipeMapper.transformToDomain(recipe))))
+            compositeDisposable.add(putFavoriteRecipeUseCase.get().execute(new PutFavoriteRecipeUseCase.Input(new FavoriteRecipeDomainModel(Constants.INVALID_ENTITY_ID, recipeMapper.transformToDomain(recipe))))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        //todo error handling
-                    });
-            compositeDisposable.add(subs);
+                    .subscribe(output -> { }));
         } else {
-            Disposable subs = removeFavoriteRecipeByTitleUseCase.get().execute(new RemoveFavoriteRecipeByTitleUseCase.Input(recipe.getTitle()))
+            compositeDisposable.add(removeFavoriteRecipeByTitleUseCase.get().execute(new RemoveFavoriteRecipeByTitleUseCase.Input(recipe.getTitle()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(output -> {
-                        //todo error handling
-                    });
-            compositeDisposable.add(subs);
+                    .subscribe(output -> { }));
         }
     }
 

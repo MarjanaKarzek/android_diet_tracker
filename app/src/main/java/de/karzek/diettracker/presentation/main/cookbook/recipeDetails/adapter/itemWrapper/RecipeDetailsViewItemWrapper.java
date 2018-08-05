@@ -1,6 +1,5 @@
 package de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper;
 
-import android.content.ClipData;
 import android.graphics.Bitmap;
 import android.support.annotation.IntDef;
 
@@ -13,8 +12,6 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import lombok.Value;
 
-import static de.karzek.diettracker.presentation.main.cookbook.recipeDetails.adapter.itemWrapper.RecipeDetailsViewItemWrapper.ItemType.TITLE_VIEW;
-
 /**
  * Created by MarjanaKarzek on 30.05.2018.
  *
@@ -26,7 +23,7 @@ import static de.karzek.diettracker.presentation.main.cookbook.recipeDetails.ada
 public class RecipeDetailsViewItemWrapper {
 
     @IntDef({ItemType.PHOTO_VIEW,
-            ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW,
+            ItemType.CALORIES_AND_MACROS_DETAILS_VIEW,
             ItemType.CALORY_DETAILS_VIEW,
             ItemType.TITLE_VIEW,
             ItemType.INGREDIENTS_TITLE_VIEW,
@@ -36,7 +33,7 @@ public class RecipeDetailsViewItemWrapper {
     })
     public @interface ItemType {
         int PHOTO_VIEW = 0;
-        int CALORIES_AND_MAKROS_DETAILS_VIEW = 1;
+        int CALORIES_AND_MACROS_DETAILS_VIEW = 1;
         int CALORY_DETAILS_VIEW = 2;
         int TITLE_VIEW = 3;
         int INGREDIENTS_TITLE_VIEW = 4;

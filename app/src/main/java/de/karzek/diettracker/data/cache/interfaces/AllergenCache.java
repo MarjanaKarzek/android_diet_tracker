@@ -14,9 +14,6 @@ import io.reactivex.Observable;
  * @date 27.05.2018
  */
 public interface AllergenCache {
-    boolean isExpired();
-    boolean isCached();
-
     Observable<Boolean> putAllAllergens(List<AllergenEntity> allergenEntities);
 
     Observable<AllergenEntity> getAllergenById(Integer id);

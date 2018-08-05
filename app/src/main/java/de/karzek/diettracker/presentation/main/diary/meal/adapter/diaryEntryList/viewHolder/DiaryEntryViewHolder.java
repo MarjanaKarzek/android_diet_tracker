@@ -13,10 +13,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.util.StringUtils;
-
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.
@@ -54,7 +53,7 @@ public class DiaryEntryViewHolder extends RecyclerView.ViewHolder {
         grocerySummary.setText(formatGrocerySummary(diaryEntry));
         itemView.setTag(diaryEntry.getId());
 
-        if(diaryEntry.getGrocery().getType() == TYPE_DRINK)
+        if(diaryEntry.getGrocery().getType() == GroceryEntity.GroceryEntityType.TYPE_DRINK)
             moveOption.setVisibility(View.GONE);
     }
 

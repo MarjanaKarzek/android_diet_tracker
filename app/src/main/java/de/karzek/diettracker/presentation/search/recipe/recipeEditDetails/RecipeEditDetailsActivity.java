@@ -141,7 +141,7 @@ public class RecipeEditDetailsActivity extends BaseActivity implements RecipeEdi
         if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY) && detailsExpanded)
             views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW, maxValues, values));
         else if (nutritionDetails.equals(VALUE_SETTING_NUTRITION_DETAILS_CALORIES_AND_MACROS) && detailsExpanded)
-            views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW, maxValues, values));
+            views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.CALORIES_AND_MACROS_DETAILS_VIEW, maxValues, values));
 
         for (IngredientDisplayModel ingredient : displayModel.getIngredients())
             views.add(new RecipeEditDetailsViewItemWrapper(RecipeEditDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW, ingredient, selectedPortions));

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
@@ -16,11 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import de.karzek.diettracker.R;
-import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
-import de.karzek.diettracker.presentation.util.StringUtils;
-
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 
 /**
  * Created by MarjanaKarzek on 30.05.2018.

@@ -35,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.MainActivity;
@@ -52,8 +53,6 @@ import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
 import de.karzek.diettracker.presentation.util.ValidationUtil;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.View.DetailsMode.MODE_EDIT_DIARY_ENTRY;
 import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.View.DetailsMode.MODE_EDIT_INGREDIENT;
 import static de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsContract.View.DetailsMode.MODE_GROCERY_SEARCH;
@@ -93,7 +92,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     ViewStub allergenViewStub;
     @BindView(R.id.viewstub_calory_details)
     ViewStub caloryDetails;
-    @BindView(R.id.viewstub_calory_makro_details)
+    @BindView(R.id.viewstub_calory_macro_details)
     ViewStub caloryMacroDetails;
 
     @BindView(R.id.spinner_serving)
@@ -396,7 +395,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     @Override
     public void initializeMealSpinner(ArrayList<MealDisplayModel> mealDisplayModels) {
-        if (groceryDisplayModel.getType() == TYPE_DRINK) {
+        if (groceryDisplayModel.getType() == GroceryEntity.GroceryEntityType.TYPE_DRINK) {
             spinnerMeal.setVisibility(View.GONE);
             return;
         }
@@ -495,7 +494,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
         editTextAmount.setText(StringUtils.formatFloat(diaryEntry.getAmount()));
 
-        if (diaryEntry.getGrocery().getType() == TYPE_FOOD)
+        if (diaryEntry.getGrocery().getType() == GroceryEntity.GroceryEntityType.TYPE_FOOD)
             spinnerMeal.setSelection(meals.indexOf(diaryEntry.getMeal()));
         spinnerServing.setSelection(defaultUnits.indexOf(diaryEntry.getUnit()));
 
@@ -562,7 +561,7 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
             return;
         }
 
-        if (groceryDisplayModel.getType() == TYPE_FOOD) {
+        if (groceryDisplayModel.getType() == GroceryEntity.GroceryEntityType.TYPE_FOOD) {
             presenter.addFood(new DiaryEntryDisplayModel(id,
                     meals.get(spinnerMeal.getSelectedItemPosition()),
                     amount,

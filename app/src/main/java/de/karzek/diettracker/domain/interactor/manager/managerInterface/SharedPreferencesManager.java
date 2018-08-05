@@ -56,4 +56,14 @@ public interface SharedPreferencesManager {
     boolean getOnboardingViewed(int onboardingTag);
 
     void setOnboardingToViewed(int onboardingTag);
+
+    void setInt(String key, Integer value);
+
+    void setFloat(String key, Float value);
+
+    int getInt(String keyRequirementCaloriesDaily, int valueRequirementCaloriesDaily);
+
+    float getFloat(String keyBottleVolume, float valueBottleVolume);
+
+    boolean getBoolean(String keyStartScreenRecipe, boolean valueTrue);
 }

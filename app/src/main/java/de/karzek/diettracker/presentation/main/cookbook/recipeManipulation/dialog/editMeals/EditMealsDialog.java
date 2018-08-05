@@ -34,6 +34,8 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
  */
 public class EditMealsDialog extends BaseDialog implements EditMealsDialogContract.View {
 
+    public static final String EXTRA_SELECTED_MEALS = "EXTRA_SELECTED_MEALS";
+
     @Inject
     EditMealsDialogContract.Presenter presenter;
 
@@ -66,7 +68,7 @@ public class EditMealsDialog extends BaseDialog implements EditMealsDialogContra
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            mealList = bundle.getParcelableArrayList("SelectedMeals");
+            mealList = bundle.getParcelableArrayList(EXTRA_SELECTED_MEALS);
         }
         presenter.setSelectedMealList(mealList);
 

@@ -48,12 +48,9 @@ public class SettingsPresenter implements SettingsContract.Presenter {
     private MealUIMapper mealMapper;
     private AllergenUIMapper allergenMapper;
 
-    //Todo use sharedpreferencesmanagaer
-    private SharedPreferencesUtil sharedPreferencesUtil;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public SettingsPresenter(SharedPreferencesUtil sharedPreferencesUtil,
-                             GetAllMealsUseCase getAllMealsUseCase,
+    public SettingsPresenter(GetAllMealsUseCase getAllMealsUseCase,
                              GetAllergenByIdUseCase getAllergenByIdUseCase,
                              SharedPreferencesManager sharedPreferencesManager,
                              Lazy<GetMealByIdUseCase> getMealByIdUseCase,
@@ -63,8 +60,6 @@ public class SettingsPresenter implements SettingsContract.Presenter {
                              Lazy<DeleteMealByIdUseCase> deleteMealByIdUseCase,
                              MealUIMapper mealMapper,
                              AllergenUIMapper allergenMapper) {
-        this.sharedPreferencesUtil = sharedPreferencesUtil;
-
         this.getAllMealsUseCase = getAllMealsUseCase;
         this.getAllergenByIdUseCase = getAllergenByIdUseCase;
         this.sharedPreferencesManager = sharedPreferencesManager;
@@ -80,7 +75,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void start() {
-        view.fillSettingsOptions(sharedPreferencesUtil);
+        view.fillSettingsOptions(sharedPreferencesManager);
         view.setupCheckboxListeners();
 
         getAllMeals();
@@ -111,12 +106,12 @@ public class SettingsPresenter implements SettingsContract.Presenter {
 
     @Override
     public void updateSharedPreferenceIntValue(String key, Integer value) {
-        sharedPreferencesUtil.setInt(key, value);
+        sharedPreferencesManager.setInt(key, value);
     }
 
     @Override
     public void updateSharedPreferenceFloatValue(String key, Float value) {
-        sharedPreferencesUtil.setFloat(key, value);
+        sharedPreferencesManager.setFloat(key, value);
     }
 
     @Override

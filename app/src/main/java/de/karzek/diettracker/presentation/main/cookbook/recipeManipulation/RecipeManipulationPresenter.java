@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import dagger.Lazy;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.grocery.GetGroceryByIdUseCase;
 import de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.DeleteRecipeByIdUseCase;
@@ -30,8 +31,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_LIQUID;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_SOLID;
 import static de.karzek.diettracker.domain.interactor.useCase.useCaseInterface.recipe.PutRecipeUseCase.Output.SUCCESS;
 import static de.karzek.diettracker.presentation.util.Constants.ONBOARDING_INGREDIENT_SEARCH;
 
@@ -223,13 +222,13 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onAddManualIngredientClicked() {
         if (units == null) {
-            compositeDisposable.add(getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(TYPE_SOLID))
+            compositeDisposable.add(getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(GroceryEntity.GroceryEntityUnitType.TYPE_SOLID))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output -> {
                                 units = new ArrayList<>();
                                 units.addAll(unitMapper.transformAll(output.getUnitList()));
-                                getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(TYPE_LIQUID))
+                                getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(GroceryEntity.GroceryEntityUnitType.TYPE_LIQUID))
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(output2 -> {
@@ -299,13 +298,13 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onManualIngredientClicked(int id) {
         if (units == null) {
-            compositeDisposable.add(getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(TYPE_SOLID))
+            compositeDisposable.add(getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(GroceryEntity.GroceryEntityUnitType.TYPE_SOLID))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(output -> {
                                 units = new ArrayList<>();
                                 units.addAll(unitMapper.transformAll(output.getUnitList()));
-                                getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(TYPE_LIQUID))
+                                getAllDefaultUnitsUseCase.get().execute(new GetAllDefaultUnitsUseCase.Input(GroceryEntity.GroceryEntityUnitType.TYPE_LIQUID))
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(output2 -> {

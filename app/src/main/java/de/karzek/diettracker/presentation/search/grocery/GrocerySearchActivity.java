@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.model.GroceryDisplayModel;
@@ -37,8 +38,6 @@ import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeS
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.util.Constants.ZXING_CAMERA_PERMISSION;
 
 /**
@@ -192,11 +191,11 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
 
     private void initializePlaceholders(int type) {
         switch (type) {
-            case TYPE_FOOD:
+            case GroceryEntity.GroceryEntityType.TYPE_FOOD:
                 noResultsPlaceholder = getString(R.string.food_search_query_without_result_placeholder);
                 noFavoritesPlaceholder = getString(R.string.food_search_placeholder);
                 break;
-            case TYPE_DRINK:
+            case GroceryEntity.GroceryEntityType.TYPE_DRINK:
                 noResultsPlaceholder = getString(R.string.drink_search_query_without_result_placeholder);
                 noFavoritesPlaceholder = getString(R.string.drink_search_placeholder);
                 break;
@@ -317,9 +316,9 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.ic_back_arrow_white, null));
-        if (groceryType == TYPE_FOOD) {
+        if (groceryType == GroceryEntity.GroceryEntityType.TYPE_FOOD) {
             getSupportActionBar().setTitle(getString(R.string.food_search_title));
-        } else if (groceryType == TYPE_DRINK) {
+        } else if (groceryType == GroceryEntity.GroceryEntityType.TYPE_DRINK) {
             getSupportActionBar().setTitle(getString(R.string.drink_search_title));
         } else {
             getSupportActionBar().setTitle(R.string.product_search_title);

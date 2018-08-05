@@ -94,7 +94,7 @@
                 android:layout="@layout/snippet_calory_detail" />
 
             <ViewStub
-                android:id="@+id/viewstub_calory_makro_details"
+                android:id="@+id/viewstub_calory_macro_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"

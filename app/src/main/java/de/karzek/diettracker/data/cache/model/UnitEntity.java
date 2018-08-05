@@ -23,12 +23,11 @@ public class UnitEntity extends RealmObject {
     private int multiplier;
     private int type;
 
-    @UnitEntityType
-    public static final int UNIT_TYPE_SOLID = 0;
-    public static final int UNIT_TYPE_LIQUID = 1;
-
-    @IntDef({UNIT_TYPE_SOLID, UNIT_TYPE_LIQUID})
-
-    private @interface UnitEntityType { }
+    @IntDef({UnitEntityType.UNIT_TYPE_SOLID,
+            UnitEntityType.UNIT_TYPE_LIQUID})
+    public @interface UnitEntityType {
+        int UNIT_TYPE_SOLID = 0;
+        int UNIT_TYPE_LIQUID = 1;
+    }
 }
 

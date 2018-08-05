@@ -1,17 +1,13 @@
 package de.karzek.diettracker.data.cache;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.karzek.diettracker.data.cache.interfaces.FavoriteGroceryCache;
-import de.karzek.diettracker.data.cache.model.DiaryEntryEntity;
 import de.karzek.diettracker.data.cache.model.FavoriteGroceryEntity;
 import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
 
 /**
  * Created by MarjanaKarzek on 27.05.2018.
@@ -23,43 +19,10 @@ import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED
 public class FavoriteGroceryCacheImpl implements FavoriteGroceryCache {
 
     @Override
-    public boolean isExpired() {
-        /*Realm realm = Realm.getDefaultInstance();
-        if (realm.where(TownshipEntity.class).count() != 0) {
-            Date currentTime = new Date(System.currentTimeMillis());
-            SimpleDateFormat ISO8601DATEFORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
-            Date lastUpdated = null;
-            try {
-                lastUpdated = ISO8601DATEFORMAT.parse(realm.where(TownshipEntity.class).findFirst().getLastUpdated());
-                boolean isExpired = currentTime.getTime() - lastUpdated.getTime() > EXPIRATION_TIME;
-                if(isExpired){
-                    realm.beginTransaction();
-                    realm.delete(TownshipEntity.class);
-                    realm.commitTransaction();
-                    realm.close();
-                }
-                return isExpired;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return false;*/
-
-        return false;
-    }
-
-    @Override
-    public boolean isCached() {
-        Realm realm = Realm.getDefaultInstance();
-        return realm.where(FavoriteGroceryEntity.class).findAll() != null && realm.where(FavoriteGroceryEntity.class).findAll().size() > 0;
-    }
-
-    @Override
     public Observable<List<FavoriteGroceryEntity>> getAllFavoritesByType(int type) {
         Realm realm = Realm.getDefaultInstance();
 
-        if (type != TYPE_COMBINED) {
+        if (type != GroceryEntity.GroceryEntityType.TYPE_COMBINED) {
             List<FavoriteGroceryEntity> favorites = realm.copyFromRealm(realm.where(FavoriteGroceryEntity.class).equalTo("grocery.type", type).findAll());
             return Observable.just(favorites);
         } else {

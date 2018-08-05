@@ -45,7 +45,7 @@ public class RecipeDetailsViewListAdapter extends RecyclerView.Adapter<RecyclerV
                 return new RecipeDetailsIngredientsAndPortionsTitleViewHolder(parent, onExpandNutritionDetailsViewClickListener);
             case RecipeDetailsViewItemWrapper.ItemType.CALORY_DETAILS_VIEW:
                 return new RecipeDetailsCaloryDetailsViewHolder(parent);
-            case RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW:
+            case RecipeDetailsViewItemWrapper.ItemType.CALORIES_AND_MACROS_DETAILS_VIEW:
                 return new RecipeDetailsCaloryAndMacroDetailsViewHolder(parent);
             case RecipeDetailsViewItemWrapper.ItemType.INGREDIENT_VIEW:
                 return new RecipeDetailsIngredientViewHolder(parent);

@@ -33,6 +33,12 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
     private static final float LOWER_BOUND_AMOUNT = 0.0f;
     private static final float UPPER_BOUND_AMOUNT = 2000.0f;
 
+    private static final String EXTRA_MANUAL_INGREDIENT_ID = "EXTRA_MANUAL_INGREDIENT_ID";
+    private static final String EXTRA_UNITS = "EXTRA_UNITS";
+    public static final String EXTRA_GROCERY_QUERY = "EXTRA_GROCERY_QUERY";
+    public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
+    public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
+
     @BindView(R.id.ingredient_amount)
     EditText amount;
     @BindView(R.id.spinner_unit)
@@ -61,8 +67,8 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            units = bundle.getStringArrayList("units");
-            manualIngredientId = bundle.getInt("manualIngredientId");
+            units = bundle.getStringArrayList(EXTRA_UNITS);
+            manualIngredientId = bundle.getInt(EXTRA_MANUAL_INGREDIENT_ID);
             initializeSpinner();
         }
 
@@ -107,9 +113,9 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
                 }
             });
 
-            groceryQuery.setText(bundle.getString("groceryQuery"));
-            amount.setText(StringUtils.formatFloat(bundle.getFloat("amount")));
-            spinner.setSelection(bundle.getInt("unitId"));
+            groceryQuery.setText(bundle.getString(EXTRA_GROCERY_QUERY));
+            amount.setText(StringUtils.formatFloat(bundle.getFloat(EXTRA_AMOUNT)));
+            spinner.setSelection(bundle.getInt(EXTRA_UNIT_ID));
         }
 
         return view;

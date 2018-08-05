@@ -14,8 +14,6 @@ import io.reactivex.Observable;
  * @date 27.05.2018
  */
 public interface ServingCache {
-    boolean isExpired();
-    boolean isCached();
 
     Observable<Boolean> putAllServings(List<ServingEntity> servingEntities);
 

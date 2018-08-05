@@ -26,7 +26,14 @@ import de.karzek.diettracker.presentation.main.diary.DiaryFragment;
 import de.karzek.diettracker.presentation.main.home.HomeFragment;
 import de.karzek.diettracker.presentation.main.settings.SettingsFragment;
 
+import static de.karzek.diettracker.presentation.main.MainContract.FragmentIndex.FRAGMENT_COOKBOOK;
+import static de.karzek.diettracker.presentation.main.MainContract.FragmentIndex.FRAGMENT_DIARY;
+import static de.karzek.diettracker.presentation.main.MainContract.FragmentIndex.FRAGMENT_HOME;
+import static de.karzek.diettracker.presentation.main.MainContract.FragmentIndex.FRAGMENT_SETTINGS;
+
 public class MainActivity extends BaseActivity implements MainContract.View, DiaryFragment.OnDateSelectedListener, GenericMealFragment.OnRefreshViewPagerNeededListener {
+
+    private static final String EXTRA_FRAGMENT_ID = "EXTRA_FRAGMENT_ID";
 
     @BindView(R.id.random_quote_view)
     TextView randomQuoteView;
@@ -39,35 +46,21 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("fragmentId", FRAGMENT_HOME);
-        return intent;
-    }
-
-    public static Intent newIntentToHome(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("fragmentId", FRAGMENT_HOME);
+        intent.putExtra(EXTRA_FRAGMENT_ID, FRAGMENT_HOME);
         return intent;
     }
 
     public static Intent newIntentToDiary(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("fragmentId", FRAGMENT_DIARY);
+        intent.putExtra(EXTRA_FRAGMENT_ID, FRAGMENT_DIARY);
         return intent;
     }
 
     public static Intent newIntentToCookbook(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("fragmentId", FRAGMENT_COOKBOOK);
-        return intent;
-    }
-
-    public static Intent newIntentToSettings(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("fragmentId", FRAGMENT_SETTINGS);
+        intent.putExtra(EXTRA_FRAGMENT_ID, FRAGMENT_COOKBOOK);
         return intent;
     }
 
@@ -85,7 +78,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, Dia
         ViewUtils.customizeBottomNavigation(navigationView);
 
         setupNavigationListener();
-        switch (getIntent().getIntExtra("fragmentId", 0)) {
+        switch (getIntent().getIntExtra(EXTRA_FRAGMENT_ID, 0)) {
             case FRAGMENT_HOME:
                 navigateToFragment(new HomeFragment(), "HomeFragment");
                 break;

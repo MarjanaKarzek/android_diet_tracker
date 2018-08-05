@@ -16,20 +16,24 @@ import de.karzek.diettracker.presentation.common.BaseView;
 public interface MainContract {
 
     interface View extends BaseView<Presenter> {
-        int FRAGMENT_HOME = 0;
-        int FRAGMENT_DIARY = 1;
-        int FRAGMENT_COOKBOOK = 2;
-        int FRAGMENT_SETTINGS = 3;
 
         void showOnboardingScreen(int onboardingTag);
 
-        @IntDef({FRAGMENT_HOME, FRAGMENT_DIARY, FRAGMENT_COOKBOOK, FRAGMENT_SETTINGS})
-        @interface FragmentIndex {
-        }
     }
 
     interface Presenter extends BasePresenter<View> {
 
+    }
+
+    @IntDef({FragmentIndex.FRAGMENT_HOME,
+            FragmentIndex.FRAGMENT_DIARY,
+            FragmentIndex.FRAGMENT_COOKBOOK,
+            FragmentIndex.FRAGMENT_SETTINGS})
+    @interface FragmentIndex {
+        int FRAGMENT_HOME = 0;
+        int FRAGMENT_DIARY = 1;
+        int FRAGMENT_COOKBOOK = 2;
+        int FRAGMENT_SETTINGS = 3;
     }
 
 }

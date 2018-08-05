@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseActivity;
 import de.karzek.diettracker.presentation.main.cookbook.recipeManipulation.automatedIngredientSearch.adapter.IngredientSearchListAdapter;
@@ -34,7 +35,6 @@ import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.grocery.barcodeScanner.BarcodeScannerActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_COMBINED;
 import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 public class AutomatedIngredientSearchActivity extends BaseActivity implements AutomatedIngredientSearchContract.View {
@@ -43,6 +43,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
     public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
     public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
     public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+    public static final String EXTRA_RECIPE = "EXTRA_RECIPE";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -58,7 +59,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
 
     public static Intent newIntent(Context context, RecipeDisplayModel recipe) {
         Intent intent = new Intent(context, AutomatedIngredientSearchActivity.class);
-        intent.putExtra("recipe", recipe);
+        intent.putExtra(EXTRA_RECIPE, recipe);
 
         return intent;
     }
@@ -79,7 +80,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
         disableSaveButton();
 
         presenter.setView(this);
-        RecipeDisplayModel recipeDisplayModel = getIntent().getExtras().getParcelable("recipe");
+        RecipeDisplayModel recipeDisplayModel = getIntent().getExtras().getParcelable(EXTRA_RECIPE);
         presenter.setRecipe(recipeDisplayModel);
         if(recipeDisplayModel.getId() != INVALID_ENTITY_ID)
             presenter.startEdit();
@@ -139,7 +140,7 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
 
     @Override
     public void startGrocerySearch(int index) {
-        startActivityForResult(GrocerySearchActivity.newIngredientReplaceIntent(this, TYPE_COMBINED, index), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
+        startActivityForResult(GrocerySearchActivity.newIngredientReplaceIntent(this, GroceryEntity.GroceryEntityType.TYPE_COMBINED, index), Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT);
     }
 
     @Override

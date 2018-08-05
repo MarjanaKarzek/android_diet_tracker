@@ -9,7 +9,6 @@ import java.util.List;
 
 import de.karzek.diettracker.presentation.model.IngredientDisplayModel;
 import de.karzek.diettracker.presentation.model.MealDisplayModel;
-import de.karzek.diettracker.presentation.model.PreparationStepDisplayModel;
 import lombok.Value;
 
 /**
@@ -23,7 +22,7 @@ import lombok.Value;
 public class RecipeEditDetailsViewItemWrapper {
 
     @IntDef({ItemType.PHOTO_VIEW,
-            ItemType.CALORIES_AND_MAKROS_DETAILS_VIEW,
+            ItemType.CALORIES_AND_MACROS_DETAILS_VIEW,
             ItemType.CALORY_DETAILS_VIEW,
             ItemType.INGREDIENTS_TITLE_VIEW,
             ItemType.INGREDIENT_VIEW,
@@ -33,7 +32,7 @@ public class RecipeEditDetailsViewItemWrapper {
     })
     public @interface ItemType {
         int PHOTO_VIEW = 0;
-        int CALORIES_AND_MAKROS_DETAILS_VIEW = 1;
+        int CALORIES_AND_MACROS_DETAILS_VIEW = 1;
         int CALORY_DETAILS_VIEW = 2;
         int INGREDIENTS_TITLE_VIEW = 3;
         int INGREDIENT_VIEW = 4;

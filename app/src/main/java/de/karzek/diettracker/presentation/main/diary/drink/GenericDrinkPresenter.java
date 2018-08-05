@@ -240,7 +240,6 @@ public class GenericDrinkPresenter implements GenericDrinkContract.Presenter {
                         view.refreshLiquidStatus();
                         view.hideLoading();
                     } else {
-                        //todo error handling
                         view.hideLoading();
                     }
                 }));

@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +33,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.karzek.diettracker.R;
+import de.karzek.diettracker.data.cache.model.GroceryEntity;
 import de.karzek.diettracker.presentation.TrackerApplication;
 import de.karzek.diettracker.presentation.common.BaseFragment;
 import de.karzek.diettracker.presentation.main.diary.meal.adapter.favoriteRecipeList.FavoriteRecipeListAdapter;
-import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.model.RecipeDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.GrocerySearchActivity;
 import de.karzek.diettracker.presentation.search.recipe.RecipeSearchActivity;
@@ -46,8 +45,6 @@ import de.karzek.diettracker.presentation.util.StringUtils;
 import de.karzek.diettracker.presentation.util.ValidationUtil;
 import de.karzek.diettracker.presentation.util.ViewUtils;
 
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
-import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
 import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 
 /**
@@ -202,12 +199,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void startFoodSearchActivity(int currentMealId) {
-        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId));
+        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), GroceryEntity.GroceryEntityType.TYPE_FOOD, databaseDateFormat.format(date.getTime()), currentMealId));
     }
 
     @Override
     public void startDrinkSearchActivity(int currentMealId) {
-        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), TYPE_DRINK, databaseDateFormat.format(date.getTime()), INVALID_ENTITY_ID));
+        startActivity(GrocerySearchActivity.newGrocerySearchIntent(getContext(), GroceryEntity.GroceryEntityType.TYPE_DRINK, databaseDateFormat.format(date.getTime()), INVALID_ENTITY_ID));
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
+import de.karzek.diettracker.domain.interactor.manager.managerInterface.SharedPreferencesManager;
 import de.karzek.diettracker.presentation.common.BasePresenter;
 import de.karzek.diettracker.presentation.common.BaseView;
 import de.karzek.diettracker.presentation.main.settings.adapter.viewHolder.SettingsMealViewHolder;
@@ -33,7 +34,7 @@ public interface SettingsContract {
 
         void setupAllergenTextView(ArrayList<AllergenDisplayModel> allergens);
 
-        void fillSettingsOptions(SharedPreferencesUtil sharedPreferencesUtil);
+        void fillSettingsOptions(SharedPreferencesManager sharedPreferencesManager);
 
         void showEditMealDialog(MealDisplayModel mealDisplayModel);
 
