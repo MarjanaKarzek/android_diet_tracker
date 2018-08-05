@@ -39,6 +39,11 @@ import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_I
 
 public class AutomatedIngredientSearchActivity extends BaseActivity implements AutomatedIngredientSearchContract.View {
 
+    public static final String EXTRA_INDEX = "EXTRA_INDEX";
+    public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
+    public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
+    public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.loading_view)
@@ -224,10 +229,10 @@ public class AutomatedIngredientSearchActivity extends BaseActivity implements A
         if (data != null) {
             switch (requestCode) {
                 case Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT:
-                    presenter.replaceIngredient(data.getIntExtra("index", 0),
-                            data.getIntExtra("groceryId", 0),
-                            data.getFloatExtra("amount", 0.0f),
-                            data.getIntExtra("unitId", 0));
+                    presenter.replaceIngredient(data.getIntExtra(EXTRA_INDEX, 0),
+                            data.getIntExtra(EXTRA_GROCERY_ID, 0),
+                            data.getFloatExtra(EXTRA_AMOUNT, 0.0f),
+                            data.getIntExtra(EXTRA_UNIT_ID, 0));
                     break;
             }
         }

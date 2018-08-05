@@ -50,6 +50,16 @@ import static de.karzek.diettracker.presentation.util.Constants.ZXING_CAMERA_PER
  */
 public class GrocerySearchActivity extends BaseActivity implements GrocerySearchContract.View {
 
+    public static final String EXTRA_MODE = "EXTRA_MODE";
+    public static final String EXTRA_SELECTED_DATE = "EXTRA_SELECTED_DATE";
+    public static final String EXTRA_SELECTED_MEAL = "EXTRA_SELECTED_MEAL";
+    public static final String EXTRA_GROCERY_TYPE = "EXTRA_GROCERY_TYPE";
+    public static final String EXTRA_INGREDIENT_INDEX = "EXTRA_INGREDIENT_ID";
+    public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+    public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
+    public static final String EXTRA_INDEX = "EXTRA_INDEX";
+    public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
+
     @Inject
     GrocerySearchContract.Presenter presenter;
 
@@ -73,26 +83,26 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
     public static Intent newGrocerySearchIntent(Context context, int groceryType, String selectedDate, int selectedMeal){
         Intent intent = new Intent(context, GrocerySearchActivity.class);
 
-        intent.putExtra("mode", SearchMode.MODE_GROCERY_SEARCH);
-        intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
-        intent.putExtra("selectedMeal", selectedMeal);
-        intent.putExtra("groceryType", groceryType);
+        intent.putExtra(EXTRA_MODE, SearchMode.MODE_GROCERY_SEARCH);
+        intent.putExtra(EXTRA_SELECTED_DATE, selectedDate);
+        intent.putExtra(EXTRA_SELECTED_MEAL, selectedMeal);
+        intent.putExtra(EXTRA_GROCERY_TYPE, groceryType);
 
         return intent;
     }
 
     public static Intent newIngredientSearchIntent(Context context, int groceryType){
         Intent intent = new Intent(context, GrocerySearchActivity.class);
-        intent.putExtra("mode", SearchMode.MODE_INGREDIENT_SEARCH);
-        intent.putExtra("groceryType", groceryType);
+        intent.putExtra(EXTRA_MODE, SearchMode.MODE_INGREDIENT_SEARCH);
+        intent.putExtra(EXTRA_GROCERY_TYPE, groceryType);
         return intent;
     }
 
     public static Intent newIngredientReplaceIntent(Context context, int groceryType, int ingredientIndex){
         Intent intent = new Intent(context, GrocerySearchActivity.class);
-        intent.putExtra("mode", SearchMode.MODE_REPLACE_INGREDIENT_SEARCH);
-        intent.putExtra("groceryType", groceryType);
-        intent.putExtra("ingredientIndex", ingredientIndex);
+        intent.putExtra(EXTRA_MODE, SearchMode.MODE_REPLACE_INGREDIENT_SEARCH);
+        intent.putExtra(EXTRA_GROCERY_TYPE, groceryType);
+        intent.putExtra(EXTRA_INGREDIENT_INDEX, ingredientIndex);
         return intent;
     }
 
@@ -153,20 +163,20 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         setContentView(R.layout.activity_grocery_search);
         ButterKnife.bind(this);
 
-        mode = getIntent().getExtras().getInt("mode", SearchMode.MODE_GROCERY_SEARCH);
+        mode = getIntent().getExtras().getInt(EXTRA_MODE, SearchMode.MODE_GROCERY_SEARCH);
 
         switch (mode){
             case SearchMode.MODE_GROCERY_SEARCH:
-                selectedDate = getIntent().getExtras().getString("selectedDate");
-                selectedMeal = getIntent().getExtras().getInt("selectedMeal");
-                groceryType = getIntent().getExtras().getInt("groceryType");
+                selectedDate = getIntent().getExtras().getString(EXTRA_SELECTED_DATE);
+                selectedMeal = getIntent().getExtras().getInt(EXTRA_SELECTED_MEAL);
+                groceryType = getIntent().getExtras().getInt(EXTRA_GROCERY_TYPE);
                 break;
             case SearchMode.MODE_INGREDIENT_SEARCH:
-                groceryType = getIntent().getExtras().getInt("groceryType");
+                groceryType = getIntent().getExtras().getInt(EXTRA_GROCERY_TYPE);
                 break;
             case SearchMode.MODE_REPLACE_INGREDIENT_SEARCH:
-                groceryType = getIntent().getExtras().getInt("groceryType");
-                ingredientIndex = getIntent().getExtras().getInt("ingredientIndex");
+                groceryType = getIntent().getExtras().getInt(EXTRA_GROCERY_TYPE);
+                ingredientIndex = getIntent().getExtras().getInt(EXTRA_INGREDIENT_INDEX);
                 break;
         }
 
@@ -348,10 +358,10 @@ public class GrocerySearchActivity extends BaseActivity implements GrocerySearch
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT) {
             Intent intent = new Intent();
-            intent.putExtra("index", data.getIntExtra("index", Constants.INVALID_ENTITY_ID));
-            intent.putExtra("groceryId", data.getIntExtra("groceryId", 0));
-            intent.putExtra("amount", data.getFloatExtra("amount", 0.0f));
-            intent.putExtra("unitId", data.getIntExtra("unitId", 0));
+            intent.putExtra(EXTRA_INDEX, data.getIntExtra(EXTRA_INDEX, Constants.INVALID_ENTITY_ID));
+            intent.putExtra(EXTRA_GROCERY_ID, data.getIntExtra(EXTRA_GROCERY_ID, 0));
+            intent.putExtra(EXTRA_AMOUNT, data.getFloatExtra(EXTRA_AMOUNT, 0.0f));
+            intent.putExtra(EXTRA_UNIT_ID, data.getIntExtra(EXTRA_UNIT_ID, 0));
             setResult(Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT, intent);
             finish();
         }

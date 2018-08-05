@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import de.karzek.diettracker.R;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
+import de.karzek.diettracker.presentation.util.ValidationUtil;
 
 /**
  * Created by MarjanaKarzek on 07.06.2018.
@@ -28,6 +29,9 @@ import de.karzek.diettracker.presentation.util.StringUtils;
  * @date 07.06.2018
  */
 public class AddIngredientDialog extends AppCompatDialogFragment {
+
+    private static final float LOWER_BOUND_AMOUNT = 0.0f;
+    private static final float UPPER_BOUND_AMOUNT = 2000.0f;
 
     @BindView(R.id.ingredient_amount)
     EditText amount;
@@ -83,8 +87,6 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
                         else
                             addListener.onAddManualIngredientClicked(Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
                         addListener = null;
-                    } else {
-                        showInvalidFieldsError();
                     }
                 }
             });
@@ -101,8 +103,6 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
                         else
                             saveListener.onSaveManualIngredientClicked(manualIngredientId, Float.valueOf(amount.getText().toString()), selectedUnitId, groceryQuery.getText().toString());
                         saveListener = null;
-                    } else {
-                        showInvalidFieldsError();
                     }
                 }
             });
@@ -116,10 +116,13 @@ public class AddIngredientDialog extends AppCompatDialogFragment {
     }
 
     private boolean inputFieldsValid() {
-        if (groceryQuery.getText().toString().equals(""))
+        if (groceryQuery.getText().toString().equals("")) {
+            showInvalidFieldsError();
             return false;
-        else
+        } else if(ValidationUtil.isValid(LOWER_BOUND_AMOUNT, UPPER_BOUND_AMOUNT, Float.valueOf(amount.getText().toString()), amount, getContext()))
             return true;
+        else
+            return false;
     }
 
     private void showInvalidFieldsError() {

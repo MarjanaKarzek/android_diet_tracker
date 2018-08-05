@@ -33,6 +33,14 @@ import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_I
  */
 public class BarcodeScannerActivity extends BaseActivity implements BarcodeScannerContract.View {
 
+    public static final String EXTRA_MODE = "EXTRA_MODE";
+    public static final String EXTRA_SELECTED_DATE = "EXTRA_SELECTED_DATE";
+    public static final String EXTRA_SELECTED_MEAL = "EXTRA_SELECTED_MEAL";
+    public static final String EXTRA_INGREDIENT_INDEX = "EXTRA_INGREDIENT_ID";
+    public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
+    public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+    public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
+
     @Inject
     BarcodeScannerContract.Presenter presenter;
 
@@ -49,23 +57,23 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
     public static Intent newGrocerySearchIntent(Context context, String selectedDate, int selectedMeal){
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
 
-        intent.putExtra("mode", SearchMode.MODE_GROCERY_SEARCH);
-        intent.putExtra("selectedDate", selectedDate); // ToDo implemnt constant values for keys
-        intent.putExtra("selectedMeal", selectedMeal);
+        intent.putExtra(EXTRA_MODE, SearchMode.MODE_GROCERY_SEARCH);
+        intent.putExtra(EXTRA_SELECTED_DATE, selectedDate);
+        intent.putExtra(EXTRA_SELECTED_MEAL, selectedMeal);
 
         return intent;
     }
 
     public static Intent newIngredientSearchIntent(Context context){
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
-        intent.putExtra("mode", SearchMode.MODE_INGREDIENT_SEARCH);
+        intent.putExtra(EXTRA_MODE, SearchMode.MODE_INGREDIENT_SEARCH);
         return intent;
     }
 
     public static Intent newReplaceIngredientSearchIntent(Context context, int ingredientIndex){
         Intent intent = new Intent(context, BarcodeScannerActivity.class);
-        intent.putExtra("mode", SearchMode.MODE_REPLACE_INGREDIENT_SEARCH);
-        intent.putExtra("ingredientIndex", ingredientIndex);
+        intent.putExtra(EXTRA_MODE, SearchMode.MODE_REPLACE_INGREDIENT_SEARCH);
+        intent.putExtra(EXTRA_INGREDIENT_INDEX, ingredientIndex);
         return intent;
     }
 
@@ -80,16 +88,16 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
         setContentView(R.layout.activity_barcode_scanner);
         ButterKnife.bind(this);
 
-        mode = getIntent().getExtras().getInt("mode");
+        mode = getIntent().getExtras().getInt(EXTRA_MODE);
         switch (mode){
             case SearchMode.MODE_GROCERY_SEARCH:
-                selectedDate = getIntent().getExtras().getString("selectedDate");
-                selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+                selectedDate = getIntent().getExtras().getString(EXTRA_SELECTED_DATE);
+                selectedMeal = getIntent().getExtras().getInt(EXTRA_SELECTED_MEAL);
                 break;
             case SearchMode.MODE_INGREDIENT_SEARCH:
                 break;
             case SearchMode.MODE_REPLACE_INGREDIENT_SEARCH:
-                ingredientIndex = getIntent().getExtras().getInt("ingredientIndex");
+                ingredientIndex = getIntent().getExtras().getInt(EXTRA_INGREDIENT_INDEX);
                 break;
         }
 
@@ -157,10 +165,10 @@ public class BarcodeScannerActivity extends BaseActivity implements BarcodeScann
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT) {
             Intent intent = new Intent();
-            intent.putExtra("ingredientIndex", data.getIntExtra("ingredientIndex", INVALID_ENTITY_ID));
-            intent.putExtra("groceryId", data.getIntExtra("groceryId", 0));
-            intent.putExtra("amount", data.getFloatExtra("amount", 0.0f));
-            intent.putExtra("unitId", data.getIntExtra("unitId", 0));
+            intent.putExtra(EXTRA_INGREDIENT_INDEX, data.getIntExtra(EXTRA_INGREDIENT_INDEX, Constants.INVALID_ENTITY_ID));
+            intent.putExtra(EXTRA_GROCERY_ID, data.getIntExtra(EXTRA_GROCERY_ID, 0));
+            intent.putExtra(EXTRA_AMOUNT, data.getFloatExtra(EXTRA_AMOUNT, 0.0f));
+            intent.putExtra(EXTRA_UNIT_ID, data.getIntExtra(EXTRA_UNIT_ID, 0));
             setResult(Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT, intent);
             finish();
         }

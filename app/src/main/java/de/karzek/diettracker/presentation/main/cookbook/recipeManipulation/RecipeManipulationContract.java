@@ -86,6 +86,8 @@ public interface RecipeManipulationContract {
 
         void navigateToAutomatedIngredientSearch(RecipeDisplayModel recipe);
 
+        String getRecipeTitle();
+
         @IntDef({RecipeManipulationMode.MODE_ADD_RECIPE,
                 RecipeManipulationMode.MODE_EDIT_RECIPE})
         @interface RecipeManipulationMode {

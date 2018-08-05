@@ -44,6 +44,7 @@ import de.karzek.diettracker.presentation.model.MealDisplayModel;
 import de.karzek.diettracker.presentation.onboarding.OnboardingActivity;
 import de.karzek.diettracker.presentation.util.SharedPreferencesUtil;
 import de.karzek.diettracker.presentation.util.StringUtils;
+import de.karzek.diettracker.presentation.util.ValidationUtil;
 
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_BOTTLE_VOLUME;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_GLASS_VOLUME;
@@ -61,6 +62,21 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.KEY_
  * @date 12.05.2018
  */
 public class SettingsFragment extends BaseFragment implements SettingsContract.View {
+
+    private static final int LOWER_BOUND_CALORIES = 0;
+    private static final int UPPER_BOUND_CALORIES = 5000;
+    private static final int LOWER_BOUND_PROTEINS = 0;
+    private static final int UPPER_BOUND_PROTEINS = 500;
+    private static final int LOWER_BOUND_CARBS = 0;
+    private static final int UPPER_BOUND_CARBS = 500;
+    private static final int LOWER_BOUND_FATS = 0;
+    private static final int UPPER_BOUND_FATS = 500;
+    private static final int LOWER_BOUND_LIQUIDS = 0;
+    private static final int UPPER_BOUND_LIQUIDS = 10000;
+    private static final int LOWER_BOUND_BOTTLE = 0;
+    private static final int UPPER_BOUND_BOTTLE = 5000;
+    private static final int LOWER_BOUND_GLASS = 0;
+    private static final int UPPER_BOUND_GLASS = 1000;
 
     @Inject
     SettingsContract.Presenter presenter;
@@ -150,7 +166,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(amountCalories);
-                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CALORIES_DAILY, Integer.valueOf(amountCalories.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_CALORIES, UPPER_BOUND_CALORIES, Integer.valueOf(amountCalories.getText().toString()), amountCalories, getContext()))
+                        presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CALORIES_DAILY, Integer.valueOf(amountCalories.getText().toString()));
                 }
                 return true;
             }
@@ -158,7 +175,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         amountCalories.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CALORIES_DAILY, Integer.valueOf(amountCalories.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_CALORIES, UPPER_BOUND_CALORIES, Integer.valueOf(amountCalories.getText().toString()), amountCalories, getContext()))
+                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CALORIES_DAILY, Integer.valueOf(amountCalories.getText().toString()));
             }
         });
 
@@ -167,7 +185,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(amountProteins);
-                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_PROTEINS_DAILY, Integer.valueOf(amountProteins.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_PROTEINS, UPPER_BOUND_PROTEINS, Integer.valueOf(amountProteins.getText().toString()), amountProteins, getContext()))
+                        presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_PROTEINS_DAILY, Integer.valueOf(amountProteins.getText().toString()));
                 }
                 return true;
             }
@@ -175,7 +194,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         amountProteins.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_PROTEINS_DAILY, Integer.valueOf(amountProteins.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_PROTEINS, UPPER_BOUND_PROTEINS, Integer.valueOf(amountProteins.getText().toString()), amountProteins, getContext()))
+                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_PROTEINS_DAILY, Integer.valueOf(amountProteins.getText().toString()));
             }
         });
 
@@ -184,7 +204,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(amountCarbs);
-                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CARBS_DAILY, Integer.valueOf(amountCarbs.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_CARBS, UPPER_BOUND_CARBS, Integer.valueOf(amountCarbs.getText().toString()), amountCarbs, getContext()))
+                        presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CARBS_DAILY, Integer.valueOf(amountCarbs.getText().toString()));
                 }
                 return true;
             }
@@ -192,7 +213,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         amountCarbs.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CARBS_DAILY, Integer.valueOf(amountCarbs.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_CARBS, UPPER_BOUND_CARBS, Integer.valueOf(amountCarbs.getText().toString()), amountCarbs, getContext()))
+                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_CARBS_DAILY, Integer.valueOf(amountCarbs.getText().toString()));
             }
         });
 
@@ -201,7 +223,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(amountFats);
-                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_FATS_DAILY, Integer.valueOf(amountFats.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_FATS, UPPER_BOUND_FATS, Integer.valueOf(amountFats.getText().toString()), amountFats, getContext()))
+                        presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_FATS_DAILY, Integer.valueOf(amountFats.getText().toString()));
                 }
                 return true;
             }
@@ -209,7 +232,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         amountFats.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_FATS_DAILY, Integer.valueOf(amountFats.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_FATS, UPPER_BOUND_FATS, Integer.valueOf(amountFats.getText().toString()), amountFats, getContext()))
+                    presenter.updateSharedPreferenceIntValue(KEY_REQUIREMENT_FATS_DAILY, Integer.valueOf(amountFats.getText().toString()));
             }
         });
 
@@ -218,7 +242,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(amountLiquids);
-                    presenter.updateSharedPreferenceFloatValue(KEY_REQUIREMENT_LIQUID_DAILY, Float.valueOf(amountLiquids.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_LIQUIDS, UPPER_BOUND_LIQUIDS, Integer.valueOf(amountLiquids.getText().toString()), amountLiquids, getContext()))
+                        presenter.updateSharedPreferenceFloatValue(KEY_REQUIREMENT_LIQUID_DAILY, Float.valueOf(amountLiquids.getText().toString()));
                 }
                 return true;
             }
@@ -226,7 +251,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         amountLiquids.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceFloatValue(KEY_REQUIREMENT_LIQUID_DAILY, Float.valueOf(amountLiquids.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_LIQUIDS, UPPER_BOUND_LIQUIDS, Integer.valueOf(amountLiquids.getText().toString()), amountLiquids, getContext()))
+                    presenter.updateSharedPreferenceFloatValue(KEY_REQUIREMENT_LIQUID_DAILY, Float.valueOf(amountLiquids.getText().toString()));
             }
         });
 
@@ -235,7 +261,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(volumeBottle);
-                    presenter.updateSharedPreferenceFloatValue(KEY_BOTTLE_VOLUME, Float.valueOf(volumeBottle.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_BOTTLE, UPPER_BOUND_BOTTLE, Integer.valueOf(volumeBottle.getText().toString()), volumeBottle, getContext()))
+                        presenter.updateSharedPreferenceFloatValue(KEY_BOTTLE_VOLUME, Float.valueOf(volumeBottle.getText().toString()));
                 }
                 return true;
             }
@@ -243,7 +270,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         volumeBottle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceFloatValue(KEY_BOTTLE_VOLUME, Float.valueOf(volumeBottle.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_BOTTLE, UPPER_BOUND_BOTTLE, Integer.valueOf(volumeBottle.getText().toString()), volumeBottle, getContext()))
+                    presenter.updateSharedPreferenceFloatValue(KEY_BOTTLE_VOLUME, Float.valueOf(volumeBottle.getText().toString()));
             }
         });
 
@@ -252,7 +280,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     clearFocusOfView(volumeGlass);
-                    presenter.updateSharedPreferenceFloatValue(KEY_GLASS_VOLUME, Float.valueOf(volumeGlass.getText().toString()));
+                    if(ValidationUtil.isValid(LOWER_BOUND_GLASS, UPPER_BOUND_GLASS, Integer.valueOf(volumeGlass.getText().toString()), volumeGlass, getContext()))
+                        presenter.updateSharedPreferenceFloatValue(KEY_GLASS_VOLUME, Float.valueOf(volumeGlass.getText().toString()));
                 }
                 return true;
             }
@@ -260,7 +289,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.V
         volumeGlass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                presenter.updateSharedPreferenceFloatValue(KEY_GLASS_VOLUME, Float.valueOf(volumeGlass.getText().toString()));
+                if(ValidationUtil.isValid(LOWER_BOUND_GLASS, UPPER_BOUND_GLASS, Integer.valueOf(volumeGlass.getText().toString()), volumeGlass, getContext()))
+                    presenter.updateSharedPreferenceFloatValue(KEY_GLASS_VOLUME, Float.valueOf(volumeGlass.getText().toString()));
             }
         });
 

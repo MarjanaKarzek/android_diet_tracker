@@ -43,6 +43,9 @@ import de.karzek.diettracker.presentation.search.recipe.recipeEditDetails.Recipe
  */
 public class RecipeSearchActivity extends BaseActivity implements RecipeSearchContract.View {
 
+    public static String EXTRA_SELECTED_DATE = "EXTRA_SELECTED_DATE";
+    public static String EXTRA_SELECTED_MEAL = "EXTRA_SELECTED_MEAL";
+
     @Inject
     RecipeSearchContract.Presenter presenter;
 
@@ -62,8 +65,8 @@ public class RecipeSearchActivity extends BaseActivity implements RecipeSearchCo
 
     public static Intent newIntent(Context context, String selectedDate, int selectedMeal) {
         Intent intent = new Intent(context, RecipeSearchActivity.class);
-        intent.putExtra("selectedDate", selectedDate); // ToDo implement constant values for keys
-        intent.putExtra("selectedMeal", selectedMeal);
+        intent.putExtra(EXTRA_SELECTED_DATE, selectedDate);
+        intent.putExtra(EXTRA_SELECTED_MEAL, selectedMeal);
 
         return intent;
     }
@@ -123,8 +126,8 @@ public class RecipeSearchActivity extends BaseActivity implements RecipeSearchCo
         setContentView(R.layout.activity_recipe_search);
         ButterKnife.bind(this);
 
-        selectedDate = getIntent().getExtras().getString("selectedDate", "");
-        selectedMeal = getIntent().getExtras().getInt("selectedMeal", 0);
+        selectedDate = getIntent().getExtras().getString(EXTRA_SELECTED_DATE, "");
+        selectedMeal = getIntent().getExtras().getInt(EXTRA_SELECTED_MEAL, 0);
 
         initializePlaceholders();
 

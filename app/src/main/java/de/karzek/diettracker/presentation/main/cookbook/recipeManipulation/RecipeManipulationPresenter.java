@@ -323,6 +323,9 @@ public class RecipeManipulationPresenter implements RecipeManipulationContract.P
     @Override
     public void onSaveRecipeClicked() {
         view.showLoading();
+
+        recipe.setTitle(view.getRecipeTitle());
+
         boolean validRecipe = true;
         if (recipe.getTitle().equals("")) {
             view.showMissingTitleError();

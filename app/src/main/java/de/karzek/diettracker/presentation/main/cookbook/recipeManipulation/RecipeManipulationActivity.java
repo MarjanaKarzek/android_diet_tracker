@@ -78,6 +78,13 @@ import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_I
  */
 public class RecipeManipulationActivity extends BaseActivity implements RecipeManipulationContract.View {
 
+    public static final String EXTRA_MODE= "EXTRA_MODE";
+    public static final String EXTRA_RECIPE_ID = "EXTRA_INGREDIENT_ID";
+    public static final String EXTRA_INGREDIENT_ID = "EXTRA_INGREDIENT_ID";
+    public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
+    public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
+    public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+
     @Inject
     RecipeManipulationContract.Presenter presenter;
 
@@ -96,7 +103,7 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
 
     public static Intent newAddIntent(Context context) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
-        intent.putExtra("mode", RecipeManipulationMode.MODE_ADD_RECIPE);
+        intent.putExtra(EXTRA_MODE, RecipeManipulationMode.MODE_ADD_RECIPE);
 
         return intent;
     }
@@ -104,8 +111,8 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     public static Intent newEditIntent(Context context, int recipeId) {
         Intent intent = new Intent(context, RecipeManipulationActivity.class);
 
-        intent.putExtra("mode", RecipeManipulationMode.MODE_EDIT_RECIPE);
-        intent.putExtra("recipeId", recipeId);
+        intent.putExtra(EXTRA_MODE, RecipeManipulationMode.MODE_EDIT_RECIPE);
+        intent.putExtra(EXTRA_RECIPE_ID, recipeId);
 
         return intent;
     }
@@ -134,11 +141,11 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
         setupRecyclerView();
         setupTitleSetListener();
 
-        mode = getIntent().getExtras().getInt("mode");
+        mode = getIntent().getExtras().getInt(EXTRA_MODE);
         if (mode == RecipeManipulationMode.MODE_ADD_RECIPE) {
             presenter.start();
         } else if (mode == RecipeManipulationMode.MODE_EDIT_RECIPE) {
-            presenter.startEditMode(getIntent().getExtras().getInt("recipeId"));
+            presenter.startEditMode(getIntent().getExtras().getInt(EXTRA_RECIPE_ID));
         }
     }
 
@@ -416,6 +423,11 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
     }
 
     @Override
+    public String getRecipeTitle() {
+        return titleView.getText().toString();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -439,16 +451,16 @@ public class RecipeManipulationActivity extends BaseActivity implements RecipeMa
                 break;
             case Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT:
                 if (data != null) {
-                    presenter.addIngredient(data.getIntExtra("groceryId", 0),
-                            data.getFloatExtra("amount", 0.0f),
-                            data.getIntExtra("unitId", 0));
+                    presenter.addIngredient(data.getIntExtra(EXTRA_GROCERY_ID, 0),
+                            data.getFloatExtra(EXTRA_AMOUNT, 0.0f),
+                            data.getIntExtra(EXTRA_UNIT_ID, 0));
                 }
                 break;
             case Constants.EDIT_INGREDIENT_INTENT_RESULT:
                 if (data != null) {
                     presenter.editIngredient(
-                            data.getIntExtra("ingredientId", 0),
-                            data.getFloatExtra("amount", 0.0f));
+                            data.getIntExtra(EXTRA_INGREDIENT_ID, 0),
+                            data.getFloatExtra(EXTRA_AMOUNT, 0.0f));
                 }
                 break;
             case Constants.CLOSE_SELF_RESULT:

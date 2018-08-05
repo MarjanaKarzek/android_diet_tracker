@@ -50,6 +50,7 @@ import de.karzek.diettracker.presentation.model.UnitDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.viewStub.AllergenView;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
+import de.karzek.diettracker.presentation.util.ValidationUtil;
 
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_DRINK;
 import static de.karzek.diettracker.data.cache.model.GroceryEntity.TYPE_FOOD;
@@ -68,6 +69,19 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  * @date 02.06.2018
  */
 public class GroceryDetailsActivity extends BaseActivity implements GroceryDetailsContract.View {
+
+    private static final float LOWER_BOUND_AMOUNT = 0.0f;
+    private static final float UPPER_BOUND_AMOUNT = 2000.0f;
+
+    public static final String EXTRA_MODE = "EXTRA_MODE";
+    public static final String EXTRA_SELECTED_DATE = "EXTRA_SELECTED_DATE";
+    public static final String EXTRA_SELECTED_MEAL = "EXTRA_SELECTED_MEAL";
+    public static final String EXTRA_INGREDIENT_ID = "EXTRA_INGREDIENT_ID";
+    public static final String EXTRA_GROCERY_ID = "EXTRA_GROCERY_ID";
+    public static final String EXTRA_DIARY_ENTRY_ID = "EXTRA_DIARY_ENTRY_ID";
+    public static final String EXTRA_AMOUNT = "EXTRA_AMOUNT";
+    public static final String EXTRA_INDEX = "EXTRA_INDEX";
+    public static final String EXTRA_UNIT_ID = "EXTRA_UNIT_ID";
 
     @Inject
     GroceryDetailsContract.Presenter presenter;
@@ -100,6 +114,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
     private CaloryDetailsView detailsView;
 
+    private Context context = this;
+
     private int groceryId;
     private String selectedDate;
     private int selectedMeal;
@@ -124,10 +140,10 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     public static Intent newGrocerySearchIntent(Context context, int groceryId, String selectedDate, int selectedMeal){
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
 
-        intent.putExtra("mode", MODE_GROCERY_SEARCH);
-        intent.putExtra("groceryId", groceryId);
-        intent.putExtra("selectedDate", selectedDate);
-        intent.putExtra("selectedMeal", selectedMeal);
+        intent.putExtra(EXTRA_MODE, MODE_GROCERY_SEARCH);
+        intent.putExtra(EXTRA_GROCERY_ID, groceryId);
+        intent.putExtra(EXTRA_SELECTED_DATE, selectedDate);
+        intent.putExtra(EXTRA_SELECTED_MEAL, selectedMeal);
 
         return intent;
     }
@@ -135,8 +151,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     public static Intent newIngredientSearchIntent(Context context, int groceryId){
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
 
-        intent.putExtra("mode", MODE_INGREDIENT_SEARCH);
-        intent.putExtra("groceryId", groceryId);
+        intent.putExtra(EXTRA_MODE, MODE_INGREDIENT_SEARCH);
+        intent.putExtra(EXTRA_GROCERY_ID, groceryId);
 
         return intent;
     }
@@ -144,9 +160,9 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     public static Intent newReplaceIngredientSearchIntent(Context context, int groceryId, int ingredientIndex){
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
 
-        intent.putExtra("mode", MODE_REPLACE_INGREDIENT_SEARCH);
-        intent.putExtra("groceryId", groceryId);
-        intent.putExtra("ingredientIndex", ingredientIndex);
+        intent.putExtra(EXTRA_MODE, MODE_REPLACE_INGREDIENT_SEARCH);
+        intent.putExtra(EXTRA_GROCERY_ID, groceryId);
+        intent.putExtra(EXTRA_INGREDIENT_ID, ingredientIndex);
 
         return intent;
     }
@@ -154,8 +170,8 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     public static Intent newEditDiaryEntryIntent(Context context, int diaryEntryId){
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
 
-        intent.putExtra("mode", MODE_EDIT_DIARY_ENTRY);
-        intent.putExtra("diaryEntryId", diaryEntryId);
+        intent.putExtra(EXTRA_MODE, MODE_EDIT_DIARY_ENTRY);
+        intent.putExtra(EXTRA_DIARY_ENTRY_ID, diaryEntryId);
 
         return intent;
     }
@@ -163,10 +179,10 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
     public static Intent newEditIngredientIntent(Context context, int ingredientIndex, IngredientDisplayModel ingredient) {
         Intent intent = new Intent(context, GroceryDetailsActivity.class);
 
-        intent.putExtra("mode", MODE_EDIT_INGREDIENT);
-        intent.putExtra("ingredientIndex", ingredientIndex);
-        intent.putExtra("groceryId", ingredient.getGrocery().getId());
-        intent.putExtra("amount", ingredient.getAmount());
+        intent.putExtra(EXTRA_MODE, MODE_EDIT_INGREDIENT);
+        intent.putExtra(EXTRA_INGREDIENT_ID, ingredientIndex);
+        intent.putExtra(EXTRA_GROCERY_ID, ingredient.getGrocery().getId());
+        intent.putExtra(EXTRA_AMOUNT, ingredient.getAmount());
 
         return intent;
     }
@@ -204,16 +220,17 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
             @Override
             public void afterTextChanged(Editable editable) {
+                ValidationUtil.isValid(LOWER_BOUND_AMOUNT, UPPER_BOUND_AMOUNT, Float.valueOf(editTextAmount.getText().toString()), editTextAmount, context);
                 refreshNutritionDetails();
             }
         });
 
-        mode = getIntent().getExtras().getInt("mode");
+        mode = getIntent().getExtras().getInt(EXTRA_MODE);
         switch (mode) {
             case MODE_GROCERY_SEARCH:
-                groceryId = getIntent().getExtras().getInt("groceryId");
-                selectedDate = getIntent().getExtras().getString("selectedDate");
-                selectedMeal = getIntent().getExtras().getInt("selectedMeal");
+                groceryId = getIntent().getExtras().getInt(EXTRA_GROCERY_ID);
+                selectedDate = getIntent().getExtras().getString(EXTRA_SELECTED_DATE);
+                selectedMeal = getIntent().getExtras().getInt(EXTRA_SELECTED_MEAL);
 
                 try {
                     Date currentSelectedDate = databaseDateFormat.parse(selectedDate);
@@ -228,23 +245,23 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
                 presenter.start();
                 break;
             case MODE_INGREDIENT_SEARCH:
-                groceryId = getIntent().getExtras().getInt("groceryId");
+                groceryId = getIntent().getExtras().getInt(EXTRA_GROCERY_ID);
                 presenter.startAddIngredientMode(groceryId);
                 break;
             case MODE_REPLACE_INGREDIENT_SEARCH:
-                ingredientIndex = getIntent().getExtras().getInt("ingredientIndex");
-                groceryId = getIntent().getExtras().getInt("groceryId");
+                ingredientIndex = getIntent().getExtras().getInt(EXTRA_INGREDIENT_ID);
+                groceryId = getIntent().getExtras().getInt(EXTRA_GROCERY_ID);
                 presenter.startAddIngredientMode(groceryId);
                 break;
             case MODE_EDIT_DIARY_ENTRY:
-                diaryEntryId = getIntent().getExtras().getInt("diaryEntryId");
+                diaryEntryId = getIntent().getExtras().getInt(EXTRA_DIARY_ENTRY_ID);
                 presenter.startEditDiaryEntryMode(diaryEntryId);
                 break;
             case MODE_EDIT_INGREDIENT:
-                ingredientIndex = getIntent().getExtras().getInt("ingredientIndex");
-                groceryId = getIntent().getExtras().getInt("groceryId");
+                ingredientIndex = getIntent().getExtras().getInt(EXTRA_INGREDIENT_ID);
+                groceryId = getIntent().getExtras().getInt(EXTRA_GROCERY_ID);
                 presenter.setGroceryId(groceryId);
-                presenter.startEditIngredientMode(getIntent().getExtras().getFloat("amount"));
+                presenter.startEditIngredientMode(getIntent().getExtras().getFloat(EXTRA_AMOUNT));
                 break;
         }
     }
@@ -363,9 +380,9 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i >= defaultUnits.size())
-                    editTextAmount.setHint("1");
+                    editTextAmount.setHint(R.string.value_one);
                 else
-                    editTextAmount.setHint("100");
+                    editTextAmount.setHint(R.string.value_one_hundret);
 
                 refreshNutritionDetails();
             }
@@ -529,17 +546,17 @@ public class GroceryDetailsActivity extends BaseActivity implements GroceryDetai
 
         if (mode == MODE_INGREDIENT_SEARCH || mode == MODE_REPLACE_INGREDIENT_SEARCH) {
             Intent intent = new Intent();
-            intent.putExtra("index", ingredientIndex);
-            intent.putExtra("groceryId", groceryDisplayModel.getId());
-            intent.putExtra("amount", amount);
-            intent.putExtra("unitId", defaultUnits.get(0).getId());
+            intent.putExtra(EXTRA_INDEX, ingredientIndex);
+            intent.putExtra(EXTRA_GROCERY_ID, groceryDisplayModel.getId());
+            intent.putExtra(EXTRA_AMOUNT, amount);
+            intent.putExtra(EXTRA_UNIT_ID, defaultUnits.get(0).getId());
             setResult(Constants.ADD_REPLACE_INGREDIENT_INTENT_RESULT, intent);
             finish();
             return;
         } else if (mode == MODE_EDIT_INGREDIENT) {
             Intent intent = new Intent();
-            intent.putExtra("ingredientIndex", ingredientIndex);
-            intent.putExtra("amount", amount);
+            intent.putExtra(EXTRA_INGREDIENT_ID, ingredientIndex);
+            intent.putExtra(EXTRA_AMOUNT, amount);
             setResult(Constants.EDIT_INGREDIENT_INTENT_RESULT, intent);
             finish();
             return;

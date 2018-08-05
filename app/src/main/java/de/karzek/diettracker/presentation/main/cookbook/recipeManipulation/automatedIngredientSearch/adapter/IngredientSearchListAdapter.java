@@ -35,7 +35,6 @@ public class IngredientSearchListAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private ArrayList<IngredientSearchItemWrapper> list;
 
-    //TODO
     private IngredientSearchFailedViewHolder.OnStartGrocerySearchClickListener onStartGrocerySearchClickListener;
     private IngredientSearchFailedViewHolder.OnStartBarcodeScanClickListener onStartBarcodeScanClickListener;
     private IngredientSearchFailedViewHolder.OnDeleteIngredientClickListener onDeleteIngredientClickListener;
@@ -48,7 +47,6 @@ public class IngredientSearchListAdapter extends RecyclerView.Adapter<RecyclerVi
         this.onStartGrocerySearchClickListener = onStartGrocerySearchClickListener;
         this.onStartBarcodeScanClickListener = onStartBarcodeScanClickListener;
         this.onDeleteIngredientClickListener = onDeleteIngredientClickListener;
-
     }
 
     @NonNull

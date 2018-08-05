@@ -41,6 +41,7 @@ import de.karzek.diettracker.presentation.model.DiaryEntryDisplayModel;
 import de.karzek.diettracker.presentation.search.grocery.groceryDetail.GroceryDetailsActivity;
 import de.karzek.diettracker.presentation.util.Constants;
 import de.karzek.diettracker.presentation.util.StringUtils;
+import de.karzek.diettracker.presentation.util.ValidationUtil;
 
 import static de.karzek.diettracker.presentation.util.Constants.INVALID_ENTITY_ID;
 import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALUE_SETTING_NUTRITION_DETAILS_CALORIES_ONLY;
@@ -53,6 +54,9 @@ import static de.karzek.diettracker.presentation.util.SharedPreferencesUtil.VALU
  * @date 28.05.2018
  */
 public class GenericDrinkFragment extends BaseFragment implements GenericDrinkContract.View {
+
+    private static final int LOWER_BOUND_WATER_INPUT = 0;
+    private static final int UPPER_BOUND_WATER_INPUT = Integer.MAX_VALUE;
 
     @Override
     protected void setupFragmentComponent() {
@@ -110,7 +114,8 @@ public class GenericDrinkFragment extends BaseFragment implements GenericDrinkCo
                             drinkStatus.clearFocus();
                             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(drinkStatus.getWindowToken(), 0);
-                            presenter.updateAmountOfWater(Float.valueOf(drinkStatus.getText().toString()), selectedDate);
+                            if(ValidationUtil.isValid(LOWER_BOUND_WATER_INPUT, UPPER_BOUND_WATER_INPUT, Float.valueOf(drinkStatus.getText().toString()), drinkStatus, getContext()))
+                                presenter.updateAmountOfWater(Float.valueOf(drinkStatus.getText().toString()), selectedDate);
                         }
                         return true;
                     }

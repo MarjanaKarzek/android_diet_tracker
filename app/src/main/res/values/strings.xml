@@ -166,4 +166,9 @@
     <string name="fail_reason_description_grocery_not_found">Kein Lebensmittel mit diesem Namen gefunden</string>
     <string name="dialog_message_automated_ingredient_search_unsuccess">Nicht alle Zutaten konnten automatisch erkannt werden</string>
 
+    <string name="error_message_lower_bound_exceded">Der Wert kann nicht kleiner sein als %1$s</string>
+    <string name="error_message_upper_bound_exceded">Der Wert kann nicht größer sein als %1$s</string>
+    <string name="value_one">1</string>
+    <string name="value_one_hundret">100</string>
+
 </resources>
