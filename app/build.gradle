@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion 27
@@ -20,6 +21,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             debuggable true
+            testCoverageEnabled true
         }
     }
     compileOptions {
